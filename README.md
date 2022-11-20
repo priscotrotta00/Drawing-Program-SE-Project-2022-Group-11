@@ -2,7 +2,7 @@
 
 ## Name
 
-Our Drawing Up Application
+Our Drawing Application
 
 ## Description
 
@@ -11,8 +11,8 @@ An application implementing a geometric drawing program
 ## Links
 
 Our links:
-To access to our Bacheca Trello click [here](https://trello.com/b/aSnWUSzm/scrum-board)
-To access to our Product Backlog click [here](https://docs.google.com/spreadsheets/d/1XaCnBN4cuR05TMK2ExlH_ur3wS84wBuVe6LEqrFkWdg/edit#gid=307605465)
+- To access to our Bacheca Trello click [here](https://trello.com/b/aSnWUSzm/scrum-board)
+- To access to our Product Backlog click [here](https://docs.google.com/spreadsheets/d/1XaCnBN4cuR05TMK2ExlH_ur3wS84wBuVe6LEqrFkWdg/edit#gid=307605465)
 
 ## Authors
 
