@@ -18,6 +18,15 @@ Our links:
 - To access to our Bacheca Trello click [here](https://trello.com/b/aSnWUSzm/scrum-board)
 - To access to our Product Backlog click [here](https://docs.google.com/spreadsheets/d/1XaCnBN4cuR05TMK2ExlH_ur3wS84wBuVe6LEqrFkWdg/edit?usp=sharing)
 
+## Definition of Done
+
+- The user story must be fully implemented
+- Acceptance criteria met
+- Unit/Integration of functionality successfully tested
+- Code must be commented
+- Javadoc must be produced for each module
+- Functionality must be committed and pushed to remote repository
+
 ## Authors
 
 | Author | Id | E-mail |
