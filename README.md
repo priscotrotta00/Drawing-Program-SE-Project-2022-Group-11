@@ -7,12 +7,14 @@ Our Drawing Application
 ## Description
 
 An application implementing a geometric drawing program
+A first interface prototype of our Application is shown in the following image
+![alt text]([http://url/to/img.png](https://github.com/priscotrotta00/Drawing-Program-SE-Project-2022-Group-11/blob/9bb4b9665887358d341d673dd81dc83a9795ebe1/InterfacePrototype.png))
 
 ## Links
 
 Our links:
 - To access to our Bacheca Trello click [here](https://trello.com/b/aSnWUSzm/scrum-board)
-- To access to our Product Backlog click [here](https://docs.google.com/spreadsheets/d/1XaCnBN4cuR05TMK2ExlH_ur3wS84wBuVe6LEqrFkWdg/edit#gid=307605465)
+- To access to our Product Backlog click [here](https://docs.google.com/spreadsheets/d/1XaCnBN4cuR05TMK2ExlH_ur3wS84wBuVe6LEqrFkWdg/edit?usp=sharing)
 
 ## Authors
 
