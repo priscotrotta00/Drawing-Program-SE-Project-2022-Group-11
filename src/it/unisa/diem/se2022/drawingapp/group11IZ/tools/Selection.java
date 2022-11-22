@@ -6,6 +6,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.models.MyShape;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.Group;
 
@@ -14,38 +15,38 @@ import javafx.scene.Group;
  * @author daddy
  */
 public class Selection {
-    private static Group selectionBorder;
-    private static MyShape selectedItem;
-    private static ObservableBooleanValue selected;
+    private Group selectionBorder;
+    private MyShape selectedItem;
+    private ObservableBooleanValue selected;
 
     public Selection() {
         this.selectionBorder = null;
         this.selectedItem = null;
-        this.selected = null;
+        this.selected = new SimpleBooleanProperty();
     }
 
-    public static Group getSelectionBorder() {
+    public Group getSelectionBorder() {
         return selectionBorder;
     }
 
-    public static void setSelectionBorder(Group selectionBorder) {
-        Selection.selectionBorder = selectionBorder;
+    public void setSelectionBorder(Group selectionBorder) {
+        this.selectionBorder = selectionBorder;
     }
 
-    public static MyShape getSelectedItem() {
+    public MyShape getSelectedItem() {
         return selectedItem;
     }
 
-    public static void setSelectedItem(MyShape selectedItem) {
-        Selection.selectedItem = selectedItem;
+    public void setSelectedItem(MyShape selectedItem) {
+        this.selectedItem = selectedItem;
     }
 
-    public static ObservableBooleanValue getSelected() {
+    public ObservableBooleanValue getSelected() {
         return selected;
     }
 
-    public static void setSelected(ObservableBooleanValue selected) {
-        Selection.selected = selected;
+    public void setSelected(ObservableBooleanValue selected) {
+        this.selected = selected;
     }
     
     public void select(MyShape shape){

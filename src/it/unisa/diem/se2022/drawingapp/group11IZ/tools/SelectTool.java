@@ -15,10 +15,10 @@ import javafx.scene.input.MouseEvent;
  */
 public class SelectTool implements Tool{
     
-    private Selection selectedShape;
+    private static Selection selectedShape;
 
     public SelectTool() {
-        this.selectedShape = new Selection();
+        SelectTool.selectedShape = new Selection();
     }
 
     public Selection getSelectedShape() {
@@ -26,24 +26,39 @@ public class SelectTool implements Tool{
     }
 
     public void setSelectedShape(MyShape shape) {
-        Selection.setSelectedItem(shape);
+        selectedShape.setSelectedItem(shape);
     }
     
     
 
     @Override
     public void handleOnDragBegin(Controller c, MouseEvent event) {
+        MyShape shape = (MyShape) event.getSource();
         
+        if(c.getDrawPane().getChildren().contains(shape)){
+            setSelectedShape(shape);
+            
+        }
     }
 
     @Override
     public void handleOnMouseDrag(Controller c, MouseEvent event) {
-    
+        MyShape shape = (MyShape) event.getSource();
+        
+        if(c.getDrawPane().getChildren().contains(shape)){
+            setSelectedShape(shape);
+            
+        }
     }
 
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
-    
+        MyShape shape = (MyShape) event.getSource();
+        
+        if(c.getDrawPane().getChildren().contains(shape)){
+            setSelectedShape(shape);
+            
+        }
     }
 
     @Override
