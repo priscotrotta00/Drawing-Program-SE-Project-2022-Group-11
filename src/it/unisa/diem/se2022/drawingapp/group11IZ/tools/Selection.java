@@ -18,10 +18,10 @@ public class Selection {
     private static MyShape selectedItem;
     private static ObservableBooleanValue selected;
 
-    public Selection(Group selectionBorder, MyShape selectedItem, ObservableBooleanValue selected) {
-        this.selectionBorder = selectionBorder;
-        this.selectedItem = selectedItem;
-        this.selected = selected;
+    public Selection() {
+        this.selectionBorder = null;
+        this.selectedItem = null;
+        this.selected = null;
     }
 
     public static Group getSelectionBorder() {
@@ -56,8 +56,8 @@ public class Selection {
         setSelectedItem(null);
     }
     
-    public void selectedProperty(){
-        
+    public ObservableBooleanValue selectedProperty(){
+        return getSelected();
     }
     
 }

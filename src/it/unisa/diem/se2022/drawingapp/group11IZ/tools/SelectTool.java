@@ -6,6 +6,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
+import it.unisa.diem.se2022.drawingapp.group11IZ.models.MyShape;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -16,43 +17,54 @@ public class SelectTool implements Tool{
     
     private Selection selectedShape;
 
-    public SelectTool(Selection selectedShape) {
-        this.selectedShape = selectedShape;
+    public SelectTool() {
+        this.selectedShape = new Selection();
     }
 
     public Selection getSelectedShape() {
         return selectedShape;
     }
 
-    public void setSelectedShape(Selection selectedShape) {
-        this.selectedShape = selectedShape;
+    public void setSelectedShape(MyShape shape) {
+        Selection.setSelectedItem(shape);
     }
     
     
 
     @Override
     public void handleOnDragBegin(Controller c, MouseEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void handleOnMouseDrag(Controller c, MouseEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
     }
 
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
     }
 
     @Override
     public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MyShape shape = (MyShape) event.getSource();
+        
+        if(c.getDrawPane().getChildren().contains(shape)){
+            setSelectedShape(shape);
+            
+        }
+        
     }
 
     @Override
     public void handleOnSecondaryMouseClick(Controller c, MouseEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MyShape shape = (MyShape) event.getSource();
+        
+        if(c.getDrawPane().getChildren().contains(shape)){
+            setSelectedShape(shape);
+            
+        }
     }
     
 }
