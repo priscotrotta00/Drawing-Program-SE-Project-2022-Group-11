@@ -6,7 +6,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
-import it.unisa.diem.se2022.drawingapp.group11IZ.models.MyShape;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.input.MouseEvent;
 
 /**
