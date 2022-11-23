@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 /**
  * FXML Controller class
@@ -72,8 +73,9 @@ public class Controller implements Initializable {
     private Button pasteButton;
     
     //ADDED
-    ToggleGroup toolToggleGroup;
-    ToggleGroup colorToggleGroup;
+    private ToggleGroup toolToggleGroup;
+    private ToggleGroup colorToggleGroup;
+    private Rectangle clip;
             
     /**
      * Initializes the controller class.
@@ -101,6 +103,11 @@ public class Controller implements Initializable {
         greyColorToggleButton.setToggleGroup(colorToggleGroup);
         pinkColorToggleButton.setToggleGroup(colorToggleGroup);
         
+        //
+        clip = new Rectangle();
+        clip.heightProperty().bind(drawPane.heightProperty());
+        clip.widthProperty().bind(drawPane.widthProperty());
+        drawPane.setClip(clip);
     }    
 
     public void updateDraw(){

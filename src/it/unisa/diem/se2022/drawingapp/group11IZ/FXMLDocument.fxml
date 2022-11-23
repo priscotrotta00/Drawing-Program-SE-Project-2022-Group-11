@@ -307,7 +307,7 @@
       </TabPane>
       <HBox prefHeight="659.0" prefWidth="1087.0">
          <children>
-            <Pane fx:id="drawPane" prefHeight="646.0" prefWidth="1116.0" />
+            <Pane fx:id="drawPane" prefHeight="646.0" prefWidth="1116.0" style="-fx-background-color: white;" />
          </children>
       </HBox>
    </children>
