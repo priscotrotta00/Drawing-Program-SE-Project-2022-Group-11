@@ -5,6 +5,10 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 
@@ -12,10 +16,15 @@ import javafx.scene.shape.Shape;
  *
  * @author utente
  */
-public abstract class DrawShape implements Tool{
-    private double startX, startY;
-    private double endX, endY;
+public abstract class DrawShapeTool implements Tool{
+    private Double startX, startY;
+    private Double endX, endY;
 
+    /**
+     * Method that handle the OnDragDetected event genereated on the drawPane
+     * @param c Controller
+     * @param event Generated Event
+     */
     @Override
     public void handleOnDragBegin(Controller c, MouseEvent event) {
         this.startX = event.getX();
@@ -23,10 +32,16 @@ public abstract class DrawShape implements Tool{
     }
 
     @Override
-    public void handleOnMouseDrag(Controller c, MouseEvent event) {
+    public void handleOnMouseDrag(Controller c, MouseDragEvent event) {
         
     }
 
+    /**
+     * Method that handle the OnMouseReleased event generated on the drawPane
+     * after a 
+     * @param c Controller
+     * @param event Generated Event
+     */
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
         double topLeftX, topLeftY, bottomRightX, bottomRightY;
@@ -35,6 +50,8 @@ public abstract class DrawShape implements Tool{
         this.endX = event.getX();
         this.endY = event.getY();
         
+        if (this.startX == null || this.startY == null) return;
+        
         topLeftX = this.calculateTopLeftX(startX, startY, endX, endY);
         topLeftY = this.calculateTopLeftY(startX, startY, endX, endY);
         bottomRightX = this.calculateBottomRightX(startX, startY, endX, endY);
@@ -42,7 +59,12 @@ public abstract class DrawShape implements Tool{
         
         shape = this.createShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
         
-        //c.addShape(shape);
+        c.addShape(shape);
+        
+        this.startX = null;
+        this.startY = null;
+        this.endX = null;
+        this.endY = null;
     }
 
     @Override
