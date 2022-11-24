@@ -19,6 +19,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -78,9 +79,10 @@ public class Controller implements Initializable {
     private Button pasteButton;
     
     //ADDED
-    ToggleGroup toolToggleGroup;
-    ToggleGroup colorToggleGroup;
-    Tool selectedTool = DrawEllipseTool.getInstance();
+    private ToggleGroup toolToggleGroup;
+    private ToggleGroup colorToggleGroup;
+    private Rectangle clip;
+    private Tool selectedTool;
             
     /**
      * Initializes the controller class.
@@ -102,6 +104,12 @@ public class Controller implements Initializable {
         yellowColorToggleButton.setToggleGroup(colorToggleGroup);
         greyColorToggleButton.setToggleGroup(colorToggleGroup);
         pinkColorToggleButton.setToggleGroup(colorToggleGroup);
+        
+        //
+        clip = new Rectangle();
+        clip.heightProperty().bind(drawPane.heightProperty());
+        clip.widthProperty().bind(drawPane.widthProperty());
+        drawPane.setClip(clip);
         
         drawPane.setOnDragDetected(value -> {
             selectedTool.handleOnDragBegin(this, value);
