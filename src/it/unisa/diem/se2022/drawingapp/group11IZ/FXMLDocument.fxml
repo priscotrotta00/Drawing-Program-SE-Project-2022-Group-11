@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToggleButton?>
@@ -12,24 +11,25 @@
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="694.0" prefWidth="952.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<VBox alignment="CENTER" prefHeight="847.0" prefWidth="1087.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se2022.drawingapp.group11IZ.Controller">
    <children>
-      <TabPane prefHeight="209.0" prefWidth="952.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="194.0" prefWidth="1087.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="File">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="57.0" prefWidth="816.0">
                      <children>
-                        <HBox layoutX="50.0" layoutY="22.0" prefHeight="143.0" prefWidth="816.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox layoutX="50.0" layoutY="22.0" prefHeight="173.0" prefWidth="1087.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <VBox alignment="CENTER" prefHeight="58.0" prefWidth="122.0" spacing="20.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" text="Load" />
-                                    <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" text="Save" />
+                                    <Button fx:id="loadButton" mnemonicParsing="false" onAction="#onLoadAction" prefHeight="40.0" prefWidth="70.0" text="Load" />
+                                    <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveAction" prefHeight="40.0" prefWidth="70.0" text="Save" />
                                  </children>
                               </VBox>
                            </children>
@@ -42,13 +42,13 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="135.0" prefWidth="816.0">
                      <children>
-                        <HBox prefHeight="179.2" prefWidth="952.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox prefHeight="140.0" prefWidth="952.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <VBox prefHeight="178.0" prefWidth="305.0" style="-fx-border-color: grey;">
+                              <VBox prefHeight="171.0" prefWidth="349.0" style="-fx-border-color: grey;">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="271.0" style="-fx-border-color: grey;">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="80.0" text="Shape" textAlignment="CENTER">
+                                          <Label fx:id="shapeLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="80.0" text="Shape" textAlignment="CENTER">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -57,9 +57,9 @@
                                     </HBox>
                                     <HBox alignment="BOTTOM_CENTER" prefHeight="69.0" prefWidth="262.0" spacing="10.0">
                                        <children>
-                                          <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Line" />
-                                          <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Rectangle" />
-                                          <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Ellipse" />
+                                          <ToggleButton fx:id="lineToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Line" />
+                                          <ToggleButton fx:id="rectangleToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Rectangle" />
+                                          <ToggleButton fx:id="ellipseToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Ellipse" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
@@ -70,7 +70,7 @@
                                     </HBox>
                                     <HBox alignment="TOP_CENTER" prefHeight="64.0" prefWidth="262.0">
                                        <children>
-                                          <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Selection" />
+                                          <ToggleButton fx:id="selectionToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Selection" />
                                        </children>
                                        <VBox.margin>
                                           <Insets />
@@ -81,11 +81,11 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox alignment="TOP_CENTER" prefHeight="178.0" prefWidth="398.0" style="-fx-border-color: grey;">
+                              <VBox alignment="TOP_CENTER" prefHeight="171.0" prefWidth="436.0" style="-fx-border-color: grey;">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="40.0" prefWidth="378.0" style="-fx-border-color: grey;">
+                                    <HBox alignment="CENTER" prefHeight="48.0" prefWidth="433.0" style="-fx-border-color: grey;">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="80.0" text="Colors" textAlignment="CENTER">
+                                          <Label fx:id="labelColors" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="80.0" text="Colors" textAlignment="CENTER">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -94,12 +94,12 @@
                                     </HBox>
                                     <HBox prefHeight="140.0" prefWidth="343.0">
                                        <children>
-                                          <VBox prefHeight="138.0" prefWidth="285.0" style="-fx-border-color: grey;">
+                                          <VBox prefHeight="135.0" prefWidth="311.0" style="-fx-border-color: grey;">
                                              <children>
                                                 <HBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="274.0" spacing="10.0">
                                                    <children>
-                                                      <ToggleButton fx:id="idWhiteColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" />
-                                                      <ToggleButton fx:id="idRedColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+                                                      <ToggleButton fx:id="whiteColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" />
+                                                      <ToggleButton fx:id="redColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
                                                          <effect>
                                                             <Lighting>
                                                                <bumpInput>
@@ -115,7 +115,7 @@
                                                             </Lighting>
                                                          </effect>
                                                       </ToggleButton>
-                                                      <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+                                                      <ToggleButton fx:id="greenColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
                                                          <effect>
                                                             <Lighting>
                                                                <bumpInput>
@@ -124,14 +124,14 @@
                                                                <light>
                                                                   <Light.Distant>
                                                                      <color>
-                                                                        <Color red="0.1666666716337204" green="1.0" />
+                                                                        <Color red="0.3619047701358795" green="1.0" />
                                                                      </color>
                                                                   </Light.Distant>
                                                                </light>
                                                             </Lighting>
                                                          </effect>
-                                                      </Button>
-                                                      <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+                                                      </ToggleButton>
+                                                      <ToggleButton fx:id="blueColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
                                                          <effect>
                                                             <Lighting>
                                                                <bumpInput>
@@ -140,13 +140,13 @@
                                                                <light>
                                                                   <Light.Distant>
                                                                      <color>
-                                                                        <Color red="0.06666667014360428" blue="1.0" />
+                                                                        <Color green="0.2857142984867096" blue="1.0" />
                                                                      </color>
                                                                   </Light.Distant>
                                                                </light>
                                                             </Lighting>
                                                          </effect>
-                                                      </Button>
+                                                      </ToggleButton>
                                                    </children>
                                                    <VBox.margin>
                                                       <Insets />
@@ -159,8 +159,11 @@
                                                    </padding>
                                                 </HBox>
                                                 <HBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="274.0" spacing="10.0">
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+                                                      <ToggleButton fx:id="blackColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
                                                          <effect>
                                                             <Lighting>
                                                                <bumpInput>
@@ -175,8 +178,8 @@
                                                                </light>
                                                             </Lighting>
                                                          </effect>
-                                                      </Button>
-                                                      <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+                                                      </ToggleButton>
+                                                      <ToggleButton fx:id="yellowColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
                                                          <effect>
                                                             <Lighting>
                                                                <bumpInput>
@@ -185,14 +188,14 @@
                                                                <light>
                                                                   <Light.Distant>
                                                                      <color>
-                                                                        <Color red="0.9666666388511658" green="1.0" />
+                                                                        <Color red="0.8999999761581421" green="1.0" />
                                                                      </color>
                                                                   </Light.Distant>
                                                                </light>
                                                             </Lighting>
                                                          </effect>
-                                                      </Button>
-                                                      <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+                                                      </ToggleButton>
+                                                      <ToggleButton fx:id="greyColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
                                                          <effect>
                                                             <Lighting>
                                                                <bumpInput>
@@ -201,14 +204,14 @@
                                                                <light>
                                                                   <Light.Distant>
                                                                      <color>
-                                                                        <Color red="0.7473683953285217" green="0.7473683953285217" blue="0.7473683953285217" />
+                                                                        <Color red="0.8947368264198303" green="0.8947368264198303" blue="0.8947368264198303" />
                                                                      </color>
                                                                   </Light.Distant>
                                                                </light>
                                                             </Lighting>
                                                          </effect>
-                                                      </Button>
-                                                      <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
+                                                      </ToggleButton>
+                                                      <ToggleButton fx:id="pinkColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
                                                          <effect>
                                                             <Lighting>
                                                                <bumpInput>
@@ -217,24 +220,21 @@
                                                                <light>
                                                                   <Light.Distant>
                                                                      <color>
-                                                                        <Color red="1.0" blue="0.9166666865348816" />
+                                                                        <Color red="1.0" blue="0.8952381014823914" />
                                                                      </color>
                                                                   </Light.Distant>
                                                                </light>
                                                             </Lighting>
                                                          </effect>
-                                                      </Button>
+                                                      </ToggleButton>
                                                    </children>
-                                                   <VBox.margin>
-                                                      <Insets top="5.0" />
-                                                   </VBox.margin>
                                                 </HBox>
                                              </children>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefHeight="138.0" prefWidth="113.0" spacing="10.0" style="-fx-border-color: grey;">
+                                          <VBox alignment="CENTER" prefHeight="135.0" prefWidth="130.0" spacing="10.0" style="-fx-border-color: grey;">
                                              <children>
-                                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="75.0" text="Stroke" />
-                                                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="75.0" text="Fill" />
+                                                <Button fx:id="changeStrokeColorButton" mnemonicParsing="false" onAction="#onChangeStrokeColorAction" prefHeight="40.0" prefWidth="75.0" text="Stroke" />
+                                                <Button fx:id="changeFillColorButton" mnemonicParsing="false" onAction="#onChangeFillColorAction" prefHeight="40.0" prefWidth="75.0" text="Fill" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -244,11 +244,11 @@
                                     <Insets bottom="2.0" left="2.0" right="2.0" />
                                  </opaqueInsets>
                               </VBox>
-                              <VBox prefHeight="178.0" prefWidth="258.0" style="-fx-border-color: grey;">
+                              <VBox prefHeight="171.0" prefWidth="304.0" style="-fx-border-color: grey;">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="343.0" style="-fx-border-color: grey;">
                                        <children>
-                                          <Label alignment="CENTER" prefHeight="30.0" prefWidth="80.0" text="Options" textAlignment="CENTER">
+                                          <Label fx:id="labelOptions" alignment="CENTER" prefHeight="40.0" prefWidth="80.0" text="Options" textAlignment="CENTER">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -257,8 +257,8 @@
                                     </HBox>
                                     <HBox alignment="BOTTOM_CENTER" prefHeight="43.0" prefWidth="298.0" spacing="10.0" style="-fx-background-color: light-grey;">
                                        <children>
-                                          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Copy" />
-                                          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete" />
+                                          <Button fx:id="copyButton" mnemonicParsing="false" onAction="#onCopyAction" prefHeight="25.0" prefWidth="100.0" text="Copy" />
+                                          <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteAction" prefHeight="25.0" prefWidth="100.0" text="Delete" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets top="8.0" />
@@ -269,8 +269,8 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="51.0" prefWidth="306.0" spacing="10.0">
                                        <children>
-                                          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Cut" />
-                                          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Paste" />
+                                          <Button fx:id="cutButton" mnemonicParsing="false" onAction="#onCutAction" prefHeight="25.0" prefWidth="100.0" text="Cut" />
+                                          <Button fx:id="pasteButton" mnemonicParsing="false" onAction="#onPasteAction" prefHeight="25.0" prefWidth="100.0" text="Paste" />
                                        </children>
                                        <padding>
                                           <Insets bottom="4.0" top="4.0" />
@@ -278,8 +278,8 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="50.0" prefWidth="306.0" spacing="10.0" style="-fx-background-color: light-grey;">
                                        <children>
-                                          <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Foreground" />
-                                          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Background" />
+                                          <Button disable="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Foreground" />
+                                          <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Background" />
                                        </children>
                                        <padding>
                                           <Insets bottom="8.0" top="4.0" />
@@ -297,14 +297,17 @@
             </Tab>
             <Tab text="View">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="137.0" prefWidth="952.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children></AnchorPane>
                </content>
             </Tab>
          </tabs>
       </TabPane>
-      <HBox prefHeight="487.0" prefWidth="952.0">
+      <HBox prefHeight="659.0" prefWidth="1087.0">
          <children>
-            <ScrollPane prefHeight="487.0" prefWidth="963.0" />
+            <Pane fx:id="drawPane" prefHeight="646.0" prefWidth="1116.0" style="-fx-background-color: white;" />
          </children>
       </HBox>
    </children>

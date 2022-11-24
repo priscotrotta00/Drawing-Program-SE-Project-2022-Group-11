@@ -49,7 +49,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
 
     @Override
     public void mySetRadiusX(double value) {
-        super.setRadiusY(value);
+        super.setRadiusX(value);
     }
 
     @Override
