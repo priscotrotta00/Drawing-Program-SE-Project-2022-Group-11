@@ -4,9 +4,10 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 /**
  *
@@ -34,19 +35,19 @@ public class DrawRectangleTool extends DrawShapeTool{
      * @return A new Rectangle
      */
     @Override
-    public Shape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+    public MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
         double width = bottomRightX - topLeftX;
         double height = bottomRightY - topLeftY;
         Color strokeColor = Color.BLACK;
         Color fillColor = Color.WHITE;
-        Rectangle rectangle = new Rectangle();
+        MyRectangle rectangle = new MyEnhancedRectangle();
         
-        rectangle.setX(topLeftX);
-        rectangle.setY(topLeftY);
-        rectangle.setWidth(width);
-        rectangle.setHeight(height);
-        rectangle.setStroke(strokeColor);
-        rectangle.setFill(fillColor);
+        rectangle.mySetX(topLeftX);
+        rectangle.mySetY(topLeftY);
+        rectangle.mySetWidth(width);
+        rectangle.mySetHeight(height);
+        rectangle.mySetStroke(strokeColor);
+        rectangle.mySetFill(fillColor);
         
         return rectangle;
     }

@@ -5,6 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
@@ -45,7 +46,7 @@ public abstract class DrawShapeTool implements Tool{
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
         double topLeftX, topLeftY, bottomRightX, bottomRightY;
-        Shape shape;
+        MyShape shape;
         
         this.endX = event.getX();
         this.endY = event.getY();
@@ -129,6 +130,6 @@ public abstract class DrawShapeTool implements Tool{
         return endY > startY ? endY : endY == startY ? endY : startY;
     }
     
-    public abstract Shape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
+    public abstract MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
     
 }

@@ -4,10 +4,9 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
-import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 
 /**
  *
@@ -54,13 +53,13 @@ public class DrawLineTool extends DrawShapeTool{
      * @return A new line
      */
     @Override
-    public Shape createShape(double startX, double startY, double endX, double endY) {
-        Line result = new Line();
+    public MyShape createShape(double startX, double startY, double endX, double endY) {
+        MyLine result = new MyEnhancedLine();
         
-        result.setStartX(startX);
-        result.setStartY(startY);
-        result.setEndX(endX);
-        result.setEndY(endY);
+        result.mySetStartX(startX);
+        result.mySetStartY(startY);
+        result.mySetEndX(endX);
+        result.mySetEndY(endY);
         
         return result;
     }

@@ -83,7 +83,7 @@ public class DrawRectangleToolTest {
         
         Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", 10, tool.calculateBottomRightX(-10, 10, 10, 20), 0);
         Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", 10, tool.calculateBottomRightX(10, 10, -10, 20), 0);
-        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", -10, tool.calculateBottomRightX(-30, -10, 10, 20), 0);
+        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", 10, tool.calculateBottomRightX(-30, -10, 10, 20), 0);
         Assert.assertEquals("Test startX < endX < 0 && endY < startY < 0", -10, tool.calculateBottomRightX(-30, -10, -10, -20), 0);
     }
     

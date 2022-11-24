@@ -4,9 +4,10 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Shape;
 
 /**
  *
@@ -37,21 +38,21 @@ public class DrawEllipseTool extends DrawShapeTool{
      * @return A new Ellipse
      */
     @Override
-    public Shape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+    public MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
         double radiusX = (bottomRightX - topLeftX)/2;
         double radiusY = (bottomRightY - topLeftY)/2;
         double centerX = radiusX + topLeftX;
         double centerY = radiusY + topLeftY;
         Color strokeColor = Color.BLACK;
         Color fillColor = Color.WHITE;
-        Ellipse result = new Ellipse();
+        MyEllipse result = new MyEnhancedEllipse();
         
-        result.setCenterX(centerX);
-        result.setCenterY(centerY);
-        result.setRadiusX(radiusX);
-        result.setRadiusY(radiusY);
-        result.setStroke(strokeColor);
-        result.setFill(fillColor);
+        result.mySetCenterX(centerX);
+        result.mySetCenterY(centerY);
+        result.mySetRadiusX(radiusX);
+        result.mySetRadiusY(radiusY);
+        result.mySetStroke(strokeColor);
+        result.mySetFill(fillColor);
         
         return result;
     }

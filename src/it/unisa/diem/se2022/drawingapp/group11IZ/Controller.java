@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
@@ -164,8 +165,8 @@ public class Controller implements Initializable {
         
     }
     
-    public void addShape(Shape shape){
-        drawPane.getChildren().add(shape);
+    public void addShape(MyShape shape){
+        drawPane.getChildren().add((Shape) shape);
     }
     
     @FXML
