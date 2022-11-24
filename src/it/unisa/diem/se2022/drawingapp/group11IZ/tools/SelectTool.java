@@ -35,40 +35,40 @@ public class SelectTool implements Tool{
     public void handleOnDragBegin(Controller c, MouseEvent event) {
         MyShape shape = (MyShape) event.getSource();
         
-        if(c.getDrawPane().getChildren().contains(shape)){
+        /*if(c.getDrawPane().getChildren().contains(shape)){
             setSelectedShape(shape);
             
-        }
+        }*/
     }
 
     @Override
     public void handleOnMouseDrag(Controller c, MouseEvent event) {
         MyShape shape = (MyShape) event.getSource();
         
-        if(c.getDrawPane().getChildren().contains(shape)){
+        /*if(c.getDrawPane().getChildren().contains(shape)){
             setSelectedShape(shape);
             
-        }
+        }*/
     }
 
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
         MyShape shape = (MyShape) event.getSource();
         
-        if(c.getDrawPane().getChildren().contains(shape)){
+        /*if(c.getDrawPane().getChildren().contains(shape)){
             setSelectedShape(shape);
             
-        }
+        }*/
     }
 
     @Override
     public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
         MyShape shape = (MyShape) event.getSource();
         
-        if(c.getDrawPane().getChildren().contains(shape)){
+        /*if(c.getDrawPane().getChildren().contains(shape)){
             setSelectedShape(shape);
             
-        }
+        }*/
         
     }
 
@@ -76,10 +76,10 @@ public class SelectTool implements Tool{
     public void handleOnSecondaryMouseClick(Controller c, MouseEvent event) {
         MyShape shape = (MyShape) event.getSource();
         
-        if(c.getDrawPane().getChildren().contains(shape)){
+        /*if(c.getDrawPane().getChildren().contains(shape)){
             setSelectedShape(shape);
             
-        }
+        }*/
     }
     
 }

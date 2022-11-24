@@ -7,18 +7,16 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 /**
  *
  * @author daddy
  */
-public class Selection implements Visitor{
+public class Selection {//implements Visitor{
     private Group selectionBorder;
     private MyShape selectedItem;
     private BooleanProperty selected;
@@ -59,17 +57,23 @@ public class Selection implements Visitor{
         
     }
     
-    public void select(MyEnhancedLine myEnhancedLine){}
+    public void select(MyEnhancedLine myEnhancedLine){
+        setSelectedItem(myEnhancedLine);
+        
+        
+        
+    }
     
     public void select(MyEnhancedRectangle myEnhancedRectangle){
+        double x, y, width, height;
+        MyEnhancedRectangle newRectangle = new MyEnhancedRectangle();;
+        
         setSelectedItem(myEnhancedRectangle);
         
-        double x = myEnhancedRectangle.myGetX();
-        double y = myEnhancedRectangle.myGetY();
-        double width = myEnhancedRectangle.myGetWidth();
-        double height = myEnhancedRectangle.myGetHeight();
-        
-        MyEnhancedRectangle newRectangle = new MyEnhancedRectangle();
+        x = myEnhancedRectangle.myGetX();
+        y = myEnhancedRectangle.myGetY();
+        width = myEnhancedRectangle.myGetWidth();
+        height = myEnhancedRectangle.myGetHeight();
         
         newRectangle.mySetX(x);
         newRectangle.mySetY(y);
@@ -77,6 +81,7 @@ public class Selection implements Visitor{
         newRectangle.mySetHeight(height);
         
         newRectangle.mySetFill(Color.TRANSPARENT);
+        newRectangle.mySetStroke(Color.BLACK);
         
         newRectangle.setStrokeWidth(myEnhancedRectangle.getStrokeWidth()+2);
         
