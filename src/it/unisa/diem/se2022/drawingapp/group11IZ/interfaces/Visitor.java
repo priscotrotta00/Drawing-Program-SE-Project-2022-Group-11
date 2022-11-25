@@ -15,7 +15,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
  */
 public interface Visitor {
     public void visitRectangle(MyRectangle myRectangle);
-    public void visitEllipse(MyEllipse myEllispe);
+    public void visitEllipse(MyEllipse myEllipse);
     public void visitLine(MyLine myLine);
 
 }
