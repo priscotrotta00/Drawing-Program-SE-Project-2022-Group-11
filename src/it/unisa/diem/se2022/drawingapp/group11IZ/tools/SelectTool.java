@@ -6,8 +6,12 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import javafx.event.EventTarget;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -16,9 +20,15 @@ import javafx.scene.input.MouseEvent;
 public class SelectTool implements Tool{
     
     private static Selection selectedShape;
+    private static Tool instance = null; 
 
-    public SelectTool() {
+    private SelectTool() {
         SelectTool.selectedShape = new Selection();
+    }
+    
+    public static Tool getInstance(){
+        if (instance == null) instance = new SelectTool();
+        return instance;
     }
 
     public Selection getSelectedShape() {
@@ -26,7 +36,7 @@ public class SelectTool implements Tool{
     }
 
     public void setSelectedShape(MyShape shape) {
-        selectedShape.setSelectedItem(shape);
+        selectedShape.select(shape);
     }
     
     
@@ -42,7 +52,7 @@ public class SelectTool implements Tool{
     }
 
     @Override
-    public void handleOnMouseDrag(Controller c, MouseEvent event) {
+    public void handleOnMouseDrag(Controller c, MouseDragEvent event) {
         MyShape shape = (MyShape) event.getSource();
         
         /*if(c.getDrawPane().getChildren().contains(shape)){
@@ -63,12 +73,21 @@ public class SelectTool implements Tool{
 
     @Override
     public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
-        MyShape shape = (MyShape) event.getSource();
         
-        /*if(c.getDrawPane().getChildren().contains(shape)){
-            setSelectedShape(shape);
-            
-        }*/
+        //MyShape shape = (MyShape) event.getTarget();
+        
+        EventTarget eventTarget = event.getTarget();
+        
+        if(!(eventTarget instanceof MyShape)) return;
+        
+        MyShape shape = (MyShape) eventTarget;
+        
+        
+        //System.out.println("Ho selezionato una figura");
+        //if(c.getDrawPane().getChildren().contains(shape)){
+        System.out.println("Ho selezionato una figura");
+        setSelectedShape(shape);
+        //}
         
     }
 

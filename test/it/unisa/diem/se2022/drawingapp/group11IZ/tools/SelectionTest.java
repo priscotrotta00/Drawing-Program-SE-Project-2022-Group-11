@@ -6,6 +6,9 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
+import java.lang.reflect.Field;
+import javafx.beans.property.BooleanProperty;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import org.junit.Test;
 import org.junit.After;
@@ -19,7 +22,7 @@ import org.junit.Before;
 public class SelectionTest {
     
     @Test
-    public void selectLineTest(){
+    public void selectLineTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         
         MyEnhancedLine myEnhancedLine = new MyEnhancedLine();
         Selection selection = new Selection();
@@ -32,19 +35,25 @@ public class SelectionTest {
         
         selection.select(myEnhancedLine);
         
-        Assert.assertNotNull("If selectedBorder is not null",selection.getSelectionBorder().getChildren().get(0)); 
-        selectedBorderLine = (MyEnhancedLine) selection.getSelectionBorder().getChildren().get(0);
+        Field selectionBorderField = Selection.class.getDeclaredField("selectionBorder");
+        Field selectedField = Selection.class.getDeclaredField("selected");
+        selectionBorderField.setAccessible(true);
+        selectedField.setAccessible(true);
+        Group group = (Group) selectionBorderField.get(selection);
+        BooleanProperty boolProp = (BooleanProperty) selectedField.get(selection);
+        selectedBorderLine = (MyEnhancedLine) group.getChildren().get(0);
         
-        Assert.assertEquals("If selectedBorderLine is a myEnhancedRectangle", selectedBorderLine.getClass(), (new MyEnhancedRectangle()).getClass());
+        Assert.assertNotNull("If selectedBorder is not null", group.getChildren().get(0));        
+        Assert.assertEquals("If selectedBorderLine is a myEnhancedLine", selectedBorderLine.getClass(), (new MyEnhancedLine()).getClass());
         Assert.assertEquals("If selectedBorderLine has black stroke", selectedBorderLine.myGetStroke(), Color.BLACK);
         Assert.assertEquals("If selectedBorderLine has transparent fill",selectedBorderLine.myGetFill(), Color.TRANSPARENT);
         Assert.assertTrue("If selectedBorderLine stroke > myEnhancedLine stroke", selectedBorderLine.getStrokeWidth() > myEnhancedLine.getStrokeWidth());
-        Assert.assertTrue("If selected property is true", selection.getSelected().get());
+        Assert.assertTrue("If selected property is true", boolProp.get());
         
     }
     
     @Test
-    public void selectRectangleTest(){
+    public void selectRectangleTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         
         MyEnhancedRectangle myEnhancedRectangle = new MyEnhancedRectangle();
         Selection selection = new Selection();
@@ -57,19 +66,26 @@ public class SelectionTest {
         
         selection.select(myEnhancedRectangle);
         
-        Assert.assertNotNull("If selectedBorder is not null",selection.getSelectionBorder().getChildren().get(0));     
-        selectedBorderRectangle = (MyEnhancedRectangle) selection.getSelectionBorder().getChildren().get(0);
+        Field selectionBorderField = Selection.class.getDeclaredField("selectionBorder");
+        Field selectedField = Selection.class.getDeclaredField("selected");
+        selectionBorderField.setAccessible(true);
+        selectedField.setAccessible(true);
+        Group group = (Group) selectionBorderField.get(selection);        
+        BooleanProperty boolProp = (BooleanProperty) selectedField.get(selection);
+        selectedBorderRectangle = (MyEnhancedRectangle) group.getChildren().get(0);
+
         
+        Assert.assertNotNull("If selectedBorder is not null", group.getChildren().get(0));   
         Assert.assertEquals("If selectedBorderRectangle is a myEnhancedRectangle", selectedBorderRectangle.getClass(), (new MyEnhancedRectangle()).getClass());
         Assert.assertEquals("If selectedBorderRectangle has black stroke", selectedBorderRectangle.myGetStroke(), Color.BLACK);
         Assert.assertEquals("If selectedBorderRectangle has transparent fill",selectedBorderRectangle.myGetFill(), Color.TRANSPARENT);
         Assert.assertTrue("If selectedBorderRectangle stroke > myEnhancedRectangle stroke", selectedBorderRectangle.getStrokeWidth() > myEnhancedRectangle.getStrokeWidth());
-        Assert.assertTrue("If selected property is true", selection.getSelected().get());
+        Assert.assertTrue("If selected property is true", boolProp.get());
         
     }
     
     @Test
-    public void selectEllipseTest(){
+    public void selectEllipseTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         
         MyEnhancedEllipse myEnhancedEllipse = new MyEnhancedEllipse();
         Selection selection = new Selection();
@@ -82,14 +98,21 @@ public class SelectionTest {
         
         selection.select(myEnhancedEllipse);
         
-        Assert.assertNotNull("If selectedBorder is not null",selection.getSelectionBorder().getChildren().get(0));
-        selectedBorderEllipse = (MyEnhancedEllipse) selection.getSelectionBorder().getChildren().get(0);
+        Field selectionBorderField = Selection.class.getDeclaredField("selectionBorder");
+        Field selectedField = Selection.class.getDeclaredField("selected");
+        selectionBorderField.setAccessible(true);
+        selectedField.setAccessible(true);
+        Group group = (Group) selectionBorderField.get(selection);        
+        BooleanProperty boolProp = (BooleanProperty) selectedField.get(selection);        
+        selectedBorderEllipse = (MyEnhancedEllipse) group.getChildren().get(0);
+
         
-        Assert.assertEquals("If selectedBorderEllipse is a myEnhancedRectangle", selectedBorderEllipse.getClass(), (new MyEnhancedRectangle()).getClass());
+        Assert.assertNotNull("If selectedBorder is not null", group.getChildren().get(0));
+        Assert.assertEquals("If selectedBorderEllipse is a myEnhancedEllipse", selectedBorderEllipse.getClass(), (new MyEnhancedEllipse()).getClass());
         Assert.assertEquals("If selectedBorderEllipse has black stroke", selectedBorderEllipse.myGetStroke(), Color.BLACK);
         Assert.assertEquals("If selectedBorderEllipse has transparent fill",selectedBorderEllipse.myGetFill(), Color.TRANSPARENT);
         Assert.assertTrue("If selectedBorderEllipse stroke > myEnhancedEllipse stroke", selectedBorderEllipse.getStrokeWidth() > myEnhancedEllipse.getStrokeWidth());
-        Assert.assertTrue("If selected property is true", selection.getSelected().get());
+        Assert.assertTrue("If selected property is true", boolProp.get());
         
     }
     

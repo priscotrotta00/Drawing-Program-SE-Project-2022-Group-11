@@ -10,13 +10,16 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 /**
  *
  * @author daddy
  */
-public class Selection {//implements Visitor{
+public class Selection {
     private Group selectionBorder;
     private MyShape selectedItem;
     private BooleanProperty selected;
@@ -51,7 +54,7 @@ public class Selection {//implements Visitor{
         this.selected.set(selected);
     }
     
-    public void select(MyEnhancedEllipse myEnhancedEllipse){
+    /*public void select(MyEnhancedEllipse myEnhancedEllipse){
         setSelectedItem(myEnhancedEllipse);
         
         
@@ -88,7 +91,93 @@ public class Selection {//implements Visitor{
         selectionBorder.getChildren().add(newRectangle);
         setSelected(true);
         
+    }*/
+    
+    public void select(MyRectangle myRectangle){
+        MyRectangle newRectangle = new MyEnhancedRectangle();
+        
+        setSelectedItem(myRectangle);
+        
+        newRectangle.myXProperty().bind(myRectangle.myXProperty());
+        newRectangle.myYProperty().bind(myRectangle.myYProperty());
+        newRectangle.myHeightProperty().bind(myRectangle.myHeightProperty());
+        newRectangle.myWidthProperty().bind(myRectangle.myHeightProperty());
+        
+        newRectangle.mySetFill(Color.TRANSPARENT);
+        newRectangle.mySetStroke(Color.BLACK);
+        
+        newRectangle.mySetStrokeWidth(myRectangle.myGetStrokeWidth()+2);
+        
+        selectionBorder.getChildren().add((Shape)newRectangle);
+        
+        Parent parent = myRectangle.myGetParent();
+        
+        if(!(parent instanceof Pane)) return;
+        
+        Pane pane = (Pane) parent;
+        pane.getChildren().add((Shape)newRectangle);
+        
+        
+        setSelected(true);
+        
     }
+    
+    public void select(MyLine myLine){
+        MyLine newLine = new MyEnhancedLine();;
+        
+        setSelectedItem(myLine);
+        
+        newLine.myStartXProperty().bind(myLine.myStartXProperty());
+        newLine.myStartYProperty().bind(myLine.myStartYProperty());
+        newLine.myEndXProperty().bind(myLine.myEndXProperty());
+        newLine.myEndYProperty().bind(myLine.myEndYProperty());
+        
+        newLine.mySetFill(Color.TRANSPARENT);
+        newLine.mySetStroke(Color.BLACK);
+        
+        newLine.mySetStrokeWidth(myLine.myGetStrokeWidth()+2);
+        
+        selectionBorder.getChildren().add((Shape)newLine);
+        
+        Parent parent = myLine.myGetParent();
+        
+        if(!(parent instanceof Pane)) return;
+        
+        Pane pane = (Pane) parent;
+        pane.getChildren().add((Shape)newLine);
+        
+        setSelected(true);
+        
+    }
+    
+    public void select(MyEllipse myEllipse){
+        MyEllipse newEllipse = new MyEnhancedEllipse();
+        
+        setSelectedItem(myEllipse);
+        
+        newEllipse.myCenterXProperty().bind(myEllipse.myCenterXProperty());
+        newEllipse.myCenterYProperty().bind(myEllipse.myCenterYProperty());
+        newEllipse.myRadiusXProperty().bind(myEllipse.myRadiusXProperty());
+        newEllipse.myRadiusYProperty().bind(myEllipse.myRadiusYProperty());
+        
+        newEllipse.mySetFill(Color.TRANSPARENT);
+        newEllipse.mySetStroke(Color.BLACK);
+        
+        newEllipse.mySetStrokeWidth(myEllipse.myGetStrokeWidth()+2);
+        
+        selectionBorder.getChildren().add((Shape)newEllipse);
+        Parent parent = myEllipse.myGetParent();
+        
+        if(!(parent instanceof Pane)) return;
+        
+        Pane pane = (Pane) parent;
+        pane.getChildren().add((Shape)newEllipse);
+        
+        setSelected(true);
+        
+    }
+    
+    
     
     public void unSelect(){
         setSelectedItem(null);
