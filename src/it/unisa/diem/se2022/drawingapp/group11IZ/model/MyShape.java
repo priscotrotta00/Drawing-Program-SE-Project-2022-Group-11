@@ -5,6 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 
 
@@ -23,5 +24,7 @@ public interface MyShape  {
     public ObjectProperty<Paint> myStrokeProperty();
     public ObjectProperty<Paint> myFillProperty();
     public String myGetId();
-    
+    public Parent myGetParent();
+    public double myGetStrokeWidth();
+    public void mySetStrokeWidth(double value);
 }

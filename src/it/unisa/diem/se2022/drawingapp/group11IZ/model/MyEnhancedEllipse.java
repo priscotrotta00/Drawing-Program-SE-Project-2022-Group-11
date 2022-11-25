@@ -7,6 +7,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 
@@ -110,6 +111,21 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
     @Override
     public String myGetId() {
         return super.getId();
+    }
+
+    @Override
+    public double myGetStrokeWidth() {
+        return super.getStrokeWidth();
+    }
+
+    @Override
+    public Parent myGetParent() {
+        return super.getParent();
+    }
+
+    @Override
+    public void mySetStrokeWidth(double value) {
+        super.setStrokeWidth(value);
     }
 
    

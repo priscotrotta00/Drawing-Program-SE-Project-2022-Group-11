@@ -22,7 +22,7 @@ public class DrawingTest {
     /*test of methods in Drawing*/
     
     @Test
-    public void testAdd() throws NoSuchFieldException, IllegalAccessException{
+    public void testAdd1() throws NoSuchFieldException, IllegalAccessException, Exception{
         System.out.println("add");
         
         Field listField = Drawing.class.getDeclaredField("figures");
@@ -52,6 +52,24 @@ public class DrawingTest {
     } 
     
     @Test (expected=Exception.class)
+    public void testAdd2() throws NoSuchFieldException, IllegalAccessException, Exception{
+        System.out.println("add");
+        
+        Field listField = Drawing.class.getDeclaredField("figures");
+        listField.setAccessible(true);
+        Drawing d=new Drawing();
+        List<MyShape> figures = (List<MyShape>)listField.get(d);
+        
+        //insert line
+        MyEnhancedLine line=new MyEnhancedLine();
+        d.addShape(line);
+        //insert line again
+        d.addShape(line);
+        
+    }
+    
+    
+    @Test (expected=Exception.class)
     public void testRemove1() throws NoSuchFieldException, IllegalAccessException, Exception{
         System.out.println("remove");
         
@@ -62,7 +80,7 @@ public class DrawingTest {
         
         //try to delete an line that is not in the list
         MyEnhancedLine line=new MyEnhancedLine();
-        d.removeFigure(line);
+        d.removeShape(line);
         
     }
     
@@ -77,7 +95,7 @@ public class DrawingTest {
         
         //try to delete an rectangle that is not in the list
         MyEnhancedRectangle rectangle=new MyEnhancedRectangle();
-        d.removeFigure(rectangle);
+        d.removeShape(rectangle);
         
     }
  
@@ -92,7 +110,7 @@ public class DrawingTest {
         
         //try to delete an ellipse that is not in the list
         MyEnhancedEllipse ellipse=new MyEnhancedEllipse();
-        d.removeFigure(ellipse);        
+        d.removeShape(ellipse);        
     }
     
     @Test 
@@ -114,7 +132,7 @@ public class DrawingTest {
         d.addShape(rectangle);
         
         //test remove ellipse
-        d.removeFigure(ellipse);
+        d.removeShape(ellipse);
         //check if ellipse is delete from figures
         assertFalse("Ellipse is not delete from figures",figures.contains(ellipse));
         //check if in pos0 i have line and in pos1 i have rectangle
@@ -125,19 +143,19 @@ public class DrawingTest {
         
         
         //test remove rectangle
-        d.removeFigure(rectangle);
+        d.removeShape(rectangle);
         //check if rectangle is delete from figures
         assertFalse("Rectangle is not delete from figures",figures.contains(rectangle));
         
         
         //test remove line
-        d.removeFigure(line);
+        d.removeShape(line);
         //check if line is delete from figures
         assertFalse("Line is not delete from figures",figures.contains(line));
         
     }
     @Test
-    public void testMoveToForeground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+    public void testMoveToForeground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, Exception{
         System.out.println("move to foreground");
         
         Field listField = Drawing.class.getDeclaredField("figures");
@@ -179,7 +197,7 @@ public class DrawingTest {
     }
     
     @Test
-    public void testMoveToBackground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+    public void testMoveToBackground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, Exception{
         System.out.println("move to background");
         
         Field listField = Drawing.class.getDeclaredField("figures");
