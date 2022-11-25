@@ -4,16 +4,24 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
+//import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import java.lang.reflect.Field;
 import javafx.application.Application;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 
 /**
@@ -28,6 +36,8 @@ public class ControllerTest {
     private Field selectionToggleButtonField;
     private Field toolToggleGroup;
     private Field selectedToolField;
+    private Field drawPaneField;
+    private Field drawingField;
     
     public static class AsNonApp extends Application {
 
@@ -62,6 +72,8 @@ public class ControllerTest {
        selectionToggleButtonField = Controller.class.getDeclaredField("selectionToggleButton");
        toolToggleGroup = Controller.class.getDeclaredField("toolToggleGroup");
        selectedToolField = Controller.class.getDeclaredField("selectedTool");
+       drawPaneField = Controller.class.getDeclaredField("drawPane");
+       drawingField = Controller.class.getDeclaredField("draw");
        
        c = new Controller();
    }
@@ -138,4 +150,81 @@ public class ControllerTest {
        line.selectedProperty().set(true);
        Assert.assertEquals("Test Rectangle selected", DrawLineTool.getInstance(), this.selectedToolField.get(c));  
     }
+    
+    @Test
+    public void testAddShape() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, Exception{
+        System.out.println("add");
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        //check if in DrawPane i have the shape
+        MyEnhancedEllipse ellipse= new MyEnhancedEllipse();
+        c.addShape(ellipse);
+        //check if in DrawPane i have the ellipse
+        assertTrue("Error in addShape",pane.getChildren().contains(ellipse));
+    
+        MyEnhancedRectangle rectangle= new MyEnhancedRectangle();
+        c.addShape(rectangle);
+        //check if in DrawPane i have the ellipse
+        assertTrue("Error in addShape",pane.getChildren().contains(rectangle));
+    
+        MyEnhancedLine line= new MyEnhancedLine();
+        c.addShape(line);
+        //check if in DrawPane i have the ellipse
+        assertTrue("Error in addShape",pane.getChildren().contains(line));
+    }
+    
+    @Test (expected=Exception.class)
+    public void testRemove3() throws NoSuchFieldException, IllegalAccessException, Exception{
+        System.out.println("remove");
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        //try to delete an ellipse that is not in the list
+        MyEnhancedEllipse ellipse=new MyEnhancedEllipse();
+        c.removeShape(ellipse);        
+    }
+    
+    
+    @Test
+    public void testRemoveShape() throws IllegalArgumentException, IllegalAccessException, Exception{
+        System.out.println("remove");
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        //add
+        MyEnhancedEllipse ellipse= new MyEnhancedEllipse();
+        c.addShape(ellipse);
+        MyEnhancedRectangle rectangle= new MyEnhancedRectangle();
+        c.addShape(rectangle);
+        MyEnhancedLine line= new MyEnhancedLine();
+        c.addShape(line);
+        
+        //remove
+        c.removeShape(ellipse);
+        assertFalse("Error in removeShape",pane.getChildren().contains(ellipse));
+        c.removeShape(line);
+        assertFalse("Error in removeShape",pane.getChildren().contains(line));
+        c.removeShape(rectangle);
+        assertFalse("Error in removeShape",pane.getChildren().contains(rectangle));
+    }
+    
 }

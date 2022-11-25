@@ -6,6 +6,8 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
@@ -44,7 +46,11 @@ public abstract class DrawShapeTool implements Tool{
         
         this.setPreviewShape(this.createShape(startX, startY, startX, startY));
         this.getPreviewShape().mySetVisible(true);
-        c.addShape(previewShape);
+        try {
+            c.addShape(previewShape);
+        } catch (Exception ex) {
+            Logger.getLogger(DrawShapeTool.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -92,7 +98,11 @@ public abstract class DrawShapeTool implements Tool{
         
         shape = this.createShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
         
-        c.addShape(shape);
+        try {
+            c.addShape(shape);
+        } catch (Exception ex) {
+            Logger.getLogger(DrawShapeTool.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         this.getPreviewShape().mySetVisible(false);
         this.setPreviewShape(null);
