@@ -107,6 +107,11 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         return super.fillProperty();
     }
 
+    @Override
+    public String myGetId() {
+        return super.getId();
+    }
+
    
     
 }

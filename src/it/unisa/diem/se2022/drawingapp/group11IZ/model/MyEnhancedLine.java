@@ -104,5 +104,9 @@ public class MyEnhancedLine extends Line implements MyLine{
     public ObjectProperty<Paint> myFillProperty() {
         return super.fillProperty();
     }
-    
+    @Override
+    public String myGetId() {
+        return super.getId();
+    }
+
 }
