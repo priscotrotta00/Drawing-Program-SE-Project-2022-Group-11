@@ -112,17 +112,7 @@ public class Controller implements Initializable {
         clip.widthProperty().bind(drawPane.widthProperty());
         drawPane.setClip(clip);
         
-        drawPane.setOnDragDetected(value -> {
-            selectedTool.handleOnDragBegin(this, value);
-            drawPane.setOnMouseDragged(event -> {
-                selectedTool.handleOnMouseDrag(this, event);
-            });
-            drawPane.setOnMouseReleased(event -> {
-                selectedTool.handleOnDragEnd(this, event);
-                drawPane.setOnMouseReleased(event2 -> {});
-                drawPane.setOnMouseDragged(event2 -> {});
-            });
-        });
+        this.initializeDrawPaneEventHandlers();
         
     }
 
@@ -142,6 +132,31 @@ public class Controller implements Initializable {
             this.updateSelectedTool(toolToggleGroup.getSelectedToggle());
         });
         rectangleToggleButton.selectedProperty().setValue(true);
+    }
+    
+    /**
+     * Initialize the Draw Pane Event Handlers
+     */
+    public void initializeDrawPaneEventHandlers(){
+        drawPane.setOnDragDetected(value -> {
+            selectedTool.handleOnDragBegin(this, value);
+            drawPane.setOnMouseDragged(event -> {
+                selectedTool.handleOnMouseDrag(this, event);
+            });
+            drawPane.setOnMouseReleased(event -> {
+                selectedTool.handleOnDragEnd(this, event);
+                drawPane.setOnMouseReleased(event2 -> {});
+                drawPane.setOnMouseDragged(event2 -> {});
+            });
+        });
+        
+        drawPane.setOnMouseClicked(event -> {
+            selectedTool.handleOnPrimaryMouseClick(this, event);
+        });
+        
+        drawPane.setOnContextMenuRequested(event -> {
+            selectedTool.handleOnContextMenuRequested(this, event);
+        });
     }
 
     public void updateDraw(){

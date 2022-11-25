@@ -117,6 +117,15 @@ public class DrawRectangleToolTest {
     }
     
     @Test
+    public void testCreateShapeLongY(){
+        Rectangle test = (Rectangle) tool.createShape(10, 10, 20, 30);
+        Assert.assertEquals("Test getX == 10", test.getX(), 10, 0);
+        Assert.assertEquals("Test getY == 10", test.getY() , 10, 0);
+        Assert.assertEquals("Test width == 10", test.getWidth(), 10, 0);
+        Assert.assertEquals("Test heigth == 20", test.getHeight(), 20, 0);
+    }
+    
+    @Test
     public void testCreateShapeHLine(){
         Rectangle test = (Rectangle) tool.createShape(10, 10, 50, 10);
         Assert.assertEquals("Test Rectangle no Height getX == 10", test.getX(), 10, 0);

@@ -6,6 +6,11 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 
@@ -101,13 +106,13 @@ public abstract class DrawShapeTool implements Tool{
 
     @Override
     public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //NOP
     }
 
     @Override
-    public void handleOnSecondaryMouseClick(Controller c, MouseEvent event) {
+    public void handleOnContextMenuRequested(Controller c, ContextMenuEvent event) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }    
+    }
     
     /**
      * Method that calculate the top left X coordinate according to the diagonal
