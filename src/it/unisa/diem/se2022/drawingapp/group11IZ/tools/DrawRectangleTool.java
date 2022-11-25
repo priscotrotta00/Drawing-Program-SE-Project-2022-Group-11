@@ -24,6 +24,26 @@ public class DrawRectangleTool extends DrawShapeTool{
         return singleton;
     }
 
+    /**
+     * Method that returns the width of a rectangle gven its X coordinates
+     * @param topLeftX X coordinate of the upper-left point
+     * @param bottomRightX X coordinate of the bottom-right point
+     * @return Width of rectangle
+     */
+    private double computeRectangleWidth(double topLeftX, double bottomRightX){
+        return bottomRightX - topLeftX;
+    }
+    
+    /**
+     * Method that returns the height of a rectangle gven its X coordinates
+     * @param topLeftY Y coordinate of the upper-left point
+     * @param bottomRightY Y coordinate of the bottom-right point
+     * @return Height
+     */
+    private double computeRectangleHeight(double topLeftY, double bottomRightY){
+        return bottomRightY - topLeftY;
+    }
+
     /***
      * Method that create a new Rectangle as a Shape using the passed coordinates
      * to calculate width and height. The new rectangle will have a black stroke 
@@ -36,8 +56,8 @@ public class DrawRectangleTool extends DrawShapeTool{
      */
     @Override
     public MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
-        double width = bottomRightX - topLeftX;
-        double height = bottomRightY - topLeftY;
+        double width = this.computeRectangleWidth(topLeftX, bottomRightX);
+        double height = this.computeRectangleHeight(topLeftY, bottomRightY);
         Color strokeColor = Color.BLACK;
         Color fillColor = Color.WHITE;
         MyRectangle rectangle = new MyEnhancedRectangle();

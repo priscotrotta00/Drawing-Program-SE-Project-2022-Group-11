@@ -8,14 +8,16 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 
 /**
- *
- * @author utente
+ * Abstract class that represents a drawing shape tool. It defines the basic 
+ * behavior
+ * @author Felice Scala
  */
 public abstract class DrawShapeTool implements Tool{
     private Double startX, startY;
@@ -32,6 +34,11 @@ public abstract class DrawShapeTool implements Tool{
         this.startY = event.getY();
     }
 
+    /**
+     * Method that handle the OnMouseDragged event genereated on the drawPane
+     * @param c Controller
+     * @param event Generated Event
+     */
     @Override
     public void handleOnMouseDrag(Controller c, MouseDragEvent event) {
         
@@ -70,12 +77,12 @@ public abstract class DrawShapeTool implements Tool{
 
     @Override
     public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
-        
+        //NOP
     }
 
     @Override
-    public void handleOnSecondaryMouseClick(Controller c, MouseEvent event) {
-        
+    public void handleOnContextMenuRequested(Controller c, ContextMenuEvent event) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     /**
