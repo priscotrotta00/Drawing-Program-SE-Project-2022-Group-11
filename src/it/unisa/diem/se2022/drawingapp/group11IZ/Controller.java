@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
@@ -79,6 +80,8 @@ public class Controller implements Initializable {
     @FXML
     private Button pasteButton;
     
+    private Drawing draw;
+    
     //ADDED
     private ToggleGroup toolToggleGroup;
     private ToggleGroup colorToggleGroup;
@@ -113,6 +116,10 @@ public class Controller implements Initializable {
         drawPane.setClip(clip);
         
         this.initializeDrawPaneEventHandlers();
+        
+        //create draw
+        this.draw=new Drawing();
+        
         
     }
 
@@ -180,8 +187,38 @@ public class Controller implements Initializable {
         
     }
     
-    public void addShape(MyShape shape){
+    /**
+     * Add MyShape into draw and into Pane. 
+     * @param shape 
+     */
+    public void addShape(MyShape shape) throws Exception{
         drawPane.getChildren().add((Shape) shape);
+        this.draw.addShape(shape);
+    }
+    
+    /**
+     * Delete MyShape draw and into Pane.
+     * @param event 
+     */
+    public void removeShape(MyShape myShape) throws Exception{
+        drawPane.getChildren().remove(myShape);
+        this.draw.removeShape(myShape); 
+    }
+    
+    /**
+     * Move the shape in foreground
+     * @param myShape 
+     */
+    public void moveShapeToForeground(MyShape myShape){
+        this.draw.moveToForeground(myShape);
+    }
+    
+    /**
+     * Move the shape in background
+     * @param myShape 
+     */
+    public void moveShapeToBackground(MyShape myShape){
+        this.draw.moveToBackground(myShape);
     }
     
     @FXML
