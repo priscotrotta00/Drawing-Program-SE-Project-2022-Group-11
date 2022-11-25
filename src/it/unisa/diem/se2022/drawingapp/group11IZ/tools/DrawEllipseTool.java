@@ -56,5 +56,23 @@ public class DrawEllipseTool extends DrawShapeTool{
         
         return result;
     }
+
+    @Override
+    protected void modifyPreviewShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+        double radiusX = (bottomRightX - topLeftX)/2;
+        double radiusY = (bottomRightY - topLeftY)/2;
+        double centerX = radiusX + topLeftX;
+        double centerY = radiusY + topLeftY;
+        Color strokeColor = Color.BLACK;
+        Color fillColor = Color.WHITE;
+        MyEllipse result = (MyEllipse) this.getPreviewShape();
+        
+        result.mySetCenterX(centerX);
+        result.mySetCenterY(centerY);
+        result.mySetRadiusX(radiusX);
+        result.mySetRadiusY(radiusY);
+        result.mySetStroke(strokeColor);
+        result.mySetFill(fillColor);
+    }
     
 }

@@ -6,20 +6,26 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 
 /**
- *
- * @author utente
+ * Abstract class that represents a drawing shape tool. It defines the basic 
+ * behavior
+ * @author Felice Scala
  */
 public abstract class DrawShapeTool implements Tool{
     private Double startX, startY;
     private Double endX, endY;
+    private MyShape previewShape;
+    
+    protected MyShape getPreviewShape(){
+        return this.previewShape;
+    }
+    
+    protected void setPreviewShape(MyShape shape){
+        this.previewShape = shape;
+    }
 
     /**
      * Method that handle the OnDragDetected event genereated on the drawPane
@@ -30,11 +36,32 @@ public abstract class DrawShapeTool implements Tool{
     public void handleOnDragBegin(Controller c, MouseEvent event) {
         this.startX = event.getX();
         this.startY = event.getY();
+        
+        this.setPreviewShape(this.createShape(startX, startY, startX, startY));
+        this.getPreviewShape().mySetVisible(true);
+        c.addShape(previewShape);
     }
 
+    /**
+     * Method that handle the OnMouseDragged event genereated on the drawPane
+     * @param c Controller
+     * @param event Generated Event
+     */
     @Override
-    public void handleOnMouseDrag(Controller c, MouseDragEvent event) {
+    public void handleOnMouseDrag(Controller c, MouseEvent event) {
+        double topLeftX, topLeftY, bottomRightX, bottomRightY;
         
+        this.endX = event.getX();
+        this.endY = event.getY();
+        
+        if (this.startX == null || this.startY == null) return;
+        
+        topLeftX = this.calculateTopLeftX(startX, startY, endX, endY);
+        topLeftY = this.calculateTopLeftY(startX, startY, endX, endY);
+        bottomRightX = this.calculateBottomRightX(startX, startY, endX, endY);
+        bottomRightY = this.calculateBottomRightY(startX, startY, endX, endY);
+        
+        this.modifyPreviewShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
     }
 
     /**
@@ -62,6 +89,10 @@ public abstract class DrawShapeTool implements Tool{
         
         c.addShape(shape);
         
+        this.getPreviewShape().mySetVisible(false);
+        this.setPreviewShape(null);
+        //remove shape
+        
         this.startX = null;
         this.startY = null;
         this.endX = null;
@@ -70,13 +101,13 @@ public abstract class DrawShapeTool implements Tool{
 
     @Override
     public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
-        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void handleOnSecondaryMouseClick(Controller c, MouseEvent event) {
-        
-    }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }    
     
     /**
      * Method that calculate the top left X coordinate according to the diagonal
@@ -131,5 +162,7 @@ public abstract class DrawShapeTool implements Tool{
     }
     
     public abstract MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
+    
+    protected abstract void modifyPreviewShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
     
 }

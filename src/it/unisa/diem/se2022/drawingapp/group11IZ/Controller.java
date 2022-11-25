@@ -114,9 +114,13 @@ public class Controller implements Initializable {
         
         drawPane.setOnDragDetected(value -> {
             selectedTool.handleOnDragBegin(this, value);
+            drawPane.setOnMouseDragged(event -> {
+                selectedTool.handleOnMouseDrag(this, event);
+            });
             drawPane.setOnMouseReleased(event -> {
                 selectedTool.handleOnDragEnd(this, event);
                 drawPane.setOnMouseReleased(event2 -> {});
+                drawPane.setOnMouseDragged(event2 -> {});
             });
         });
         

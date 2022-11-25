@@ -22,5 +22,6 @@ public interface MyShape  {
     public void mySetFill(Paint value);
     public ObjectProperty<Paint> myStrokeProperty();
     public ObjectProperty<Paint> myFillProperty();
+    public void mySetVisible(boolean value);
     
 }

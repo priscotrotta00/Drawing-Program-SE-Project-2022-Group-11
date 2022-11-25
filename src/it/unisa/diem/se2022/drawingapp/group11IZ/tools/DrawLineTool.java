@@ -63,5 +63,15 @@ public class DrawLineTool extends DrawShapeTool{
         
         return result;
     }
+
+    @Override
+    protected void modifyPreviewShape(double startX, double startY, double endX, double endY) {
+        MyLine result = (MyLine) this.getPreviewShape();
+        
+        result.mySetStartX(startX);
+        result.mySetStartY(startY);
+        result.mySetEndX(endX);
+        result.mySetEndY(endY);
+    }
     
 }

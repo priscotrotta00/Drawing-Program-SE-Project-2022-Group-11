@@ -105,4 +105,9 @@ public class MyEnhancedLine extends Line implements MyLine{
         return super.fillProperty();
     }
     
+    @Override
+    public void mySetVisible(boolean value) {
+        super.setVisible(value);
+    }
+    
 }

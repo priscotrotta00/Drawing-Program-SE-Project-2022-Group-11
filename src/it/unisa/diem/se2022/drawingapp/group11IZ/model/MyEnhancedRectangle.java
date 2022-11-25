@@ -104,5 +104,10 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
     public ObjectProperty<Paint> myFillProperty() {
         return super.fillProperty();
     }
+    
+    @Override
+    public void mySetVisible(boolean value) {
+        super.setVisible(value);
+    }
    
 }

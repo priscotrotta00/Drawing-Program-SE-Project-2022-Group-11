@@ -5,18 +5,18 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
- *
- * @author utente
+ * Interface that represents a tool that modify the behaviour of the drawing pane
+ * in the main interface
+ * @author Felice Scala
  */
 public interface Tool {
     
     public void handleOnDragBegin(Controller c, MouseEvent event);
     
-    public void handleOnMouseDrag(Controller c, MouseDragEvent event);
+    public void handleOnMouseDrag(Controller c, MouseEvent event);
     
     public void handleOnDragEnd(Controller c, MouseEvent event);
     

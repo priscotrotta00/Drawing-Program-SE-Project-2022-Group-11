@@ -107,7 +107,10 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         return super.fillProperty();
     }
 
-   
+    @Override
+    public void mySetVisible(boolean value) {
+        super.setVisible(value);
+    }
     
 }
 
