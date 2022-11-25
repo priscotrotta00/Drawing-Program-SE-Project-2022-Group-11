@@ -4,8 +4,10 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
 
 
 
@@ -13,7 +15,7 @@ import javafx.scene.paint.Paint;
  *
  * @author saram
  */
-public interface MyShape  {
+public interface MyShape{
     /*Contains the most commonly used Shape methods*/
     
     public Paint myGetStroke();
@@ -22,5 +24,6 @@ public interface MyShape  {
     public void mySetFill(Paint value);
     public ObjectProperty<Paint> myStrokeProperty();
     public ObjectProperty<Paint> myFillProperty();
+    public void accept(Visitor v);
     
 }

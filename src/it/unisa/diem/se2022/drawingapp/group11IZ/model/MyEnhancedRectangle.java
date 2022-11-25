@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.paint.Paint;
@@ -103,6 +104,11 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
     @Override
     public ObjectProperty<Paint> myFillProperty() {
         return super.fillProperty();
+    }
+
+    @Override
+    public void accept(Visitor v) {
+        v.visitRectangle(this);
     }
    
 }

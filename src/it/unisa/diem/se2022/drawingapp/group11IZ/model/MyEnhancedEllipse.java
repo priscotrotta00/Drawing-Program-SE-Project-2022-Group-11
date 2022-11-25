@@ -5,6 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.paint.Paint;
@@ -16,7 +17,6 @@ import javafx.scene.shape.Ellipse;
  */
 public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
 
-    
     @Override
     public double myGetCenterX() {
         return super.getCenterX();
@@ -49,7 +49,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
 
     @Override
     public void mySetRadiusX(double value) {
-        super.setRadiusY(value);
+        super.setRadiusX(value);
     }
 
     @Override
@@ -107,7 +107,10 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         return super.fillProperty();
     }
 
-   
+    @Override
+    public void accept(Visitor v) {
+        v.visitEllipse(this);
+    }   
     
 }
 
