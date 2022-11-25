@@ -9,6 +9,8 @@
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -28,8 +30,22 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="58.0" prefWidth="122.0" spacing="20.0">
                                  <children>
-                                    <Button fx:id="loadButton" mnemonicParsing="false" onAction="#onLoadAction" prefHeight="40.0" prefWidth="70.0" text="Load" />
-                                    <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveAction" prefHeight="40.0" prefWidth="70.0" text="Save" />
+                                    <Button fx:id="loadButton" mnemonicParsing="false" onAction="#onLoadAction" prefHeight="40.0" prefWidth="70.0">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../../../../../images/load.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic></Button>
+                                    <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveAction" prefHeight="40.0" prefWidth="70.0">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../../../../../images/save.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic></Button>
                                  </children>
                               </VBox>
                            </children>
@@ -57,9 +73,30 @@
                                     </HBox>
                                     <HBox alignment="BOTTOM_CENTER" prefHeight="69.0" prefWidth="262.0" spacing="10.0">
                                        <children>
-                                          <ToggleButton fx:id="lineToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Line" />
-                                          <ToggleButton fx:id="rectangleToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Rectangle" />
-                                          <ToggleButton fx:id="ellipseToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0" text="Ellipse" />
+                                          <ToggleButton fx:id="lineToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../../images/line.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></ToggleButton>
+                                          <ToggleButton fx:id="rectangleToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../../images/rectangle.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></ToggleButton>
+                                          <ToggleButton fx:id="ellipseToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="87.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../../images/circle.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></ToggleButton>
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
@@ -70,7 +107,14 @@
                                     </HBox>
                                     <HBox alignment="TOP_CENTER" prefHeight="64.0" prefWidth="262.0">
                                        <children>
-                                          <ToggleButton fx:id="selectionToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Selection" />
+                                          <ToggleButton fx:id="selectionToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../../images/selection.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></ToggleButton>
                                        </children>
                                        <VBox.margin>
                                           <Insets />
@@ -233,8 +277,22 @@
                                           </VBox>
                                           <VBox alignment="CENTER" prefHeight="135.0" prefWidth="130.0" spacing="10.0" style="-fx-border-color: grey;">
                                              <children>
-                                                <Button fx:id="changeStrokeColorButton" mnemonicParsing="false" onAction="#onChangeStrokeColorAction" prefHeight="40.0" prefWidth="75.0" text="Stroke" />
-                                                <Button fx:id="changeFillColorButton" mnemonicParsing="false" onAction="#onChangeFillColorAction" prefHeight="40.0" prefWidth="75.0" text="Fill" />
+                                                <Button fx:id="changeStrokeColorButton" mnemonicParsing="false" onAction="#onChangeStrokeColorAction" prefHeight="40.0" prefWidth="75.0">
+                                                   <graphic>
+                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../../../../../../../images/strokeColor.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic></Button>
+                                                <Button fx:id="changeFillColorButton" mnemonicParsing="false" onAction="#onChangeFillColorAction" prefHeight="40.0" prefWidth="75.0">
+                                                   <graphic>
+                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../../../../../../../images/borderColor.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic></Button>
                                              </children>
                                           </VBox>
                                        </children>
@@ -257,8 +315,22 @@
                                     </HBox>
                                     <HBox alignment="BOTTOM_CENTER" prefHeight="43.0" prefWidth="298.0" spacing="10.0" style="-fx-background-color: light-grey;">
                                        <children>
-                                          <Button fx:id="copyButton" mnemonicParsing="false" onAction="#onCopyAction" prefHeight="25.0" prefWidth="100.0" text="Copy" />
-                                          <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteAction" prefHeight="25.0" prefWidth="100.0" text="Delete" />
+                                          <Button fx:id="copyButton" mnemonicParsing="false" onAction="#onCopyAction" prefHeight="25.0" prefWidth="100.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../../images/copyButton.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
+                                          <Button fx:id="deleteButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#onDeleteAction" prefHeight="25.0" prefWidth="100.0" style="image: ./images/deleteButton;">
+                                             <graphic>
+                                                <ImageView accessibleRole="BUTTON" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../../images/deleteButton.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
                                        </children>
                                        <opaqueInsets>
                                           <Insets top="8.0" />
@@ -269,8 +341,22 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="51.0" prefWidth="306.0" spacing="10.0">
                                        <children>
-                                          <Button fx:id="cutButton" mnemonicParsing="false" onAction="#onCutAction" prefHeight="25.0" prefWidth="100.0" text="Cut" />
-                                          <Button fx:id="pasteButton" mnemonicParsing="false" onAction="#onPasteAction" prefHeight="25.0" prefWidth="100.0" text="Paste" />
+                                          <Button fx:id="cutButton" mnemonicParsing="false" onAction="#onCutAction" prefHeight="25.0" prefWidth="100.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../../images/cut.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
+                                          <Button fx:id="pasteButton" mnemonicParsing="false" onAction="#onPasteAction" prefHeight="25.0" prefWidth="100.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../../images/pasteButton.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
                                        </children>
                                        <padding>
                                           <Insets bottom="4.0" top="4.0" />
@@ -278,8 +364,14 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="50.0" prefWidth="306.0" spacing="10.0" style="-fx-background-color: light-grey;">
                                        <children>
-                                          <Button disable="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Foreground" />
-                                          <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Background" />
+                                          <Button disable="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                                             </graphic></Button>
+                                          <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                                             </graphic></Button>
                                        </children>
                                        <padding>
                                           <Insets bottom="8.0" top="4.0" />
