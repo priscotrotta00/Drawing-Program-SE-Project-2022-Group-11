@@ -88,7 +88,12 @@ public class SelectTool implements Tool{
             return;
         }
         
+        
         MyShape shape = (MyShape) eventTarget;
+        
+        if(selectedShape.selectedProperty().get())
+            selectedShape.unSelect();
+        
         setSelectedShape(shape);
     }
 
