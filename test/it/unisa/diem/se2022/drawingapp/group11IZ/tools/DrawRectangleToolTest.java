@@ -4,6 +4,8 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import javafx.scene.shape.Rectangle;
 import org.junit.After;
 import org.junit.Assert;
@@ -26,130 +28,237 @@ public class DrawRectangleToolTest {
     @After
     public void tearDown() {
     }
+    
+    @Test
+    public void testCalculateCoordinates1() {
+        Assert.assertEquals("Test startX < endX && startY < endY", 10, tool.calculateTopLeftX(10, 10, 30, 20), 0);
+        Assert.assertEquals("Test startX < endX && startY < endY", 10, tool.calculateTopLeftY(10, 10, 30, 20), 0);
+        Assert.assertEquals("Test startX < endX && startY < endY", 30, tool.calculateBottomRightX(10, 10, 30, 20), 0);
+        Assert.assertEquals("Test startX < endX && startY < endY", 20, tool.calculateBottomRightY(10, 10, 30, 20), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates2() {
+        Assert.assertEquals("Test startX > endX && startY < endY", 10, tool.calculateTopLeftX(30, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX > endX && startY < endY", 10, tool.calculateTopLeftY(30, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX > endX && startY < endY", 30, tool.calculateBottomRightX(30, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX > endX && startY < endY", 20, tool.calculateBottomRightY(30, 10, 10, 20), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates3() {
+        Assert.assertEquals("Test startX < endX && startY > endY", 10, tool.calculateTopLeftX(10, 20, 30, 10), 0);
+        Assert.assertEquals("Test startX < endX && startY > endY", 10, tool.calculateTopLeftY(10, 20, 30, 10), 0);
+        Assert.assertEquals("Test startX < endX && startY > endY", 30, tool.calculateBottomRightX(10, 20, 30, 10), 0);
+        Assert.assertEquals("Test startX < endX && startY > endY", 20, tool.calculateBottomRightY(10, 20, 30, 10), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates4() {
+        Assert.assertEquals("Test startX > endX && startY > endY", 10, tool.calculateTopLeftX(30, 20, 10, 10), 0);
+        Assert.assertEquals("Test startX > endX && startY > endY", 10, tool.calculateTopLeftY(30, 20, 10, 10), 0);
+        Assert.assertEquals("Test startX > endX && startY > endY", 30, tool.calculateBottomRightX(30, 20, 10, 10), 0);
+        Assert.assertEquals("Test startX > endX && startY > endY", 20, tool.calculateBottomRightY(30, 20, 10, 10), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates5() {
+        Assert.assertEquals("Test startX == endX && startY < endY", 10, tool.calculateTopLeftX(10, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX == endX && startY < endY", 10, tool.calculateTopLeftY(10, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX == endX && startY < endY", 10, tool.calculateBottomRightX(10, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX == endX && startY < endY", 20, tool.calculateBottomRightY(10, 10, 10, 20), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates6() {
+        Assert.assertEquals("Test startX == endX && startY > endY", 10, tool.calculateTopLeftX(10, 20, 10, 10), 0);
+        Assert.assertEquals("Test startX == endX && startY > endY", 10, tool.calculateTopLeftY(10, 20, 10, 10), 0);
+        Assert.assertEquals("Test startX == endX && startY > endY", 10, tool.calculateBottomRightX(10, 20, 10, 10), 0);
+        Assert.assertEquals("Test startX == endX && startY > endY", 20, tool.calculateBottomRightY(10, 20, 10, 10), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates7() {
+        Assert.assertEquals("Test startX > endX && startY == endY", 10, tool.calculateTopLeftX(10, 10, 30, 10), 0);
+        Assert.assertEquals("Test startX > endX && startY == endY", 10, tool.calculateTopLeftY(10, 10, 30, 10), 0);
+        Assert.assertEquals("Test startX > endX && startY == endY", 30, tool.calculateBottomRightX(10, 10, 30, 10), 0);
+        Assert.assertEquals("Test startX > endX && startY == endY", 10, tool.calculateBottomRightY(10, 10, 30, 10), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates8() {
+        Assert.assertEquals("Test startX < endX && startY == endY", 10, tool.calculateTopLeftX(30, 10, 10, 10), 0);
+        Assert.assertEquals("Test startX < endX && startY == endY", 10, tool.calculateTopLeftY(30, 10, 10, 10), 0);
+        Assert.assertEquals("Test startX < endX && startY == endY", 30, tool.calculateBottomRightX(30, 10, 10, 10), 0);
+        Assert.assertEquals("Test startX < endX && startY == endY", 10, tool.calculateBottomRightY(30, 10, 10, 10), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates9() {
+        Assert.assertEquals("Test startX == endX && startY == endY", 10, tool.calculateTopLeftX(10, 10, 10, 10), 0);
+        Assert.assertEquals("Test startX == endX && startY == endY", 10, tool.calculateTopLeftY(10, 10, 10, 10), 0);
+        Assert.assertEquals("Test startX == endX && startY == endY", 10, tool.calculateBottomRightX(10, 10, 10, 10), 0);
+        Assert.assertEquals("Test startX == endX && startY == endY", 10, tool.calculateBottomRightY(10, 10, 10, 10), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates10() {
+        Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", -10, tool.calculateTopLeftX(-10, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", 10, tool.calculateTopLeftY(-10, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", 10, tool.calculateBottomRightX(-10, 10, 10, 20), 0);
+        Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", 20, tool.calculateBottomRightY(-10, 10, 10, 20), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates11() {
+        Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", -10, tool.calculateTopLeftX(10, 10, -10, 20), 0);
+        Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", 10, tool.calculateTopLeftY(10, 10, -10, 20), 0);
+        Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", 10, tool.calculateBottomRightX(10, 10, -10, 20), 0);
+        Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", 20, tool.calculateBottomRightY(10, 10, -10, 20), 0);
+    }
+    
+    @Test
+    public void testCalculateCoordinates12() {
+        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", -30, tool.calculateTopLeftX(-30, -10, 10, 20), 0);
+        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", -10, tool.calculateTopLeftY(-30, -10, 10, 20), 0);
+        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", 10, tool.calculateBottomRightX(-30, -10, 10, 20), 0);
+        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", 20, tool.calculateBottomRightY(-30, -10, 10, 20), 0);
+    }
 
     @Test
-    public void testCalculateTopLeftX() {
-        Assert.assertEquals("Test startX < endX && startY < endY", 10, tool.calculateTopLeftX(10, 10, 30, 20), 0);
-        Assert.assertEquals("Test startX > endX && startY < endY", 10, tool.calculateTopLeftX(30, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX < endX && startY > endY", 10, tool.calculateTopLeftX(10, 20, 30, 10), 0);
-        Assert.assertEquals("Test startX > endX && startY > endY", 10, tool.calculateTopLeftX(30, 20, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX == endX && startY < endY", 10, tool.calculateTopLeftX(10, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX == endX && startY > endY", 10, tool.calculateTopLeftX(10, 20, 10, 10), 0);
-        Assert.assertEquals("Test startX > endX && startY == endY", 10, tool.calculateTopLeftX(10, 10, 30, 10), 0);
-        Assert.assertEquals("Test startX < endX && startY == endY", 10, tool.calculateTopLeftX(30, 10, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX == endX && startY == endY", 10, tool.calculateTopLeftX(10, 10, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", -10, tool.calculateTopLeftX(-10, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", -10, tool.calculateTopLeftX(10, 10, -10, 20), 0);
-        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", -30, tool.calculateTopLeftX(-30, -10, 10, 20), 0);
+    public void testCalculateCoordinates13() {
         Assert.assertEquals("Test startX < endX < 0 && endY < startY < 0", -30, tool.calculateTopLeftX(-30, -10, -10, -20), 0);
-    }
-    
-    @Test
-    public void testCalculateTopLeftY() {
-        Assert.assertEquals("Test startX < endX && startY < endY", 10, tool.calculateTopLeftY(10, 10, 30, 20), 0);
-        Assert.assertEquals("Test startX > endX && startY < endY", 10, tool.calculateTopLeftY(30, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX < endX && startY > endY", 10, tool.calculateTopLeftY(10, 20, 30, 10), 0);
-        Assert.assertEquals("Test startX > endX && startY > endY", 10, tool.calculateTopLeftY(30, 20, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX == endX && startY < endY", 10, tool.calculateTopLeftY(10, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX == endX && startY > endY", 10, tool.calculateTopLeftY(10, 20, 10, 10), 0);
-        Assert.assertEquals("Test startX > endX && startY == endY", 10, tool.calculateTopLeftY(10, 10, 30, 10), 0);
-        Assert.assertEquals("Test startX < endX && startY == endY", 10, tool.calculateTopLeftY(30, 10, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX == endX && startY == endY", 10, tool.calculateTopLeftY(10, 10, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", 10, tool.calculateTopLeftY(-10, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", 10, tool.calculateTopLeftY(10, 10, -10, 20), 0);
-        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", -10, tool.calculateTopLeftY(-30, -10, 10, 20), 0);
         Assert.assertEquals("Test startX < endX < 0 && endY < startY < 0", -20, tool.calculateTopLeftY(-30, -10, -10, -20), 0);
-    }
-    
-    @Test
-    public void testcalculateBottomRightX() {
-        Assert.assertEquals("Test startX < endX && startY < endY", 30, tool.calculateBottomRightX(10, 10, 30, 20), 0);
-        Assert.assertEquals("Test startX > endX && startY < endY", 30, tool.calculateBottomRightX(30, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX < endX && startY > endY", 30, tool.calculateBottomRightX(10, 20, 30, 10), 0);
-        Assert.assertEquals("Test startX > endX && startY > endY", 30, tool.calculateBottomRightX(30, 20, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX == endX && startY < endY", 10, tool.calculateBottomRightX(10, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX == endX && startY > endY", 10, tool.calculateBottomRightX(10, 20, 10, 10), 0);
-        Assert.assertEquals("Test startX > endX && startY == endY", 30, tool.calculateBottomRightX(10, 10, 30, 10), 0);
-        Assert.assertEquals("Test startX < endX && startY == endY", 30, tool.calculateBottomRightX(30, 10, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX == endX && startY == endY", 10, tool.calculateBottomRightX(10, 10, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", 10, tool.calculateBottomRightX(-10, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", 10, tool.calculateBottomRightX(10, 10, -10, 20), 0);
-        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", 10, tool.calculateBottomRightX(-30, -10, 10, 20), 0);
         Assert.assertEquals("Test startX < endX < 0 && endY < startY < 0", -10, tool.calculateBottomRightX(-30, -10, -10, -20), 0);
-    }
-    
-    @Test
-    public void testcalculateBottomRightY() {
-        Assert.assertEquals("Test startX < endX && startY < endY", 20, tool.calculateBottomRightY(10, 10, 30, 20), 0);
-        Assert.assertEquals("Test startX > endX && startY < endY", 20, tool.calculateBottomRightY(30, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX < endX && startY > endY", 20, tool.calculateBottomRightY(10, 20, 30, 10), 0);
-        Assert.assertEquals("Test startX > endX && startY > endY", 20, tool.calculateBottomRightY(30, 20, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX == endX && startY < endY", 20, tool.calculateBottomRightY(10, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX == endX && startY > endY", 20, tool.calculateBottomRightY(10, 20, 10, 10), 0);
-        Assert.assertEquals("Test startX > endX && startY == endY", 10, tool.calculateBottomRightY(10, 10, 30, 10), 0);
-        Assert.assertEquals("Test startX < endX && startY == endY", 10, tool.calculateBottomRightY(30, 10, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX == endX && startY == endY", 10, tool.calculateBottomRightY(10, 10, 10, 10), 0);
-        
-        Assert.assertEquals("Test startX < 0 && endX > 0 && 0 < startY < endY", 20, tool.calculateBottomRightY(-10, 10, 10, 20), 0);
-        Assert.assertEquals("Test startX > 0 && endX < 0 && 0 < endY < startY", 20, tool.calculateBottomRightY(10, 10, -10, 20), 0);
-        Assert.assertEquals("Test startX < endX < 0 && 0 < startY < endY", 20, tool.calculateBottomRightY(-30, -10, 10, 20), 0);
         Assert.assertEquals("Test startX < endX < 0 && endY < startY < 0", -10, tool.calculateBottomRightY(-30, -10, -10, -20), 0);
     }
     
     @Test
     public void testCreateShapeLongX(){
         Rectangle test = (Rectangle) tool.createShape(10, 10, 30, 20);
-        Assert.assertEquals("Test getX == 10", test.getX(), 10, 0);
-        Assert.assertEquals("Test getY == 10", test.getY() , 10, 0);
-        Assert.assertEquals("Test width == 20", test.getWidth(), 20, 0);
-        Assert.assertEquals("Test heigth == 10", test.getHeight(), 10, 0);
+        Assert.assertEquals("Test getX == 10", 10, test.getX(), 0);
+        Assert.assertEquals("Test getY == 10", 10, test.getY(), 0);
+        Assert.assertEquals("Test width == 20", 20, test.getWidth(), 0);
+        Assert.assertEquals("Test heigth == 10", 10, test.getHeight(), 0);
     }
     
     @Test
     public void testCreateShapeLongY(){
         Rectangle test = (Rectangle) tool.createShape(10, 10, 20, 30);
-        Assert.assertEquals("Test getX == 10", test.getX(), 10, 0);
-        Assert.assertEquals("Test getY == 10", test.getY() , 10, 0);
-        Assert.assertEquals("Test width == 10", test.getWidth(), 10, 0);
-        Assert.assertEquals("Test heigth == 20", test.getHeight(), 20, 0);
+        Assert.assertEquals("Test getX == 10", 10, test.getX(), 0);
+        Assert.assertEquals("Test getY == 10", 10, test.getY(), 0);
+        Assert.assertEquals("Test width == 10", 10, test.getWidth(), 0);
+        Assert.assertEquals("Test heigth == 20", 20, test.getHeight(), 0);
     }
     
     @Test
     public void testCreateShapeHLine(){
         Rectangle test = (Rectangle) tool.createShape(10, 10, 50, 10);
-        Assert.assertEquals("Test Rectangle no Height getX == 10", test.getX(), 10, 0);
-        Assert.assertEquals("Test Rectangle no Height getY == 10", test.getX(), 10, 0);
-        Assert.assertEquals("Test Rectangle no Height getWidth == 40", test.getWidth(), 40, 0);
-        Assert.assertEquals("Test Rectangle no Height getHeight == 0", test.getHeight(), 0, 0);
+        Assert.assertEquals("Test Rectangle no Height getX == 10", 10, test.getX(), 0);
+        Assert.assertEquals("Test Rectangle no Height getY == 10", 10, test.getY(), 0);
+        Assert.assertEquals("Test Rectangle no Height getWidth == 40", 40, test.getWidth(), 0);
+        Assert.assertEquals("Test Rectangle no Height getHeight == 0", 0, test.getHeight(), 0);
     }
 
     @Test
     public void testCreateShapeVLine(){
         Rectangle test = (Rectangle) tool.createShape(10, 10, 10, 50);
-        Assert.assertEquals("Test Rectangle no Width getX == 10", test.getX(), 10, 0);
-        Assert.assertEquals("Test Rectangle no Width getY == 10", test.getX(), 10, 0);
-        Assert.assertEquals("Test Rectangle no Width getWidth == 0", test.getWidth(), 0, 0);
-        Assert.assertEquals("Test Rectangle no Width getHeight == 40", test.getHeight(), 40, 0);
+        Assert.assertEquals("Test Rectangle no Width getX == 10", 10, test.getX(), 0);
+        Assert.assertEquals("Test Rectangle no Width getY == 10", 10, test.getY(), 0);
+        Assert.assertEquals("Test Rectangle no Width getWidth == 0", 0, test.getWidth(), 0);
+        Assert.assertEquals("Test Rectangle no Width getHeight == 40", 40, test.getHeight(), 0);
     }
 
     @Test
     public void testCreateShapePoint(){
         Rectangle test = (Rectangle) tool.createShape(10, 10, 10, 10);
-        Assert.assertEquals("Test Rectangle as point getX == 10", test.getX(), 10, 0);
-        Assert.assertEquals("Test Rectangle as point getY == 10", test.getX(), 10, 0);
-        Assert.assertEquals("Test Rectangle as point getWidth == 0", test.getWidth(), 0, 0);
-        Assert.assertEquals("Test Rectangle as point getHeight == 0", test.getHeight(), 0, 0);
+        Assert.assertEquals("Test Rectangle as point getX == 10", 10, test.getX(), 0);
+        Assert.assertEquals("Test Rectangle as point getY == 10", 10, test.getY(), 0);
+        Assert.assertEquals("Test Rectangle as point getWidth == 0", 0, test.getWidth(), 0);
+        Assert.assertEquals("Test Rectangle as point getHeight == 0", 0, test.getHeight(), 0);
     }
     
+    @Test
+    public void testCreateShapeNegativeCoordinates(){
+        Rectangle test = (Rectangle) tool.createShape(-30, -20, -10, -10);
+        Assert.assertEquals("Test Rectangle as point getX == -30", -30, test.getX(), 0);
+        Assert.assertEquals("Test Rectangle as point getY == -20", -20, test.getY(), 0);
+        Assert.assertEquals("Test Rectangle as point getWidth == 20", 20, test.getWidth(), 0);
+        Assert.assertEquals("Test Rectangle as point getHeight == 10", 10, test.getHeight(), 0);
+    }
+    
+    @Test
+    public void testCreateShapeNegativePositiveCoordinates(){
+        Rectangle test = (Rectangle) tool.createShape(-30, -20, 10, 10);
+        Assert.assertEquals("Test Rectangle as point getX == -30", -30, test.getX(), 0);
+        Assert.assertEquals("Test Rectangle as point getY == -20", -20, test.getY(), 0);
+        Assert.assertEquals("Test Rectangle as point getWidth == 40", 40, test.getWidth(), 0);
+        Assert.assertEquals("Test Rectangle as point getHeight == 30", 30, test.getHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyCreatedShapeLongX() {
+        this.tool.setCreatedShape(new MyEnhancedRectangle());
+        this.tool.modifyCreatedShape(10, 10, 30, 20);
+        MyRectangle test = (MyRectangle) this.tool.getCreatedShape();
+        Assert.assertEquals("Test getX == 10", 10, test.myGetX(), 0);
+        Assert.assertEquals("Test getY == 10", 10, test.myGetY(), 0);
+        Assert.assertEquals("Test width == 20", 20, test.myGetWidth(), 0);
+        Assert.assertEquals("Test heigth == 10", 10, test.myGetHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyCreatedShapeLongY() {
+        this.tool.setCreatedShape(new MyEnhancedRectangle());
+        this.tool.modifyCreatedShape(10, 10, 20, 30);
+        MyRectangle test = (MyRectangle) this.tool.getCreatedShape();
+        Assert.assertEquals("Test getX == 10", 10, test.myGetX(), 0);
+        Assert.assertEquals("Test getY == 10", 10, test.myGetY(), 0);
+        Assert.assertEquals("Test width == 10", 10, test.myGetWidth(), 0);
+        Assert.assertEquals("Test heigth == 20", 20, test.myGetHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyCreatedShapeHLine() {
+        this.tool.setCreatedShape(new MyEnhancedRectangle());
+        this.tool.modifyCreatedShape(10, 10, 50, 10);
+        MyRectangle test = (MyRectangle) this.tool.getCreatedShape();
+        Assert.assertEquals("Test Rectangle no Height getX == 10", 10, test.myGetX(), 0);
+        Assert.assertEquals("Test Rectangle no Height getY == 10", 10, test.myGetY(), 0);
+        Assert.assertEquals("Test Rectangle no Height getWidth == 40", 40, test.myGetWidth(), 0);
+        Assert.assertEquals("Test Rectangle no Height getHeight == 0", 0, test.myGetHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyCreatedShapePoint() {
+        this.tool.setCreatedShape(new MyEnhancedRectangle());
+        this.tool.modifyCreatedShape(10, 10, 10, 10);
+        Rectangle test = (Rectangle) this.tool.getCreatedShape();
+        Assert.assertEquals("Test Rectangle as point getX == 10", 10, test.getX(), 0);
+        Assert.assertEquals("Test Rectangle as point getY == 10", 10, test.getY(), 0);
+        Assert.assertEquals("Test Rectangle as point getWidth == 0", 0, test.getWidth(), 0);
+        Assert.assertEquals("Test Rectangle as point getHeight == 0", 0, test.getHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyShapeNegativeCoordinates() {
+        this.tool.setCreatedShape(new MyEnhancedRectangle());
+        this.tool.modifyCreatedShape(-30, -20, -10, -10);
+        Rectangle test = (Rectangle) this.tool.getCreatedShape();
+        Assert.assertEquals("Test Rectangle as point getX == -30", -30, test.getX(), 0);
+        Assert.assertEquals("Test Rectangle as point getY == -20", -20, test.getY(), 0);
+        Assert.assertEquals("Test Rectangle as point getWidth == 20", 20, test.getWidth(), 0);
+        Assert.assertEquals("Test Rectangle as point getHeight == 10", 10, test.getHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyShapeNegativePositiveCoordinates() {
+        this.tool.setCreatedShape(new MyEnhancedRectangle());
+        this.tool.modifyCreatedShape(-30, -20, 10, 10);
+        Rectangle test = (Rectangle) this.tool.getCreatedShape();
+        Assert.assertEquals("Test Rectangle as point getX == -30", -30, test.getX(), 0);
+        Assert.assertEquals("Test Rectangle as point getY == -20", -20, test.getY(), 0);
+        Assert.assertEquals("Test Rectangle as point getWidth == 40", 40, test.getWidth(), 0);
+        Assert.assertEquals("Test Rectangle as point getHeight == 30", 30, test.getHeight(), 0);
+    }
 }

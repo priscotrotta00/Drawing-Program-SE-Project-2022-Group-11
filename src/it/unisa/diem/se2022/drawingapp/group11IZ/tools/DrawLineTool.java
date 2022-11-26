@@ -7,10 +7,13 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import javafx.scene.paint.Color;
 
 /**
- *
- * @author utente
+ * Class that represents the Draw Line Tool of a drawing app. It modifies
+ * the Pane behaviour in order to create and show a Line according to the
+ * mouse coordinates
+ * @author Felice Scala
  */
 public class DrawLineTool extends DrawShapeTool{
     
@@ -24,22 +27,22 @@ public class DrawLineTool extends DrawShapeTool{
     }
 
     @Override
-    public double calculateBottomRightY(double startX, double startY, double endX, double endY) {
+    double calculateBottomRightY(double startX, double startY, double endX, double endY) {
         return endY;
     }
 
     @Override
-    public double calculateBottomRightX(double startX, double startY, double endX, double endY) {
+    double calculateBottomRightX(double startX, double startY, double endX, double endY) {
         return endX;
     }
 
     @Override
-    public double calculateTopLeftY(double startX, double startY, double endX, double endY) {
+    double calculateTopLeftY(double startX, double startY, double endX, double endY) {
         return startY;
     }
 
     @Override
-    public double calculateTopLeftX(double startX, double startY, double endX, double endY) {
+    double calculateTopLeftX(double startX, double startY, double endX, double endY) {
         return startX;
     }
 
@@ -53,20 +56,30 @@ public class DrawLineTool extends DrawShapeTool{
      * @return A new line
      */
     @Override
-    public MyShape createShape(double startX, double startY, double endX, double endY) {
+    MyShape createShape(double startX, double startY, double endX, double endY) {
         MyLine result = new MyEnhancedLine();
+        Color strokeColor = Color.BLACK;
         
         result.mySetStartX(startX);
         result.mySetStartY(startY);
         result.mySetEndX(endX);
         result.mySetEndY(endY);
+        result.mySetStroke(strokeColor);
         
         return result;
     }
 
+    /**
+     * Method that create a new Line as a Shape using the passed coordinates. 
+     * The new line will have a black stroke and a white fill
+     * @param startX
+     * @param startY
+     * @param endX
+     * @param endY
+     */
     @Override
-    protected void modifyPreviewShape(double startX, double startY, double endX, double endY) {
-        MyLine result = (MyLine) this.getPreviewShape();
+    void modifyCreatedShape(double startX, double startY, double endX, double endY) {
+        MyLine result = (MyLine) this.getCreatedShape();
         
         result.mySetStartX(startX);
         result.mySetStartY(startY);

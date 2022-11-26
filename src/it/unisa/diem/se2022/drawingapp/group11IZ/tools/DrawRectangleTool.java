@@ -10,8 +10,10 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
 
 /**
- *
- * @author utente
+ * Class that represents the Draw Rectangle Tool of a drawing app. It modifies
+ * the Pane behaviour in order to create and show a Rectangle according to the
+ * mouse coordinates
+ * @author Felice Scala
  */
 public class DrawRectangleTool extends DrawShapeTool{
     
@@ -59,7 +61,7 @@ public class DrawRectangleTool extends DrawShapeTool{
      * @return A new Rectangle
      */
     @Override
-    public MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+    MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
         double width = this.computeRectangleWidth(topLeftX, bottomRightX);
         double height = this.computeRectangleHeight(topLeftY, bottomRightY);
         Color strokeColor = Color.BLACK;
@@ -76,11 +78,20 @@ public class DrawRectangleTool extends DrawShapeTool{
         return rectangle;
     }
     
+    /**
+     * Method that modify the previously created Rectangel using the passed coordinates
+     * to calculate width and height. The new rectangle will have a black stroke 
+     * and a white fill
+     * @param topLeftX
+     * @param topLeftY
+     * @param bottomRightX
+     * @param bottomRightY 
+     */
     @Override
-    protected void modifyPreviewShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+    void modifyCreatedShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
         double width = this.computeRectangleWidth(topLeftX, bottomRightX);
         double height = this.computeRectangleHeight(topLeftY, bottomRightY);
-        MyRectangle rectangle = (MyRectangle) this.getPreviewShape();
+        MyRectangle rectangle = (MyRectangle) this.getCreatedShape();
         
         rectangle.mySetX(topLeftX);
         rectangle.mySetY(topLeftY);

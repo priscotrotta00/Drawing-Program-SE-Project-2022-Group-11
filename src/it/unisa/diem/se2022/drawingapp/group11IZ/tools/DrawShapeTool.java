@@ -8,30 +8,25 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Shape;
 
 /**
- * Abstract class that represents a drawing shape tool. It defines the basic 
+ * Abstract class that represents a drawing shape tool, which defines the basic 
  * behavior
  * @author Felice Scala
  */
 public abstract class DrawShapeTool implements Tool{
     private Double startX, startY;
     private Double endX, endY;
-    private MyShape previewShape;
+    private MyShape createdShape;
     
-    protected MyShape getPreviewShape(){
-        return this.previewShape;
+    MyShape getCreatedShape(){
+        return this.createdShape;
     }
     
-    protected void setPreviewShape(MyShape shape){
-        this.previewShape = shape;
+    void setCreatedShape(MyShape shape){
+        this.createdShape = shape;
     }
 
     /**
@@ -44,10 +39,10 @@ public abstract class DrawShapeTool implements Tool{
         this.startX = event.getX();
         this.startY = event.getY();
         
-        this.setPreviewShape(this.createShape(startX, startY, startX, startY));
-        this.getPreviewShape().mySetVisible(true);
+        this.setCreatedShape(this.createShape(startX, startY, startX, startY));
+        this.getCreatedShape().mySetVisible(true);
         try {
-            c.addShape(previewShape);
+            c.addShape(createdShape);
         } catch (Exception ex) {
             Logger.getLogger(DrawShapeTool.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,42 +67,18 @@ public abstract class DrawShapeTool implements Tool{
         bottomRightX = this.calculateBottomRightX(startX, startY, endX, endY);
         bottomRightY = this.calculateBottomRightY(startX, startY, endX, endY);
         
-        this.modifyPreviewShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
+        this.modifyCreatedShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
     }
 
     /**
      * Method that handle the OnMouseReleased event generated on the drawPane
-     * after a 
+     * after a MouseDragged event
      * @param c Controller
      * @param event Generated Event
      */
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
-        double topLeftX, topLeftY, bottomRightX, bottomRightY;
-        MyShape shape;
-        
-        this.endX = event.getX();
-        this.endY = event.getY();
-        
-        if (this.startX == null || this.startY == null) return;
-        
-        topLeftX = this.calculateTopLeftX(startX, startY, endX, endY);
-        topLeftY = this.calculateTopLeftY(startX, startY, endX, endY);
-        bottomRightX = this.calculateBottomRightX(startX, startY, endX, endY);
-        bottomRightY = this.calculateBottomRightY(startX, startY, endX, endY);
-        
-        shape = this.createShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
-        
-        try {
-            c.addShape(shape);
-        } catch (Exception ex) {
-            Logger.getLogger(DrawShapeTool.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.getPreviewShape().mySetVisible(false);
-        this.setPreviewShape(null);
-        //remove shape
-        
+        this.setCreatedShape(null);
         this.startX = null;
         this.startY = null;
         this.endX = null;
@@ -133,7 +104,7 @@ public abstract class DrawShapeTool implements Tool{
      * @param endY
      * @return 
      */
-    public double calculateTopLeftX(double startX, double startY, double endX, double endY){
+    double calculateTopLeftX(double startX, double startY, double endX, double endY){
         return startX < endX ? startX : startX == endX ? startX : endX;
     }
     
@@ -146,7 +117,7 @@ public abstract class DrawShapeTool implements Tool{
      * @param endY
      * @return 
      */
-    public double calculateTopLeftY(double startX, double startY, double endX, double endY){
+    double calculateTopLeftY(double startX, double startY, double endX, double endY){
         return startY < endY ? startY : startY == endY ? startY : endY;
     }
     
@@ -159,7 +130,7 @@ public abstract class DrawShapeTool implements Tool{
      * @param endY
      * @return 
      */
-    public double calculateBottomRightX(double startX, double startY, double endX, double endY){
+    double calculateBottomRightX(double startX, double startY, double endX, double endY){
         return endX > startX ? endX : endX == startX ? endX : startX;
     }
     
@@ -172,12 +143,12 @@ public abstract class DrawShapeTool implements Tool{
      * @param endY
      * @return 
      */
-    public double calculateBottomRightY(double startX, double startY, double endX, double endY){
+    double calculateBottomRightY(double startX, double startY, double endX, double endY){
         return endY > startY ? endY : endY == startY ? endY : startY;
     }
     
-    public abstract MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
+    abstract MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
     
-    protected abstract void modifyPreviewShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
+    abstract void modifyCreatedShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
     
 }
