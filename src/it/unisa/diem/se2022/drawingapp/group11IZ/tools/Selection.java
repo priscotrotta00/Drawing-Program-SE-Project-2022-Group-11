@@ -87,9 +87,17 @@ public class Selection implements Visitor{
      * @param myRectangle the selected rectangle
      */
     public void select(MyRectangle myRectangle){
-        if(getSelected().get()) return;
+        if(selectedProperty()) this.unSelect();
         
         MyRectangle highlightRectangle = new MyEnhancedRectangle();
+        
+        if(myRectangle.myGetFill() == Color.TRANSPARENT){
+            MyShape shape = this.getSelectedItem();
+            
+            if(!(shape instanceof MyRectangle)) return;
+            
+            myRectangle = (MyRectangle) shape;
+        }
         
         setSelectedItem(myRectangle);
         
@@ -123,9 +131,17 @@ public class Selection implements Visitor{
      * @param myLine the selected line
      */
     public void select(MyLine myLine){
-        if(getSelected().get()) return;
+        if(selectedProperty()) this.unSelect();
         
-        MyLine highlightLine = new MyEnhancedLine();;
+        MyLine highlightLine = new MyEnhancedLine();
+        
+        if(myLine.myGetFill() == Color.TRANSPARENT){
+            MyShape shape = this.getSelectedItem();
+            
+            if(!(shape instanceof MyLine)) return;
+            
+            myLine = (MyLine) shape;
+        }
         
         setSelectedItem(myLine);
         
@@ -159,9 +175,19 @@ public class Selection implements Visitor{
      * @param myEllipse the selected ellipse
      */
     public void select(MyEllipse myEllipse){
-        if(getSelected().get()) return;
+        //if(this.getSelectionBorder().getChildren().get(0).equals(getSelectionBorder().getChildren().get(0)))
+        
+        if(selectedProperty()) this.unSelect();
         
         MyEllipse highlightEllipse = new MyEnhancedEllipse();
+        
+        if(myEllipse.myGetFill() == Color.TRANSPARENT){
+            MyShape shape = this.getSelectedItem();
+            
+            if(!(shape instanceof MyEllipse)) return;
+            
+            myEllipse = (MyEllipse) shape;
+        }
         
         setSelectedItem(myEllipse);
         
@@ -182,7 +208,7 @@ public class Selection implements Visitor{
         if(!(parent instanceof Pane)) return;
         
         Pane pane = (Pane) parent;
-        
+        //System.out.println(getSelectionBorder().getChildren());
         pane.getChildren().add(getSelectionBorder());
         
         setSelected(true);
@@ -193,8 +219,8 @@ public class Selection implements Visitor{
      * reset all the attributes
      */
     public void unSelect(){
-        if(!getSelected().get()) return;
-        
+        if(!selectedProperty()) return;
+        System.out.println(getSelectionBorder().getChildren());
         Node node = getSelectedItem().myGetParent(); 
         
         if(!(node instanceof Node)) return;
@@ -205,19 +231,21 @@ public class Selection implements Visitor{
        
         Pane pane = (Pane) parent;
         
+        //getSelectionBorder().getChildren().setAll(null);
         pane.getChildren().removeAll(getSelectionBorder());
         
         setSelectedItem(null);
         setSelected(false);
-        setSelectionBorder(new Group());       
+        setSelectionBorder(new Group()); 
+        //System.out.println(getSelectionBorder().getChildren());
     }
     
     /**
      * 
      * @return the BooleanProperty that explain if a figure is selected
      */
-    public ObservableBooleanValue selectedProperty(){
-        return getSelected();
+    public Boolean selectedProperty(){
+        return getSelected().get();
     }
     
     /**

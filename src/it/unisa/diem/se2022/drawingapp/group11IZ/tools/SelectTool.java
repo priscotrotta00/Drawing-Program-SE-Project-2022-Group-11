@@ -10,6 +10,7 @@ import javafx.event.EventTarget;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -82,18 +83,18 @@ public class SelectTool implements Tool{
     @Override
     public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
         EventTarget eventTarget = event.getTarget();
-        
+        //System.out.println(eventTarget.toString());
         if(!(eventTarget instanceof MyShape)) {
             selectedShape.unSelect();
             return;
         }
         
-        
         MyShape shape = (MyShape) eventTarget;
-        
-        if(selectedShape.selectedProperty().get())
-            selectedShape.unSelect();
-        
+        //System.out.println(shape);
+        ///System.out.println(selectedShape.getSelectionBorder().getChildren());
+        /*if(selectedShape.selectedProperty())
+            selectedShape.unSelect();*/
+        //if(shape.myGetFill().equals(Color.)) return;
         setSelectedShape(shape);
     }
 
