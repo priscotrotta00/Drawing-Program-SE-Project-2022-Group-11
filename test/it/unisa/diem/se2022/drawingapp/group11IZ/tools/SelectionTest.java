@@ -147,30 +147,6 @@ public class SelectionTest {
         Assert.assertFalse("selected is set to false", boolProp.get());
         Assert.assertTrue("If selectionBorder is a new Group object", group.getChildren().isEmpty());
         
-    }
-    
-    @Test
-    public void selectOnAnotherShape() throws IllegalArgumentException, IllegalAccessException{
-        pane.getChildren().add(myEnhancedRectangle);
-        
-        selection.select(myEnhancedRectangle);
-        
-        MyEnhancedLine secondShape = new MyEnhancedLine();
-        secondShape.mySetStartX(20);
-        secondShape.mySetStartY(20);
-        secondShape.mySetEndX(60);
-        secondShape.mySetEndY(20);
-        
-        selection.select(secondShape);
-        
-        group = (Group) selectionBorderField.get(selection);      
-        selectedShape = (MyShape) selectedItemField.get(selection);
-        
-        Assert.assertTrue("If group contains only one highlighted shape",group.getChildren().size() == 1);
-        Assert.assertEquals("The highlighted shape is the first", myEnhancedRectangle, selectedShape);
-        Assert.assertNotEquals("The highlighted shape is not the second", secondShape, selectedShape);
-        
-    }
-    
+    }    
     
 }
