@@ -303,4 +303,46 @@ public class DrawingTest {
         draw.exportDrawing(file);
     }
     
+    @Test 
+    public void testImportEmptyDrawing() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, ParseException, Exception{
+        Drawing draw = new Drawing();
+        File file = new File("test3.json");
+        draw.exportDrawing(file);
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+        Field listField = Drawing.class.getDeclaredField("figures");
+        listField.setAccessible(true);
+        List<MyShape> figures = (List<MyShape>)listField.get(loadedDrawing);
+        assertTrue("An empty drawing contains elements",figures.isEmpty());
+    }
+    
+    @Test 
+    public void testImportDrawing() throws Exception{
+        File file = new File("test4.json");
+        Drawing draw = new Drawing();
+        
+        MyShape line = new MyEnhancedLine();
+        draw.addShape(line);
+
+        MyShape rectangle = new MyEnhancedRectangle();
+        draw.addShape(rectangle);
+
+        MyShape ellipse = new MyEnhancedEllipse();
+        draw.addShape(ellipse);
+
+        draw.exportDrawing(file);
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+        Field listField = Drawing.class.getDeclaredField("figures");
+        listField.setAccessible(true);
+        List<MyShape> figures = (List<MyShape>)listField.get(loadedDrawing);
+        assertEquals("The Drawing doesn't contain all the figures stored in the file",figures.get(0).toString(),line.toString());
+        assertEquals("The Drawing doesn't contain all the figures stored in the file",figures.get(1).toString(),rectangle.toString());
+        assertEquals("The Drawing doesn't contain all the figures stored in the file",figures.get(2).toString(),ellipse.toString());
+    }
+    
+    @Test (expected = NullPointerException.class)
+    public void testImportDrawingFromNullFile() throws ParseException, Exception{
+        File file = null;
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+    }
+    
 }
