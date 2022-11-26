@@ -6,6 +6,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
@@ -248,9 +249,15 @@ public class Controller implements Initializable {
     
     @FXML
     private void onSaveAction(ActionEvent event) {
-        FileChooser fc = new FileChooser();	//IN SCRITTURA
+        FileChooser fc = new FileChooser();     //IN SCRITTURA
+        fc.setTitle("Save the drawing in a .json file extension");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));	
 	File file = fc.showSaveDialog(null);
-        this.draw.exportDrawing(file);
+        try {
+            this.draw.exportDrawing(file);
+        }catch(ExtensionFileException ex){
+            new Alert(Alert.AlertType.INFORMATION, "File must have a .json extension!").showAndWait();
+        }
     }
 
     @FXML

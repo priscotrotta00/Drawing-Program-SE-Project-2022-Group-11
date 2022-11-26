@@ -304,6 +304,13 @@ public class DrawingTest {
         draw.exportDrawing(file);
     }
     
+    @Test (expected = ExtensionFileException.class)
+    public void testExportDrawingToNotJSONFile(){
+        Drawing draw = new Drawing();
+        File file = new File("test7.txt");
+        draw.exportDrawing(file);
+    }
+    
     @Test 
     public void testImportEmptyDrawing() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, ParseException, Exception{
         Drawing draw = new Drawing();

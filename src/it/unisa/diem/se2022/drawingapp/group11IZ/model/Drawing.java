@@ -155,6 +155,8 @@ public class Drawing implements Iterable<MyShape>{
      */
     
     public void exportDrawing(File file) {
+        if(file == null) throw new NullPointerException();
+        if(!file.getPath().endsWith(".json")) throw new ExtensionFileException();
         JSONArray jsonArray = new JSONArray();
         JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
         for (MyShape shape : figures) {
