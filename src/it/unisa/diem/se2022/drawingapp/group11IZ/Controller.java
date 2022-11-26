@@ -6,15 +6,20 @@ package it.unisa.diem.se2022.drawingapp.group11IZ;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
@@ -23,6 +28,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.stage.FileChooser;
+import org.json.simple.parser.ParseException;
 
 /**
  * FXML Controller class
@@ -232,12 +239,51 @@ public class Controller implements Initializable {
         this.draw.moveToBackground(myShape);
     }
     
+    /**
+     * Load the drawing from a JSON file
+     * @param event 
+     */
+    
     @FXML
     private void onLoadAction(ActionEvent event) {
+        //new Alert(Alert.AlertType.INFORMATION, "File must have a .json extension!").showAndWait();
+        try {
+            FileChooser fc = new FileChooser();
+            fc.setTitle("Open a drawing with .json extension");
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));
+            File file = fc.showOpenDialog(null);
+            
+            Drawing loadedDrawing = Drawing.importDrawing(file);
+            for(MyShape myShape : this.draw){
+                this.drawPane.getChildren().remove((Shape) myShape);
+            }
+            for(MyShape myShape : loadedDrawing){
+                this.drawPane.getChildren().add((Shape) myShape);
+            }
+            this.draw = loadedDrawing;
+        } catch (ParseException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    /**
+     * Save the drawing in a JSON file
+     * @param event 
+     */
+    
     @FXML
     private void onSaveAction(ActionEvent event) {
+        FileChooser fc = new FileChooser();     //IN SCRITTURA
+        fc.setTitle("Save the drawing in a .json file extension");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));	
+	File file = fc.showSaveDialog(null);
+        try {
+            this.draw.exportDrawing(file);
+        }catch(ExtensionFileException ex){
+            new Alert(Alert.AlertType.INFORMATION, "File must have a .json extension!").showAndWait();
+        }
     }
 
     @FXML

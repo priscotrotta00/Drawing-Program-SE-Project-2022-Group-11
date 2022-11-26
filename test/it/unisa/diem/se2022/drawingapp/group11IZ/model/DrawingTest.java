@@ -4,11 +4,18 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.AddedDuplicateException;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.List;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.simple.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -232,6 +239,119 @@ public class DrawingTest {
         shape1Pos=figures.get(1);
         assertEquals("Error in moveToBackground",shape1Pos.myGetId(), rectangle2.getId());  
         
+    }
+    
+    @Test
+    public void testExportEmptyDrawing(){
+        Drawing draw = new Drawing();
+        File file = new File("test.json");
+        draw.exportDrawing(file);
+        String JSONFileString = new String();
+               
+        try(Scanner in = new Scanner(file)){
+            JSONFileString = in.nextLine();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DrawingTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String myString = "[]";
+        assertEquals("Failed with an empty drawing",myString, JSONFileString);
+    }
+    
+    @Test 
+    public void testExportDrawing() throws Exception{
+        File file = new File("test2.json");
+        Drawing draw = new Drawing();
+        
+        MyShape line = new MyEnhancedLine();
+        draw.addShape(line);
+
+        MyShape rectangle = new MyEnhancedRectangle();
+        draw.addShape(rectangle);
+
+        MyShape ellipse = new MyEnhancedEllipse();
+        draw.addShape(ellipse);
+
+        draw.exportDrawing(file);
+        
+        String JSONFileString = new String();
+               
+        try(Scanner in = new Scanner(file)){
+            JSONFileString = in.nextLine();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DrawingTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String myString = "[{\"endY\":0.0,\"endX\":0.0,\"startY\":0.0,\"startX\":0.0,\"type\":\"line\",\"fill\":null,\"stroke\":\"0x000000ff\"},"
+                + "{\"width\":0.0,\"x\":0.0,\"y\":0.0,\"type\":\"rectangle\",\"fill\":\"0x000000ff\",\"stroke\":null,\"height\":0.0},"
+                + "{\"centerY\":0.0,\"centerX\":0.0,\"radiusY\":0.0,\"radiusX\":0.0,\"type\":\"ellipse\",\"fill\":\"0x000000ff\",\"stroke\":null}]";
+        assertEquals("Failed export drawing",myString, JSONFileString);
+    }
+    
+    @Test (expected = NullPointerException.class)
+    public void testExportDrawingToNullFile(){
+        Drawing draw = new Drawing();
+        File file = null;
+        draw.exportDrawing(file);
+    }
+    
+    @Test (expected = ExtensionFileException.class)
+    public void testExportDrawingToNotJSONFile(){
+        Drawing draw = new Drawing();
+        File file = new File("test7.txt");
+        draw.exportDrawing(file);
+    }
+    
+    @Test 
+    public void testImportEmptyDrawing() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, ParseException, Exception{
+        Drawing draw = new Drawing();
+        File file = new File("test3.json");
+        draw.exportDrawing(file);
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+        Field listField = Drawing.class.getDeclaredField("figures");
+        listField.setAccessible(true);
+        List<MyShape> figures = (List<MyShape>)listField.get(loadedDrawing);
+        assertTrue("An empty drawing contains elements",figures.isEmpty());
+    }
+    
+    @Test 
+    public void testImportDrawing() throws Exception{
+        File file = new File("test4.json");
+        Drawing draw = new Drawing();
+        
+        MyShape line = new MyEnhancedLine();
+        draw.addShape(line);
+
+        MyShape rectangle = new MyEnhancedRectangle();
+        draw.addShape(rectangle);
+
+        MyShape ellipse = new MyEnhancedEllipse();
+        draw.addShape(ellipse);
+
+        draw.exportDrawing(file);
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+        Field listField = Drawing.class.getDeclaredField("figures");
+        listField.setAccessible(true);
+        List<MyShape> figures = (List<MyShape>)listField.get(loadedDrawing);
+        assertEquals("The Drawing doesn't contain all the figures stored in the file",figures.get(0).toString(),line.toString());
+        assertEquals("The Drawing doesn't contain all the figures stored in the file",figures.get(1).toString(),rectangle.toString());
+        assertEquals("The Drawing doesn't contain all the figures stored in the file",figures.get(2).toString(),ellipse.toString());
+    }
+    
+    @Test (expected = NullPointerException.class)
+    public void testImportDrawingFromNullFile() throws ParseException, Exception{
+        File file = null;
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+    }
+    
+    @Test (expected = ExtensionFileException.class)
+    public void testImportDrawingFromNotJSONFile() throws ParseException, Exception{
+        File file = new File("test5.txt");
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+    }
+    
+    @Test (expected = FileNotFoundException.class)
+    public void testImportDrawingFromNotFoundFile() throws ParseException, Exception{
+        File file = new File("test6.json");
+        Drawing loadedDrawing = Drawing.importDrawing(file);
     }
     
 }

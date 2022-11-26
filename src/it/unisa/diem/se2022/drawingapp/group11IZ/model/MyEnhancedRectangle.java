@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Parent;
@@ -126,8 +127,14 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         super.setStrokeWidth(value);
     }
 
+    @Override
     public void mySetVisible(boolean value) {
         super.setVisible(value);
+    }
+        
+    @Override
+    public void accept(Visitor v) {
+        v.visitRectangle(this);
     }
    
 }
