@@ -31,13 +31,18 @@ public class JSONExportVisitor implements Visitor{
         this.jsonArray = jsonArray;
     }
     
+    /**
+     * Visit a rectangle and put his properties in a JSON Array
+     * @param myRectangle is the myRectangle object you want to visit
+     */
+    
     @Override
     public void visitRectangle(MyRectangle myRectangle) {
         if(myRectangle == null) throw new ExportException();
         JSONObject jsonRectangleObject = new JSONObject();
         jsonRectangleObject.put("type", "rectangle");
-        jsonRectangleObject.put("fill", myRectangle.myGetFill());
-        jsonRectangleObject.put("stroke", myRectangle.myGetStroke());
+        jsonRectangleObject.put("fill", myRectangle.myGetFill() == null ? null : myRectangle.myGetFill().toString());
+        jsonRectangleObject.put("stroke", myRectangle.myGetStroke() == null ? null : myRectangle.myGetStroke().toString());
         jsonRectangleObject.put("height", myRectangle.myGetHeight());
         jsonRectangleObject.put("width", myRectangle.myGetWidth());
         jsonRectangleObject.put("x", myRectangle.myGetX());
@@ -45,13 +50,18 @@ public class JSONExportVisitor implements Visitor{
         jsonArray.add(jsonRectangleObject);
     }
 
+    /**
+     * Visit an ellipse and put her properties in a JSON Array
+     * @param myEllipse is the myEllipse object you want to visit
+     */
+    
     @Override
     public void visitEllipse(MyEllipse myEllipse) {
         if(myEllipse == null) throw new ExportException();
         JSONObject jsonEllipseObject = new JSONObject();
         jsonEllipseObject.put("type", "ellipse");
-        jsonEllipseObject.put("fill", myEllipse.myGetFill().toString());
-        jsonEllipseObject.put("stroke", myEllipse.myGetStroke());
+        jsonEllipseObject.put("fill", myEllipse.myGetFill() == null ? null : myEllipse.myGetFill().toString());
+        jsonEllipseObject.put("stroke", myEllipse.myGetStroke() == null ? null : myEllipse.myGetStroke().toString());
         jsonEllipseObject.put("centerX", myEllipse.myGetCenterX());
         jsonEllipseObject.put("centerY", myEllipse.myGetCenterY());
         jsonEllipseObject.put("radiusX", myEllipse.myGetRadiusX());
@@ -59,13 +69,18 @@ public class JSONExportVisitor implements Visitor{
         jsonArray.add(jsonEllipseObject);
     }
 
+    /**
+     * Visit a line and put her properties in a JSON Array
+     * @param myLine is the myLine object you want to visit
+     */
+    
     @Override
     public void visitLine(MyLine myLine) {
         if(myLine == null) throw new ExportException();
         JSONObject jsonLineObject = new JSONObject();
         jsonLineObject.put("type", "line");
-        jsonLineObject.put("fill", myLine.myGetFill());
-        jsonLineObject.put("stroke", myLine.myGetStroke());
+        jsonLineObject.put("fill", myLine.myGetFill() == null ? null: myLine.myGetFill().toString());
+        jsonLineObject.put("stroke", myLine.myGetStroke() == null ? null : myLine.myGetStroke().toString());
         jsonLineObject.put("endX", myLine.myGetEndX());
         jsonLineObject.put("endY", myLine.myGetEndY());
         jsonLineObject.put("startX", myLine.myGetStartX());

@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import org.junit.After;
@@ -11,6 +15,17 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import java.lang.Exception;
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -234,6 +249,58 @@ public class DrawingTest {
         shape1Pos=figures.get(1);
         assertEquals("Error in moveToBackground",shape1Pos.myGetId(), rectangle2.getId());  
         
+    }
+    
+    @Test
+    public void testExportEmptyDrawing(){
+        Drawing draw = new Drawing();
+        File file = new File("test.json");
+        draw.exportDrawing(file);
+        String JSONFileString = new String();
+               
+        try(Scanner in = new Scanner(file)){
+            JSONFileString = in.nextLine();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DrawingTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String myString = "[]";
+        assertEquals("Failed with an empty drawing",myString, JSONFileString);
+    }
+    
+    @Test 
+    public void testExportDrawing() throws Exception{
+        File file = new File("test2.json");
+        Drawing draw = new Drawing();
+        
+        MyShape line = new MyEnhancedLine();
+        draw.addShape(line);
+
+        MyShape rectangle = new MyEnhancedRectangle();
+        draw.addShape(rectangle);
+
+        MyShape ellipse = new MyEnhancedEllipse();
+        draw.addShape(ellipse);
+
+        draw.exportDrawing(file);
+        
+        String JSONFileString = new String();
+               
+        try(Scanner in = new Scanner(file)){
+            JSONFileString = in.nextLine();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DrawingTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String myString = "[{\"endY\":0.0,\"endX\":0.0,\"startY\":0.0,\"startX\":0.0,\"type\":\"line\",\"fill\":null,\"stroke\":\"0x000000ff\"},"
+                + "{\"width\":0.0,\"x\":0.0,\"y\":0.0,\"type\":\"rectangle\",\"fill\":\"0x000000ff\",\"stroke\":null,\"height\":0.0},"
+                + "{\"centerY\":0.0,\"centerX\":0.0,\"radiusY\":0.0,\"radiusX\":0.0,\"type\":\"ellipse\",\"fill\":\"0x000000ff\",\"stroke\":null}]";
+        assertEquals("Failed export drawing",myString, JSONFileString);
+    }
+    
+    @Test (expected = NullPointerException.class)
+    public void testExportDrawingToNullFile(){
+        Drawing draw = new Drawing();
+        File file = null;
+        draw.exportDrawing(file);
     }
     
 }

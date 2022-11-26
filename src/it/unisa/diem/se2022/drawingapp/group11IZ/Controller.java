@@ -10,6 +10,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.stage.FileChooser;
 
 /**
  * FXML Controller class
@@ -210,8 +212,16 @@ public class Controller implements Initializable {
     private void onLoadAction(ActionEvent event) {
     }
 
+    /**
+     * Save the drawing in a JSON file
+     * @param event 
+     */
+    
     @FXML
     private void onSaveAction(ActionEvent event) {
+        FileChooser fc = new FileChooser();	//IN SCRITTURA
+	File file = fc.showSaveDialog(null);
+        this.draw.exportDrawing(file);
     }
 
     @FXML

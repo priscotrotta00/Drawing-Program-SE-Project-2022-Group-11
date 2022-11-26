@@ -27,24 +27,13 @@ import org.json.simple.JSONArray;
  */
 public class JSONExportVisitorTest {
     
-    public JSONExportVisitorTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
     /**
      * Test of visitRectangle method, of class JSONExportVisitor.
      */
     
     @Test (expected=ExportException.class)
-    public void testVisitVoidRectangle() {
-        System.out.println("visitVoidRectangle");
+    public void testVisitNullRectangle() {
+        System.out.println("visitNullRectangle");
         JSONArray jsonArray = new JSONArray();
         MyRectangle myRectangle = null;
         JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
@@ -52,8 +41,17 @@ public class JSONExportVisitorTest {
     }
     
     @Test
+    public void testVisitEmptyRectangle() {
+        JSONArray jsonArray = new JSONArray();
+        MyRectangle myRectangle = new MyEnhancedRectangle();
+        JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
+        visitor.visitRectangle(myRectangle);
+        String myString = "[{\"width\":0.0,\"x\":0.0,\"y\":0.0,\"type\":\"rectangle\",\"fill\":\"0x000000ff\",\"stroke\":null,\"height\":0.0}]";
+        assertEquals("Test failed when you want to visit an empty rectangle",myString, jsonArray.toString());
+    }
+    
+    @Test
     public void testVisitRectangle() {
-        System.out.println("visitRectangle");
         JSONArray jsonArray = new JSONArray();
         MyRectangle myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.AQUAMARINE);
@@ -64,25 +62,34 @@ public class JSONExportVisitorTest {
         myRectangle.mySetY(30);
         JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
         visitor.visitRectangle(myRectangle);
-        String myString = "[{\"width\":30.0,\"x\":30.0,\"y\":30.0,\"type\":\"rectangle\",\"fill\":"+Color.AQUAMARINE+",\"stroke\":"+Color.AQUAMARINE+",\"height\":15.0}]";
-        assertEquals(myString, jsonArray.toString());
+        String myString = "[{\"width\":30.0,\"x\":30.0,\"y\":30.0,\"type\":\"rectangle\",\"fill\":\"0x7fffd4ff\",\"stroke\":\"0x7fffd4ff\",\"height\":15.0}]";
+        assertEquals("Test failed when you want to visit a rectangle", myString, jsonArray.toString());
     }
 
     @Test (expected=ExportException.class)
-    public void testVisitVoidEllipse() {
-        System.out.println("visitVoidEllipse");
+    public void testVisitNullEllipse() {
+        System.out.println("visitNullEllipse");
         JSONArray jsonArray = new JSONArray();
         MyEllipse myEllipse = null;
         JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
         visitor.visitEllipse(myEllipse);
     }
         
+    @Test
+    public void testVisitEmptyEllipse() {
+        JSONArray jsonArray = new JSONArray();
+        MyEllipse myEllipse = new MyEnhancedEllipse();
+        JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
+        visitor.visitEllipse(myEllipse);
+        String myString = "[{\"centerY\":0.0,\"centerX\":0.0,\"radiusY\":0.0,\"radiusX\":0.0,\"type\":\"ellipse\",\"fill\":\"0x000000ff\",\"stroke\":null}]";
+        assertEquals("Test failed when you want to visit an empty ellipse", myString, jsonArray.toString());
+    }
+    
     /**
      * Test of visitEllipse method, of class JSONExportVisitor.
      */
     @Test
     public void testVisitEllipse() {
-        System.out.println("visitEllipse");
         JSONArray jsonArray = new JSONArray();
         MyEllipse myEllipse = new MyEnhancedEllipse();
         myEllipse.mySetFill(Color.AQUAMARINE);
@@ -93,25 +100,34 @@ public class JSONExportVisitorTest {
         myEllipse.mySetRadiusY(30);
         JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
         visitor.visitEllipse(myEllipse);
-        String myString = "[{\"centerY\":30.0,\"centerX\":30.0,\"radiusY\":30.0,\"radiusX\":60.0,\"type\":\"ellipse\",\"fill\":\""+Color.AQUAMARINE+"\",\"stroke\":"+Color.AQUAMARINE+"}]";
-        assertEquals(myString, jsonArray.toString());
+        String myString = "[{\"centerY\":30.0,\"centerX\":30.0,\"radiusY\":30.0,\"radiusX\":60.0,\"type\":\"ellipse\",\"fill\":\"0x7fffd4ff\",\"stroke\":\"0x7fffd4ff\"}]";
+        assertEquals("Test failed when you want to visit an ellipse", myString, jsonArray.toString());
     }
     
     @Test (expected=ExportException.class)
-    public void testVisitVoidLine() {
-        System.out.println("visitVoidLine");
+    public void testVisitNullLine() {
+        System.out.println("visitNullLine");
         JSONArray jsonArray = new JSONArray();
         MyLine myLine = null;
         JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
         visitor.visitLine(myLine);
     }
 
+    @Test
+    public void testVisitEmptyLine() {
+        JSONArray jsonArray = new JSONArray();
+        MyLine myLine = new MyEnhancedLine();
+        JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
+        visitor.visitLine(myLine);
+        String myString = "[{\"endY\":0.0,\"endX\":0.0,\"startY\":0.0,\"startX\":0.0,\"type\":\"line\",\"fill\":null,\"stroke\":\"0x000000ff\"}]";
+        assertEquals("Test failed when you want to visit an empty line", myString, jsonArray.toString());
+    }
+    
     /**
      * Test of visitLine method, of class JSONExportVisitor.
      */
     @Test
     public void testVisitLine() {
-        System.out.println("visitLine");
         JSONArray jsonArray = new JSONArray();
         MyLine myLine = new MyEnhancedLine();
         myLine.mySetFill(Color.AQUAMARINE);
@@ -122,8 +138,8 @@ public class JSONExportVisitorTest {
         myLine.mySetStartY(30);
         JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
         visitor.visitLine(myLine);
-        String myString = "[{\"endY\":15.0,\"endX\":15.0,\"startY\":30.0,\"startX\":30.0,\"type\":\"line\",\"fill\":"+Color.AQUAMARINE+",\"stroke\":"+Color.AQUAMARINE+"}]";
-        assertEquals(myString, jsonArray.toString());
+        String myString = "[{\"endY\":15.0,\"endX\":15.0,\"startY\":30.0,\"startX\":30.0,\"type\":\"line\",\"fill\":\"0x7fffd4ff\",\"stroke\":\"0x7fffd4ff\"}]";
+        assertEquals("Test failed when you want to visit an line", myString, jsonArray.toString());
     }
     
 }

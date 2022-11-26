@@ -4,11 +4,15 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.export.JSONExportVisitor;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
 
 /**
  *
@@ -135,8 +139,23 @@ public class Drawing {
 
     }
 
+    /**
+     * Export the drawing in a JSON file
+     * @param file is the path to the file where you want to save the drawing
+     */
+    
     public void exportDrawing(File file) {
-
+        JSONArray jsonArray = new JSONArray();
+        JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
+        for (MyShape shape : figures) {
+            shape.accept(visitor);
+        }
+        try (FileWriter fileWriter = new FileWriter(file)){
+            fileWriter.write(jsonArray.toJSONString());
+            fileWriter.close();
+        } catch (IOException ex) { 
+            Logger.getLogger(Drawing.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }
 
     public void importDrawing(File file) {
