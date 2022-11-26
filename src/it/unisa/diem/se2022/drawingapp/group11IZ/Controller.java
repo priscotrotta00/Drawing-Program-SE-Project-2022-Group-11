@@ -135,9 +135,16 @@ public class Controller implements Initializable {
         ellipseToggleButton.setToggleGroup(toolToggleGroup);
         selectionToggleButton.setToggleGroup(toolToggleGroup);
         
-        toolToggleGroup.selectedToggleProperty().addListener(toggle -> {
-            this.updateSelectedTool(toolToggleGroup.getSelectedToggle());
+        toolToggleGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle == null){
+                newToggle = oldToggle;
+                newToggle.setSelected(true);
+                return;
+            }
+            
+            this.updateSelectedTool(newToggle);
         });
+        
         rectangleToggleButton.selectedProperty().setValue(true);
     }
     

@@ -152,6 +152,30 @@ public class ControllerTest {
     }
     
     @Test
+    public void testUpdateSelectedToolUnselect() throws IllegalAccessException{
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        
+       ToggleButton line = new ToggleButton();
+       ToggleButton rectangle = new ToggleButton();
+       ToggleButton ellipse = new ToggleButton();
+       ToggleButton selection = new ToggleButton();
+       
+       this.ellipseToggleButtonField.set(c, ellipse);
+       this.lineToggleButtonField.set(c, line);
+       this.rectangleToggleButtonField.set(c, rectangle);
+       this.selectionToggleButtonField.set(c, selection);
+       
+       c.initializeToolToggleGroup();
+       ellipse.setSelected(true);
+       ellipse.setSelected(false);
+       
+       Assert.assertTrue("Tool toggle button is not unselected", ellipse.selectedProperty().get());
+       Assert.assertEquals("Tool has not changed", DrawEllipseTool.getInstance(), this.selectedToolField.get(c));
+    }
     public void testAddShape() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, Exception{
         System.out.println("add");
         
