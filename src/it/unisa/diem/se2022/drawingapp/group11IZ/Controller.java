@@ -22,10 +22,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -58,22 +60,6 @@ public class Controller implements Initializable {
     @FXML
     private Label labelColors;
     @FXML
-    private ToggleButton whiteColorToggleButton;
-    @FXML
-    private ToggleButton redColorToggleButton;
-    @FXML
-    private ToggleButton greenColorToggleButton;
-    @FXML
-    private ToggleButton blueColorToggleButton;
-    @FXML
-    private ToggleButton blackColorToggleButton;
-    @FXML
-    private ToggleButton yellowColorToggleButton;
-    @FXML
-    private ToggleButton greyColorToggleButton;
-    @FXML
-    private ToggleButton pinkColorToggleButton;
-    @FXML
     private Button changeStrokeColorButton;
     @FXML
     private Button changeFillColorButton;
@@ -87,6 +73,14 @@ public class Controller implements Initializable {
     private Button cutButton;
     @FXML
     private Button pasteButton;
+    @FXML
+    private Label strokeLabel;
+    @FXML
+    private ColorPicker strokeColorPicker;
+    @FXML
+    private Label fillLabel;
+    @FXML
+    private ColorPicker fillColorPicker;
     
     private Drawing draw;
     
@@ -105,17 +99,6 @@ public class Controller implements Initializable {
         System.out.println("Hello world");
         
         this.initializeToolToggleGroup();
-        
-        //Initialize colorToggleGroup
-        colorToggleGroup = new ToggleGroup();
-        whiteColorToggleButton.setToggleGroup(colorToggleGroup);
-        redColorToggleButton.setToggleGroup(colorToggleGroup);
-        greenColorToggleButton.setToggleGroup(colorToggleGroup);
-        blueColorToggleButton.setToggleGroup(colorToggleGroup);
-        blackColorToggleButton.setToggleGroup(colorToggleGroup);
-        yellowColorToggleButton.setToggleGroup(colorToggleGroup);
-        greyColorToggleButton.setToggleGroup(colorToggleGroup);
-        pinkColorToggleButton.setToggleGroup(colorToggleGroup);
         
         //
         clip = new Rectangle();

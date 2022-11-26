@@ -2,13 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -94,147 +92,34 @@
                                     </HBox>
                                     <HBox prefHeight="140.0" prefWidth="343.0">
                                        <children>
-                                          <VBox prefHeight="135.0" prefWidth="311.0" style="-fx-border-color: grey;">
+                                          <VBox prefHeight="125.0" prefWidth="278.0" style="-fx-border-color: grey;">
                                              <children>
-                                                <HBox alignment="BOTTOM_CENTER" prefHeight="72.0" prefWidth="274.0" spacing="10.0">
+                                                <VBox alignment="CENTER" prefHeight="123.0" prefWidth="251.0" spacing="30.0">
                                                    <children>
-                                                      <ToggleButton fx:id="whiteColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" />
-                                                      <ToggleButton fx:id="redColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
-                                                         <effect>
-                                                            <Lighting>
-                                                               <bumpInput>
-                                                                  <Shadow />
-                                                               </bumpInput>
-                                                               <light>
-                                                                  <Light.Distant>
-                                                                     <color>
-                                                                        <Color red="1.0" />
-                                                                     </color>
-                                                                  </Light.Distant>
-                                                               </light>
-                                                            </Lighting>
-                                                         </effect>
-                                                      </ToggleButton>
-                                                      <ToggleButton fx:id="greenColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
-                                                         <effect>
-                                                            <Lighting>
-                                                               <bumpInput>
-                                                                  <Shadow />
-                                                               </bumpInput>
-                                                               <light>
-                                                                  <Light.Distant>
-                                                                     <color>
-                                                                        <Color red="0.3619047701358795" green="1.0" />
-                                                                     </color>
-                                                                  </Light.Distant>
-                                                               </light>
-                                                            </Lighting>
-                                                         </effect>
-                                                      </ToggleButton>
-                                                      <ToggleButton fx:id="blueColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
-                                                         <effect>
-                                                            <Lighting>
-                                                               <bumpInput>
-                                                                  <Shadow />
-                                                               </bumpInput>
-                                                               <light>
-                                                                  <Light.Distant>
-                                                                     <color>
-                                                                        <Color green="0.2857142984867096" blue="1.0" />
-                                                                     </color>
-                                                                  </Light.Distant>
-                                                               </light>
-                                                            </Lighting>
-                                                         </effect>
-                                                      </ToggleButton>
+                                                      <HBox alignment="CENTER" spacing="20.0">
+                                                         <children>
+                                                            <Label fx:id="strokeLabel" prefWidth="50.0" text="Stroke:" />
+                                                            <ColorPicker fx:id="strokeColorPicker">
+                                                               <value>
+                                                                  <Color />
+                                                               </value>
+                                                            </ColorPicker>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER" spacing="20.0">
+                                                         <children>
+                                                            <Label fx:id="fillLabel" prefWidth="50.0" text="Fill:" />
+                                                            <ColorPicker fx:id="fillColorPicker" />
+                                                         </children>
+                                                      </HBox>
                                                    </children>
-                                                   <VBox.margin>
-                                                      <Insets />
-                                                   </VBox.margin>
-                                                   <opaqueInsets>
-                                                      <Insets />
-                                                   </opaqueInsets>
-                                                   <padding>
-                                                      <Insets bottom="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <HBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="274.0" spacing="10.0">
-                                                   <VBox.margin>
-                                                      <Insets top="5.0" />
-                                                   </VBox.margin>
-                                                   <children>
-                                                      <ToggleButton fx:id="blackColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
-                                                         <effect>
-                                                            <Lighting>
-                                                               <bumpInput>
-                                                                  <Shadow />
-                                                               </bumpInput>
-                                                               <light>
-                                                                  <Light.Distant>
-                                                                     <color>
-                                                                        <Color />
-                                                                     </color>
-                                                                  </Light.Distant>
-                                                               </light>
-                                                            </Lighting>
-                                                         </effect>
-                                                      </ToggleButton>
-                                                      <ToggleButton fx:id="yellowColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
-                                                         <effect>
-                                                            <Lighting>
-                                                               <bumpInput>
-                                                                  <Shadow />
-                                                               </bumpInput>
-                                                               <light>
-                                                                  <Light.Distant>
-                                                                     <color>
-                                                                        <Color red="0.8999999761581421" green="1.0" />
-                                                                     </color>
-                                                                  </Light.Distant>
-                                                               </light>
-                                                            </Lighting>
-                                                         </effect>
-                                                      </ToggleButton>
-                                                      <ToggleButton fx:id="greyColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
-                                                         <effect>
-                                                            <Lighting>
-                                                               <bumpInput>
-                                                                  <Shadow />
-                                                               </bumpInput>
-                                                               <light>
-                                                                  <Light.Distant>
-                                                                     <color>
-                                                                        <Color red="0.8947368264198303" green="0.8947368264198303" blue="0.8947368264198303" />
-                                                                     </color>
-                                                                  </Light.Distant>
-                                                               </light>
-                                                            </Lighting>
-                                                         </effect>
-                                                      </ToggleButton>
-                                                      <ToggleButton fx:id="pinkColorToggleButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0">
-                                                         <effect>
-                                                            <Lighting>
-                                                               <bumpInput>
-                                                                  <Shadow />
-                                                               </bumpInput>
-                                                               <light>
-                                                                  <Light.Distant>
-                                                                     <color>
-                                                                        <Color red="1.0" blue="0.8952381014823914" />
-                                                                     </color>
-                                                                  </Light.Distant>
-                                                               </light>
-                                                            </Lighting>
-                                                         </effect>
-                                                      </ToggleButton>
-                                                   </children>
-                                                </HBox>
+                                                </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefHeight="135.0" prefWidth="130.0" spacing="10.0" style="-fx-border-color: grey;">
+                                          <VBox alignment="CENTER" prefHeight="125.0" prefWidth="179.0" spacing="10.0" style="-fx-border-color: grey;">
                                              <children>
-                                                <Button fx:id="changeStrokeColorButton" mnemonicParsing="false" onAction="#onChangeStrokeColorAction" prefHeight="40.0" prefWidth="75.0" text="Stroke" />
-                                                <Button fx:id="changeFillColorButton" mnemonicParsing="false" onAction="#onChangeFillColorAction" prefHeight="40.0" prefWidth="75.0" text="Fill" />
+                                                <Button fx:id="changeStrokeColorButton" mnemonicParsing="false" onAction="#onChangeStrokeColorAction" prefHeight="40.0" prefWidth="120.0" text="Change Stroke" />
+                                                <Button fx:id="changeFillColorButton" mnemonicParsing="false" onAction="#onChangeFillColorAction" prefHeight="40.0" prefWidth="120.0" text="Change Fill" />
                                              </children>
                                           </VBox>
                                        </children>
