@@ -59,7 +59,7 @@ public class SelectTool implements Tool{
      */
     @Override
     public void handleOnDragBegin(Controller c, MouseEvent event) {
-        MyShape shape = (MyShape) event.getTarget();
+        //NOP
     }
     
     /**
@@ -69,7 +69,7 @@ public class SelectTool implements Tool{
      */
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
-        MyShape shape = (MyShape) event.getTarget();
+        //NOP
     }
     
     /**
@@ -99,12 +99,12 @@ public class SelectTool implements Tool{
 
     @Override
     public void handleOnMouseDrag(Controller c, MouseEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //NOP
     }
 
     @Override
     public void handleOnContextMenuRequested(Controller c, ContextMenuEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //NOP
     }
     
     

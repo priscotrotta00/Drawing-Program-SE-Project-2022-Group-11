@@ -92,7 +92,7 @@ public abstract class DrawShapeTool implements Tool{
 
     @Override
     public void handleOnContextMenuRequested(Controller c, ContextMenuEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //NOP
     }
     
     /**
