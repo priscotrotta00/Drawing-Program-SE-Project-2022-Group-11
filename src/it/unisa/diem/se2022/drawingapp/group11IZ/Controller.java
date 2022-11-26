@@ -10,6 +10,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileEx
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
+import it.unisa.diem.se2022.drawingapp.group11IZ.tools.SelectTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
 import java.io.File;
 import java.net.URL;
@@ -128,6 +129,10 @@ public class Controller implements Initializable {
         this.draw=new Drawing();
         
         
+        drawPane.setOnMouseClicked(value ->{
+            selectedTool.handleOnPrimaryMouseClick(this, value);
+        });
+        
     }
 
     /**
@@ -184,6 +189,10 @@ public class Controller implements Initializable {
     
     }
     
+    public Pane getDrawPane(){
+        return drawPane;
+    }
+    
     /**
      * Change the selected tool according to the selected Toggle Button in the
      * Tool Toggle Group. This method will be called when there is a change in
@@ -198,7 +207,8 @@ public class Controller implements Initializable {
             this.selectedTool = DrawRectangleTool.getInstance();
         else if (toggle.equals(lineToggleButton))
             this.selectedTool = DrawLineTool.getInstance();
-        else if (toggle.equals(selectionToggleButton));
+        else if (toggle.equals(selectionToggleButton))
+            this.selectedTool = SelectTool.getInstance();
     }
     
     public void updateSelectedColor(){

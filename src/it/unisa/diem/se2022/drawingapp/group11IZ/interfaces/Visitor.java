@@ -5,7 +5,6 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.interfaces;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 
