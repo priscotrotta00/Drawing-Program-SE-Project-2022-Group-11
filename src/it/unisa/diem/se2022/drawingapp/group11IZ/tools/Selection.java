@@ -7,7 +7,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableBooleanValue;
-import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -90,21 +89,21 @@ public class Selection implements Visitor{
     public void select(MyRectangle myRectangle){
         if(getSelected().get()) return;
         
-        MyRectangle newRectangle = new MyEnhancedRectangle();
+        MyRectangle highlightRectangle = new MyEnhancedRectangle();
         
         setSelectedItem(myRectangle);
         
-        newRectangle.myXProperty().bind(myRectangle.myXProperty());
-        newRectangle.myYProperty().bind(myRectangle.myYProperty());
-        newRectangle.myHeightProperty().bind(myRectangle.myHeightProperty());
-        newRectangle.myWidthProperty().bind(myRectangle.myWidthProperty());
+        highlightRectangle.myXProperty().bind(myRectangle.myXProperty());
+        highlightRectangle.myYProperty().bind(myRectangle.myYProperty());
+        highlightRectangle.myHeightProperty().bind(myRectangle.myHeightProperty());
+        highlightRectangle.myWidthProperty().bind(myRectangle.myWidthProperty());
         
-        newRectangle.mySetFill(Color.TRANSPARENT);
-        newRectangle.mySetStroke(Color.BLACK);
+        highlightRectangle.mySetFill(Color.TRANSPARENT);
+        highlightRectangle.mySetStroke(Color.BLACK);
         
-        newRectangle.mySetStrokeWidth(myRectangle.myGetStrokeWidth()+2);
+        highlightRectangle.mySetStrokeWidth(myRectangle.myGetStrokeWidth()+2);
         
-        getSelectionBorder().getChildren().add((Shape)newRectangle);
+        getSelectionBorder().getChildren().add((Shape)highlightRectangle);
         
         Parent parent = myRectangle.myGetParent();
         
@@ -126,21 +125,21 @@ public class Selection implements Visitor{
     public void select(MyLine myLine){
         if(getSelected().get()) return;
         
-        MyLine newLine = new MyEnhancedLine();;
+        MyLine highlightLine = new MyEnhancedLine();;
         
         setSelectedItem(myLine);
         
-        newLine.myStartXProperty().bind(myLine.myStartXProperty());
-        newLine.myStartYProperty().bind(myLine.myStartYProperty());
-        newLine.myEndXProperty().bind(myLine.myEndXProperty());
-        newLine.myEndYProperty().bind(myLine.myEndYProperty());
+        highlightLine.myStartXProperty().bind(myLine.myStartXProperty());
+        highlightLine.myStartYProperty().bind(myLine.myStartYProperty());
+        highlightLine.myEndXProperty().bind(myLine.myEndXProperty());
+        highlightLine.myEndYProperty().bind(myLine.myEndYProperty());
         
-        newLine.mySetFill(Color.TRANSPARENT);
-        newLine.mySetStroke(Color.BLACK);
+        highlightLine.mySetFill(Color.TRANSPARENT);
+        highlightLine.mySetStroke(Color.BLACK);
         
-        newLine.mySetStrokeWidth(myLine.myGetStrokeWidth()+2);
+        highlightLine.mySetStrokeWidth(myLine.myGetStrokeWidth()+2);
         
-        getSelectionBorder().getChildren().add((Shape)newLine);
+        getSelectionBorder().getChildren().add((Shape)highlightLine);
         
         Parent parent = myLine.myGetParent();
         
@@ -162,21 +161,21 @@ public class Selection implements Visitor{
     public void select(MyEllipse myEllipse){
         if(getSelected().get()) return;
         
-        MyEllipse newEllipse = new MyEnhancedEllipse();
+        MyEllipse highlightEllipse = new MyEnhancedEllipse();
         
         setSelectedItem(myEllipse);
         
-        newEllipse.myCenterXProperty().bind(myEllipse.myCenterXProperty());
-        newEllipse.myCenterYProperty().bind(myEllipse.myCenterYProperty());
-        newEllipse.myRadiusXProperty().bind(myEllipse.myRadiusXProperty());
-        newEllipse.myRadiusYProperty().bind(myEllipse.myRadiusYProperty());
+        highlightEllipse.myCenterXProperty().bind(myEllipse.myCenterXProperty());
+        highlightEllipse.myCenterYProperty().bind(myEllipse.myCenterYProperty());
+        highlightEllipse.myRadiusXProperty().bind(myEllipse.myRadiusXProperty());
+        highlightEllipse.myRadiusYProperty().bind(myEllipse.myRadiusYProperty());
         
-        newEllipse.mySetFill(Color.TRANSPARENT);
-        newEllipse.mySetStroke(Color.BLACK);
+        highlightEllipse.mySetFill(Color.TRANSPARENT);
+        highlightEllipse.mySetStroke(Color.BLACK);
         
-        newEllipse.mySetStrokeWidth(myEllipse.myGetStrokeWidth()+2);
+        highlightEllipse.mySetStrokeWidth(myEllipse.myGetStrokeWidth()+2);
         
-        getSelectionBorder().getChildren().add((Shape)newEllipse);
+        getSelectionBorder().getChildren().add((Shape)highlightEllipse);
         
         Parent parent = myEllipse.myGetParent();
         
@@ -206,8 +205,7 @@ public class Selection implements Visitor{
        
         Pane pane = (Pane) parent;
         
-        Node delShapeFromPane = getSelectionBorder();
-        pane.getChildren().removeAll(delShapeFromPane);
+        pane.getChildren().removeAll(getSelectionBorder());
         
         setSelectedItem(null);
         setSelected(false);

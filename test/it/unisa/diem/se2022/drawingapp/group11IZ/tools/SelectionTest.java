@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Test of the main methods of Selection class 
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
@@ -69,7 +67,7 @@ public class SelectionTest {
     }
     
     @Test
-    public void selectLineTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+    public void selectLineTest() throws IllegalArgumentException, IllegalAccessException{
         
         pane.getChildren().add(myEnhancedLine);
         
@@ -90,7 +88,7 @@ public class SelectionTest {
     }
     
     @Test
-    public void selectRectangleTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+    public void selectRectangleTest() throws IllegalArgumentException, IllegalAccessException{
         
         pane.getChildren().add(myEnhancedRectangle);
         
@@ -111,7 +109,7 @@ public class SelectionTest {
     }
     
     @Test
-    public void selectEllipseTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+    public void selectEllipseTest() throws IllegalArgumentException, IllegalAccessException{
    
         pane.getChildren().add(myEnhancedEllipse);
         
@@ -133,7 +131,7 @@ public class SelectionTest {
     }
     
     @Test
-    public void unSelectTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+    public void unSelectTest() throws IllegalArgumentException, IllegalAccessException{
         
         pane.getChildren().add(myEnhancedRectangle);
         
@@ -148,6 +146,29 @@ public class SelectionTest {
         Assert.assertNull("selectedItem is Null", selectedShape);
         Assert.assertFalse("selected is set to false", boolProp.get());
         Assert.assertTrue("If selectionBorder is a new Group object", group.getChildren().isEmpty());
+        
+    }
+    
+    @Test
+    public void selectOnAnotherShape() throws IllegalArgumentException, IllegalAccessException{
+        pane.getChildren().add(myEnhancedRectangle);
+        
+        selection.select(myEnhancedRectangle);
+        
+        MyEnhancedLine secondShape = new MyEnhancedLine();
+        secondShape.mySetStartX(20);
+        secondShape.mySetStartY(20);
+        secondShape.mySetEndX(60);
+        secondShape.mySetEndY(20);
+        
+        selection.select(secondShape);
+        
+        group = (Group) selectionBorderField.get(selection);      
+        selectedShape = (MyShape) selectedItemField.get(selection);
+        
+        Assert.assertTrue("If group contains only one highlighted shape",group.getChildren().size() == 1);
+        Assert.assertEquals("The highlighted shape is the first", myEnhancedRectangle, selectedShape);
+        Assert.assertNotEquals("The highlighted shape is not the second", secondShape, selectedShape);
         
     }
     
