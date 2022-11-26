@@ -9,6 +9,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import java.lang.reflect.Field;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Group;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.junit.Test;
 import org.junit.After;
@@ -20,27 +21,63 @@ import org.junit.Before;
  * @author daddy
  */
 public class SelectionTest {
+    private Selection selection;
+    private Pane pane;
+    private MyEnhancedLine myEnhancedLine;
+    private MyEnhancedLine selectedBorderLine;
+    private MyEnhancedRectangle selectedBorderRectangle;
+    private MyEnhancedRectangle myEnhancedRectangle;
+    private MyEnhancedEllipse myEnhancedEllipse;
+    private MyEnhancedEllipse selectedBorderEllipse;
+    private Group group;
+    private BooleanProperty boolProp;
+    private MyShape selectedShape;
+    private Field selectionBorderField;
+    private Field selectedField;
+    private Field selectedItemField;
     
-    @Test
-    public void selectLineTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        
-        MyEnhancedLine myEnhancedLine = new MyEnhancedLine();
-        Selection selection = new Selection();
-        MyEnhancedLine selectedBorderLine;
+    @Before
+    public void setUp() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException{
+        myEnhancedLine = new MyEnhancedLine();
+        selection = new Selection();
+        pane = new Pane();
+        myEnhancedRectangle = new MyEnhancedRectangle();
+        myEnhancedEllipse = new MyEnhancedEllipse();
         
         myEnhancedLine.mySetStartX(10);
         myEnhancedLine.mySetStartY(10);
         myEnhancedLine.mySetEndX(50);
         myEnhancedLine.mySetEndY(10);
         
-        selection.select(myEnhancedLine);
+        myEnhancedRectangle.mySetX(10);
+        myEnhancedRectangle.mySetY(10);
+        myEnhancedRectangle.mySetWidth(20);
+        myEnhancedRectangle.mySetHeight(10);
         
-        Field selectionBorderField = Selection.class.getDeclaredField("selectionBorder");
-        Field selectedField = Selection.class.getDeclaredField("selected");
+        myEnhancedEllipse.mySetCenterX(50);
+        myEnhancedEllipse.mySetCenterY(50);
+        myEnhancedEllipse.mySetRadiusX(50);
+        myEnhancedEllipse.mySetRadiusY(25);
+        
+        selectionBorderField = Selection.class.getDeclaredField("selectionBorder");
+        selectedField = Selection.class.getDeclaredField("selected");
+        selectedItemField = Selection.class.getDeclaredField("selectedItem");
+        
         selectionBorderField.setAccessible(true);
         selectedField.setAccessible(true);
-        Group group = (Group) selectionBorderField.get(selection);
-        BooleanProperty boolProp = (BooleanProperty) selectedField.get(selection);
+        selectedItemField.setAccessible(true);
+    }
+    
+    @Test
+    public void selectLineTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        
+        pane.getChildren().add(myEnhancedLine);
+        
+        selection.select(myEnhancedLine);
+        
+        group = (Group) selectionBorderField.get(selection);
+        boolProp = (BooleanProperty) selectedField.get(selection);
+        
         selectedBorderLine = (MyEnhancedLine) group.getChildren().get(0);
         
         Assert.assertNotNull("If selectedBorder is not null", group.getChildren().get(0));        
@@ -55,26 +92,15 @@ public class SelectionTest {
     @Test
     public void selectRectangleTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         
-        MyEnhancedRectangle myEnhancedRectangle = new MyEnhancedRectangle();
-        Selection selection = new Selection();
-        MyEnhancedRectangle selectedBorderRectangle;
-        
-        myEnhancedRectangle.mySetX(10);
-        myEnhancedRectangle.mySetY(10);
-        myEnhancedRectangle.mySetWidth(20);
-        myEnhancedRectangle.mySetHeight(10);
+        pane.getChildren().add(myEnhancedRectangle);
         
         selection.select(myEnhancedRectangle);
         
-        Field selectionBorderField = Selection.class.getDeclaredField("selectionBorder");
-        Field selectedField = Selection.class.getDeclaredField("selected");
-        selectionBorderField.setAccessible(true);
-        selectedField.setAccessible(true);
-        Group group = (Group) selectionBorderField.get(selection);        
-        BooleanProperty boolProp = (BooleanProperty) selectedField.get(selection);
+        group = (Group) selectionBorderField.get(selection);        
+        boolProp = (BooleanProperty) selectedField.get(selection);
+        
         selectedBorderRectangle = (MyEnhancedRectangle) group.getChildren().get(0);
 
-        
         Assert.assertNotNull("If selectedBorder is not null", group.getChildren().get(0));   
         Assert.assertEquals("If selectedBorderRectangle is a myEnhancedRectangle", selectedBorderRectangle.getClass(), (new MyEnhancedRectangle()).getClass());
         Assert.assertEquals("If selectedBorderRectangle has black stroke", selectedBorderRectangle.myGetStroke(), Color.BLACK);
@@ -86,24 +112,14 @@ public class SelectionTest {
     
     @Test
     public void selectEllipseTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        
-        MyEnhancedEllipse myEnhancedEllipse = new MyEnhancedEllipse();
-        Selection selection = new Selection();
-        MyEnhancedEllipse selectedBorderEllipse;
-        
-        myEnhancedEllipse.mySetCenterX(50);
-        myEnhancedEllipse.mySetCenterY(50);
-        myEnhancedEllipse.mySetRadiusX(50);
-        myEnhancedEllipse.mySetRadiusY(25);
+   
+        pane.getChildren().add(myEnhancedEllipse);
         
         selection.select(myEnhancedEllipse);
         
-        Field selectionBorderField = Selection.class.getDeclaredField("selectionBorder");
-        Field selectedField = Selection.class.getDeclaredField("selected");
-        selectionBorderField.setAccessible(true);
-        selectedField.setAccessible(true);
-        Group group = (Group) selectionBorderField.get(selection);        
-        BooleanProperty boolProp = (BooleanProperty) selectedField.get(selection);        
+        group = (Group) selectionBorderField.get(selection);        
+        boolProp = (BooleanProperty) selectedField.get(selection);
+        
         selectedBorderEllipse = (MyEnhancedEllipse) group.getChildren().get(0);
 
         
@@ -113,6 +129,25 @@ public class SelectionTest {
         Assert.assertEquals("If selectedBorderEllipse has transparent fill",selectedBorderEllipse.myGetFill(), Color.TRANSPARENT);
         Assert.assertTrue("If selectedBorderEllipse stroke > myEnhancedEllipse stroke", selectedBorderEllipse.getStrokeWidth() > myEnhancedEllipse.getStrokeWidth());
         Assert.assertTrue("If selected property is true", boolProp.get());
+        
+    }
+    
+    @Test
+    public void unSelectTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        
+        pane.getChildren().add(myEnhancedRectangle);
+        
+        selection.select(myEnhancedRectangle);
+        
+        selection.unSelect();
+        
+        group = (Group) selectionBorderField.get(selection);        
+        boolProp = (BooleanProperty) selectedField.get(selection);
+        selectedShape = (MyShape) selectedItemField.get(selection);
+        
+        Assert.assertNull("selectedItem is Null", selectedShape);
+        Assert.assertFalse("selected is set to false", boolProp.get());
+        Assert.assertTrue("If selectionBorder is a new Group object", group.getChildren().isEmpty());
         
     }
     
