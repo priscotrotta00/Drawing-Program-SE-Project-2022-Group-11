@@ -129,6 +129,9 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
     }
 
    
+    public void mySetVisible(boolean value) {
+        super.setVisible(value);
+    }
     
 }
 

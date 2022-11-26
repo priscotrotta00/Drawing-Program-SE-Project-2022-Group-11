@@ -27,4 +27,6 @@ public interface MyShape  {
     public Parent myGetParent();
     public double myGetStrokeWidth();
     public void mySetStrokeWidth(double value);
+    public void mySetVisible(boolean value);
+    
 }

@@ -126,5 +126,8 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         super.setStrokeWidth(value);
     }
 
+    public void mySetVisible(boolean value) {
+        super.setVisible(value);
+    }
    
 }

@@ -10,8 +10,10 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
 
 /**
- *
- * @author utente
+ * Class that represents the Draw Rectangle Tool of a drawing app. It modifies
+ * the Pane behaviour in order to create and show a Rectangle according to the
+ * mouse coordinates
+ * @author Felice Scala
  */
 public class DrawRectangleTool extends DrawShapeTool{
     
@@ -19,9 +21,33 @@ public class DrawRectangleTool extends DrawShapeTool{
     
     private DrawRectangleTool(){}
     
+    /**
+     * Get the instance of Draw Rectangle Tool, according to the Singleton Pattern
+     * @return Instance of Draw Rectangle Tool
+     */
     public static Tool getInstance(){
         if (singleton == null) singleton = new DrawRectangleTool();
         return singleton;
+    }
+    
+    /**
+     * Method that returns the width of a rectangle gven its X coordinates
+     * @param topLeftX X coordinate of the upper-left point
+     * @param bottomRightX X coordinate of the bottom-right point
+     * @return Width of rectangle
+     */
+    private double computeRectangleWidth(double topLeftX, double bottomRightX){
+        return bottomRightX - topLeftX;
+    }
+    
+    /**
+     * Method that returns the height of a rectangle gven its X coordinates
+     * @param topLeftY Y coordinate of the upper-left point
+     * @param bottomRightY Y coordinate of the bottom-right point
+     * @return Height
+     */
+    private double computeRectangleHeight(double topLeftY, double bottomRightY){
+        return bottomRightY - topLeftY;
     }
 
     /***
@@ -35,9 +61,9 @@ public class DrawRectangleTool extends DrawShapeTool{
      * @return A new Rectangle
      */
     @Override
-    public MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
-        double width = bottomRightX - topLeftX;
-        double height = bottomRightY - topLeftY;
+    MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+        double width = this.computeRectangleWidth(topLeftX, bottomRightX);
+        double height = this.computeRectangleHeight(topLeftY, bottomRightY);
         Color strokeColor = Color.BLACK;
         Color fillColor = Color.WHITE;
         MyRectangle rectangle = new MyEnhancedRectangle();
@@ -50,6 +76,27 @@ public class DrawRectangleTool extends DrawShapeTool{
         rectangle.mySetFill(fillColor);
         
         return rectangle;
+    }
+    
+    /**
+     * Method that modify the previously created Rectangel using the passed coordinates
+     * to calculate width and height. The new rectangle will have a black stroke 
+     * and a white fill
+     * @param topLeftX
+     * @param topLeftY
+     * @param bottomRightX
+     * @param bottomRightY 
+     */
+    @Override
+    void modifyCreatedShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+        double width = this.computeRectangleWidth(topLeftX, bottomRightX);
+        double height = this.computeRectangleHeight(topLeftY, bottomRightY);
+        MyRectangle rectangle = (MyRectangle) this.getCreatedShape();
+        
+        rectangle.mySetX(topLeftX);
+        rectangle.mySetY(topLeftY);
+        rectangle.mySetWidth(width);
+        rectangle.mySetHeight(height);
     }
     
 }

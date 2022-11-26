@@ -125,4 +125,10 @@ public class MyEnhancedLine extends Line implements MyLine{
         super.setStrokeWidth(value);
     }
 
+    
+    @Override
+    public void mySetVisible(boolean value) {
+        super.setVisible(value);
+    }
+    
 }
