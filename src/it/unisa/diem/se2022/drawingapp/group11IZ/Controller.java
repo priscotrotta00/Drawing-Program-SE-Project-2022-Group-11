@@ -182,7 +182,7 @@ public class Controller implements Initializable {
      * Add MyShape into draw and into Pane. 
      * @param shape 
      */
-    public void addShape(MyShape shape) throws Exception{
+    public void addShape(MyShape shape){
         drawPane.getChildren().add((Shape) shape);
         this.draw.addShape(shape);
     }
@@ -191,7 +191,7 @@ public class Controller implements Initializable {
      * Delete MyShape draw and into Pane.
      * @param event 
      */
-    public void removeShape(MyShape myShape) throws Exception{
+    public void removeShape(MyShape myShape) {
         drawPane.getChildren().remove(myShape);
         this.draw.removeShape(myShape); 
     }

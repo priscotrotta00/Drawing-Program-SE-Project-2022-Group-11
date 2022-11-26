@@ -152,7 +152,7 @@ public class ControllerTest {
     }
     
     @Test
-    public void testAddShape() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, Exception{
+    public void testAddShape() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         System.out.println("add");
         
         this.drawPaneField.setAccessible(true);
@@ -181,7 +181,7 @@ public class ControllerTest {
     }
     
     @Test (expected=Exception.class)
-    public void testRemove3() throws NoSuchFieldException, IllegalAccessException, Exception{
+    public void testRemove3() throws NoSuchFieldException, IllegalAccessException{
         System.out.println("remove");
         
         this.drawPaneField.setAccessible(true);

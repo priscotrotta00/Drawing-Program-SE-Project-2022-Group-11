@@ -3,10 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.AddedDuplicateException;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import org.junit.After;
@@ -66,7 +67,7 @@ public class DrawingTest {
       
     } 
     
-    @Test (expected=Exception.class)
+    @Test (expected=AddedDuplicateException.class)
     public void testAdd2() throws NoSuchFieldException, IllegalAccessException, Exception{
         System.out.println("add");
         
@@ -84,7 +85,7 @@ public class DrawingTest {
     }
     
     
-    @Test (expected=Exception.class)
+    @Test (expected=ShapeNotFoundException.class)
     public void testRemove1() throws NoSuchFieldException, IllegalAccessException, Exception{
         System.out.println("remove");
         
@@ -99,7 +100,7 @@ public class DrawingTest {
         
     }
     
-    @Test (expected=Exception.class)
+    @Test (expected=ShapeNotFoundException.class)
     public void testRemove2() throws NoSuchFieldException, IllegalAccessException, Exception{
         System.out.println("remove");
         
@@ -114,7 +115,7 @@ public class DrawingTest {
         
     }
  
-    @Test (expected=Exception.class)
+    @Test (expected=ShapeNotFoundException.class)
     public void testRemove3() throws NoSuchFieldException, IllegalAccessException, Exception{
         System.out.println("remove");
         
@@ -129,7 +130,7 @@ public class DrawingTest {
     }
     
     @Test 
-    public void testRemove4() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, Exception{
+    public void testRemove4() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         //add element and after delete it
         System.out.println("remove");
         
@@ -170,7 +171,7 @@ public class DrawingTest {
         
     }
     @Test
-    public void testMoveToForeground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, Exception{
+    public void testMoveToForeground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         System.out.println("move to foreground");
         
         Field listField = Drawing.class.getDeclaredField("figures");
@@ -212,7 +213,7 @@ public class DrawingTest {
     }
     
     @Test
-    public void testMoveToBackground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException, Exception{
+    public void testMoveToBackground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         System.out.println("move to background");
         
         Field listField = Drawing.class.getDeclaredField("figures");
@@ -342,6 +343,18 @@ public class DrawingTest {
     @Test (expected = NullPointerException.class)
     public void testImportDrawingFromNullFile() throws ParseException, Exception{
         File file = null;
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+    }
+    
+    @Test (expected = ExtensionFileException.class)
+    public void testImportDrawingFromNotJSONFile() throws ParseException, Exception{
+        File file = new File("test5.txt");
+        Drawing loadedDrawing = Drawing.importDrawing(file);
+    }
+    
+    @Test (expected = FileNotFoundException.class)
+    public void testImportDrawingFromNotFoundFile() throws ParseException, Exception{
+        File file = new File("test6.json");
         Drawing loadedDrawing = Drawing.importDrawing(file);
     }
     
