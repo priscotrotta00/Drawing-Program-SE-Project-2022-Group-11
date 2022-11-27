@@ -10,7 +10,7 @@ An application implementing a geometric drawing program
 
 A first interface prototype of our Application is shown in the following image
 
-![alt text](https://github.com/priscotrotta00/Drawing-Program-SE-Project-2022-Group-11/blob/main/InterfacePrototype.png)
+![Interface Prototype](InterfacePrototype.png)
 
 ## Links
 
@@ -20,7 +20,7 @@ Our links:
 
 ## UML Class Diagram
 
-![alt text]("Drawing App UML.png")
+![Class Diagram](Drawing%20App%20UML.png)
 
 ## Definition of Done
 
