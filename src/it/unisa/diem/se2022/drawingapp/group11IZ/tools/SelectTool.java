@@ -83,18 +83,14 @@ public class SelectTool implements Tool{
     @Override
     public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
         EventTarget eventTarget = event.getTarget();
-        //System.out.println(eventTarget.toString());
+        
         if(!(eventTarget instanceof MyShape)) {
             selectedShape.unSelect();
             return;
         }
         
         MyShape shape = (MyShape) eventTarget;
-        //System.out.println(shape);
-        ///System.out.println(selectedShape.getSelectionBorder().getChildren());
-        /*if(selectedShape.selectedProperty())
-            selectedShape.unSelect();*/
-        //if(shape.myGetFill().equals(Color.)) return;
+        
         setSelectedShape(shape);
     }
 

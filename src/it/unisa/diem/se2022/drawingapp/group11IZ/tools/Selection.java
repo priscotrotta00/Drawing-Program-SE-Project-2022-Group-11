@@ -175,8 +175,6 @@ public class Selection implements Visitor{
      * @param myEllipse the selected ellipse
      */
     public void select(MyEllipse myEllipse){
-        //if(this.getSelectionBorder().getChildren().get(0).equals(getSelectionBorder().getChildren().get(0)))
-        
         if(selectedProperty()) this.unSelect();
         
         MyEllipse highlightEllipse = new MyEnhancedEllipse();
@@ -208,7 +206,7 @@ public class Selection implements Visitor{
         if(!(parent instanceof Pane)) return;
         
         Pane pane = (Pane) parent;
-        //System.out.println(getSelectionBorder().getChildren());
+        
         pane.getChildren().add(getSelectionBorder());
         
         setSelected(true);
@@ -220,7 +218,7 @@ public class Selection implements Visitor{
      */
     public void unSelect(){
         if(!selectedProperty()) return;
-        System.out.println(getSelectionBorder().getChildren());
+        
         Node node = getSelectedItem().myGetParent(); 
         
         if(!(node instanceof Node)) return;
@@ -231,13 +229,11 @@ public class Selection implements Visitor{
        
         Pane pane = (Pane) parent;
         
-        //getSelectionBorder().getChildren().setAll(null);
         pane.getChildren().removeAll(getSelectionBorder());
         
         setSelectedItem(null);
         setSelected(false);
         setSelectionBorder(new Group()); 
-        //System.out.println(getSelectionBorder().getChildren());
     }
     
     /**
