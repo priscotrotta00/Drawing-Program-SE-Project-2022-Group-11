@@ -59,13 +59,9 @@ public class Controller implements Initializable {
     @FXML
     private ToggleButton selectionToggleButton;
     @FXML
-    private Label labelColors;
-    @FXML
     private Button changeStrokeColorButton;
     @FXML
     private Button changeFillColorButton;
-    @FXML
-    private Label labelOptions;
     @FXML
     private Button copyButton;
     @FXML
@@ -87,9 +83,13 @@ public class Controller implements Initializable {
     
     //ADDED
     private ToggleGroup toolToggleGroup;
-    private ToggleGroup colorToggleGroup;
     private Rectangle clip;
     private Tool selectedTool;
+    
+    @FXML
+    private Label colorsLabel;
+    @FXML
+    private Label optionsLabel;
             
     /**
      * Initializes the controller class.

@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -22,6 +23,7 @@ public class DrawingProgramSEProject2022Group11 extends Application {
         
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         Scene scene = new Scene(root);
+        stage.getIcons().add(new Image("it/unisa/diem/se2022/drawingapp/group11IZ/images/icon.png"));
         stage.setResizable(false);
         stage.setTitle("Our Drawing Application");
         stage.setScene(scene);
