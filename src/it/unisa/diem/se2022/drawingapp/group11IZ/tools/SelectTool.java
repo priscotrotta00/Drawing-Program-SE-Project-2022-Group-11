@@ -10,6 +10,7 @@ import javafx.event.EventTarget;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -88,11 +89,7 @@ public class SelectTool implements Tool{
             return;
         }
         
-        
         MyShape shape = (MyShape) eventTarget;
-        
-        if(selectedShape.selectedProperty().get())
-            selectedShape.unSelect();
         
         setSelectedShape(shape);
     }
