@@ -6,6 +6,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.junit.After;
 import org.junit.Assert;
@@ -135,65 +136,93 @@ public class DrawRectangleToolTest {
     
     @Test
     public void testCreateShapeLongX(){
-        Rectangle test = (Rectangle) tool.createShape(10, 10, 30, 20);
+        Rectangle test = (Rectangle) tool.createShape(10, 10, 30, 20, Color.BLACK, Color.WHITE);
         Assert.assertEquals("Test getX == 10", 10, test.getX(), 0);
         Assert.assertEquals("Test getY == 10", 10, test.getY(), 0);
         Assert.assertEquals("Test width == 20", 20, test.getWidth(), 0);
         Assert.assertEquals("Test heigth == 10", 10, test.getHeight(), 0);
+        Assert.assertEquals("Test stroke color", Color.BLACK.toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.WHITE.toString(), test.getFill().toString());
     }
     
     @Test
     public void testCreateShapeLongY(){
-        Rectangle test = (Rectangle) tool.createShape(10, 10, 20, 30);
+        Rectangle test = (Rectangle) tool.createShape(10, 10, 20, 30, Color.BLACK, Color.WHITE);
         Assert.assertEquals("Test getX == 10", 10, test.getX(), 0);
         Assert.assertEquals("Test getY == 10", 10, test.getY(), 0);
         Assert.assertEquals("Test width == 10", 10, test.getWidth(), 0);
         Assert.assertEquals("Test heigth == 20", 20, test.getHeight(), 0);
+        Assert.assertEquals("Test stroke color", Color.BLACK.toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.WHITE.toString(), test.getFill().toString());
     }
     
     @Test
     public void testCreateShapeHLine(){
-        Rectangle test = (Rectangle) tool.createShape(10, 10, 50, 10);
+        Rectangle test = (Rectangle) tool.createShape(10, 10, 50, 10, Color.BLACK, Color.WHITE);
         Assert.assertEquals("Test Rectangle no Height getX == 10", 10, test.getX(), 0);
         Assert.assertEquals("Test Rectangle no Height getY == 10", 10, test.getY(), 0);
         Assert.assertEquals("Test Rectangle no Height getWidth == 40", 40, test.getWidth(), 0);
         Assert.assertEquals("Test Rectangle no Height getHeight == 0", 0, test.getHeight(), 0);
+        Assert.assertEquals("Test stroke color", Color.BLACK.toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.WHITE.toString(), test.getFill().toString());
     }
 
     @Test
     public void testCreateShapeVLine(){
-        Rectangle test = (Rectangle) tool.createShape(10, 10, 10, 50);
+        Rectangle test = (Rectangle) tool.createShape(10, 10, 10, 50, Color.BLACK, Color.WHITE);
         Assert.assertEquals("Test Rectangle no Width getX == 10", 10, test.getX(), 0);
         Assert.assertEquals("Test Rectangle no Width getY == 10", 10, test.getY(), 0);
         Assert.assertEquals("Test Rectangle no Width getWidth == 0", 0, test.getWidth(), 0);
         Assert.assertEquals("Test Rectangle no Width getHeight == 40", 40, test.getHeight(), 0);
+        Assert.assertEquals("Test stroke color", Color.BLACK.toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.WHITE.toString(), test.getFill().toString());
     }
 
     @Test
     public void testCreateShapePoint(){
-        Rectangle test = (Rectangle) tool.createShape(10, 10, 10, 10);
+        Rectangle test = (Rectangle) tool.createShape(10, 10, 10, 10, Color.BLACK, Color.WHITE);
         Assert.assertEquals("Test Rectangle as point getX == 10", 10, test.getX(), 0);
         Assert.assertEquals("Test Rectangle as point getY == 10", 10, test.getY(), 0);
         Assert.assertEquals("Test Rectangle as point getWidth == 0", 0, test.getWidth(), 0);
         Assert.assertEquals("Test Rectangle as point getHeight == 0", 0, test.getHeight(), 0);
+        Assert.assertEquals("Test stroke color", Color.BLACK.toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.WHITE.toString(), test.getFill().toString());
     }
     
     @Test
     public void testCreateShapeNegativeCoordinates(){
-        Rectangle test = (Rectangle) tool.createShape(-30, -20, -10, -10);
+        Rectangle test = (Rectangle) tool.createShape(-30, -20, -10, -10, Color.BLACK, Color.WHITE);
         Assert.assertEquals("Test Rectangle as point getX == -30", -30, test.getX(), 0);
         Assert.assertEquals("Test Rectangle as point getY == -20", -20, test.getY(), 0);
         Assert.assertEquals("Test Rectangle as point getWidth == 20", 20, test.getWidth(), 0);
         Assert.assertEquals("Test Rectangle as point getHeight == 10", 10, test.getHeight(), 0);
+        Assert.assertEquals("Test stroke color", Color.BLACK.toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.WHITE.toString(), test.getFill().toString());
     }
     
     @Test
     public void testCreateShapeNegativePositiveCoordinates(){
-        Rectangle test = (Rectangle) tool.createShape(-30, -20, 10, 10);
+        Rectangle test = (Rectangle) tool.createShape(-30, -20, 10, 10, Color.BLACK, Color.WHITE);
         Assert.assertEquals("Test Rectangle as point getX == -30", -30, test.getX(), 0);
         Assert.assertEquals("Test Rectangle as point getY == -20", -20, test.getY(), 0);
         Assert.assertEquals("Test Rectangle as point getWidth == 40", 40, test.getWidth(), 0);
         Assert.assertEquals("Test Rectangle as point getHeight == 30", 30, test.getHeight(), 0);
+        Assert.assertEquals("Test stroke color", Color.BLACK.toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.WHITE.toString(), test.getFill().toString());
+    }
+    
+    @Test
+    public void testCreateShapeDifferentColors1(){
+        Rectangle test = (Rectangle) tool.createShape(-30, -20, 10, 10, Color.RED, Color.PURPLE);
+        Assert.assertEquals("Test stroke color", Color.RED.toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.PURPLE.toString(), test.getFill().toString());
+    }
+    
+    @Test
+    public void testCreateShapeDifferentColors2(){
+        Rectangle test = (Rectangle) tool.createShape(-30, -20, 10, 10, Color.web("#f68"), Color.color(1, 0.5, 0.45));
+        Assert.assertEquals("Test stroke color", Color.web("#f68").toString(), test.getStroke().toString());
+        Assert.assertEquals("Test fill color", Color.color(1, 0.5, 0.45).toString(), test.getFill().toString());
     }
     
     @Test

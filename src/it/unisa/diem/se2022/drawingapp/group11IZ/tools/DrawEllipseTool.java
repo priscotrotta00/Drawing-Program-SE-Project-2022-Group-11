@@ -74,22 +74,21 @@ public class DrawEllipseTool extends DrawShapeTool{
 
     /**
      * Method that create a new Ellipse as a Shape using the passed coordinates
-     * to calculate radiusX, radiusY, centerX and centerY. The new ellipse will 
-     * have a black stroke and a white fill
+     * to calculate radiusX, radiusY, centerX and centerY, and the passed colors
      * @param topLeftX
      * @param topLeftY
      * @param bottomRightX
      * @param bottomRightY
+     * @param strokeColor
+     * @param fillColor
      * @return A new Ellipse
      */
     @Override
-    MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+    MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY, Color strokeColor, Color fillColor) {
         double radiusX = this.computeEllipseRadiusX(topLeftX, bottomRightX);
         double radiusY = this.computeEllipseRadiusY(topLeftY, bottomRightY);
         double centerX = this.computeEllipseCenterX(radiusX, topLeftX);
         double centerY = this.computeEllipseCenterY(radiusY, topLeftY);
-        Color strokeColor = Color.BLACK;
-        Color fillColor = Color.WHITE;
         MyEllipse result = new MyEnhancedEllipse();
         
         result.mySetCenterX(centerX);
@@ -104,8 +103,7 @@ public class DrawEllipseTool extends DrawShapeTool{
 
     /**
      * Method that modify the previously created Ellipse using the passed 
-     * coordinates to calculateradiusX, radiusY, centerX and centerY. 
-     * The new ellipse will have a black stroke and a white fill
+     * coordinates to calculateradiusX, radiusY, centerX and centerY.
      * @param topLeftX
      * @param topLeftY
      * @param bottomRightX
@@ -117,16 +115,12 @@ public class DrawEllipseTool extends DrawShapeTool{
         double radiusY = this.computeEllipseRadiusY(topLeftY, bottomRightY);
         double centerX = this.computeEllipseCenterX(radiusX, topLeftX);
         double centerY = this.computeEllipseCenterY(radiusY, topLeftY);
-        Color strokeColor = Color.BLACK;
-        Color fillColor = Color.WHITE;
         MyEllipse result = (MyEllipse) this.getCreatedShape();
         
         result.mySetCenterX(centerX);
         result.mySetCenterY(centerY);
         result.mySetRadiusX(radiusX);
         result.mySetRadiusY(radiusY);
-        result.mySetStroke(strokeColor);
-        result.mySetFill(fillColor);
     }
     
 }

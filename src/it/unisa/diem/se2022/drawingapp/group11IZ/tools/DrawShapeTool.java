@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 /**
  * Abstract class that represents a drawing shape tool, which defines the basic 
@@ -39,7 +40,7 @@ public abstract class DrawShapeTool implements Tool{
         this.startX = event.getX();
         this.startY = event.getY();
         
-        this.setCreatedShape(this.createShape(startX, startY, startX, startY));
+        this.setCreatedShape(this.createShape(startX, startY, startX, startY, c.getSelectedStrokeColor(), c.getSelectedFillColor()));
         this.getCreatedShape().mySetVisible(true);
         try {
             c.addShape(createdShape);
@@ -147,7 +148,7 @@ public abstract class DrawShapeTool implements Tool{
         return endY > startY ? endY : endY == startY ? endY : startY;
     }
     
-    abstract MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
+    abstract MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY, Color strokeColor, Color fillColor);
     
     abstract void modifyCreatedShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
     

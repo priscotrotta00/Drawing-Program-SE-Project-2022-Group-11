@@ -14,8 +14,10 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import java.lang.reflect.Field;
 import javafx.application.Application;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +40,8 @@ public class ControllerTest {
     private Field selectedToolField;
     private Field drawPaneField;
     private Field drawingField;
+    private Field strokeColorPickerField;
+    private Field fillColorPickerField;
     
     public static class AsNonApp extends Application {
 
@@ -74,6 +78,8 @@ public class ControllerTest {
        selectedToolField = Controller.class.getDeclaredField("selectedTool");
        drawPaneField = Controller.class.getDeclaredField("drawPane");
        drawingField = Controller.class.getDeclaredField("draw");
+       strokeColorPickerField = Controller.class.getDeclaredField("strokeColorPicker");
+       fillColorPickerField = Controller.class.getDeclaredField("fillColorPicker");
        
        c = new Controller();
    }
@@ -249,6 +255,36 @@ public class ControllerTest {
         assertFalse("Error in removeShape",pane.getChildren().contains(line));
         c.removeShape(rectangle);
         assertFalse("Error in removeShape",pane.getChildren().contains(rectangle));
+    }
+    
+    @Test
+    public void testGetSelectedStrokeColor() throws IllegalAccessException{
+        ColorPicker colorPicker = new ColorPicker();
+        
+        this.strokeColorPickerField.setAccessible(true);
+        this.strokeColorPickerField.set(c, colorPicker);
+        
+        colorPicker.setValue(Color.BLUE);
+        Assert.assertEquals("Test stroke color blue (static)", this.c.getSelectedStrokeColor().toString(), Color.BLUE.toString());
+        colorPicker.setValue(Color.web("#f68"));
+        Assert.assertEquals("Test stroke color orange (web)", this.c.getSelectedStrokeColor().toString(), Color.web("#f68").toString());
+        colorPicker.setValue(Color.web("#00ff00"));
+        Assert.assertEquals("Test stroke color green (web)", this.c.getSelectedStrokeColor().toString(), Color.web("#00ff00").toString());
+    }
+    
+    @Test
+    public void testGetSelectedFillColor() throws IllegalAccessException{
+        ColorPicker colorPicker = new ColorPicker();
+        
+        this.fillColorPickerField.setAccessible(true);
+        this.fillColorPickerField.set(c, colorPicker);
+        
+        colorPicker.setValue(Color.BLUE);
+        Assert.assertEquals("Test stroke color blue (static)", this.c.getSelectedFillColor().toString(), Color.BLUE.toString());
+        colorPicker.setValue(Color.web("#f68"));
+        Assert.assertEquals("Test stroke color orange (web)", this.c.getSelectedFillColor().toString(), Color.web("#f68").toString());
+        colorPicker.setValue(Color.web("#00ff00"));
+        Assert.assertEquals("Test stroke color green (web)", this.c.getSelectedFillColor().toString(), Color.web("#00ff00").toString());
     }
     
 }

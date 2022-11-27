@@ -29,6 +29,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
@@ -230,6 +231,22 @@ public class Controller implements Initializable {
      */
     public void moveShapeToBackground(MyShape myShape){
         this.draw.moveToBackground(myShape);
+    }
+    
+    /**
+     * Get the Stroke Color picked by user from the Stroke Color Picker
+     * @return the Stroke Color picked by user
+     */
+    public Color getSelectedStrokeColor(){
+        return this.strokeColorPicker.getValue();
+    }
+    
+    /**
+     * Get the Fill Color picked by user from the Fill Color Picker
+     * @return the Fill Color picked by user
+     */
+    public Color getSelectedFillColor(){
+        return this.fillColorPicker.getValue();
     }
     
     /**

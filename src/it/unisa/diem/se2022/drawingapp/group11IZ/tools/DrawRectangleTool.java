@@ -52,20 +52,19 @@ public class DrawRectangleTool extends DrawShapeTool{
 
     /***
      * Method that create a new Rectangle as a Shape using the passed coordinates
-     * to calculate width and height. The new rectangle will have a black stroke 
-     * and a white fill
+     * to calculate width and height and the passed colors
      * @param topLeftX
      * @param topLeftY
      * @param bottomRightX
      * @param bottomRightY
+     * @param strokeColor
+     * @param fillColor
      * @return A new Rectangle
      */
     @Override
-    MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+    MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY, Color strokeColor, Color fillColor) {
         double width = this.computeRectangleWidth(topLeftX, bottomRightX);
         double height = this.computeRectangleHeight(topLeftY, bottomRightY);
-        Color strokeColor = Color.BLACK;
-        Color fillColor = Color.WHITE;
         MyRectangle rectangle = new MyEnhancedRectangle();
         
         rectangle.mySetX(topLeftX);
@@ -80,8 +79,7 @@ public class DrawRectangleTool extends DrawShapeTool{
     
     /**
      * Method that modify the previously created Rectangel using the passed coordinates
-     * to calculate width and height. The new rectangle will have a black stroke 
-     * and a white fill
+     * to calculate width and height.
      * @param topLeftX
      * @param topLeftY
      * @param bottomRightX

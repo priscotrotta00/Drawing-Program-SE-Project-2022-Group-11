@@ -47,18 +47,19 @@ public class DrawLineTool extends DrawShapeTool{
     }
 
     /**
-     * Method that create a new Line as a Shape using the passed coordinates. 
-     * The new line will have a black stroke and a white fill
+     * Method that create a new Line as a Shape using the passed coordinates and
+     * strokeColor.
      * @param startX
      * @param startY
      * @param endX
      * @param endY
+     * @param strokeColor
+     * @param fillColor
      * @return A new line
      */
     @Override
-    MyShape createShape(double startX, double startY, double endX, double endY) {
+    MyShape createShape(double startX, double startY, double endX, double endY, Color strokeColor, Color fillColor) {
         MyLine result = new MyEnhancedLine();
-        Color strokeColor = Color.BLACK;
         
         result.mySetStartX(startX);
         result.mySetStartY(startY);
@@ -70,8 +71,7 @@ public class DrawLineTool extends DrawShapeTool{
     }
 
     /**
-     * Method that create a new Line as a Shape using the passed coordinates. 
-     * The new line will have a black stroke and a white fill
+     * Method that create a new Line as a Shape using the passed coordinates.
      * @param startX
      * @param startY
      * @param endX
