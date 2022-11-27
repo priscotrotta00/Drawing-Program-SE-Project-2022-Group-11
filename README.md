@@ -18,6 +18,12 @@ Our links:
 - To access to our Bacheca Trello click [here](https://trello.com/b/aSnWUSzm/scrum-board)
 - To access to our Product Backlog click [here](https://docs.google.com/spreadsheets/d/1XaCnBN4cuR05TMK2ExlH_ur3wS84wBuVe6LEqrFkWdg/edit?usp=sharing)
 
+## Artifacts
+
+### First sprint
+- First sprint review: [here](https://drive.google.com/file/d/1kzPZya06rCov1XQGVv6PKCGH1UrXnhEK/view?usp=share_link)
+- First sprint retrospective: [here](https://drive.google.com/file/d/1XCqZpSGd7vfCF4IWIQ2-gHt4rI5Vd_pc/view?usp=share_link)
+
 ## UML Class Diagram
 
 ![Class Diagram](Drawing%20App%20UML.png)
