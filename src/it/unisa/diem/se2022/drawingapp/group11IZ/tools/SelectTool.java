@@ -25,7 +25,7 @@ public class SelectTool implements Tool{
      * single instance of SelectTool
      */
     private SelectTool() {
-        SelectTool.selectedShape = new Selection();
+        SelectTool.selectedShape = Selection.getInstance();
     }
     
     /**
