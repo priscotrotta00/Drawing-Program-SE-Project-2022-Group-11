@@ -11,7 +11,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.SelectTool;
-import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
 import java.io.File;
 import java.net.URL;
@@ -86,7 +85,6 @@ public class Controller implements Initializable {
     private ToggleGroup toolToggleGroup;
     private Rectangle clip;
     private Tool selectedTool;
-    private Selection selection;
     
     @FXML
     private Label colorsLabel;
@@ -119,7 +117,6 @@ public class Controller implements Initializable {
             selectedTool.handleOnPrimaryMouseClick(this, value);
         });
         
-        selection = Selection.getInstance();
     }
 
     /**
@@ -165,7 +162,6 @@ public class Controller implements Initializable {
         
         drawPane.setOnMouseClicked(event -> {
             selectedTool.handleOnPrimaryMouseClick(this, event);
-            
         });
         
         drawPane.setOnContextMenuRequested(event -> {
@@ -197,7 +193,6 @@ public class Controller implements Initializable {
             this.selectedTool = DrawLineTool.getInstance();
         else if (toggle.equals(selectionToggleButton))
             this.selectedTool = SelectTool.getInstance();
-        
     }
     
     public void updateSelectedColor(){
@@ -252,14 +247,6 @@ public class Controller implements Initializable {
      */
     public Color getSelectedFillColor(){
         return this.fillColorPicker.getValue();
-    }
-    
-    public Selection getSelection(){
-        return this.selection;
-    }
-    
-    public void setSelection(Selection selection){
-        this.selection = selection;
     }
     
     /**
