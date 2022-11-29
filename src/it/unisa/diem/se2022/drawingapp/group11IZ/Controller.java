@@ -11,6 +11,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.SelectTool;
+import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
 import java.io.File;
 import java.net.URL;
@@ -85,6 +86,7 @@ public class Controller implements Initializable {
     private ToggleGroup toolToggleGroup;
     private Rectangle clip;
     private Tool selectedTool;
+    private Selection selection;
     
     @FXML
     private Label colorsLabel;
@@ -116,6 +118,8 @@ public class Controller implements Initializable {
         drawPane.setOnMouseClicked(value ->{
             selectedTool.handleOnPrimaryMouseClick(this, value);
         });
+        
+        selection = Selection.getInstance();
         
     }
 

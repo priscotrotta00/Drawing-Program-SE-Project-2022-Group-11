@@ -22,14 +22,24 @@ public class Selection implements Visitor{
     private Group selectionBorder;
     private MyShape selectedItem;
     private BooleanProperty selected;
+    private static Selection instance = null;
 
     /**
      * Class constructor.
      */
-    public Selection() {
+    private Selection() {
         this.selectionBorder = new Group();
         this.selectedItem = null;
         this.selected = new SimpleBooleanProperty(false);
+    }
+    
+    /**
+     * 
+     * @return the instance of SelectTool.
+     */
+    public static Selection getInstance(){
+        if (instance == null) instance = new Selection();
+        return instance;
     }
     
     /**
