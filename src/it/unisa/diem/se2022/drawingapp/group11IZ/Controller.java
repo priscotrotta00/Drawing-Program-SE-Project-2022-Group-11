@@ -4,6 +4,9 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -18,6 +21,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
+import static javafx.beans.binding.Bindings.not;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -120,6 +126,7 @@ public class Controller implements Initializable {
         });
         
         selection = Selection.getInstance();
+        this.initializeChangeColorBindings();
         
     }
 
@@ -171,6 +178,16 @@ public class Controller implements Initializable {
         drawPane.setOnContextMenuRequested(event -> {
             selectedTool.handleOnContextMenuRequested(this, event);
         });
+    }
+    
+    /**
+     * Initialize the changeStrokeColorButton and changeFillColorButton bindings
+     */
+    
+    public void initializeChangeColorBindings(){
+        BooleanBinding ex = Bindings.or(not(this.selectionToggleButton.selectedProperty()), not(selection.getSelected()));
+        changeStrokeColorButton.disableProperty().bind(ex);
+        changeFillColorButton.disableProperty().bind(ex);
     }
 
     public void updateDraw(){
@@ -300,12 +317,26 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Change the stroke color of the selected shape with the color in the StrokeColorPicker
+     * @param event 
+     */
+    
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
+        ChangeColorCommand ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
+        ccc.execute();
     }
 
+    /**
+     * Change the fill color of the selected shape with the color in the fillColorPicker
+     * @param event 
+     */
+    
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
+        ChangeColorCommand ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
+        ccc.execute();
     }
 
     @FXML

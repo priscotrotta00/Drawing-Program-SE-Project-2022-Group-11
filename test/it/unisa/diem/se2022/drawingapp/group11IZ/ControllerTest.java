@@ -9,19 +9,25 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
+import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Selection;
 import java.lang.reflect.Field;
 import javafx.application.Application;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
@@ -36,12 +42,15 @@ public class ControllerTest {
     private Field rectangleToggleButtonField;
     private Field ellipseToggleButtonField;
     private Field selectionToggleButtonField;
-    private Field toolToggleGroup;
+    private Field toolToggleGroupField;
     private Field selectedToolField;
     private Field drawPaneField;
     private Field drawingField;
     private Field strokeColorPickerField;
     private Field fillColorPickerField;
+    private Field changeStrokeColorField;
+    private Field changeFillColorField;
+    private Field selectionField;
     
     public static class AsNonApp extends Application {
 
@@ -74,12 +83,15 @@ public class ControllerTest {
        rectangleToggleButtonField = Controller.class.getDeclaredField("rectangleToggleButton");
        ellipseToggleButtonField = Controller.class.getDeclaredField("ellipseToggleButton");
        selectionToggleButtonField = Controller.class.getDeclaredField("selectionToggleButton");
-       toolToggleGroup = Controller.class.getDeclaredField("toolToggleGroup");
+       toolToggleGroupField = Controller.class.getDeclaredField("toolToggleGroup");
        selectedToolField = Controller.class.getDeclaredField("selectedTool");
        drawPaneField = Controller.class.getDeclaredField("drawPane");
        drawingField = Controller.class.getDeclaredField("draw");
        strokeColorPickerField = Controller.class.getDeclaredField("strokeColorPicker");
        fillColorPickerField = Controller.class.getDeclaredField("fillColorPicker");
+       changeStrokeColorField = Controller.class.getDeclaredField("changeStrokeColorButton");
+       changeFillColorField = Controller.class.getDeclaredField("changeFillColorButton");
+       selectionField = Controller.class.getDeclaredField("selection");
        
        c = new Controller();
    }
@@ -92,20 +104,20 @@ public class ControllerTest {
         this.selectionToggleButtonField.setAccessible(true);
         this.selectedToolField.setAccessible(true);
         
-       ToggleButton line = new ToggleButton();
-       ToggleButton rectangle = new ToggleButton();
-       ToggleButton ellipse = new ToggleButton();
-       ToggleButton selection = new ToggleButton();
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
        
-       this.ellipseToggleButtonField.set(c, ellipse);
-       this.lineToggleButtonField.set(c, line);
-       this.rectangleToggleButtonField.set(c, rectangle);
-       this.selectionToggleButtonField.set(c, selection);
-       
-       c.initializeToolToggleGroup();
-       
-       ellipse.selectedProperty().set(true);
-       Assert.assertEquals("Test Ellipse selected", this.selectedToolField.get(c), DrawEllipseTool.getInstance());
+        c.initializeToolToggleGroup();
+
+        ellipse.selectedProperty().set(true);
+        Assert.assertEquals("Test Ellipse selected", this.selectedToolField.get(c), DrawEllipseTool.getInstance());
        
     }
     
@@ -285,6 +297,323 @@ public class ControllerTest {
         Assert.assertEquals("Test stroke color orange (web)", this.c.getSelectedFillColor().toString(), Color.web("#f68").toString());
         colorPicker.setValue(Color.web("#00ff00"));
         Assert.assertEquals("Test stroke color green (web)", this.c.getSelectedFillColor().toString(), Color.web("#00ff00").toString());
+    }
+
+    @Test   //I didn't click on selectionToggleButton
+    public void testBindChangeStrokeColorButton1() throws IllegalArgumentException, IllegalAccessException {
+        this.changeStrokeColorField.setAccessible(true);
+        this.changeFillColorField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);
+        
+        this.selectionField.setAccessible(true);
+        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
+        
+        Selection.getInstance().unSelect();
+        this.selectionField.set(c, Selection.getInstance());
+
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(line);
+        
+        Button changeStrokeColor = new Button();
+        Button changeFillColor = new Button();
+        this.changeStrokeColorField.set(c, changeStrokeColor);
+        this.changeFillColorField.set(c, changeFillColor);
+
+        c.initializeChangeColorBindings();
+        
+        //The changeStrokeColorButton must be disabled because I've not clicked on the Selection button
+        assertTrue("Error in bind changeStrokeColorButton", changeStrokeColor.isDisabled());
+    }
+    
+    @Test   //I clicked on selectionToggleButton, but did not select any figure
+    public void testBindChangeStrokeColorButton2() throws IllegalArgumentException, IllegalAccessException {
+        this.changeStrokeColorField.setAccessible(true);
+        this.changeFillColorField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);
+        
+        this.selectionField.setAccessible(true);
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
+        
+        Selection.getInstance().unSelect();
+        this.selectionField.set(c, Selection.getInstance());
+
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        
+        Button changeStrokeColor = new Button();
+        Button changeFillColor = new Button();
+        this.changeStrokeColorField.set(c, changeStrokeColor);
+        this.changeFillColorField.set(c, changeFillColor);
+
+        c.initializeChangeColorBindings();
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        //I create a new shape and I add it to the drawing, but I don't select it
+        MyShape myLine = new MyEnhancedLine();
+        c.addShape(myLine);
+        
+        MyShape myShape = Selection.getInstance().getSelectedItem();
+        toolToggleGroup.selectToggle(selection);
+        
+        //The shape selected must be null and the changeStrokeColorButton must be disabled
+        assertEquals(myShape, null);
+        assertTrue("Error in bind changeStrokeColorButton", changeStrokeColor.isDisable());
+    }
+    
+    @Test   //I clicked on selectionToggleButton, selected a figure
+    public void testBindChangeStrokeColorButton3() throws IllegalArgumentException, IllegalAccessException {
+        this.changeStrokeColorField.setAccessible(true);
+        this.changeFillColorField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);
+        
+        this.selectionField.setAccessible(true);
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
+        
+        Selection.getInstance().unSelect();
+        this.selectionField.set(c, Selection.getInstance());
+
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        
+        Button changeStrokeColor = new Button();
+        Button changeFillColor = new Button();
+        this.changeStrokeColorField.set(c, changeStrokeColor);
+        this.changeFillColorField.set(c, changeFillColor);
+
+        c.initializeChangeColorBindings();
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        //I create a new shape, I add it to the drawing and I select it
+        MyShape myLine = new MyEnhancedLine();
+        c.addShape(myLine);
+        
+        Selection.getInstance().select((MyLine) myLine);
+        toolToggleGroup.selectToggle(selection);
+        MyShape myShape = Selection.getInstance().getSelectedItem();
+        //The shape selected must be myLine and the changeStrokeColorButton must be enabled
+        assertEquals(myShape.toString(), myLine.toString());
+        assertFalse("Error in bind changeStrokeColorButton", changeStrokeColor.isDisable());
+    }   
+    
+    @Test   //I didn't click on selectionToggleButton
+    public void testBindChangeFillColorButton1() throws IllegalArgumentException, IllegalAccessException {
+        this.changeStrokeColorField.setAccessible(true);
+        this.changeFillColorField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);
+        
+        this.selectionField.setAccessible(true);
+        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
+        
+        Selection.getInstance().unSelect();
+        this.selectionField.set(c, Selection.getInstance());
+
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(line);
+        
+        Button changeStrokeColor = new Button();
+        Button changeFillColor = new Button();
+        this.changeStrokeColorField.set(c, changeStrokeColor);
+        this.changeFillColorField.set(c, changeFillColor);
+
+        c.initializeChangeColorBindings();
+        
+        //The changeFillColorButton must be disabled because I've not clicked on the Selection button
+        assertTrue("Error in bind changeFillColorButton", changeFillColor.isDisabled());
+    }
+    
+    @Test   //I clicked on selectionToggleButton, but did not select any figure
+    public void testBindChangeFillColorButton2() throws IllegalArgumentException, IllegalAccessException {
+        this.changeStrokeColorField.setAccessible(true);
+        this.changeFillColorField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);
+        
+        this.selectionField.setAccessible(true);
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
+        
+        Selection.getInstance().unSelect();
+        this.selectionField.set(c, Selection.getInstance());
+
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        
+        Button changeStrokeColor = new Button();
+        Button changeFillColor = new Button();
+        this.changeStrokeColorField.set(c, changeStrokeColor);
+        this.changeFillColorField.set(c, changeFillColor);
+
+        c.initializeChangeColorBindings();
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        //I create a new shape and I add it to the drawing, but I don't select it
+        MyShape myLine = new MyEnhancedLine();
+        c.addShape(myLine);
+        
+        MyShape myShape = Selection.getInstance().getSelectedItem();
+        toolToggleGroup.selectToggle(selection);
+        //The shape selected must be null and the changeFillColorButton must be disabled
+        assertEquals(myShape, null);
+        assertTrue("Error in bind changeFillColorButton", changeFillColor.isDisable());
+    }
+    
+    @Test   //I clicked on selectionToggleButton, selected a figure
+    public void testBindChangeFillColorButton3() throws IllegalArgumentException, IllegalAccessException {
+        this.changeStrokeColorField.setAccessible(true);
+        this.changeFillColorField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);
+        
+        this.selectionField.setAccessible(true);
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
+        
+        Selection.getInstance().unSelect();
+        this.selectionField.set(c, Selection.getInstance());
+
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        
+        Button changeStrokeColor = new Button();
+        Button changeFillColor = new Button();
+        this.changeStrokeColorField.set(c, changeStrokeColor);
+        this.changeFillColorField.set(c, changeFillColor);
+
+        c.initializeChangeColorBindings();
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        //I create a new shape, I add it to the drawing and I select it
+        MyShape myLine = new MyEnhancedLine();
+        c.addShape(myLine);
+        
+        Selection.getInstance().select((MyLine) myLine);
+        toolToggleGroup.selectToggle(selection);
+        MyShape myShape = Selection.getInstance().getSelectedItem();
+        //The shape selected must be myLine and the changeFillColorButton must be enabled
+        assertEquals(myShape.toString(), myLine.toString());
+        assertFalse("Error in bind changeFillColorButton", changeFillColor.isDisable());
     }
     
 }
