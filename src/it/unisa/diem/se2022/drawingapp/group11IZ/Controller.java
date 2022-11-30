@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -226,7 +227,7 @@ public class Controller implements Initializable {
      *
      * @param shape
      */
-    public void addShape(MyShape shape) {
+    public void addShape(MyShape shape){
         this.draw.addShape(shape);
         drawPane.getChildren().add((Shape) shape);
 
