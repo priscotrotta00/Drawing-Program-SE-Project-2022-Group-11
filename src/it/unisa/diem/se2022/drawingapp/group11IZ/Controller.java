@@ -7,6 +7,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -225,8 +226,8 @@ public class Controller implements Initializable {
      * @param shape 
      */
     public void addShape(MyShape shape){
-        drawPane.getChildren().add((Shape) shape);
         this.draw.addShape(shape);
+        drawPane.getChildren().add((Shape) shape);
     }
     
     /**
@@ -234,8 +235,8 @@ public class Controller implements Initializable {
      * @param event 
      */
     public void removeShape(MyShape myShape) {
-        drawPane.getChildren().remove(myShape);
         this.draw.removeShape(myShape); 
+        drawPane.getChildren().remove(myShape);
     }
     
     /**
