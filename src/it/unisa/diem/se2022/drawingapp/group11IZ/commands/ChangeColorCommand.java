@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
  *
  * @author prisc
  */
-public abstract class ChangeColorCommand {
+public abstract class ChangeColorCommand implements Command{
     private MyShape myShape;
     private Color oldColor;
     private Color newColor;
@@ -82,17 +82,20 @@ public abstract class ChangeColorCommand {
     public abstract void changeColor(Color color);
     
     /**
-     * Execute the changeColorCommand
+     * Execute the changeColorCommand anche change the Color the previously passed shape in the drawing
      */
     
+    @Override
     public void execute(){
         this.changeColor(this.newColor);
     }
     
     /**
-     * Undo the last operation made on the color of the shape
+     * Undo the last operation made on the color of the shape, so the previously passed shape will change
+     * its color with the previous one
      */
     
+    @Override
     public void undo(){
         this.changeColor(this.oldColor);
     }
