@@ -619,7 +619,8 @@ public class ControllerTest {
         //The shape selected must be myLine and the changeFillColorButton must be enabled
         assertEquals(myShape.toString(), myLine.toString());
         assertFalse("Error in bind changeFillColorButton", changeFillColor.isDisable());
- 
+    }
+    
     @Test // ho premuto su seleziona e scelto figura.
     public void testBindDeleteButton3() throws IllegalArgumentException, IllegalAccessException{
         this.deleteButtonField.setAccessible(true);
