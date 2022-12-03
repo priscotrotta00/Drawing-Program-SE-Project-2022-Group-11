@@ -179,7 +179,10 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
     public void moveShape(double topLeftX, double topLeftY) {
         MyRectangle newRectangle = (MyRectangle) this;
         
-        newRectangle.mySetX(topLeftX);
-        newRectangle.mySetY(topLeftY);
+        double diffX = this.myGetLayoutBounds().getMaxX()-this.myGetLayoutBounds().getMinX(); 
+        double diffY = this.myGetLayoutBounds().getMaxY()-this.myGetLayoutBounds().getMinY(); 
+        
+        newRectangle.mySetX(topLeftX-(diffX/2));
+        newRectangle.mySetY(topLeftY-(diffY/2));
     }
 }

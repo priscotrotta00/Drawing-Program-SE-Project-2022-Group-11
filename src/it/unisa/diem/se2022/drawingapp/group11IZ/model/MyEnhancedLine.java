@@ -181,12 +181,14 @@ public class MyEnhancedLine extends Line implements MyLine{
         MyLine newLine = (MyLine) this;
         
         double lengthX = this.myGetEndX() - this.myGetStartX();
-        double lengthY = this.myGetEndY() - this.myGetStartY();
+        double lengthY = this.myGetEndY() - this.myGetStartY(); 
+        double startX = topLeftX - (lengthX/2);
+        double startY = topLeftY - (lengthY/2);
         
-        newLine.mySetStartX(topLeftX);
-        newLine.mySetStartY(topLeftY);
-        newLine.mySetEndX(topLeftX+lengthX);
-        newLine.mySetEndY(topLeftY+lengthY);
+        newLine.mySetStartX(startX);
+        newLine.mySetStartY(startY);
+        newLine.mySetEndX(startX+lengthX);
+        newLine.mySetEndY(startY+lengthY);
         
     }
 
