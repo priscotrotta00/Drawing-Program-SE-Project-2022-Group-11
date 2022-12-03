@@ -608,8 +608,9 @@ public class ControllerTest {
         MyShape myLine = new MyEnhancedLine();
         c.addShape(myLine);
         
-        Selection.getInstance().select((MyLine) myLine);
         toolToggleGroup.selectToggle(selection);
+        Selection.getInstance().select((MyLine) myLine);
+        
         MyShape myShape = Selection.getInstance().getSelectedItem();
         //The shape selected must be myLine and the changeFillColorButton must be enabled
         assertEquals(myShape.toString(), myLine.toString());
