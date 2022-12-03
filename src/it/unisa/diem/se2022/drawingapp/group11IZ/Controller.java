@@ -312,9 +312,14 @@ public class Controller implements Initializable {
             File file = fc.showOpenDialog(null);
 
             Drawing loadedDrawing = Drawing.importDrawing(file);
+            selection.unSelect();
             
-            ObservableList<Node> groups = this.drawPane.getChildren();
-            this.drawPane.getChildren().removeAll(groups);
+            for(MyShape myShape : this.draw){
+                this.drawPane.getChildren().remove((Shape) myShape);
+            }
+            
+            //ObservableList<Node> groups = this.drawPane.getChildren();
+            //this.drawPane.getChildren().removeAll(groups);
             
             for(MyShape myShape : loadedDrawing){
                 this.drawPane.getChildren().add((Shape) myShape);
