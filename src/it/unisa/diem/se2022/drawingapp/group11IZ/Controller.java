@@ -7,6 +7,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
@@ -354,7 +355,7 @@ public class Controller implements Initializable {
     
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
-        ChangeColorCommand ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
+        Command ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
         ccc.execute();
     }
 
@@ -365,7 +366,7 @@ public class Controller implements Initializable {
     
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
-        ChangeColorCommand ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
+        Command ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
         ccc.execute();
     }
 
