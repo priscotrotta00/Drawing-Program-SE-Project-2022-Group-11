@@ -20,7 +20,6 @@ public class DeleteShapeCommand extends Controller implements Command {
     private Controller controller;
     private MyShape shape;
     private int layerShape;
-    private Field drawField;
     
     /**
      * constructor of Delete Command
