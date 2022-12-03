@@ -18,9 +18,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -268,9 +270,10 @@ public class Controller implements Initializable {
             File file = fc.showOpenDialog(null);
             
             Drawing loadedDrawing = Drawing.importDrawing(file);
-            for(MyShape myShape : this.draw){
-                this.drawPane.getChildren().remove((Shape) myShape);
-            }
+            
+            ObservableList<Node> groups = this.drawPane.getChildren();
+            this.drawPane.getChildren().removeAll(groups);
+            
             for(MyShape myShape : loadedDrawing){
                 this.drawPane.getChildren().add((Shape) myShape);
             }
