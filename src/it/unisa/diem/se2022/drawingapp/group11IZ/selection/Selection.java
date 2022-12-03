@@ -1,7 +1,7 @@
 /**
  * The Class selection implements the selection and unselection of shapes
  */
-package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
+package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
@@ -22,6 +22,7 @@ public class Selection implements Visitor{
     private Group selectionBorder;
     private MyShape selectedItem;
     private BooleanProperty selected;
+    private SelectionHelper helper;
 
     /**
      * Class constructor.
@@ -101,17 +102,8 @@ public class Selection implements Visitor{
         
         setSelectedItem(myRectangle);
         
-        highlightRectangle.myXProperty().bind(myRectangle.myXProperty());
-        highlightRectangle.myYProperty().bind(myRectangle.myYProperty());
-        highlightRectangle.myHeightProperty().bind(myRectangle.myHeightProperty());
-        highlightRectangle.myWidthProperty().bind(myRectangle.myWidthProperty());
-        
-        highlightRectangle.mySetFill(Color.TRANSPARENT);
-        highlightRectangle.mySetStroke(Color.BLACK);
-        
-        highlightRectangle.mySetStrokeWidth(myRectangle.myGetStrokeWidth()+2);
-        
-        getSelectionBorder().getChildren().add((Shape)highlightRectangle);
+        helper = new SelectionRectangleHelper();
+        setSelectionBorder(helper.createBoundingBox(selectedItem));
         
         Parent parent = myRectangle.myGetParent();
         
@@ -145,17 +137,8 @@ public class Selection implements Visitor{
         
         setSelectedItem(myLine);
         
-        highlightLine.myStartXProperty().bind(myLine.myStartXProperty());
-        highlightLine.myStartYProperty().bind(myLine.myStartYProperty());
-        highlightLine.myEndXProperty().bind(myLine.myEndXProperty());
-        highlightLine.myEndYProperty().bind(myLine.myEndYProperty());
-        
-        highlightLine.mySetFill(Color.TRANSPARENT);
-        highlightLine.mySetStroke(Color.BLACK);
-        
-        highlightLine.mySetStrokeWidth(myLine.myGetStrokeWidth()+2);
-        
-        getSelectionBorder().getChildren().add((Shape)highlightLine);
+        helper = new SelectionLineHelper();
+        setSelectionBorder(helper.createBoundingBox(selectedItem));
         
         Parent parent = myLine.myGetParent();
         
@@ -189,17 +172,8 @@ public class Selection implements Visitor{
         
         setSelectedItem(myEllipse);
         
-        highlightEllipse.myCenterXProperty().bind(myEllipse.myCenterXProperty());
-        highlightEllipse.myCenterYProperty().bind(myEllipse.myCenterYProperty());
-        highlightEllipse.myRadiusXProperty().bind(myEllipse.myRadiusXProperty());
-        highlightEllipse.myRadiusYProperty().bind(myEllipse.myRadiusYProperty());
-        
-        highlightEllipse.mySetFill(Color.TRANSPARENT);
-        highlightEllipse.mySetStroke(Color.BLACK);
-        
-        highlightEllipse.mySetStrokeWidth(myEllipse.myGetStrokeWidth()+2);
-        
-        getSelectionBorder().getChildren().add((Shape)highlightEllipse);
+        helper = new SelectionEllipseHelper();
+        setSelectionBorder(helper.createBoundingBox(selectedItem));
         
         Parent parent = myEllipse.myGetParent();
         

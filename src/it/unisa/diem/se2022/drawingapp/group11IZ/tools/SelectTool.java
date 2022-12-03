@@ -4,13 +4,12 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.event.EventTarget;
 import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 /**
  *

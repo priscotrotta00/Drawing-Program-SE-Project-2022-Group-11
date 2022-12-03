@@ -1,8 +1,9 @@
 /**
  * Test of the main methods of Selection class 
  */
-package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
+package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import java.lang.reflect.Field;
 import javafx.beans.property.BooleanProperty;
