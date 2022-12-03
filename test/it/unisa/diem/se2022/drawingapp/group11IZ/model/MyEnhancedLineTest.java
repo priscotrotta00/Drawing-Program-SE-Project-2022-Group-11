@@ -249,11 +249,13 @@ public class MyEnhancedLineTest {
         
         line.moveShape(70.0, 70.0);
         
+        double startX = 70.0 - (lengthX/2);
+        double startY = 70.0 - (lengthY/2);
         
-        assertTrue("Error in MoveShape", line.myGetStartX()==70.0);
-        assertTrue("Error in MoveShape", line.myGetStartY()==70.0);
-        assertTrue("Error in MoveShape", line.myGetEndX()==(70.0+lengthX));
-        assertTrue("Error in MoveShape", line.myGetEndY()==(70.0+lengthY));
+        assertTrue("Error in MoveShape", line.myGetStartX()==startX);
+        assertTrue("Error in MoveShape", line.myGetStartY()==startY);
+        assertTrue("Error in MoveShape", line.myGetEndX()==(startX+lengthX));
+        assertTrue("Error in MoveShape", line.myGetEndY()==(startY+lengthY));
     }
 
 }
