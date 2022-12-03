@@ -192,6 +192,23 @@ public class MyEnhancedRectangleTest {
         assertTrue("Error in MySetLayoutY", r.myGetLayoutBounds().getMinY()==r.getLayoutBounds().getMinY());
     }
     
+    @Test 
+    public void testMyGetLayoutX(){
+        MyEnhancedRectangle r=new MyEnhancedRectangle();
+        r.mySetLayoutX(8.0);
+        assertTrue("Error in myGetLayoutX", r.myGetLayoutX()==r.getLayoutX()); 
+
+    }
+    
+    @Test 
+    public void testMyGetLayoutY(){
+        MyEnhancedRectangle r=new MyEnhancedRectangle();
+        r.mySetLayoutY(8.0);
+        assertTrue("Error in myGetLayoutY", r.myGetLayoutY()==r.getLayoutY()); 
+
+    }
+    
+    
     @Test
     public void testMyLayoutXProperty(){
         MyEnhancedRectangle r=new MyEnhancedRectangle();
@@ -238,6 +255,35 @@ public class MyEnhancedRectangleTest {
         
         assertTrue("Error in MoveShape", rectangle.myGetX()==(70.0-(diffX/2)));
         assertTrue("Error in MoveShape", rectangle.myGetY()==(70.0-(diffY/2)));
+    }
+    
+    @Test
+    public void testClone(){
+        //create shape ellipse
+        MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
+        
+        rectangle.mySetX(20.0);
+        rectangle.mySetY(20.0);
+        rectangle.mySetWidth(25.0);
+        rectangle.mySetHeight(25.0);
+        Color c= Color.BLACK;
+        rectangle.mySetStroke(c);
+        Color c1= Color.CADETBLUE;
+        rectangle.mySetFill(c1);
+        rectangle.mySetStrokeWidth(2.0);
+        //create copy
+        MyEnhancedRectangle rectangleCopy = (MyEnhancedRectangle) rectangle.clone();
+        
+        //check if ellipseCopy is equal to ellipse
+        assertTrue("error in copy of  x", rectangleCopy.myGetX()==rectangle.myGetX());
+        assertTrue("error in copy of y", rectangleCopy.myGetY()==rectangle.myGetY());
+        assertTrue("error in copy of width", rectangleCopy.myGetWidth()==rectangle.myGetWidth());
+        assertTrue("error in copy of height", rectangleCopy.myGetHeight()==rectangle.myGetHeight());
+        assertTrue("error in copy of fill ", rectangleCopy.myGetFill()==rectangle.myGetFill());
+        assertTrue("error in copy of stroke ",rectangleCopy.myGetStroke()==rectangle.myGetStroke());
+        assertTrue("error in copy of strokeWidth ", rectangleCopy.myGetStrokeWidth()==rectangle.myGetStrokeWidth());
+        
+        
     }
     
 }

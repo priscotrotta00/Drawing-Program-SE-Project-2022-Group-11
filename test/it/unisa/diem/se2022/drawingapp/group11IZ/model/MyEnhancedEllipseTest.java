@@ -210,6 +210,22 @@ public class MyEnhancedEllipseTest {
         assertTrue("Error in MySetLayoutY", e.myGetLayoutBounds().getMinY()==e.getLayoutBounds().getMinY());
     }
     
+    @Test 
+    public void testMyGetLayoutX(){
+        MyEnhancedEllipse e=new MyEnhancedEllipse();
+        e.mySetLayoutX(8.0);
+        assertTrue("Error in myGetLayoutX", e.myGetLayoutX()==e.getLayoutX()); 
+
+    }
+    
+    @Test 
+    public void testMyGetLayoutY(){
+        MyEnhancedEllipse e=new MyEnhancedEllipse();
+        e.mySetLayoutY(8.0);
+        assertTrue("Error in myGetLayoutY", e.myGetLayoutY()==e.getLayoutY()); 
+    }
+    
+    
     @Test
     public void testMyLayoutXProperty(){
         MyEnhancedEllipse e=new MyEnhancedEllipse();
@@ -252,5 +268,34 @@ public class MyEnhancedEllipseTest {
         
         assertTrue("Error in MoveShape", ellipse.myGetCenterX()==70.0);
         assertTrue("Error in MoveShape", ellipse.myGetCenterY()==70.0);
+    }
+    
+    @Test
+    public void testClone(){
+        //create shape ellipse
+        MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
+        ellipse.mySetCenterX(20.0);
+        ellipse.mySetCenterY(20.0);
+        ellipse.mySetRadiusX(50.0);
+        ellipse.mySetRadiusY(25.0);
+        Color c= Color.BLACK;
+        ellipse.mySetStroke(c);
+        Color c1= Color.CADETBLUE;
+        ellipse.mySetFill(c1);
+        ellipse.mySetStrokeWidth(2.0);
+        
+        //create copy
+        MyEnhancedEllipse ellipseCopy= (MyEnhancedEllipse) ellipse.clone();
+        
+        //check if ellipseCopy is equal to ellipse
+        assertTrue("error in copy of center x", ellipseCopy.myGetCenterX()==ellipse.myGetCenterX());
+        assertTrue("error in copy of center y", ellipseCopy.myGetCenterY()==ellipse.myGetCenterY());
+        assertTrue("error in copy of radius x", ellipseCopy.myGetRadiusX()==ellipse.myGetRadiusX());
+        assertTrue("error in copy of radius y", ellipseCopy.myGetRadiusY()==ellipse.myGetRadiusY());
+        assertTrue("error in copy of fill ", ellipseCopy.myGetFill()==ellipse.myGetFill());
+        assertTrue("error in copy of stroke ", ellipseCopy.myGetStroke()==ellipse.myGetStroke());
+        assertTrue("error in copy of strokeWidth ", ellipseCopy.myGetStrokeWidth()==ellipse.myGetStrokeWidth());
+        
+        
     }
 }

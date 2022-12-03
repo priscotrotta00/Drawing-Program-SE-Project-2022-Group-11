@@ -18,7 +18,22 @@ import javafx.scene.shape.Rectangle;
  * @author saram
  */
 public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
-
+    
+    public MyEnhancedRectangle(){
+        super();
+    }
+    
+    private MyEnhancedRectangle(MyEnhancedRectangle rectangle){
+        this();
+        this.mySetY(rectangle.myGetY());
+        this.mySetX(rectangle.myGetX());
+        this.mySetWidth(rectangle.myGetWidth());
+        this.mySetHeight(rectangle.myGetHeight());
+        this.mySetStroke(rectangle.myGetStroke());
+        this.mySetFill(rectangle.myGetFill());
+        this.mySetStrokeWidth(rectangle.myGetStrokeWidth());
+    }
+    
     @Override
     public double myGetHeight() {
         return super.getHeight();
@@ -149,6 +164,7 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         super.setLayoutY(value);
     }
     
+    
     @Override
     public DoubleProperty myLayoutXProperty() {
         return super.layoutXProperty();
@@ -184,5 +200,20 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         
         newRectangle.mySetX(topLeftX-(diffX/2));
         newRectangle.mySetY(topLeftY-(diffY/2));
+    }
+
+    @Override
+    public MyShape clone() {
+        return new MyEnhancedRectangle(this);
+    }
+    
+    @Override
+    public double myGetLayoutX() {
+        return super.getLayoutX();
+    }
+
+    @Override
+    public double myGetLayoutY() {
+        return super.getLayoutY();
     }
 }

@@ -206,6 +206,23 @@ public class MyEnhancedLineTest {
         assertTrue("Error in MySetLayoutY", l.myGetLayoutBounds().getMinY()==l.getLayoutBounds().getMinY());
     }
     
+    @Test 
+    public void testMyGetLayoutX(){
+        MyEnhancedLine l = new MyEnhancedLine();
+        l.mySetLayoutX(8.0);
+        assertTrue("Error in myGetLayoutX", l.myGetLayoutX()==l.getLayoutX()); 
+
+    }
+    
+    @Test 
+    public void testMyGetLayoutY(){
+        MyEnhancedLine l = new MyEnhancedLine();
+        l.mySetLayoutY(8.0);
+        assertTrue("Error in myGetLayoutY", l.myGetLayoutY()==l.getLayoutY()); 
+   
+    }
+    
+    
     @Test
     public void testMyLayoutXProperty(){
         MyEnhancedLine l = new MyEnhancedLine();
@@ -258,4 +275,32 @@ public class MyEnhancedLineTest {
         assertTrue("Error in MoveShape", line.myGetEndY()==(startY+lengthY));
     }
 
+    @Test
+    public void testClone(){
+        //create shape ellipse
+        MyEnhancedLine line = new MyEnhancedLine();
+        
+        line.mySetEndX(20.0);
+        line.mySetEndY(20.0);
+        line.mySetStartX(25.0);
+        line.mySetStartY(25.0);
+        Color c= Color.BLACK;
+        line.mySetStroke(c);
+        Color c1= Color.CADETBLUE;
+        line.mySetFill(c1);
+        line.mySetStrokeWidth(2.0);
+        //create copy
+        MyEnhancedLine lineCopy= (MyEnhancedLine) line.clone();
+        
+        //check if ellipseCopy is equal to ellipse
+        assertTrue("error in copy of end x", lineCopy.myGetEndX()==line.myGetEndX());
+        assertTrue("error in copy of end y", lineCopy.myGetEndY()==line.myGetEndY());
+        assertTrue("error in copy of start x", lineCopy.myGetStartX()==line.myGetStartX());
+        assertTrue("error in copy of start y", lineCopy.myGetStartY()==line.myGetStartY());
+        assertTrue("error in copy of fill ", lineCopy.myGetFill()==line.myGetFill());
+        assertTrue("error in copy of stroke ",lineCopy.myGetStroke()==line.myGetStroke());
+        assertTrue("error in copy of strokeWidth ", lineCopy.myGetStrokeWidth()==line.myGetStrokeWidth());
+        
+        
+    }
 }

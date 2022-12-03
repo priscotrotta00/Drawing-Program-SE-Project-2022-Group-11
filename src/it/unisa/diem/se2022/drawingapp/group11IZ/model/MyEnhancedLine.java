@@ -19,6 +19,21 @@ import javafx.scene.shape.Line;
  */
 public class MyEnhancedLine extends Line implements MyLine{
 
+    public MyEnhancedLine(){
+        super();
+    }
+    
+    private MyEnhancedLine (MyEnhancedLine line){
+        this();
+        this.mySetEndX(line.myGetEndX());
+        this.mySetEndY(line.myGetEndY());
+        this.mySetFill(line.myGetFill());
+        this.mySetStroke(line.myGetStroke());
+        this.mySetStartX(line.myGetStartX());
+        this.mySetStartY(line.myGetStartY());
+        this.mySetStrokeWidth(line.myGetStrokeWidth());
+         }
+    
     @Override
     public double myGetEndX() {
         return super.getEndX();
@@ -190,6 +205,21 @@ public class MyEnhancedLine extends Line implements MyLine{
         newLine.mySetEndX(startX+lengthX);
         newLine.mySetEndY(startY+lengthY);
         
+    }
+
+    @Override
+    public MyShape clone() {
+        return new MyEnhancedLine(this);
+    }
+    
+    @Override
+    public double myGetLayoutX() {
+        return super.getLayoutX();
+    }
+
+    @Override
+    public double myGetLayoutY() {
+        return super.getLayoutY();
     }
 
 }

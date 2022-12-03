@@ -21,7 +21,7 @@ import javafx.scene.transform.Transform;
  *
  * @author saram
  */
-public interface MyShape{
+public interface MyShape extends Cloneable{
     /*Contains the most commonly used Shape methods*/
     
     public Paint myGetStroke();
@@ -43,6 +43,8 @@ public interface MyShape{
     public ObservableList<Double> myGetStrokeDashArray();
     public Bounds myGetLayoutBounds();
     public void moveShape(double topLeftX, double topLeftY);
-    
+    public MyShape clone();
+    public double myGetLayoutX();
+    public double myGetLayoutY();
     
 }

@@ -20,6 +20,22 @@ import javafx.scene.shape.Ellipse;
  */
 public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
 
+    public MyEnhancedEllipse(){
+        super();
+    }
+    
+    private MyEnhancedEllipse (MyEnhancedEllipse ellipse){
+        this();
+        this.mySetCenterX(ellipse.myGetCenterX());
+        this.mySetCenterY(ellipse.myGetCenterY());
+        this.mySetRadiusX(ellipse.myGetRadiusX());
+        this.mySetRadiusY(ellipse.myGetRadiusY());
+        this.mySetFill(ellipse.myGetFill());
+        this.mySetStroke(ellipse.myGetStroke());
+        this.mySetStrokeWidth(ellipse.myGetStrokeWidth());  
+        
+    }
+    
     @Override
     public double myGetCenterX() {
         return super.getCenterX();
@@ -181,6 +197,21 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         newEllipse.mySetCenterX(topLeftX);
         newEllipse.mySetCenterY(topLeftY);
         
+    }
+
+    @Override
+    public MyShape clone() {
+        return new MyEnhancedEllipse(this);
+    }
+
+    @Override
+    public double myGetLayoutX() {
+        return super.getLayoutX();
+    }
+
+    @Override
+    public double myGetLayoutY() {
+        return super.getLayoutY();
     }
 }
 
