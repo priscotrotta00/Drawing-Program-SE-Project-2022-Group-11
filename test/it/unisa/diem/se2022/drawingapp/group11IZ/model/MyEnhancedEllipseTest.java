@@ -194,4 +194,63 @@ public class MyEnhancedEllipseTest {
         assertTrue("Error in myGetPartent", e.myGetParent()==e.getParent()); 
     
     }
+    
+    @Test
+    public void testMySetLayoutX(){
+        MyEnhancedEllipse e=new MyEnhancedEllipse();
+        e.mySetLayoutX(5.0);
+        assertTrue("Error in MySetLayoutX", e.myGetLayoutBounds().getMinX()==e.getLayoutBounds().getMinX()); 
+    
+    }
+    
+    @Test
+    public void testMySetLayoutY(){
+        MyEnhancedEllipse e=new MyEnhancedEllipse();
+        e.mySetLayoutY(5.0);
+        assertTrue("Error in MySetLayoutY", e.myGetLayoutBounds().getMinY()==e.getLayoutBounds().getMinY());
+    }
+    
+    @Test
+    public void testMyLayoutXProperty(){
+        MyEnhancedEllipse e=new MyEnhancedEllipse();
+        
+        assertTrue("Error in MyLayoutXProperty", e.myLayoutXProperty()==e.layoutXProperty());
+        
+    }
+    
+    @Test
+    public void testMyLayoutYProperty(){
+        MyEnhancedEllipse e=new MyEnhancedEllipse();
+        
+        assertTrue("Error in MyLayoutYProperty", e.myLayoutYProperty()==e.layoutYProperty()); 
+    }
+    
+    @Test
+    public void testMyGetStrokeDashArray(){
+        MyEnhancedEllipse e=new MyEnhancedEllipse();
+        
+        assertTrue("Error in MyGetStrokeDashArray", e.myGetStrokeDashArray()==e.getStrokeDashArray());        
+    }
+    
+    @Test
+    public void testMyGetLayoutBounds(){
+        MyEnhancedEllipse e=new MyEnhancedEllipse();
+        
+        assertTrue("Error in MyGetLayoutBounds", e.myGetLayoutBounds()==e.getLayoutBounds());        
+    }
+    
+    @Test
+    public void testMoveShape(){
+        MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
+        
+        ellipse.mySetCenterX(50.0);
+        ellipse.mySetCenterY(50.0);
+        ellipse.mySetRadiusX(50.0);
+        ellipse.mySetRadiusY(25.0);
+        
+        ellipse.moveShape(70.0, 70.0);
+        
+        assertTrue("Error in MoveShape", ellipse.myGetCenterX()==70.0);
+        assertTrue("Error in MoveShape", ellipse.myGetCenterY()==70.0);
+    }
 }
