@@ -5,7 +5,9 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
@@ -30,6 +32,7 @@ public interface MyShape{
     public double myGetStrokeWidth();
     public void mySetStrokeWidth(double value);
     public void mySetVisible(boolean value);
+    public void modifyShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
     public void accept(Visitor v);
     
 }

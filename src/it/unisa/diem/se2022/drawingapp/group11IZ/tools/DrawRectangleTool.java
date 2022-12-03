@@ -29,26 +29,6 @@ public class DrawRectangleTool extends DrawShapeTool{
         if (singleton == null) singleton = new DrawRectangleTool();
         return singleton;
     }
-    
-    /**
-     * Method that returns the width of a rectangle gven its X coordinates
-     * @param topLeftX X coordinate of the upper-left point
-     * @param bottomRightX X coordinate of the bottom-right point
-     * @return Width of rectangle
-     */
-    private double computeRectangleWidth(double topLeftX, double bottomRightX){
-        return bottomRightX - topLeftX;
-    }
-    
-    /**
-     * Method that returns the height of a rectangle gven its X coordinates
-     * @param topLeftY Y coordinate of the upper-left point
-     * @param bottomRightY Y coordinate of the bottom-right point
-     * @return Height
-     */
-    private double computeRectangleHeight(double topLeftY, double bottomRightY){
-        return bottomRightY - topLeftY;
-    }
 
     /***
      * Method that create a new Rectangle as a Shape using the passed coordinates
@@ -63,14 +43,9 @@ public class DrawRectangleTool extends DrawShapeTool{
      */
     @Override
     MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY, Color strokeColor, Color fillColor) {
-        double width = this.computeRectangleWidth(topLeftX, bottomRightX);
-        double height = this.computeRectangleHeight(topLeftY, bottomRightY);
         MyRectangle rectangle = new MyEnhancedRectangle();
         
-        rectangle.mySetX(topLeftX);
-        rectangle.mySetY(topLeftY);
-        rectangle.mySetWidth(width);
-        rectangle.mySetHeight(height);
+        rectangle.modifyShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
         rectangle.mySetStroke(strokeColor);
         rectangle.mySetFill(fillColor);
         
@@ -87,14 +62,8 @@ public class DrawRectangleTool extends DrawShapeTool{
      */
     @Override
     void modifyCreatedShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
-        double width = this.computeRectangleWidth(topLeftX, bottomRightX);
-        double height = this.computeRectangleHeight(topLeftY, bottomRightY);
         MyRectangle rectangle = (MyRectangle) this.getCreatedShape();
-        
-        rectangle.mySetX(topLeftX);
-        rectangle.mySetY(topLeftY);
-        rectangle.mySetWidth(width);
-        rectangle.mySetHeight(height);
+        rectangle.modifyShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
     }
     
 }

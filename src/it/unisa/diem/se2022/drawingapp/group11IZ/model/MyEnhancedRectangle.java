@@ -5,8 +5,11 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.InvalidCoordinatesException;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -16,6 +19,15 @@ import javafx.scene.shape.Rectangle;
  * @author saram
  */
 public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
+
+    private final SimpleDoubleProperty bottomRightX = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty bottomRightY = new SimpleDoubleProperty();
+    
+    public MyEnhancedRectangle(){
+        super();
+        bottomRightX.bind(this.myXProperty().add(this.myWidthProperty()));
+        bottomRightY.bind(this.myYProperty().add(this.myHeightProperty()));
+    }
 
     @Override
     public double myGetHeight() {
@@ -136,5 +148,92 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
     public void accept(Visitor v) {
         v.visitRectangle(this);
     }
+
+    @Override
+    public double getTopLeftX() {
+        return this.topLeftXProperty().get();
+    }
+
+    @Override
+    public double getTopLeftY() {
+        return this.topLeftYProperty().get();
+    }
+
+    @Override
+    public double getBottomRightX() {
+        return this.bottomRightXProperty().get();
+    }
+
+    @Override
+    public double getBottomRightY() {
+        return this.bottomRightYProperty().get();
+    }
    
+    /**
+     * Method that returns the width of a rectangle gven its X coordinates
+     * @param topLeftX X coordinate of the upper-left point
+     * @param bottomRightX X coordinate of the bottom-right point
+     * @return Width of rectangle
+     */
+    private double computeRectangleWidth(double topLeftX, double bottomRightX){
+        return bottomRightX - topLeftX;
+    }
+    
+    /**
+     * Method that returns the height of a rectangle gven its X coordinates
+     * @param topLeftY Y coordinate of the upper-left point
+     * @param bottomRightY Y coordinate of the bottom-right point
+     * @return Height
+     */
+    private double computeRectangleHeight(double topLeftY, double bottomRightY){
+        return bottomRightY - topLeftY;
+    }
+    
+    /**
+     * Method that modify the previously created Rectangel using the passed coordinates
+     * to calculate width and height.
+     * @param topLeftX
+     * @param topLeftY
+     * @param bottomRightX
+     * @param bottomRightY 
+     * @author Felice Scala
+     */
+    @Override
+    public void modifyShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+        double width;
+        double height;
+        
+        if (topLeftX > bottomRightX || topLeftY > bottomRightY) throw new InvalidCoordinatesException();
+        
+        width = this.computeRectangleWidth(topLeftX, bottomRightX);
+        height = this.computeRectangleHeight(topLeftY, bottomRightY);
+        
+        this.mySetX(topLeftX);
+        this.mySetY(topLeftY);
+        this.mySetWidth(width);
+        this.mySetHeight(height);
+    }
+
+    @Override
+    public ReadOnlyDoubleProperty topLeftXProperty() {
+        return this.myXProperty();
+    }
+
+    @Override
+    public ReadOnlyDoubleProperty topLeftYProperty() {
+        return this.myYProperty();
+    }
+
+    @Override
+    public ReadOnlyDoubleProperty bottomRightXProperty() {
+        return bottomRightX;
+    }
+
+    @Override
+    public ReadOnlyDoubleProperty bottomRightYProperty() {
+        return bottomRightY;
+    }
+    
+    
+    
 }

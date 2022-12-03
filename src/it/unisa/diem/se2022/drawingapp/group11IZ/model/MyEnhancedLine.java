@@ -7,6 +7,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
@@ -136,6 +137,14 @@ public class MyEnhancedLine extends Line implements MyLine{
     @Override
     public void mySetVisible(boolean value) {
         super.setVisible(value);
+    }
+
+    @Override
+    public void modifyShape(double startX, double startY, double endX, double endY) {
+        this.mySetStartX(startX);
+        this.mySetStartY(startY);
+        this.mySetEndX(endX);
+        this.mySetEndY(endY);
     }
     
 }

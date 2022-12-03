@@ -25,4 +25,7 @@ public interface MyLine extends MyShape{
     public DoubleProperty myStartXProperty();
     public DoubleProperty myStartYProperty();
     
+    @Override
+    public void modifyShape(double startX, double startY, double endX, double endY);
+    
 }

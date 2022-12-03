@@ -59,19 +59,17 @@ public class DrawLineTool extends DrawShapeTool{
      */
     @Override
     MyShape createShape(double startX, double startY, double endX, double endY, Color strokeColor, Color fillColor) {
-        MyLine result = new MyEnhancedLine();
-        
-        result.mySetStartX(startX);
-        result.mySetStartY(startY);
-        result.mySetEndX(endX);
-        result.mySetEndY(endY);
+        MyLine result;
+                
+        result = new MyEnhancedLine();
+        result.modifyShape(startX, startY, endX, endY);
         result.mySetStroke(strokeColor);
         
         return result;
     }
 
     /**
-     * Method that create a new Line as a Shape using the passed coordinates.
+     * Method that modify the created Line using the passed coordinates.
      * @param startX
      * @param startY
      * @param endX
@@ -79,12 +77,10 @@ public class DrawLineTool extends DrawShapeTool{
      */
     @Override
     void modifyCreatedShape(double startX, double startY, double endX, double endY) {
-        MyLine result = (MyLine) this.getCreatedShape();
+        MyLine result;
         
-        result.mySetStartX(startX);
-        result.mySetStartY(startY);
-        result.mySetEndX(endX);
-        result.mySetEndY(endY);
+        result = (MyLine) this.getCreatedShape();
+        result.modifyShape(startX, startY, endX, endY);
     }
     
 }

@@ -3,9 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.InvalidCoordinatesException;
 import javafx.scene.paint.Color;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
@@ -193,5 +193,154 @@ public class MyEnhancedEllipseTest {
         MyEnhancedEllipse e=new MyEnhancedEllipse();
         assertTrue("Error in myGetPartent", e.myGetParent()==e.getParent()); 
     
+    }
+    
+    @Test
+    public void testModifyShape1(){
+        MyEllipse r;
+
+        r = new MyEnhancedEllipse();
+        r.modifyShape(10, 10, 50, 20);
+        assertEquals(10, r.getTopLeftX(), 0);
+        assertEquals(10, r.getTopLeftY(), 0);
+        assertEquals(50, r.getBottomRightX(), 0);
+        assertEquals(20, r.getBottomRightY(), 0);
+        
+        assertEquals(30, r.myGetCenterX(), 0);
+        assertEquals(15, r.myGetCenterY(), 0);
+        assertEquals(20, r.myGetRadiusX(), 0);
+        assertEquals(5, r.myGetRadiusY(), 0);
+    }
+    
+    @Test(expected=InvalidCoordinatesException.class)
+    public void testModifyShape2(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(50, 20, 10, 10);
+    }
+    
+    @Test(expected=InvalidCoordinatesException.class)
+    public void testModifyShape3(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(50, 20, 70, 10);
+    }
+    
+    @Test(expected=InvalidCoordinatesException.class)
+    public void testModifyShape4(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(50, 20, 10, 70);
+    }
+    
+    @Test
+    public void testModifyShape5(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(-10, -20, 30, 60);
+        
+        assertEquals(-10, r.getTopLeftX(), 0);
+        assertEquals(-20, r.getTopLeftY(), 0);
+        assertEquals(30, r.getBottomRightX(), 0);
+        assertEquals(60, r.getBottomRightY(), 0);
+        
+        assertEquals(10, r.myGetCenterX(), 0);
+        assertEquals(20, r.myGetCenterY(), 0);
+        assertEquals(20, r.myGetRadiusX(), 0);
+        assertEquals(40, r.myGetRadiusY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape6(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(10, -20, 30, 60);
+        
+        assertEquals(10, r.getTopLeftX(), 0);
+        assertEquals(-20, r.getTopLeftY(), 0);
+        assertEquals(30, r.getBottomRightX(), 0);
+        assertEquals(60, r.getBottomRightY(), 0);
+        
+        assertEquals(20, r.myGetCenterX(), 0);
+        assertEquals(20, r.myGetCenterY(), 0);
+        assertEquals(10, r.myGetRadiusX(), 0);
+        assertEquals(40, r.myGetRadiusY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape7(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(-50, 20, 30, 60);
+        
+        assertEquals(-50, r.getTopLeftX(), 0);
+        assertEquals(20, r.getTopLeftY(), 0);
+        assertEquals(30, r.getBottomRightX(), 0);
+        assertEquals(60, r.getBottomRightY(), 0);
+        
+        assertEquals(-10, r.myGetCenterX(), 0);
+        assertEquals(40, r.myGetCenterY(), 0);
+        assertEquals(40, r.myGetRadiusX(), 0);
+        assertEquals(20, r.myGetRadiusY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape8(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(-30, -60, -20, -20);
+        
+        assertEquals(-30, r.getTopLeftX(), 0);
+        assertEquals(-60, r.getTopLeftY(), 0);
+        assertEquals(-20, r.getBottomRightX(), 0);
+        assertEquals(-20, r.getBottomRightY(), 0);
+        
+        assertEquals(-25, r.myGetCenterX(), 0);
+        assertEquals(-40, r.myGetCenterY(), 0);
+        assertEquals(5, r.myGetRadiusX(), 0);
+        assertEquals(20, r.myGetRadiusY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape9(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(-50, 20, -30, 60);
+        
+        assertEquals(-50, r.getTopLeftX(), 0);
+        assertEquals(20, r.getTopLeftY(), 0);
+        assertEquals(-30, r.getBottomRightX(), 0);
+        assertEquals(60, r.getBottomRightY(), 0);
+        
+        assertEquals(-40, r.myGetCenterX(), 0);
+        assertEquals(40, r.myGetCenterY(), 0);
+        assertEquals(10, r.myGetRadiusX(), 0);
+        assertEquals(20, r.myGetRadiusY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape10(){
+        MyEllipse r;
+        
+        r = new MyEnhancedEllipse();
+        r.modifyShape(10, -60, 30, -20);
+        
+        assertEquals(10, r.getTopLeftX(), 0);
+        assertEquals(-60, r.getTopLeftY(), 0);
+        assertEquals(30, r.getBottomRightX(), 0);
+        assertEquals(-20, r.getBottomRightY(), 0);
+        
+        assertEquals(20, r.myGetCenterX(), 0);
+        assertEquals(-40, r.myGetCenterY(), 0);
+        assertEquals(10, r.myGetRadiusX(), 0);
+        assertEquals(20, r.myGetRadiusY(), 0);
     }
 }
