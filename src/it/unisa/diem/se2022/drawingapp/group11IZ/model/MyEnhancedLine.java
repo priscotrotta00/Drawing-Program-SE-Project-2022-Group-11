@@ -7,6 +7,8 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableList;
+import javafx.geometry.Bounds;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
@@ -147,4 +149,56 @@ public class MyEnhancedLine extends Line implements MyLine{
         this.mySetEndY(endY);
     }
     
+    @Override
+    public void mySetLayoutX(double value) {
+        super.setLayoutX(value);
+    }
+
+    @Override
+    public void mySetLayoutY(double value) {
+        super.setLayoutY(value);
+    }
+    
+    @Override
+    public DoubleProperty myLayoutXProperty() {
+        return super.layoutXProperty();
+    }
+
+    @Override
+    public DoubleProperty myLayoutYProperty() {
+        return super.layoutYProperty();
+    }
+    
+    @Override
+    public ObservableList<Double> myGetStrokeDashArray() {
+        return super.getStrokeDashArray();
+    }
+    
+    @Override
+    public Bounds myGetLayoutBounds() {
+        return super.getLayoutBounds();
+    }
+    
+    /**
+     * Change the position of a line changing its start position
+     * and consequentely his end position, not changing the line length
+     * @param topLeftX
+     * @param topLeftY 
+     */
+    @Override
+    public void moveShape(double topLeftX, double topLeftY) {
+        MyLine newLine = (MyLine) this;
+        
+        double lengthX = this.myGetEndX() - this.myGetStartX();
+        double lengthY = this.myGetEndY() - this.myGetStartY(); 
+        double startX = topLeftX - (lengthX/2);
+        double startY = topLeftY - (lengthY/2);
+        
+        newLine.mySetStartX(startX);
+        newLine.mySetStartY(startY);
+        newLine.mySetEndX(startX+lengthX);
+        newLine.mySetEndY(startY+lengthY);
+        
+    }
+
 }

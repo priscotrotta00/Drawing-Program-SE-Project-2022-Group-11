@@ -7,6 +7,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import java.util.Arrays;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -58,6 +59,7 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
         rectangleBoundingBox.mySetStroke(Color.BLACK);
         rectangleBoundingBox.mySetFill(Color.TRANSPARENT);
         rectangleBoundingBox.mySetStrokeWidth(this.getShape().myGetStrokeWidth() + strokeVertexOffset);
+        rectangleBoundingBox.myGetStrokeDashArray().addAll(strokeDashList);
         
         return rectangleBoundingBox;
     }

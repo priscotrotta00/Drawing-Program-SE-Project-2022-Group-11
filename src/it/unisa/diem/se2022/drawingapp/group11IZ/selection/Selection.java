@@ -23,6 +23,7 @@ public class Selection implements Visitor{
     private MyShape selectedItem;
     private BooleanProperty selected;
     private SelectionHelper helper;
+    private static Selection instance = null;
 
     /**
      * Class constructor.
@@ -31,6 +32,15 @@ public class Selection implements Visitor{
         this.selectionBorder = new Group();
         this.selectedItem = null;
         this.selected = new SimpleBooleanProperty(false);
+    }
+    
+    /**
+     * 
+     * @return the instance of SelectTool.
+     */
+    public static Selection getInstance(){
+        if (instance == null) instance = new Selection();
+        return instance;
     }
     
     /**
@@ -69,7 +79,7 @@ public class Selection implements Visitor{
      * 
      * @return the BooleanProperty
      */
-    public ObservableBooleanValue getSelected() {
+    public ObservableBooleanValue getSelectedProperty() {
         return selected;
     }
     
@@ -77,7 +87,7 @@ public class Selection implements Visitor{
      * 
      * @param selected 
      */
-    public void setSelected(Boolean selected) {
+    private void setSelected(Boolean selected) {
         this.selected.set(selected);
     }
     
@@ -88,7 +98,7 @@ public class Selection implements Visitor{
      * @param myRectangle the selected rectangle
      */
     public void select(MyRectangle myRectangle){
-        if(selectedProperty()) this.unSelect();
+        if(getSelectedValue()) this.unSelect();
         
         MyRectangle highlightRectangle = new MyEnhancedRectangle();
         
@@ -123,7 +133,7 @@ public class Selection implements Visitor{
      * @param myLine the selected line
      */
     public void select(MyLine myLine){
-        if(selectedProperty()) this.unSelect();
+        if(getSelectedValue()) this.unSelect();
         
         MyLine highlightLine = new MyEnhancedLine();
         
@@ -158,7 +168,7 @@ public class Selection implements Visitor{
      * @param myEllipse the selected ellipse
      */
     public void select(MyEllipse myEllipse){
-        if(selectedProperty()) this.unSelect();
+        if(getSelectedValue()) this.unSelect();
         
         MyEllipse highlightEllipse = new MyEnhancedEllipse();
         
@@ -191,7 +201,7 @@ public class Selection implements Visitor{
      * reset all the attributes
      */
     public void unSelect(){
-        if(!selectedProperty()) return;
+        if(!getSelectedValue()) return;
         
         Node node = getSelectedItem().myGetParent(); 
         
@@ -212,10 +222,10 @@ public class Selection implements Visitor{
     
     /**
      * 
-     * @return the BooleanProperty that explain if a figure is selected
+     * @return the Boolean that explain if a figure is selected
      */
-    public Boolean selectedProperty(){
-        return getSelected().get();
+    public Boolean getSelectedValue(){
+        return getSelectedProperty().get();
     }
     
     /**

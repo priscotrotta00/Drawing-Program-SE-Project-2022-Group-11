@@ -7,6 +7,9 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -29,6 +32,7 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     static final double widthVertex = 10;
     static final double heightVertex = 10;
     static final double strokeVertexOffset = 2;
+    static final List<Double> strokeDashList = Arrays.asList(5.0, 10.0, 5.0, 10.0);
     
     @Override
     public Group createBoundingBox(MyShape shape) {

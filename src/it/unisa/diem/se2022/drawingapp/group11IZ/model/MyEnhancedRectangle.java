@@ -8,6 +8,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.InvalidCoordinatesException;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableList;
+import javafx.geometry.Bounds;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Parent;
@@ -236,4 +238,49 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
     
     
     
+    
+    @Override
+    public void mySetLayoutX(double value) {
+        super.setLayoutX(value);
+    }
+
+    @Override
+    public void mySetLayoutY(double value) {
+        super.setLayoutY(value);
+    }
+    
+    @Override
+    public DoubleProperty myLayoutXProperty() {
+        return super.layoutXProperty();
+    }
+
+    @Override
+    public DoubleProperty myLayoutYProperty() {
+        return super.layoutYProperty();
+    }
+
+    @Override
+    public ObservableList<Double> myGetStrokeDashArray() {
+        return super.getStrokeDashArray();
+    }
+
+    @Override
+    public Bounds myGetLayoutBounds() {
+        return super.getLayoutBounds();
+    }
+    
+    /**
+     * Change the position of a rectangle changing
+     * its top-left coordinates
+     * @param topLeftX
+     * @param topLeftY 
+     */
+    @Override
+    public void moveShape(double topLeftX, double topLeftY) {
+        double diffX = this.myGetLayoutBounds().getMaxX()-this.myGetLayoutBounds().getMinX(); 
+        double diffY = this.myGetLayoutBounds().getMaxY()-this.myGetLayoutBounds().getMinY(); 
+        
+        this.mySetX(topLeftX-(diffX/2));
+        this.mySetY(topLeftY-(diffY/2));
+    }
 }

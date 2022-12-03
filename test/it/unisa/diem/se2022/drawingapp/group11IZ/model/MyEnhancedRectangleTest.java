@@ -175,7 +175,69 @@ public class MyEnhancedRectangleTest {
     public void testMyGetParent(){
         MyEnhancedRectangle r=new MyEnhancedRectangle();
         assertTrue("Error in myGetPartent", r.myGetParent()==r.getParent()); 
+    }
     
+    @Test
+    public void testMySetLayoutX(){
+        MyEnhancedRectangle r=new MyEnhancedRectangle();
+        r.mySetLayoutX(5.0);
+        assertTrue("Error in MySetLayoutX", r.myGetLayoutBounds().getMinX()==r.getLayoutBounds().getMinX()); 
+    
+    }
+    
+    @Test
+    public void testMySetLayoutY(){
+        MyEnhancedRectangle r=new MyEnhancedRectangle();
+        r.mySetLayoutY(5.0);
+        assertTrue("Error in MySetLayoutY", r.myGetLayoutBounds().getMinY()==r.getLayoutBounds().getMinY());
+    }
+    
+    @Test
+    public void testMyLayoutXProperty(){
+        MyEnhancedRectangle r=new MyEnhancedRectangle();
+        
+        assertTrue("Error in MyLayoutXProperty", r.myLayoutXProperty()==r.layoutXProperty());
+        
+    }
+    
+    @Test
+    public void testMyLayoutYProperty(){
+        MyEnhancedRectangle r=new MyEnhancedRectangle();
+        
+        assertTrue("Error in MyLayoutYProperty", r.myLayoutYProperty()==r.layoutYProperty()); 
+    }
+    
+    @Test
+    public void testMyGetStrokeDashArray(){
+        MyEnhancedRectangle r=new MyEnhancedRectangle();
+        
+        assertTrue("Error in MyGetStrokeDashArray", r.myGetStrokeDashArray()==r.getStrokeDashArray());        
+    }
+    
+    @Test
+    public void testMyGetLayoutBounds(){
+        MyEnhancedRectangle r=new MyEnhancedRectangle();
+        
+        assertTrue("Error in MyGetLayoutBounds", r.myGetLayoutBounds()==r.getLayoutBounds());        
+    }
+    
+    @Test
+    public void testMoveShape(){
+        MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
+        
+        rectangle.mySetX(10);
+        rectangle.mySetY(10);
+        rectangle.mySetWidth(20);
+        rectangle.mySetHeight(10);
+        
+        double diffX = rectangle.myGetLayoutBounds().getMaxX()-rectangle.myGetLayoutBounds().getMinX(); 
+        double diffY = rectangle.myGetLayoutBounds().getMaxY()-rectangle.myGetLayoutBounds().getMinY(); 
+        
+        
+        rectangle.moveShape(70.0, 70.0);
+        
+        assertTrue("Error in MoveShape", rectangle.myGetX()==(70.0-(diffX/2)));
+        assertTrue("Error in MoveShape", rectangle.myGetY()==(70.0-(diffY/2)));
     }
     
     @Test
