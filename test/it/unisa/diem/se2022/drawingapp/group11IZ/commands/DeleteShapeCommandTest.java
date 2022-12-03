@@ -28,7 +28,7 @@ import org.junit.Test;
  *
  * @author saram
  */
-public class DeleteCommandTest {
+public class DeleteShapeCommandTest {
 
     //TEST 1-2-3 VANNO IN CONTROLLERTEST
     private Controller c;
@@ -41,7 +41,7 @@ public class DeleteCommandTest {
     private Field selectionField;
     private Selection selection;
 
-    private DeleteCommand deleteCommand;
+    private DeleteShapeCommand deleteCommand;
 
     //per ottenere i bottoni su cui fare controlli bind
     @Before
@@ -69,7 +69,7 @@ public class DeleteCommandTest {
         //test delete a shape that is not in drawpane and figures, so addShape in drawing throw exception. Check if i have this exception
         System.out.println("executeTest4");
         MyEnhancedLine line = new MyEnhancedLine();
-        deleteCommand = new DeleteCommand(c, line);
+        deleteCommand = new DeleteShapeCommand(c, line);
         deleteCommand.execute();
     }
 
@@ -77,7 +77,7 @@ public class DeleteCommandTest {
     public void executeTest7() throws NoSuchFieldException, IllegalAccessException, Exception {
         System.out.println("executeTest5");
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
-        deleteCommand = new DeleteCommand(c, rectangle);
+        deleteCommand = new DeleteShapeCommand(c, rectangle);
         deleteCommand.execute();
 
     }
@@ -86,7 +86,7 @@ public class DeleteCommandTest {
     public void executeTest8() throws NoSuchFieldException, IllegalAccessException, Exception {
         System.out.println("executeTest6");
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
-        deleteCommand = new DeleteCommand(c, ellipse);
+        deleteCommand = new DeleteShapeCommand(c, ellipse);
         deleteCommand.execute();
 
     }
@@ -107,7 +107,7 @@ public class DeleteCommandTest {
         createShapeR.execute();
         createShapeL.execute();
 
-        deleteCommand = new DeleteCommand(c, ellipse);
+        deleteCommand = new DeleteShapeCommand(c, ellipse);
         deleteCommand.execute();
         //check if ellipse is delete from figures
         assertFalse("Ellipse is not delete from figures", figures.contains(ellipse));
@@ -120,14 +120,14 @@ public class DeleteCommandTest {
         assertFalse("Error in removeShape", pane.getChildren().contains(ellipse));
 
         //test remove rectangle
-        deleteCommand = new DeleteCommand(c, rectangle);
+        deleteCommand = new DeleteShapeCommand(c, rectangle);
         deleteCommand.execute();
         //check if rectangle is delete from figures
         assertFalse("Rectangle is not delete from figures", figures.contains(rectangle));
         assertFalse("Error in removeShape", pane.getChildren().contains(rectangle));
 
         //test remove line
-        deleteCommand = new DeleteCommand(c, line);
+        deleteCommand = new DeleteShapeCommand(c, line);
         deleteCommand.execute();
         //check if line is delete from figures
         assertFalse("Line is not delete from figures", figures.contains(line));
@@ -154,7 +154,7 @@ public class DeleteCommandTest {
         createShapeL.execute();
 
         selection.select(ellipse);
-        deleteCommand = new DeleteCommand(c, selection.getSelectedItem());
+        deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
         deleteCommand.execute();
         //check if ellipse is delete from figures
         assertFalse("Ellipse is not delete from figures", figures.contains(ellipse));
@@ -188,7 +188,7 @@ public class DeleteCommandTest {
         createShapeL.execute();
 
         selection.select(line);
-        deleteCommand = new DeleteCommand(c, selection.getSelectedItem());
+        deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
         deleteCommand.execute();
         //check if ellipse is delete from figures
         assertFalse("Ellipse is not delete from figures", figures.contains(line));
@@ -217,7 +217,7 @@ public class DeleteCommandTest {
         createShapeL.execute();
 
         selection.select(rectangle);
-        deleteCommand = new DeleteCommand(c, selection.getSelectedItem());
+        deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
         deleteCommand.execute();
         //check if ellipse is delete from figures
         assertFalse("Ellipse is not delete from figures", figures.contains(rectangle));
@@ -246,7 +246,7 @@ public class DeleteCommandTest {
         createShapeR.execute();
         createShapeL.execute();
         selection.select(rectangle);
-        deleteCommand = new DeleteCommand(c, selection.getSelectedItem());
+        deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
         deleteCommand.execute();
         selection.unSelect();
         
