@@ -190,5 +190,70 @@ public class MyEnhancedLineTest {
         MyEnhancedLine l = new MyEnhancedLine();
         assertTrue("Error in myGetPartent", l.myGetParent() == l.getParent());
     }
+    
+    @Test
+    public void testMySetLayoutX(){
+        MyEnhancedLine l = new MyEnhancedLine();
+        l.mySetLayoutX(5.0);
+        assertTrue("Error in MySetLayoutX", l.myGetLayoutBounds().getMinX()==l.getLayoutBounds().getMinX()); 
+    
+    }
+    
+    @Test
+    public void testMySetLayoutY(){
+        MyEnhancedLine l = new MyEnhancedLine();
+        l.mySetLayoutY(5.0);
+        assertTrue("Error in MySetLayoutY", l.myGetLayoutBounds().getMinY()==l.getLayoutBounds().getMinY());
+    }
+    
+    @Test
+    public void testMyLayoutXProperty(){
+        MyEnhancedLine l = new MyEnhancedLine();
+        
+        assertTrue("Error in MyLayoutXProperty", l.myLayoutXProperty()==l.layoutXProperty());
+        
+    }
+    
+    @Test
+    public void testMyLayoutYProperty(){
+        MyEnhancedLine l = new MyEnhancedLine();
+        
+        assertTrue("Error in MyLayoutYProperty", l.myLayoutYProperty()==l.layoutYProperty()); 
+    }
+    
+    @Test
+    public void testMyGetStrokeDashArray(){
+        MyEnhancedLine l = new MyEnhancedLine();
+        
+        assertTrue("Error in MyGetStrokeDashArray", l.myGetStrokeDashArray()==l.getStrokeDashArray());        
+    }
+    
+    @Test
+    public void testMyGetLayoutBounds(){
+        MyEnhancedLine l = new MyEnhancedLine();
+        
+        assertTrue("Error in MyGetLayoutBounds", l.myGetLayoutBounds()==l.getLayoutBounds());        
+    }
+    
+    @Test
+    public void testMoveShape(){
+        MyEnhancedLine line = new MyEnhancedLine();
+        
+        line.mySetStartX(10);
+        line.mySetStartY(10);
+        line.mySetEndX(50);
+        line.mySetEndY(10);
+        
+        double lengthX = line.myGetEndX() - line.myGetStartX();
+        double lengthY = line.myGetEndY() - line.myGetStartY();
+        
+        line.moveShape(70.0, 70.0);
+        
+        
+        assertTrue("Error in MoveShape", line.myGetStartX()==70.0);
+        assertTrue("Error in MoveShape", line.myGetStartY()==70.0);
+        assertTrue("Error in MoveShape", line.myGetEndX()==(70.0+lengthX));
+        assertTrue("Error in MoveShape", line.myGetEndY()==(70.0+lengthY));
+    }
 
 }

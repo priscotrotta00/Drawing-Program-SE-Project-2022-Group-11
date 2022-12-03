@@ -8,6 +8,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -25,9 +26,11 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -86,20 +89,20 @@ public class Controller implements Initializable {
     private Label fillLabel;
     @FXML
     private ColorPicker fillColorPicker;
-    
+
     private Drawing draw;
-    
+
     //ADDED
     private ToggleGroup toolToggleGroup;
     private Rectangle clip;
     private Tool selectedTool;
     private Selection selection;
-    
+
     @FXML
     private Label colorsLabel;
     @FXML
     private Label optionsLabel;
-            
+
     /**
      * Initializes the controller class.
      */
@@ -107,59 +110,62 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //TODO
         System.out.println("Hello world");
-        
+
         this.initializeToolToggleGroup();
-        
+
         //
         clip = new Rectangle();
         clip.heightProperty().bind(drawPane.heightProperty());
         clip.widthProperty().bind(drawPane.widthProperty());
         drawPane.setClip(clip);
-        
+
         this.initializeDrawPaneEventHandlers();
-        
+
         //create draw
-        this.draw=new Drawing();
-        
-        
-        drawPane.setOnMouseClicked(value ->{
+        this.draw = new Drawing();
+
+        drawPane.setOnMouseClicked(value -> {
             selectedTool.handleOnPrimaryMouseClick(this, value);
         });
-        
+
         selection = Selection.getInstance();
         this.initializeChangeColorBindings();
         
+
+        this.initializeDeleteBindings();
+
     }
 
     /**
      * Initialize the ToolToggleGroup, including the Tools Toggle Buttons inside
      * it
      */
-    public void initializeToolToggleGroup(){
+    public void initializeToolToggleGroup() {
         //Initialize toolToggleGroup
         toolToggleGroup = new ToggleGroup();
         lineToggleButton.setToggleGroup(toolToggleGroup);
         rectangleToggleButton.setToggleGroup(toolToggleGroup);
         ellipseToggleButton.setToggleGroup(toolToggleGroup);
         selectionToggleButton.setToggleGroup(toolToggleGroup);
-        
+
         toolToggleGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
-            if (newToggle == null){
+            if (newToggle == null) {
                 newToggle = oldToggle;
                 newToggle.setSelected(true);
                 return;
             }
-            
+
             this.updateSelectedTool(newToggle);
         });
-        
+
         rectangleToggleButton.selectedProperty().setValue(true);
+
     }
-    
+
     /**
      * Initialize the Draw Pane Event Handlers
      */
-    public void initializeDrawPaneEventHandlers(){
+    public void initializeDrawPaneEventHandlers() {
         drawPane.setOnDragDetected(value -> {
             selectedTool.handleOnDragBegin(this, value);
             drawPane.setOnMouseDragged(event -> {
@@ -167,15 +173,17 @@ public class Controller implements Initializable {
             });
             drawPane.setOnMouseReleased(event -> {
                 selectedTool.handleOnDragEnd(this, event);
-                drawPane.setOnMouseReleased(event2 -> {});
-                drawPane.setOnMouseDragged(event2 -> {});
+                drawPane.setOnMouseReleased(event2 -> {
+                });
+                drawPane.setOnMouseDragged(event2 -> {
+                });
             });
         });
-        
+
         drawPane.setOnMouseClicked(event -> {
             selectedTool.handleOnPrimaryMouseClick(this, event);
         });
-        
+
         drawPane.setOnContextMenuRequested(event -> {
             selectedTool.handleOnContextMenuRequested(this, event);
         });
@@ -186,96 +194,114 @@ public class Controller implements Initializable {
      */
     
     public void initializeChangeColorBindings(){
-        BooleanBinding ex = Bindings.or(not(this.selectionToggleButton.selectedProperty()), not(selection.getSelected()));
+        BooleanBinding ex = Bindings.or(not(this.selectionToggleButton.selectedProperty()), not(selection.getSelectedProperty()));
         changeStrokeColorButton.disableProperty().bind(ex);
         changeFillColorButton.disableProperty().bind(ex);
     }
 
-    public void updateDraw(){
-    
+    /**
+     * Initialize DeleteButton bind
+     */
+    public void initializeDeleteBindings() {
+        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        deleteButton.disableProperty().bind(del);
     }
-    
-    public Pane getDrawPane(){
+
+    public void updateDraw() {
+
+    }
+
+    public Pane getDrawPane() {
         return drawPane;
     }
-    
+
     /**
      * Change the selected tool according to the selected Toggle Button in the
      * Tool Toggle Group. This method will be called when there is a change in
      * the toggle group
+     *
      * @param selectedToggle The selcted toggle of the toolToggleGroup
      */
-    public void updateSelectedTool(Toggle selectedToggle){
+    public void updateSelectedTool(Toggle selectedToggle) {
         ToggleButton toggle = (ToggleButton) selectedToggle;
-        if (toggle.equals(ellipseToggleButton))
+        if (toggle.equals(ellipseToggleButton)) {
             this.selectedTool = DrawEllipseTool.getInstance();
-        else if (toggle.equals(rectangleToggleButton))
+        } else if (toggle.equals(rectangleToggleButton)) {
             this.selectedTool = DrawRectangleTool.getInstance();
-        else if (toggle.equals(lineToggleButton))
+        } else if (toggle.equals(lineToggleButton)) {
             this.selectedTool = DrawLineTool.getInstance();
-        else if (toggle.equals(selectionToggleButton))
+        } else if (toggle.equals(selectionToggleButton)) {
             this.selectedTool = SelectTool.getInstance();
+        }
     }
-    
-    public void updateSelectedColor(){
-        
+
+    public void updateSelectedColor() {
+
     }
-    
+
     /**
-     * Add MyShape into draw and into Pane. 
-     * @param shape 
+     * Add MyShape into draw and into Pane.
+     *
+     * @param shape
      */
     public void addShape(MyShape shape){
         this.draw.addShape(shape);
         drawPane.getChildren().add((Shape) shape);
+
     }
-    
+
     /**
      * Delete MyShape draw and into Pane.
-     * @param event 
+     *
+     * @param event
      */
     public void removeShape(MyShape myShape) {
-        this.draw.removeShape(myShape); 
+        this.draw.removeShape(myShape);
         drawPane.getChildren().remove(myShape);
+
     }
-    
+
     /**
      * Move the shape in foreground
-     * @param myShape 
+     *
+     * @param myShape
      */
-    public void moveShapeToForeground(MyShape myShape){
+    public void moveShapeToForeground(MyShape myShape) {
         this.draw.moveToForeground(myShape);
     }
-    
+
     /**
      * Move the shape in background
-     * @param myShape 
+     *
+     * @param myShape
      */
-    public void moveShapeToBackground(MyShape myShape){
+    public void moveShapeToBackground(MyShape myShape) {
         this.draw.moveToBackground(myShape);
     }
-    
+
     /**
      * Get the Stroke Color picked by user from the Stroke Color Picker
+     *
      * @return the Stroke Color picked by user
      */
-    public Color getSelectedStrokeColor(){
+    public Color getSelectedStrokeColor() {
         return this.strokeColorPicker.getValue();
     }
-    
+
     /**
      * Get the Fill Color picked by user from the Fill Color Picker
+     *
      * @return the Fill Color picked by user
      */
-    public Color getSelectedFillColor(){
+    public Color getSelectedFillColor() {
         return this.fillColorPicker.getValue();
     }
-    
+
     /**
      * Load the drawing from a JSON file
-     * @param event 
+     *
+     * @param event
      */
-    
     @FXML
     private void onLoadAction(ActionEvent event) {
         try {
@@ -285,9 +311,10 @@ public class Controller implements Initializable {
             File file = fc.showOpenDialog(null);
             if(file == null) return;
             Drawing loadedDrawing = Drawing.importDrawing(file);
-            for(MyShape myShape : this.draw){
-                this.drawPane.getChildren().remove((Shape) myShape);
-            }
+            
+            ObservableList<Node> groups = this.drawPane.getChildren();
+            this.drawPane.getChildren().removeAll(groups);
+            
             for(MyShape myShape : loadedDrawing){
                 this.drawPane.getChildren().add((Shape) myShape);
             }
@@ -301,9 +328,9 @@ public class Controller implements Initializable {
 
     /**
      * Save the drawing in a JSON file
-     * @param event 
+     *
+     * @param event
      */
-    
     @FXML
     private void onSaveAction(ActionEvent event) {
         FileChooser fc = new FileChooser();     //IN SCRITTURA
@@ -313,7 +340,7 @@ public class Controller implements Initializable {
         if(file == null) return;
         try {
             this.draw.exportDrawing(file);
-        }catch(ExtensionFileException ex){
+        } catch (ExtensionFileException ex) {
             new Alert(Alert.AlertType.INFORMATION, "File must have a .json extension!").showAndWait();
         }
     }
@@ -344,8 +371,16 @@ public class Controller implements Initializable {
     private void onCopyAction(ActionEvent event) {
     }
 
+    /**
+     * Delete the shape from Draw and Pane
+     * @param event 
+     */
     @FXML
     private void onDeleteAction(ActionEvent event) {
+        MyShape s = selection.getSelectedItem();
+        selection.unSelect();
+        DeleteCommand deleteCommand = new DeleteCommand(this, s);
+        deleteCommand.execute();
     }
 
     @FXML
@@ -355,5 +390,8 @@ public class Controller implements Initializable {
     @FXML
     private void onPasteAction(ActionEvent event) {
     }
-    
+
+    public Drawing getDraw() {
+        return this.draw;
+    }
 }

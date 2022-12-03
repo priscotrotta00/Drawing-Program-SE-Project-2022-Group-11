@@ -8,6 +8,8 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableList;
+import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
@@ -135,6 +137,50 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
     public void accept(Visitor v) {
         v.visitEllipse(this);
     }   
+
+    @Override
+    public void mySetLayoutX(double value) {
+        super.setLayoutX(value);
+    }
+
+    @Override
+    public void mySetLayoutY(double value) {
+        super.setLayoutY(value);
+    }
+
+    @Override
+    public DoubleProperty myLayoutXProperty() {
+        return super.layoutXProperty();
+    }
+
+    @Override
+    public DoubleProperty myLayoutYProperty() {
+        return super.layoutYProperty();
+    }
     
+    @Override
+    public ObservableList<Double> myGetStrokeDashArray() {
+        return super.getStrokeDashArray();
+    }
+    
+    @Override
+    public Bounds myGetLayoutBounds() {
+        return super.getLayoutBounds();
+    }
+    
+    /**
+     * Change the position of an ellipse 
+     * changing its center coordinates
+     * @param topLeftX
+     * @param topLeftY 
+     */
+    @Override
+    public void moveShape(double topLeftX, double topLeftY) {
+        MyEllipse newEllipse = (MyEllipse) this;
+        
+        newEllipse.mySetCenterX(topLeftX);
+        newEllipse.mySetCenterY(topLeftY);
+        
+    }
 }
 

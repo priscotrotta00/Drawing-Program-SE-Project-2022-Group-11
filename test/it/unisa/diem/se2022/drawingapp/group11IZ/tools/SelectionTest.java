@@ -37,7 +37,7 @@ public class SelectionTest {
     @Before
     public void setUp() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException{
         myEnhancedLine = new MyEnhancedLine();
-        selection = new Selection();
+        selection = Selection.getInstance();
         pane = new Pane();
         myEnhancedRectangle = new MyEnhancedRectangle();
         myEnhancedEllipse = new MyEnhancedEllipse();

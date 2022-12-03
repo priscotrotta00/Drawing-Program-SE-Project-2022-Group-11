@@ -48,6 +48,8 @@ public class ControllerTest {
     private Field drawingField;
     private Field strokeColorPickerField;
     private Field fillColorPickerField;
+    
+    private Field deleteButtonField;
     private Field changeStrokeColorField;
     private Field changeFillColorField;
     private Field selectionField;
@@ -93,6 +95,8 @@ public class ControllerTest {
        changeFillColorField = Controller.class.getDeclaredField("changeFillColorButton");
        selectionField = Controller.class.getDeclaredField("selection");
        
+       deleteButtonField=Controller.class.getDeclaredField("deleteButton");
+       selectionField=Controller.class.getDeclaredField("selection");
        c = new Controller();
    }
    
@@ -194,6 +198,7 @@ public class ControllerTest {
        Assert.assertTrue("Tool toggle button is not unselected", ellipse.selectedProperty().get());
        Assert.assertEquals("Tool has not changed", DrawEllipseTool.getInstance(), this.selectedToolField.get(c));
     }
+    @Test
     public void testAddShape() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         System.out.println("add");
         
@@ -617,4 +622,129 @@ public class ControllerTest {
         assertFalse("Error in bind changeFillColorButton", changeFillColor.isDisable());
     }
     
+    @Test // ho premuto su seleziona e scelto figura.
+    public void testBindDeleteButton3() throws IllegalArgumentException, IllegalAccessException{
+        this.deleteButtonField.setAccessible(true);
+        Button deleteButton=new Button();
+        this.deleteButtonField.set(c, deleteButton);
+        this.selectionToggleButtonField.setAccessible(true); 
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        //this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);        
+        this.selectionField.setAccessible(true);        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);      
+        this.selectionField.set(c, Selection.getInstance());
+ 
+        c.initializeToolToggleGroup();
+        c.initializeDeleteBindings();
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(selection);
+        
+        MyEnhancedLine lineShape=new MyEnhancedLine();
+        c.addShape(lineShape);
+        
+        Selection.getInstance().select(lineShape);
+        MyShape myShape = Selection.getInstance().getSelectedItem();
+        assertEquals(myShape.toString(), lineShape.toString());
+        
+        
+        assertFalse("error in bind2",selection.isDisable() );
+        assertFalse("error in bind", deleteButton.isDisable());
+        
+    }
+    
+    
+    @Test //non ho premuto su seleziona.
+    public void testBindDeleteButton1() throws IllegalArgumentException, IllegalAccessException{
+        this.deleteButtonField.setAccessible(true);
+        Button deleteButton=new Button();
+        this.deleteButtonField.set(c, deleteButton);
+        this.selectionToggleButtonField.setAccessible(true); 
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);        
+        this.selectionField.setAccessible(true);        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);      
+        this.selectionField.set(c, Selection.getInstance());
+ 
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(line);
+        c.initializeDeleteBindings();
+        assertTrue("error in bind", deleteButton.isDisable());
+        
+    }
+    
+    @Test // ho premuto su seleziona.
+    public void testBindDeleteButton2() throws IllegalArgumentException, IllegalAccessException{
+        this.deleteButtonField.setAccessible(true);
+        Button deleteButton=new Button();
+        this.deleteButtonField.set(c, deleteButton);
+        this.selectionToggleButtonField.setAccessible(true); 
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);        
+        this.selectionField.setAccessible(true);        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);      
+        this.selectionField.set(c, Selection.getInstance());
+ 
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(selection);
+        
+        c.initializeDeleteBindings();
+        assertTrue("error in bind", deleteButton.isDisabled());
+        
+    }
+    
+    
+    @Test
+    public void testGetDraw() throws IllegalArgumentException, IllegalAccessException{
+        this.drawingField.setAccessible(true);
+        Drawing drawing = new Drawing();
+        this.drawingField.set(c, drawing);
+        
+        Drawing d=c.getDraw();
+        assertTrue("Error in getDraw",d==drawing);
+    }
 }

@@ -5,6 +5,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.Group;
@@ -54,7 +55,7 @@ public class Selection implements Visitor{
      * 
      * @param selectionBorder 
      */
-    public void setSelectionBorder(Group selectionBorder) {
+    private void setSelectionBorder(Group selectionBorder) {
         this.selectionBorder = selectionBorder;
     }
     
@@ -70,7 +71,7 @@ public class Selection implements Visitor{
      * 
      * @param selectedItem 
      */
-    public void setSelectedItem(MyShape selectedItem) {
+    private void setSelectedItem(MyShape selectedItem) {
         this.selectedItem = selectedItem;
     }
     
@@ -78,7 +79,7 @@ public class Selection implements Visitor{
      * 
      * @return the BooleanProperty
      */
-    public ObservableBooleanValue getSelected() {
+    public ObservableBooleanValue getSelectedProperty() {
         return selected;
     }
     
@@ -86,7 +87,7 @@ public class Selection implements Visitor{
      * 
      * @param selected 
      */
-    public void setSelected(Boolean selected) {
+    private void setSelected(Boolean selected) {
         this.selected.set(selected);
     }
     
@@ -97,7 +98,7 @@ public class Selection implements Visitor{
      * @param myRectangle the selected rectangle
      */
     public void select(MyRectangle myRectangle){
-        if(selectedProperty()) this.unSelect();
+        if(getSelectedValue()) this.unSelect();
         
         MyRectangle highlightRectangle = new MyEnhancedRectangle();
         
@@ -111,15 +112,19 @@ public class Selection implements Visitor{
         
         setSelectedItem(myRectangle);
         
-        highlightRectangle.myXProperty().bind(myRectangle.myXProperty());
-        highlightRectangle.myYProperty().bind(myRectangle.myYProperty());
-        highlightRectangle.myHeightProperty().bind(myRectangle.myHeightProperty());
-        highlightRectangle.myWidthProperty().bind(myRectangle.myWidthProperty());
+        Bindings.bindBidirectional(highlightRectangle.myLayoutXProperty() ,myRectangle.myLayoutXProperty());
+        Bindings.bindBidirectional(highlightRectangle.myLayoutYProperty() ,myRectangle.myLayoutYProperty());
+        
+        Bindings.bindBidirectional(highlightRectangle.myXProperty(), myRectangle.myXProperty());
+        Bindings.bindBidirectional(highlightRectangle.myYProperty(), myRectangle.myYProperty());
+        Bindings.bindBidirectional(highlightRectangle.myHeightProperty(), myRectangle.myHeightProperty());
+        Bindings.bindBidirectional(highlightRectangle.myWidthProperty(), myRectangle.myWidthProperty());
         
         highlightRectangle.mySetFill(Color.TRANSPARENT);
         highlightRectangle.mySetStroke(Color.BLACK);
         
         highlightRectangle.mySetStrokeWidth(myRectangle.myGetStrokeWidth()+2);
+        highlightRectangle.myGetStrokeDashArray().addAll(5.0,10.0,5.0,10.0);
         
         getSelectionBorder().getChildren().add((Shape)highlightRectangle);
         
@@ -141,7 +146,7 @@ public class Selection implements Visitor{
      * @param myLine the selected line
      */
     public void select(MyLine myLine){
-        if(selectedProperty()) this.unSelect();
+        if(getSelectedValue()) this.unSelect();
         
         MyLine highlightLine = new MyEnhancedLine();
         
@@ -155,15 +160,20 @@ public class Selection implements Visitor{
         
         setSelectedItem(myLine);
         
-        highlightLine.myStartXProperty().bind(myLine.myStartXProperty());
-        highlightLine.myStartYProperty().bind(myLine.myStartYProperty());
-        highlightLine.myEndXProperty().bind(myLine.myEndXProperty());
-        highlightLine.myEndYProperty().bind(myLine.myEndYProperty());
+        Bindings.bindBidirectional(highlightLine.myLayoutXProperty() ,myLine.myLayoutXProperty());
+        Bindings.bindBidirectional(highlightLine.myLayoutYProperty() ,myLine.myLayoutYProperty());
+        
+        Bindings.bindBidirectional(highlightLine.myStartXProperty(), myLine.myStartXProperty());
+        Bindings.bindBidirectional(highlightLine.myStartYProperty(), myLine.myStartYProperty());
+        Bindings.bindBidirectional(highlightLine.myEndXProperty(), myLine.myEndXProperty());
+        Bindings.bindBidirectional(highlightLine.myEndYProperty(), myLine.myEndYProperty());
+        
         
         highlightLine.mySetFill(Color.TRANSPARENT);
         highlightLine.mySetStroke(Color.BLACK);
         
         highlightLine.mySetStrokeWidth(myLine.myGetStrokeWidth()+2);
+        highlightLine.myGetStrokeDashArray().addAll(5.0,10.0,5.0,10.0);
         
         getSelectionBorder().getChildren().add((Shape)highlightLine);
         
@@ -185,7 +195,7 @@ public class Selection implements Visitor{
      * @param myEllipse the selected ellipse
      */
     public void select(MyEllipse myEllipse){
-        if(selectedProperty()) this.unSelect();
+        if(getSelectedValue()) this.unSelect();
         
         MyEllipse highlightEllipse = new MyEnhancedEllipse();
         
@@ -199,15 +209,19 @@ public class Selection implements Visitor{
         
         setSelectedItem(myEllipse);
         
-        highlightEllipse.myCenterXProperty().bind(myEllipse.myCenterXProperty());
-        highlightEllipse.myCenterYProperty().bind(myEllipse.myCenterYProperty());
-        highlightEllipse.myRadiusXProperty().bind(myEllipse.myRadiusXProperty());
-        highlightEllipse.myRadiusYProperty().bind(myEllipse.myRadiusYProperty());
+        Bindings.bindBidirectional(highlightEllipse.myLayoutXProperty() ,myEllipse.myLayoutXProperty());
+        Bindings.bindBidirectional(highlightEllipse.myLayoutYProperty() ,myEllipse.myLayoutYProperty());
+        
+        Bindings.bindBidirectional(highlightEllipse.myCenterXProperty(), myEllipse.myCenterXProperty());
+        Bindings.bindBidirectional(highlightEllipse.myCenterYProperty(), myEllipse.myCenterYProperty());
+        Bindings.bindBidirectional(highlightEllipse.myRadiusXProperty(), myEllipse.myRadiusXProperty());
+        Bindings.bindBidirectional(highlightEllipse.myRadiusYProperty(), myEllipse.myRadiusYProperty());
         
         highlightEllipse.mySetFill(Color.TRANSPARENT);
         highlightEllipse.mySetStroke(Color.BLACK);
         
         highlightEllipse.mySetStrokeWidth(myEllipse.myGetStrokeWidth()+2);
+        highlightEllipse.myGetStrokeDashArray().addAll(5.0,10.0,5.0,10.0);
         
         getSelectionBorder().getChildren().add((Shape)highlightEllipse);
         
@@ -227,7 +241,7 @@ public class Selection implements Visitor{
      * reset all the attributes
      */
     public void unSelect(){
-        if(!selectedProperty()) return;
+        if(!getSelectedValue()) return;
         
         Node node = getSelectedItem().myGetParent(); 
         
@@ -248,10 +262,10 @@ public class Selection implements Visitor{
     
     /**
      * 
-     * @return the BooleanProperty that explain if a figure is selected
+     * @return the Boolean that explain if a figure is selected
      */
-    public Boolean selectedProperty(){
-        return getSelected().get();
+    public Boolean getSelectedValue(){
+        return getSelectedProperty().get();
     }
     
     /**
