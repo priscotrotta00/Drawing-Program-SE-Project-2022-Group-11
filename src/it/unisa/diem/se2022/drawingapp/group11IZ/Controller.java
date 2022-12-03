@@ -304,13 +304,12 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onLoadAction(ActionEvent event) {
-        //new Alert(Alert.AlertType.INFORMATION, "File must have a .json extension!").showAndWait();
         try {
             FileChooser fc = new FileChooser();
             fc.setTitle("Open a drawing with .json extension");
             fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));
             File file = fc.showOpenDialog(null);
-
+            if(file == null) return;
             Drawing loadedDrawing = Drawing.importDrawing(file);
             selection.unSelect();
             
@@ -341,8 +340,9 @@ public class Controller implements Initializable {
     private void onSaveAction(ActionEvent event) {
         FileChooser fc = new FileChooser();     //IN SCRITTURA
         fc.setTitle("Save the drawing in a .json file extension");
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));
-        File file = fc.showSaveDialog(null);
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));	
+	File file = fc.showSaveDialog(null);
+        if(file == null) return;
         try {
             this.draw.exportDrawing(file);
         } catch (ExtensionFileException ex) {

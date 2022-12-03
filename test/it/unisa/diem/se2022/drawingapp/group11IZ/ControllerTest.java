@@ -613,8 +613,9 @@ public class ControllerTest {
         MyShape myLine = new MyEnhancedLine();
         c.addShape(myLine);
         
-        Selection.getInstance().select((MyLine) myLine);
         toolToggleGroup.selectToggle(selection);
+        Selection.getInstance().select((MyLine) myLine);
+        
         MyShape myShape = Selection.getInstance().getSelectedItem();
         //The shape selected must be myLine and the changeFillColorButton must be enabled
         assertEquals(myShape.toString(), myLine.toString());
@@ -630,7 +631,7 @@ public class ControllerTest {
         this.ellipseToggleButtonField.setAccessible(true);
         this.lineToggleButtonField.setAccessible(true);
         this.rectangleToggleButtonField.setAccessible(true);
-        this.selectionToggleButtonField.setAccessible(true);
+        //this.selectionToggleButtonField.setAccessible(true);
         this.selectedToolField.setAccessible(true);
         this.toolToggleGroupField.setAccessible(true);        
         this.selectionField.setAccessible(true);        
@@ -645,11 +646,30 @@ public class ControllerTest {
         this.selectionField.set(c, Selection.getInstance());
  
         c.initializeToolToggleGroup();
+        c.initializeDeleteBindings();
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        
         ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
         toolToggleGroup.selectToggle(selection);
-        Selection.getInstance().setSelected(true);
-        c.initializeDeleteBindings();
-        assertFalse("error in bind", deleteButton.isDisabled());
+        
+        MyEnhancedLine lineShape=new MyEnhancedLine();
+        c.addShape(lineShape);
+        
+        Selection.getInstance().select(lineShape);
+        MyShape myShape = Selection.getInstance().getSelectedItem();
+        assertEquals(myShape.toString(), lineShape.toString());
+        
+        
+        assertFalse("error in bind2",selection.isDisable() );
+        assertFalse("error in bind", deleteButton.isDisable());
         
     }
     
@@ -681,7 +701,7 @@ public class ControllerTest {
         ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
         toolToggleGroup.selectToggle(line);
         c.initializeDeleteBindings();
-        assertTrue("error in bind", deleteButton.isDisabled());
+        assertTrue("error in bind", deleteButton.isDisable());
         
     }
     
@@ -717,37 +737,6 @@ public class ControllerTest {
         
     }
     
-    /*@Test // ho premuto su seleziona e scelto figura.
-    public void testBindDeleteButton3() throws IllegalArgumentException, IllegalAccessException{
-        this.deleteButtonField.setAccessible(true);
-        Button deleteButton=new Button();
-        this.deleteButtonField.set(c, deleteButton);
-        this.selectionToggleButtonField.setAccessible(true); 
-        this.ellipseToggleButtonField.setAccessible(true);
-        this.lineToggleButtonField.setAccessible(true);
-        this.rectangleToggleButtonField.setAccessible(true);
-        this.selectionToggleButtonField.setAccessible(true);
-        this.selectedToolField.setAccessible(true);
-        this.toolToggleGroupField.setAccessible(true);        
-        this.selectionField.setAccessible(true);        
-        ToggleButton line = new ToggleButton();
-        ToggleButton rectangle = new ToggleButton();
-        ToggleButton ellipse = new ToggleButton();
-        ToggleButton selection = new ToggleButton();
-        this.ellipseToggleButtonField.set(c, ellipse);
-        this.lineToggleButtonField.set(c, line);
-        this.rectangleToggleButtonField.set(c, rectangle);
-        this.selectionToggleButtonField.set(c, selection);      
-        this.selectionField.set(c, Selection.getInstance());
- 
-        c.initializeToolToggleGroup();
-        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
-        toolToggleGroup.selectToggle(selection);
-        Selection.getInstance().setSelected(true);
-        c.initializeDeleteBindings();
-        assertFalse("error in bind", deleteButton.isDisabled());
-        
-    }*/
     
     @Test
     public void testGetDraw() throws IllegalArgumentException, IllegalAccessException{
