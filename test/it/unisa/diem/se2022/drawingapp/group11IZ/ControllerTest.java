@@ -707,6 +707,7 @@ public class ControllerTest {
     
     @Test // ho premuto su seleziona.
     public void testBindDeleteButton2() throws IllegalArgumentException, IllegalAccessException{
+        
         this.deleteButtonField.setAccessible(true);
         Button deleteButton=new Button();
         this.deleteButtonField.set(c, deleteButton);
@@ -725,12 +726,14 @@ public class ControllerTest {
         this.ellipseToggleButtonField.set(c, ellipse);
         this.lineToggleButtonField.set(c, line);
         this.rectangleToggleButtonField.set(c, rectangle);
-        this.selectionToggleButtonField.set(c, selection);      
+        this.selectionToggleButtonField.set(c, selection);
+        Selection.getInstance().unSelect();
         this.selectionField.set(c, Selection.getInstance());
  
         c.initializeToolToggleGroup();
         ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
         toolToggleGroup.selectToggle(selection);
+        
         
         c.initializeDeleteBindings();
         assertTrue("error in bind", deleteButton.isDisabled());
