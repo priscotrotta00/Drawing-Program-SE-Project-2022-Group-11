@@ -221,6 +221,7 @@ public class MyEnhancedRectangleTest {
         assertTrue("Error in MyGetLayoutBounds", r.myGetLayoutBounds()==r.getLayoutBounds());        
     }
     
+    @Test
     public void testMoveShape(){
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         
@@ -229,10 +230,14 @@ public class MyEnhancedRectangleTest {
         rectangle.mySetWidth(20);
         rectangle.mySetHeight(10);
         
+        double diffX = rectangle.myGetLayoutBounds().getMaxX()-rectangle.myGetLayoutBounds().getMinX(); 
+        double diffY = rectangle.myGetLayoutBounds().getMaxY()-rectangle.myGetLayoutBounds().getMinY(); 
+        
+        
         rectangle.moveShape(70.0, 70.0);
         
-        assertTrue("Error in MoveShape", rectangle.myGetX()==70.0);
-        assertTrue("Error in MoveShape", rectangle.myGetY()==70.0);
+        assertTrue("Error in MoveShape", rectangle.myGetX()==(70.0-(diffX/2)));
+        assertTrue("Error in MoveShape", rectangle.myGetY()==(70.0-(diffY/2)));
     }
     
 }
