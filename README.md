@@ -29,8 +29,18 @@ Our links:
 - Second sprint retrospective: [here](https://drive.google.com/file/d/1MAh2XiBMZ3jck56kujj62Rs3hDJVb-bA/view?usp=share_link)
 
 ## UML Class Diagram
+- Project UML overview
+![Class Diagram](UMLImages/CompleteUml.png)
 
-![Class Diagram](Drawing%20App%20UML.png)
+- Project UML per package view
+![Class Diagram](UMLImages/Commands.png)
+![Class Diagram](UMLImages/Controller.png)
+![Class Diagram](UMLImages/Export.png)
+![Class Diagram](UMLImages/Model.png)
+![Class Diagram](UMLImages/Selection.png)
+![Class Diagram](UMLImages/Tool.png)
+![Class Diagram](UMLImages/Visitor.png)
+
 
 ## Definition of Done
 
