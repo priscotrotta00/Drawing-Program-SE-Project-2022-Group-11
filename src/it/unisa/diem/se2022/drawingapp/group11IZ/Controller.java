@@ -8,7 +8,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -379,7 +379,7 @@ public class Controller implements Initializable {
     private void onDeleteAction(ActionEvent event) {
         MyShape s = selection.getSelectedItem();
         selection.unSelect();
-        DeleteCommand deleteCommand = new DeleteCommand(this, s);
+        DeleteShapeCommand deleteCommand = new DeleteShapeCommand(this, s);
         deleteCommand.execute();
     }
 

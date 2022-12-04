@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author saram
  */
-public class DeleteCommand extends Controller implements Command {
+public class DeleteShapeCommand extends Controller implements Command {
     
     private Controller controller;
     private MyShape shape;
@@ -27,7 +27,7 @@ public class DeleteCommand extends Controller implements Command {
      * @param controller
      * @param shape 
      */
-    public DeleteCommand(Controller controller, MyShape shape) {
+    public DeleteShapeCommand(Controller controller, MyShape shape) {
         this.controller=controller;
         this.shape=shape;
         this.layerShape=this.controller.getDraw().getShapeLayer(shape);
