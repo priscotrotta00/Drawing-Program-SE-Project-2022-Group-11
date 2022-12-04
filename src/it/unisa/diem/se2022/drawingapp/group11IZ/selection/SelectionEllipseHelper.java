@@ -4,6 +4,8 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeEllipseCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -22,6 +24,15 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
         return (MyEllipse) super.getShape();
     }
     
+    @Override
+    ResizeEllipseCommand getCommand(){
+        return (ResizeEllipseCommand) super.getCommand();
+    }
+
+    @Override
+    ResizeShapeCommand createResizeShapeCommand() {
+        return new ResizeEllipseCommand(this.getShape());
+    }
 
     @Override
     MyShape createBoundingBoxEdge() {
@@ -35,6 +46,7 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
         ellipseBoundingBoxEdge.mySetFill(Color.TRANSPARENT);
         ellipseBoundingBoxEdge.mySetStroke(Color.BLACK);
         ellipseBoundingBoxEdge.mySetStrokeWidth(this.getShape().myGetStrokeWidth() + strokeVertexOffset);
+        ellipseBoundingBoxEdge.myGetStrokeDashArray().addAll(strokeDashList);
         
         return ellipseBoundingBoxEdge;
     }
@@ -81,6 +93,7 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex1Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(this.getShape().getTopLeftX(), mouseY, this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
+        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), mouseY, this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
     }
 
     @Override
@@ -91,6 +104,7 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex2Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), mouseX, this.getShape().getBottomRightY());
+        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), mouseX, this.getShape().getBottomRightY());
     }
 
     @Override
@@ -101,6 +115,7 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex3Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), mouseY);
+        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), mouseY);
     }
 
     @Override
@@ -111,6 +126,7 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex4Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(mouseX, this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
+        this.getCommand().setNewCoordinates(mouseX, this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
     }
     
 }

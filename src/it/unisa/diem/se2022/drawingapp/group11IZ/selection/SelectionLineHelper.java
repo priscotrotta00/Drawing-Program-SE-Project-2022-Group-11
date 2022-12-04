@@ -4,6 +4,8 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeLineCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -23,6 +25,16 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
     }
     
     @Override
+    ResizeLineCommand getCommand(){
+        return (ResizeLineCommand) super.getCommand();
+    }
+
+    @Override
+    ResizeShapeCommand createResizeShapeCommand() {
+        return new ResizeLineCommand(this.getShape());
+    }
+    
+    @Override
     MyShape createBoundingBoxEdge() {
         MyLine lineBoundingBoxEdge = new MyEnhancedLine();
         
@@ -30,6 +42,7 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
         lineBoundingBoxEdge.myStartYProperty().bind(this.getShape().myStartYProperty());
         lineBoundingBoxEdge.myEndXProperty().bind(this.getShape().myEndXProperty());
         lineBoundingBoxEdge.myEndYProperty().bind(this.getShape().myEndYProperty());
+        lineBoundingBoxEdge.myGetStrokeDashArray().addAll(strokeDashList);
         
         lineBoundingBoxEdge.mySetStrokeWidth(this.getShape().myGetStrokeWidth() + strokeVertexOffset);
         lineBoundingBoxEdge.mySetFill(Color.TRANSPARENT);
@@ -67,6 +80,7 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex1Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(mouseX, mouseY, this.getShape().myGetEndX(), this.getShape().myGetEndY());
+        this.getCommand().setNewCoordinates(mouseX, mouseY, this.getShape().myGetEndX(), this.getShape().myGetEndY());
     }
 
     @Override
@@ -77,6 +91,7 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex2Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(this.getShape().myGetStartX(), this.getShape().myGetStartY(), mouseX, mouseY);
+        this.getCommand().setNewCoordinates(this.getShape().myGetStartX(), this.getShape().myGetStartY(), mouseX, mouseY);
     }
     
 }

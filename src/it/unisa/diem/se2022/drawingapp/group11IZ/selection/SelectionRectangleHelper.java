@@ -4,6 +4,8 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeRectangleCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -23,6 +25,15 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
         return (MyRectangle) super.getShape();
     }
     
+    @Override
+    ResizeRectangleCommand getCommand(){
+        return (ResizeRectangleCommand) super.getCommand();
+    }
+
+    @Override
+    ResizeShapeCommand createResizeShapeCommand() {
+        return new ResizeRectangleCommand(this.getShape());
+    }
     
     @Override
     void updateVertices(){
@@ -83,6 +94,7 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex1Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(mouseX, mouseY, this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
+        this.getCommand().setNewCoordinates(mouseX, mouseY, this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
     }
 
     @Override
@@ -93,6 +105,7 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex2Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(this.getShape().getTopLeftX(), mouseY, mouseX, this.getShape().getBottomRightY());
+        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), mouseY, mouseX, this.getShape().getBottomRightY());
     }
 
     @Override
@@ -103,6 +116,7 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex4Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(mouseX, this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), mouseY);
+        this.getCommand().setNewCoordinates(mouseX, this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), mouseY);
     }
 
     @Override
@@ -113,5 +127,6 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void onMouseDragVertex3Action(double mouseX, double mouseY) {
         this.getShape().modifyShape(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), mouseX, mouseY);
+        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), mouseX, mouseY);
     }
 }

@@ -4,9 +4,12 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import java.util.Arrays;
+import java.util.List;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +21,7 @@ import javafx.scene.shape.Shape;
  */
 public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper {
     private MyShape shape;
+    private ResizeShapeCommand command;
     
     private MyShape boundingBoxEdge;
     private MyRectangle vertex1;
@@ -26,10 +30,12 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
     static final double widthVertex = 10;
     static final double heightVertex = 10;
     static final double strokeVertexOffset = 2;
+    static final List<Double> strokeDashList = Arrays.asList(5.0, 10.0, 5.0, 10.0);
     
     @Override
     public Group createBoundingBox(MyShape shape) {
         this.shape = shape;
+        this.command = this.createResizeShapeCommand();
         
         Group boundingBoxGroup = new Group();
         vertex1 = new MyEnhancedRectangle();
@@ -46,6 +52,8 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
     
     abstract MyShape createBoundingBoxEdge();
     
+    abstract ResizeShapeCommand createResizeShapeCommand();
+    
     abstract void updateVertices();
     
     private void initializeVerticesHandlers(){
@@ -53,14 +61,20 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
         vertex1Cast.setCursor(Cursor.NE_RESIZE);
         vertex1Cast.setOnMouseDragged(event -> {
             this.handleOnMouseDragVertex1(event);
-            vertex1Cast.setOnMouseReleased(event2 -> {});
+            vertex1Cast.setOnMouseReleased(event2 -> {
+                this.getCommand().execute();
+                vertex1Cast.setOnMouseReleased(event3 -> {});
+            });
         });
         
         Shape vertex2Cast = (Shape) vertex2;
         vertex2Cast.setCursor(Cursor.NE_RESIZE);
         vertex2Cast.setOnMouseDragged(event -> {
             this.handleOnMouseDragVertex2(event);
-            vertex2Cast.setOnMouseReleased(event2 -> {});
+            vertex2Cast.setOnMouseReleased(event2 -> {
+                this.getCommand().execute();
+                vertex2Cast.setOnMouseReleased(event3 -> {});
+            });
         });
     }
     
@@ -112,6 +126,10 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
     
     MyShape getBoundingBoxEdge(){
         return boundingBoxEdge;
+    }
+    
+    ResizeShapeCommand getCommand(){
+        return command;
     }
     
 }

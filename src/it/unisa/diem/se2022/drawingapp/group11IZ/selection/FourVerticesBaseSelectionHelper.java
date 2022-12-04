@@ -4,16 +4,15 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
@@ -22,6 +21,7 @@ import javafx.scene.shape.Shape;
  */
 public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper{
     private MyShape shape;
+    private ResizeShapeCommand command;
     
     private MyShape boundingBoxEdge;
     private MyRectangle vertex1;
@@ -37,6 +37,7 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     @Override
     public Group createBoundingBox(MyShape shape) {
         this.shape = shape;
+        this.command = createResizeShapeCommand();
         
         Group boundingBoxGroup = new Group();
         vertex1 = new MyEnhancedRectangle();
@@ -55,6 +56,8 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     
     abstract MyShape createBoundingBoxEdge();
     
+    abstract ResizeShapeCommand createResizeShapeCommand();
+    
     abstract void updateVertices();
     
     private void initializeVerticesHandlers(){
@@ -62,28 +65,40 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         vertex1Cast.setCursor(Cursor.NE_RESIZE);
         vertex1Cast.setOnMouseDragged(event -> {
             this.handleOnMouseDragVertex1(event);
-            vertex1Cast.setOnMouseReleased(event2 -> {});
+            vertex1Cast.setOnMouseReleased(event2 -> {
+                this.getCommand().execute();
+                vertex1Cast.setOnMouseReleased(event3 -> {});
+            });
         });
         
         Shape vertex2Cast = (Shape) vertex2;
         vertex2Cast.setCursor(Cursor.NE_RESIZE);
         vertex2Cast.setOnMouseDragged(event -> {
             this.handleOnMouseDragVertex2(event);
-            vertex2Cast.setOnMouseReleased(event2 -> {});
+            vertex2Cast.setOnMouseReleased(event2 -> {
+                this.getCommand().execute();
+                vertex2Cast.setOnMouseReleased(event3 -> {});
+            });
         });
         
         Shape vertex3Cast = (Shape) vertex3;
         vertex3Cast.setCursor(Cursor.NE_RESIZE);
         vertex3Cast.setOnMouseDragged(event -> {
             this.handleOnMouseDragVertex3(event);
-            vertex3Cast.setOnMouseReleased(event2 -> {});
+            vertex3Cast.setOnMouseReleased(event2 -> {
+                this.getCommand().execute();
+                vertex3Cast.setOnMouseReleased(event3 -> {});
+            });
         });
         
         Shape vertex4Cast = (Shape) vertex4;
         vertex4Cast.setCursor(Cursor.NE_RESIZE);
         vertex4Cast.setOnMouseDragged(event -> {
             this.handleOnMouseDragVertex4(event);
-            vertex4Cast.setOnMouseReleased(event2 -> {});
+            vertex4Cast.setOnMouseReleased(event2 -> {
+                this.getCommand().execute();
+                vertex4Cast.setOnMouseReleased(event3 -> {});
+            });
         });
     }
     
@@ -175,6 +190,10 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     
     MyShape getBoundingBoxEdge(){
         return boundingBoxEdge;
+    }
+    
+    ResizeShapeCommand getCommand(){
+        return command;
     }
     
 }
