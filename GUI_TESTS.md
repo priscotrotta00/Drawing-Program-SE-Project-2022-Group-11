@@ -19,3 +19,15 @@
 1. When selected a shape, trying to select an other shape and in this case is not removed the highlight to the first 
 2. When selected a shape, click on empyt space (Pane) and the highlight is removed
 3. When selected a shape the border of the shape that highlight the selected shape is in front of all the other shapes
+## Resize Shape Tests
+### Resize Rectangle Tests
+1. When a rectangle is selected, verify that four verices appears on the rectagle vertices
+2. When you move a vertex, verify that the shape changes its size according to the mouse coordinates
+3. When you move a vertex, verify that you can't go over the opposite vertex
+### Resize Ellipse Tests
+1. When an ellipse is selected, verify that four verices appears at the end of the ellipse's diameters
+2. When you move a vertex, verify that the shape changes its size according to the mouse coordinates
+3. When you move a vertex, verify that you can't go over the opposite vertex
+### Resize Line Tests
+1. When a line is selected, verify that two vertices appears at the line's extremes
+2. When you move a vertex, verify that the shape changes its size according to the mouse coordinates

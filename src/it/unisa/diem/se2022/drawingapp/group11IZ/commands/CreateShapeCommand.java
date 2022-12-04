@@ -10,14 +10,14 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 /**
  * Class that represents the "Create a Shape" Command that will be executed by
  * the Command Executor Invoker, according to the Command Pattern
- * @author utente
+ * @author Felice Scala
  */
 public class CreateShapeCommand implements Command{
     private Controller controller;
     private MyShape shape;
 
     /**
-     * Create a new CreateShapeCommand, giving the receveir of the action and
+     * Create a new CreateShapeCommand, giving the receiver of the action and
      * parameters it requests
      * @param controller Receiver of the action
      * @param shape Shape to be added to the drawing
@@ -29,7 +29,7 @@ public class CreateShapeCommand implements Command{
     }
     
     /**
-     * Execute the command and add the previously passed shape in the drawing
+     * Execute the command and add the previously given shape in the drawing
      */
     @Override
     public void execute() {
@@ -37,7 +37,7 @@ public class CreateShapeCommand implements Command{
     }
 
     /**
-     * Undo the Add shape action, so the previously passed shape will be deleted
+     * Undo the Add shape action, so the previously given shape will be deleted
      * from the drawing
      */
     @Override

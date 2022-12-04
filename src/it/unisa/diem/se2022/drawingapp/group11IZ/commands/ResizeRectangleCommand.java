@@ -8,8 +8,9 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.exceptions.NoNewCoordi
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 
 /**
- *
- * @author utente
+ * Class that represents the "Resize a Rectangle" Command that will be executed by
+ * the Command Executor Invoker, according to the Command Pattern
+ * @author Felice Scala
  */
 public class ResizeRectangleCommand implements ResizeShapeCommand{
     private final MyRectangle shape;
@@ -24,6 +25,11 @@ public class ResizeRectangleCommand implements ResizeShapeCommand{
     private Double newBottomRightX = null;
     private Double newBottomRightY = null;
     
+    /**
+     * Creates a new Resize Rectangle Shape, given the rectangle on which the 
+     * action will be performed
+     * @param shape 
+     */
     public ResizeRectangleCommand(MyRectangle shape){
         this.shape = shape;
         this.oldTopLeftX = shape.getTopLeftX();
@@ -32,6 +38,15 @@ public class ResizeRectangleCommand implements ResizeShapeCommand{
         this.oldBottomRightY = shape.getBottomRightY();
     }
     
+    /**
+     * Creates a new Resize Rectangle Shape, given the rectangle and its new 
+     * coordinates
+     * @param shape
+     * @param newTopLeftX
+     * @param newTopLeftY
+     * @param newBottomRightX
+     * @param newBottomRightY 
+     */
     public ResizeRectangleCommand(
             MyRectangle shape, 
             double newTopLeftX, 
@@ -46,6 +61,13 @@ public class ResizeRectangleCommand implements ResizeShapeCommand{
         this.newBottomRightY = newBottomRightY;
     }
     
+    /**
+     * Defines (again) the new coordinates of the rectangle
+     * @param newTopLeftX
+     * @param newTopLeftY
+     * @param newBottomRightX
+     * @param newBottomRightY 
+     */
     public void setNewCoordinates(
             double newTopLeftX, 
             double newTopLeftY, 
@@ -58,6 +80,10 @@ public class ResizeRectangleCommand implements ResizeShapeCommand{
         this.newBottomRightY = newBottomRightY;
     }
     
+    /**
+     * Checks if all new coordinates were given
+     * @return True is everything has been given
+     */
     private boolean isANewCoordinateNull() {
         return this.newTopLeftX == null 
                 || this.newTopLeftY == null 
@@ -65,6 +91,9 @@ public class ResizeRectangleCommand implements ResizeShapeCommand{
                 || this.newBottomRightY == null;
     }
 
+    /**
+     * Executes the action, so the rectangle will be resized
+     */
     @Override
     public void execute() {
         if (this.isANewCoordinateNull()) throw new NoNewCoordinatesException();
@@ -76,6 +105,9 @@ public class ResizeRectangleCommand implements ResizeShapeCommand{
         );
     }
 
+    /**
+     * Undo the operation, so the rectangle will gain its previous size
+     */
     @Override
     public void undo() {
         this.shape.modifyShape(

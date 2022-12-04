@@ -8,8 +8,9 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.exceptions.NoNewCoordi
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
 
 /**
- *
- * @author utente
+ * Class that represents the "Resize an Ellipse" Command that will be executed by
+ * the Command Executor Invoker, according to the Command Pattern
+ * @author Felice Scala
  */
 public class ResizeEllipseCommand implements ResizeShapeCommand {
     private final MyEllipse shape;
@@ -24,6 +25,11 @@ public class ResizeEllipseCommand implements ResizeShapeCommand {
     private Double newBottomRightX = null;
     private Double newBottomRightY = null;
     
+    /**
+     * Creates a new Resize Line Command, given the ellipse on which the 
+     * action will be performed
+     * @param shape 
+     */
     public ResizeEllipseCommand(MyEllipse shape){
         this.shape = shape;
         this.oldTopLeftX = shape.getTopLeftX();
@@ -32,6 +38,15 @@ public class ResizeEllipseCommand implements ResizeShapeCommand {
         this.oldBottomRightY = shape.getBottomRightY();
     }
     
+    /**
+     * Creates a new Resize Ellipse Command, given the ellipse and its new 
+     * coordinates
+     * @param shape
+     * @param newTopLeftX
+     * @param newTopLeftY
+     * @param newBottomRightX
+     * @param newBottomRightY 
+     */
     public ResizeEllipseCommand(
             MyEllipse shape, 
             double newTopLeftX, 
@@ -46,6 +61,13 @@ public class ResizeEllipseCommand implements ResizeShapeCommand {
         this.newBottomRightY = newBottomRightY;
     }
     
+    /**
+     * Defines (again) the new coordinates of the line
+     * @param newTopLeftX
+     * @param newTopLeftY
+     * @param newBottomRightX
+     * @param newBottomRightY 
+     */
     public void setNewCoordinates(
             double newTopLeftX, 
             double newTopLeftY, 
@@ -58,6 +80,10 @@ public class ResizeEllipseCommand implements ResizeShapeCommand {
         this.newBottomRightY = newBottomRightY;
     }
     
+    /**
+     * Checks if all new coordinates were given
+     * @return True is everything has been given
+     */
     private boolean isANewCoordinateNull() {
         return this.newTopLeftX == null 
                 || this.newTopLeftY == null 
@@ -65,6 +91,9 @@ public class ResizeEllipseCommand implements ResizeShapeCommand {
                 || this.newBottomRightY == null;
     }
 
+    /**
+     * Executes the action, so the ellpise will be resized
+     */
     @Override
     public void execute() {
         if (this.isANewCoordinateNull()) throw new NoNewCoordinatesException();
@@ -76,6 +105,9 @@ public class ResizeEllipseCommand implements ResizeShapeCommand {
         );
     }
 
+    /**
+     * Undo the operation, so the ellipse will gain its previous size
+     */
     @Override
     public void undo() {
         this.shape.modifyShape(

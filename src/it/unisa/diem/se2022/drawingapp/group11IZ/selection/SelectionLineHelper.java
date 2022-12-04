@@ -14,8 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
- *
- * @author utente
+ * Class that define the behaviour a bounding box will have on a line.
+ * @author Felice Scala
  */
 public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
 
@@ -38,12 +38,14 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
     MyShape createBoundingBoxEdge() {
         MyLine lineBoundingBoxEdge = new MyEnhancedLine();
         
+        // Bind the bounding box to the line
         lineBoundingBoxEdge.myStartXProperty().bind(this.getShape().myStartXProperty());
         lineBoundingBoxEdge.myStartYProperty().bind(this.getShape().myStartYProperty());
         lineBoundingBoxEdge.myEndXProperty().bind(this.getShape().myEndXProperty());
         lineBoundingBoxEdge.myEndYProperty().bind(this.getShape().myEndYProperty());
         lineBoundingBoxEdge.myGetStrokeDashArray().addAll(strokeDashList);
         
+        // Define the aspect of the bounding box
         lineBoundingBoxEdge.mySetStrokeWidth(this.getShape().myGetStrokeWidth() + strokeVertexOffset);
         lineBoundingBoxEdge.mySetFill(Color.TRANSPARENT);
         
@@ -52,11 +54,13 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
 
     @Override
     void updateVertices() {
+        // Initialize first vertex on the start point of the line
         this.getVertex1().mySetWidth(widthVertex);
         this.getVertex1().mySetHeight(heightVertex);
         this.getVertex1().myXProperty().bind(this.getShape().myStartXProperty().subtract(widthVertex/2));
         this.getVertex1().myYProperty().bind(this.getShape().myStartYProperty().subtract(widthVertex/2));
         
+        // Initialize first vertex on the end point of the line
         this.getVertex2().mySetWidth(widthVertex);
         this.getVertex2().mySetHeight(heightVertex);
         this.getVertex2().myXProperty().bind(this.getShape().myEndXProperty().subtract(widthVertex/2));

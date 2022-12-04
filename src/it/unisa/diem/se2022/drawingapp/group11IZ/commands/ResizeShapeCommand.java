@@ -5,8 +5,9 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 /**
- *
- * @author utente
+ * Interface that represents the "Resize a Shape" Command that will be executed by
+ * the Command Executor Invoker, according to the Command Pattern
+ * @author Felice Scala
  */
 public interface ResizeShapeCommand extends Command{
     

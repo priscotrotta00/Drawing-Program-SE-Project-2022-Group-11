@@ -15,8 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
- *
- * @author utente
+ * Class that define the behaviour a bounding box will have on a rectangle.
+ * @author Felice Scala
  */
 public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     
@@ -37,21 +37,25 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     
     @Override
     void updateVertices(){
+        // Initialize first vertex on the top left point of the rectangle
         this.getVertex1().mySetWidth(widthVertex);
         this.getVertex1().mySetHeight(heightVertex);
         this.getVertex1().myXProperty().bind(this.getShape().topLeftXProperty());
         this.getVertex1().myYProperty().bind(this.getShape().topLeftYProperty());
         
+        // Initialize first vertex on the top right point of the rectangle
         this.getVertex2().mySetWidth(widthVertex);
         this.getVertex2().mySetHeight(heightVertex);
         this.getVertex2().myXProperty().bind(this.getShape().bottomRightXProperty().subtract(widthVertex));
         this.getVertex2().myYProperty().bind(this.getShape().topLeftYProperty());
         
+        // Initialize fourth vertex on the bottom left point of the rectangle
         this.getVertex4().mySetWidth(widthVertex);
         this.getVertex4().mySetHeight(heightVertex);
         this.getVertex4().myXProperty().bind(this.getShape().topLeftXProperty());
         this.getVertex4().myYProperty().bind(this.getShape().bottomRightYProperty().subtract(heightVertex));
         
+        // Initialize third vertex on the bottom right point of the rectangle
         this.getVertex3().mySetWidth(widthVertex);
         this.getVertex3().mySetHeight(heightVertex);
         this.getVertex3().myXProperty().bind(this.getShape().bottomRightXProperty().subtract(widthVertex));
@@ -62,11 +66,13 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     MyShape createBoundingBoxEdge() {
         MyRectangle rectangleBoundingBox = new MyEnhancedRectangle();
         
+        // Bind the bounding box to the rectangle
         rectangleBoundingBox.myXProperty().bindBidirectional(this.getShape().myXProperty());
         rectangleBoundingBox.myYProperty().bindBidirectional(this.getShape().myYProperty());
         rectangleBoundingBox.myWidthProperty().bindBidirectional(this.getShape().myWidthProperty());
         rectangleBoundingBox.myHeightProperty().bindBidirectional(this.getShape().myHeightProperty());
         
+        // Define the aspect of the bounding box
         rectangleBoundingBox.mySetStroke(Color.BLACK);
         rectangleBoundingBox.mySetFill(Color.TRANSPARENT);
         rectangleBoundingBox.mySetStrokeWidth(this.getShape().myGetStrokeWidth() + strokeVertexOffset);

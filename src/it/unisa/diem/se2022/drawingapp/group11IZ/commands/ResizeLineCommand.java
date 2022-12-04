@@ -8,8 +8,9 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.exceptions.NoNewCoordi
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 
 /**
- *
- * @author utente
+ * Class that represents the "Resize a Line" Command that will be executed by
+ * the Command Executor Invoker, according to the Command Pattern
+ * @author Felice Scala
  */
 public class ResizeLineCommand implements ResizeShapeCommand{
     private final MyLine shape;
@@ -24,6 +25,11 @@ public class ResizeLineCommand implements ResizeShapeCommand{
     private Double newEndX = null;
     private Double newEndY = null;
     
+    /**
+     * Creates a new Resize Line Command, given the line on which the 
+     * action will be performed
+     * @param shape 
+     */
     public ResizeLineCommand(MyLine shape){
         this.shape = shape;
         this.oldStartX = shape.myGetStartX();
@@ -32,6 +38,15 @@ public class ResizeLineCommand implements ResizeShapeCommand{
         this.oldEndY = shape.myGetEndY();
     }
     
+    /**
+     * Creates a new Resize Line Command, given the line and its new 
+     * coordinates
+     * @param shape
+     * @param newStartX
+     * @param newStartY
+     * @param newEndX
+     * @param newEndY 
+     */
     public ResizeLineCommand(
             MyLine shape, 
             double newStartX, 
@@ -46,6 +61,13 @@ public class ResizeLineCommand implements ResizeShapeCommand{
         this.newEndY = newEndY;
     }
     
+    /**
+     * Defines (again) the new coordinates of the line
+     * @param newStartX
+     * @param newStartY
+     * @param newEndX
+     * @param newEndY 
+     */
     public void setNewCoordinates(
             double newStartX, 
             double newStartY, 
@@ -58,6 +80,10 @@ public class ResizeLineCommand implements ResizeShapeCommand{
         this.newEndY = newEndY;
     }
     
+    /**
+     * Checks if all new coordinates were given
+     * @return True is everything has been given
+     */
     private boolean isANewCoordinateNull() {
         return this.newStartX == null 
                 || this.newStartY == null 
@@ -65,6 +91,9 @@ public class ResizeLineCommand implements ResizeShapeCommand{
                 || this.newEndY == null;
     }
 
+    /**
+     * Executes the action, so the line will be resized
+     */
     @Override
     public void execute() {
         if (this.isANewCoordinateNull()) throw new NoNewCoordinatesException();
@@ -76,6 +105,9 @@ public class ResizeLineCommand implements ResizeShapeCommand{
         );
     }
 
+    /**
+     * Undo the operation, so the line will gain its previous size
+     */
     @Override
     public void undo() {
         this.shape.modifyShape(oldStartX, 
