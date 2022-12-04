@@ -31,9 +31,14 @@ public class JSONExportVisitorTest {
      * Test of visitRectangle method, of class JSONExportVisitor.
      */
     
+    @Test (expected=NullPointerException.class)
+    public void testNullJSONArray() {
+        JSONArray jsonArray = null;
+        JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
+    }
+    
     @Test (expected=ExportException.class)
     public void testVisitNullRectangle() {
-        System.out.println("visitNullRectangle");
         JSONArray jsonArray = new JSONArray();
         MyRectangle myRectangle = null;
         JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
