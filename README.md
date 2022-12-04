@@ -24,6 +24,10 @@ Our links:
 - First sprint review: [here](https://drive.google.com/file/d/1kzPZya06rCov1XQGVv6PKCGH1UrXnhEK/view?usp=share_link)
 - First sprint retrospective: [here](https://drive.google.com/file/d/1XCqZpSGd7vfCF4IWIQ2-gHt4rI5Vd_pc/view?usp=share_link)
 
+### Second sprint
+- Second sprint review: [here](https://drive.google.com/file/d/16FK71nFWW5xf6ty0dU_jtUSLsRjra-xs/view?usp=share_link)
+- Second sprint retrospective: [here](https://drive.google.com/file/d/1MAh2XiBMZ3jck56kujj62Rs3hDJVb-bA/view?usp=share_link)
+
 ## UML Class Diagram
 
 ![Class Diagram](Drawing%20App%20UML.png)
