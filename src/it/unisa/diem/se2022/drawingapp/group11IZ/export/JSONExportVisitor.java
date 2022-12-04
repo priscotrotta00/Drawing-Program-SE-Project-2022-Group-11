@@ -28,6 +28,7 @@ public class JSONExportVisitor implements Visitor{
     private JSONArray jsonArray;
 
     public JSONExportVisitor(JSONArray jsonArray) {
+        if(jsonArray == null) throw new NullPointerException();
         this.jsonArray = jsonArray;
     }
     
