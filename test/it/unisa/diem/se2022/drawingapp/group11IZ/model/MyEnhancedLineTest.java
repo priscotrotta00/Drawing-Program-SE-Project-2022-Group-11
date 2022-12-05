@@ -5,8 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import javafx.scene.paint.Color;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
@@ -273,6 +272,132 @@ public class MyEnhancedLineTest {
         assertTrue("Error in MoveShape", line.myGetStartY()==startY);
         assertTrue("Error in MoveShape", line.myGetEndX()==(startX+lengthX));
         assertTrue("Error in MoveShape", line.myGetEndY()==(startY+lengthY));
+    }
+    
+    @Test
+    public void testModifyShape1(){
+        MyLine r;
+
+        r = new MyEnhancedLine();
+        r.modifyShape(10, 10, 50, 20);
+        assertEquals(10, r.myGetStartX(), 0);
+        assertEquals(10, r.myGetStartY(), 0);
+        assertEquals(50, r.myGetEndX(), 0);
+        assertEquals(20, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape2(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(50, 20, 10, 10);
+        assertEquals(50, r.myGetStartX(), 0);
+        assertEquals(20, r.myGetStartY(), 0);
+        assertEquals(10, r.myGetEndX(), 0);
+        assertEquals(10, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape3(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(50, 20, 70, 10);
+        assertEquals(50, r.myGetStartX(), 0);
+        assertEquals(20, r.myGetStartY(), 0);
+        assertEquals(70, r.myGetEndX(), 0);
+        assertEquals(10, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape4(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(50, 20, 10, 70);
+        assertEquals(50, r.myGetStartX(), 0);
+        assertEquals(20, r.myGetStartY(), 0);
+        assertEquals(10, r.myGetEndX(), 0);
+        assertEquals(70, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape5(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(-10, -20, 30, 60);
+        
+        assertEquals(-10, r.myGetStartX(), 0);
+        assertEquals(-20, r.myGetStartY(), 0);
+        assertEquals(30, r.myGetEndX(), 0);
+        assertEquals(60, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape6(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(10, -20, 30, 60);
+        
+        assertEquals(10, r.myGetStartX(), 0);
+        assertEquals(-20, r.myGetStartY(), 0);
+        assertEquals(30, r.myGetEndX(), 0);
+        assertEquals(60, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape7(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(-50, 20, 30, 60);
+        
+        assertEquals(-50, r.myGetStartX(), 0);
+        assertEquals(20, r.myGetStartY(), 0);
+        assertEquals(30, r.myGetEndX(), 0);
+        assertEquals(60, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape8(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(-30, -60, -20, -20);
+        
+        assertEquals(-30, r.myGetStartX(), 0);
+        assertEquals(-60, r.myGetStartY(), 0);
+        assertEquals(-20, r.myGetEndX(), 0);
+        assertEquals(-20, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape9(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(-50, 20, -30, 60);
+        
+        assertEquals(-50, r.myGetStartX(), 0);
+        assertEquals(20, r.myGetStartY(), 0);
+        assertEquals(-30, r.myGetEndX(), 0);
+        assertEquals(60, r.myGetEndY(), 0);
+    }
+    
+    @Test
+    public void testModifyShape10(){
+        MyLine r;
+        
+        r = new MyEnhancedLine();
+        r.modifyShape(10, -60, 30, -20);
+        
+        assertEquals(10, r.myGetStartX(), 0);
+        assertEquals(-60, r.myGetStartY(), 0);
+        assertEquals(30, r.myGetEndX(), 0);
+        assertEquals(-20, r.myGetEndY(), 0);
     }
 
     @Test

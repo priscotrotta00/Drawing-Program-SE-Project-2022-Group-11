@@ -5,9 +5,8 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CreateShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -41,12 +40,8 @@ public abstract class DrawShapeTool implements Tool{
         this.startY = event.getY();
         
         this.setCreatedShape(this.createShape(startX, startY, startX, startY, c.getSelectedStrokeColor(), c.getSelectedFillColor()));
-        this.getCreatedShape().mySetVisible(true);
-        try {
-            c.addShape(createdShape);
-        } catch (Exception ex) {
-            Logger.getLogger(DrawShapeTool.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new CreateShapeCommand(c, this.createdShape).execute();
+        
     }
 
     /**

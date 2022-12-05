@@ -3,9 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.InvalidCoordinatesException;
 import javafx.scene.paint.Color;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
@@ -258,6 +258,139 @@ public class MyEnhancedRectangleTest {
     }
     
     @Test
+    public void testModifyShape1(){
+        MyRectangle r;
+
+        r = new MyEnhancedRectangle();
+        r.modifyShape(10, 10, 50, 20);
+        assertEquals(10, r.getTopLeftX(), 0);
+        assertEquals(10, r.getTopLeftY(), 0);
+        assertEquals(50, r.getBottomRightX(), 0);
+        assertEquals(20, r.getBottomRightY(), 0);
+        
+        assertEquals(40, r.myGetWidth(), 0);
+        assertEquals(10, r.myGetHeight(), 0);
+    }
+    
+    @Test(expected=InvalidCoordinatesException.class)
+    public void testModifyShape2(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(50, 20, 10, 10);
+    }
+    
+    @Test(expected=InvalidCoordinatesException.class)
+    public void testModifyShape3(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(50, 20, 70, 10);
+    }
+    
+    @Test(expected=InvalidCoordinatesException.class)
+    public void testModifyShape4(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(50, 20, 10, 70);
+    }
+    
+    @Test
+    public void testModifyShape5(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(-10, -20, 30, 60);
+        
+        assertEquals(-10, r.getTopLeftX(), 0);
+        assertEquals(-20, r.getTopLeftY(), 0);
+        assertEquals(30, r.getBottomRightX(), 0);
+        assertEquals(60, r.getBottomRightY(), 0);
+        
+        assertEquals(40, r.myGetWidth(), 0);
+        assertEquals(80, r.myGetHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyShape6(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(10, -20, 30, 60);
+        
+        assertEquals(10, r.getTopLeftX(), 0);
+        assertEquals(-20, r.getTopLeftY(), 0);
+        assertEquals(30, r.getBottomRightX(), 0);
+        assertEquals(60, r.getBottomRightY(), 0);
+        
+        assertEquals(20, r.myGetWidth(), 0);
+        assertEquals(80, r.myGetHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyShape7(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(-50, 20, 30, 60);
+        
+        assertEquals(-50, r.getTopLeftX(), 0);
+        assertEquals(20, r.getTopLeftY(), 0);
+        assertEquals(30, r.getBottomRightX(), 0);
+        assertEquals(60, r.getBottomRightY(), 0);
+        
+        assertEquals(80, r.myGetWidth(), 0);
+        assertEquals(40, r.myGetHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyShape8(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(-30, -60, -20, -20);
+        
+        assertEquals(-30, r.getTopLeftX(), 0);
+        assertEquals(-60, r.getTopLeftY(), 0);
+        assertEquals(-20, r.getBottomRightX(), 0);
+        assertEquals(-20, r.getBottomRightY(), 0);
+        
+        assertEquals(10, r.myGetWidth(), 0);
+        assertEquals(40, r.myGetHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyShape9(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(-50, 20, -30, 60);
+        
+        assertEquals(-50, r.getTopLeftX(), 0);
+        assertEquals(20, r.getTopLeftY(), 0);
+        assertEquals(-30, r.getBottomRightX(), 0);
+        assertEquals(60, r.getBottomRightY(), 0);
+        
+        assertEquals(20, r.myGetWidth(), 0);
+        assertEquals(40, r.myGetHeight(), 0);
+    }
+    
+    @Test
+    public void testModifyShape10(){
+        MyRectangle r;
+        
+        r = new MyEnhancedRectangle();
+        r.modifyShape(10, -60, 30, -20);
+        
+        assertEquals(10, r.getTopLeftX(), 0);
+        assertEquals(-60, r.getTopLeftY(), 0);
+        assertEquals(30, r.getBottomRightX(), 0);
+        assertEquals(-20, r.getBottomRightY(), 0);
+        
+        assertEquals(20, r.myGetWidth(), 0);
+        assertEquals(40, r.myGetHeight(), 0);
+    }
     public void testClone(){
         //create shape ellipse
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();

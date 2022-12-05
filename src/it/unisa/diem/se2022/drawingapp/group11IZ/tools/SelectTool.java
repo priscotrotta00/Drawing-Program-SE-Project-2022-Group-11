@@ -4,11 +4,9 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveShapeCommand;
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.event.EventTarget;
 import javafx.scene.input.ContextMenuEvent;
@@ -64,7 +62,7 @@ public class SelectTool implements Tool{
      */
     @Override
     public void handleOnDragBegin(Controller c, MouseEvent event) {
-        if(!selectedShape.getSelectedValue()) return;
+        if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
         msc = new MoveShapeCommand(selectedShape.getSelectedItem());
     }
@@ -77,7 +75,7 @@ public class SelectTool implements Tool{
      */
     @Override
     public void handleOnMouseDrag(Controller c, MouseEvent event) {
-        if(!selectedShape.getSelectedValue()) return;
+        if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
         //selectedShape.getSelectedItem().mySetLayoutX(this.endX - selectedShape.getSelectedItem().myGetLayoutBounds().getMinX());
         //selectedShape.getSelectedItem().mySetLayoutY(this.endY - selectedShape.getSelectedItem().myGetLayoutBounds().getMinY());
@@ -91,9 +89,10 @@ public class SelectTool implements Tool{
      * @param c
      * @param event 
      */
+    
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
-        if(!selectedShape.getSelectedValue()) return;
+        if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
         selectedShape.getSelectedItem().moveShape(event.getX(), event.getY());
         msc.execute();
@@ -123,7 +122,6 @@ public class SelectTool implements Tool{
     }
 
     
-
     @Override
     public void handleOnContextMenuRequested(Controller c, ContextMenuEvent event) {
         //NOP

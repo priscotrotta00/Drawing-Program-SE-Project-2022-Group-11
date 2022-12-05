@@ -17,7 +17,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.SelectTool;
-import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Selection;
+import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
 import java.io.File;
 import java.net.URL;
@@ -111,7 +111,7 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //TODO
         System.out.println("Hello world");
-
+        
         this.initializeToolToggleGroup();
 
         //
@@ -355,7 +355,7 @@ public class Controller implements Initializable {
     
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
-        ChangeColorCommand ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
+        Command ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
         ccc.execute();
     }
 
@@ -366,7 +366,7 @@ public class Controller implements Initializable {
     
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
-        ChangeColorCommand ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
+        Command ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
         ccc.execute();
     }
 

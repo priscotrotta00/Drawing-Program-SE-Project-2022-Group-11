@@ -8,11 +8,18 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
 
 /**
- *
+ * Class that represents the "Change stroke color of a shape" Command that will be executed by
+ * the Command Executor Invoker, according to the Command Pattern
  * @author prisc
  */
 public class ChangeStrokeColorCommand extends ChangeColorCommand{  
 
+    /**
+     * Create a new ChangeStrokeColorCommand
+     * @param myShape Shape whose stroke color needs to be changed
+     * @param newColor The new stroke color of the shape
+     */
+    
     public ChangeStrokeColorCommand(MyShape myShape, Color newColor) {
         super.setMyShape(myShape);
         super.setNewColor(newColor);

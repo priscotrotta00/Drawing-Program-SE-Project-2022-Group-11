@@ -29,48 +29,6 @@ public class DrawEllipseTool extends DrawShapeTool{
         if (instance == null) instance = new DrawEllipseTool();
         return instance;
     }
-    
-    /**
-     * Methods that returns the RadiusX of a Ellipse given its X coordinates
-     * @param topLeftX
-     * @param bottomRightX
-     * @return Radius X of an ellipse
-     */
-    private double computeEllipseRadiusX(double topLeftX, double bottomRightX) {
-        return (bottomRightX - topLeftX)/2;
-    }
-    
-    /**
-     * Methods that returns the RadiusX of a Ellipse given its X coordinates
-     * @param topLeftY
-     * @param bottomRightY
-     * @return Radius X of an ellipse
-     */
-    private double computeEllipseRadiusY(double topLeftY, double bottomRightY) {
-        return (bottomRightY - topLeftY)/2;
-    }
-    
-    /**
-     * Methods that returns the X coordinate of an Ellipse's center 
-     * given its X coordinates
-     * @param radiusX
-     * @param topLeftX
-     * @return X cooridnate of an ellipse's center
-     */
-    private double computeEllipseCenterX(double radiusX, double topLeftX) {
-        return radiusX + topLeftX;
-    }
-    
-    /**
-     * Methods that returns the Y coordinate of an Ellipse's center 
-     * given its Y coordinates
-     * @param radiusY
-     * @param topLeftY
-     * @return Y cooridnate of an ellipse's center
-     */
-    private double computeEllipseCenterY(double radiusY, double topLeftY) {
-        return radiusY + topLeftY;
-    }
 
     /**
      * Method that create a new Ellipse as a Shape using the passed coordinates
@@ -85,16 +43,10 @@ public class DrawEllipseTool extends DrawShapeTool{
      */
     @Override
     MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY, Color strokeColor, Color fillColor) {
-        double radiusX = this.computeEllipseRadiusX(topLeftX, bottomRightX);
-        double radiusY = this.computeEllipseRadiusY(topLeftY, bottomRightY);
-        double centerX = this.computeEllipseCenterX(radiusX, topLeftX);
-        double centerY = this.computeEllipseCenterY(radiusY, topLeftY);
-        MyEllipse result = new MyEnhancedEllipse();
-        
-        result.mySetCenterX(centerX);
-        result.mySetCenterY(centerY);
-        result.mySetRadiusX(radiusX);
-        result.mySetRadiusY(radiusY);
+        MyEllipse result;
+                
+        result = new MyEnhancedEllipse();
+        result.modifyShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
         result.mySetStroke(strokeColor);
         result.mySetFill(fillColor);
         
@@ -111,16 +63,10 @@ public class DrawEllipseTool extends DrawShapeTool{
      */
     @Override
     void modifyCreatedShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
-        double radiusX = this.computeEllipseRadiusX(topLeftX, bottomRightX);
-        double radiusY = this.computeEllipseRadiusY(topLeftY, bottomRightY);
-        double centerX = this.computeEllipseCenterX(radiusX, topLeftX);
-        double centerY = this.computeEllipseCenterY(radiusY, topLeftY);
-        MyEllipse result = (MyEllipse) this.getCreatedShape();
+        MyEllipse result;
         
-        result.mySetCenterX(centerX);
-        result.mySetCenterY(centerY);
-        result.mySetRadiusX(radiusX);
-        result.mySetRadiusY(radiusY);
+        result = (MyEllipse) this.getCreatedShape();
+        result.modifyShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
     }
     
 }

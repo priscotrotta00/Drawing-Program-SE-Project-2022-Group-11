@@ -6,10 +6,13 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.InvalidCoordinatesException;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
@@ -19,9 +22,17 @@ import javafx.scene.shape.Ellipse;
  * @author saram
  */
 public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
-
+    private final DoubleProperty topLeftX = new SimpleDoubleProperty();
+    private final DoubleProperty topLeftY = new SimpleDoubleProperty();
+    private final DoubleProperty bottomRightX = new SimpleDoubleProperty();
+    private final DoubleProperty bottomRightY = new SimpleDoubleProperty();
+    
     public MyEnhancedEllipse(){
         super();
+        this.topLeftX.bind(this.myCenterXProperty().subtract(this.myRadiusXProperty()));
+        this.topLeftY.bind(this.myCenterYProperty().subtract(this.myRadiusYProperty()));
+        this.bottomRightX.bind(this.myCenterXProperty().add(this.myRadiusXProperty()));
+        this.bottomRightY.bind(this.myCenterYProperty().add(this.myRadiusYProperty()));
     }
     
     private MyEnhancedEllipse (MyEnhancedEllipse ellipse){
@@ -146,10 +157,10 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         super.setStrokeWidth(value);
     }
 
-   
     public void mySetVisible(boolean value) {
         super.setVisible(value);
     }
+    
     public void accept(Visitor v) {
         v.visitEllipse(this);
     }   
@@ -174,6 +185,115 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         return super.layoutYProperty();
     }
     
+    public double getTopLeftX() {
+        return myGetCenterX() - myGetRadiusX();
+    }
+
+    @Override
+    public double getTopLeftY() {
+        return myGetCenterY() - myGetRadiusY();
+    }
+
+    @Override
+    public double getBottomRightX() {
+        return myGetCenterX() + myGetRadiusX();
+    }
+
+    @Override
+    public double getBottomRightY() {
+        return myGetCenterY() + myGetRadiusY();
+    }
+
+    /**
+     * Methods that returns the RadiusX of a Ellipse given its X coordinates
+     * @param topLeftX
+     * @param bottomRightX
+     * @return Radius X of an ellipse
+     */
+    private double computeEllipseRadiusX(double topLeftX, double bottomRightX) {
+        return (bottomRightX - topLeftX)/2;
+    }
+    
+    /**
+     * Methods that returns the RadiusX of a Ellipse given its X coordinates
+     * @param topLeftY
+     * @param bottomRightY
+     * @return Radius X of an ellipse
+     */
+    private double computeEllipseRadiusY(double topLeftY, double bottomRightY) {
+        return (bottomRightY - topLeftY)/2;
+    }
+    
+    /**
+     * Methods that returns the X coordinate of an Ellipse's center 
+     * given its X coordinates
+     * @param radiusX
+     * @param topLeftX
+     * @return X cooridnate of an ellipse's center
+     */
+    private double computeEllipseCenterX(double radiusX, double topLeftX) {
+        return radiusX + topLeftX;
+    }
+    
+    /**
+     * Methods that returns the Y coordinate of an Ellipse's center 
+     * given its Y coordinates
+     * @param radiusY
+     * @param topLeftY
+     * @return Y cooridnate of an ellipse's center
+     */
+    private double computeEllipseCenterY(double radiusY, double topLeftY) {
+        return radiusY + topLeftY;
+    }
+
+    /**
+     * Method that modify the previously created Ellipse using the passed 
+     * coordinates to calculateradiusX, radiusY, centerX and centerY.
+     * @param topLeftX
+     * @param topLeftY
+     * @param bottomRightX
+     * @param bottomRightY 
+     */
+    @Override
+    public void modifyShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY) {
+        double radiusX;
+        double radiusY;
+        double centerX;
+        double centerY;
+        
+        if (topLeftX > bottomRightX || topLeftY > bottomRightY) throw new InvalidCoordinatesException();
+        
+        radiusX = this.computeEllipseRadiusX(topLeftX, bottomRightX);
+        radiusY = this.computeEllipseRadiusY(topLeftY, bottomRightY);
+        centerX = this.computeEllipseCenterX(radiusX, topLeftX);
+        centerY = this.computeEllipseCenterY(radiusY, topLeftY);
+        
+        this.mySetCenterX(centerX);
+        this.mySetCenterY(centerY);
+        this.mySetRadiusX(radiusX);
+        this.mySetRadiusY(radiusY);
+    }
+
+    @Override
+    public ReadOnlyDoubleProperty topLeftXProperty() {
+        return this.topLeftX;
+    }
+
+    @Override
+    public ReadOnlyDoubleProperty topLeftYProperty() {
+        return this.topLeftY;
+    }
+
+    @Override
+    public ReadOnlyDoubleProperty bottomRightXProperty() {
+        return this.bottomRightX;
+    }
+
+    @Override
+    public ReadOnlyDoubleProperty bottomRightYProperty() {
+        return this.bottomRightY;
+    }
+    
     @Override
     public ObservableList<Double> myGetStrokeDashArray() {
         return super.getStrokeDashArray();
@@ -192,11 +312,8 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
      */
     @Override
     public void moveShape(double topLeftX, double topLeftY) {
-        MyEllipse newEllipse = (MyEllipse) this;
-        
-        newEllipse.mySetCenterX(topLeftX);
-        newEllipse.mySetCenterY(topLeftY);
-        
+        this.mySetCenterX(topLeftX);
+        this.mySetCenterY(topLeftY);
     }
 
     @Override

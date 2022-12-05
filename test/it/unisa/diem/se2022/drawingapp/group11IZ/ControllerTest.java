@@ -14,7 +14,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
-import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Selection;
+import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
 import javafx.application.Application;
 import javafx.scene.control.Button;

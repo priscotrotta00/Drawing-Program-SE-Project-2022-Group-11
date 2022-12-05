@@ -10,6 +10,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
@@ -35,6 +36,7 @@ public interface MyShape extends Cloneable{
     public double myGetStrokeWidth();
     public void mySetStrokeWidth(double value);
     public void mySetVisible(boolean value);
+    public void modifyShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY);
     public void accept(Visitor v);
     public void mySetLayoutX(double value);
     public void mySetLayoutY(double value);

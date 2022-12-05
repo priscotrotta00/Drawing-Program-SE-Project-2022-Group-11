@@ -4,9 +4,11 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Import.JSONImportVisitor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.AddedDuplicateException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.export.JSONExportVisitor;
+import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -158,7 +160,7 @@ public class Drawing implements Iterable<MyShape>{
         if(file == null) throw new NullPointerException();
         if(!file.getPath().endsWith(".json")) throw new ExtensionFileException();
         JSONArray jsonArray = new JSONArray();
-        JSONExportVisitor visitor = new JSONExportVisitor(jsonArray);
+        Visitor visitor = new JSONExportVisitor(jsonArray);
         for (MyShape shape : figures) {
             shape.accept(visitor);
         }
@@ -192,33 +194,18 @@ public class Drawing implements Iterable<MyShape>{
                 JSONObject jsonObject = iterator.next();
                 if (jsonObject.get("type").toString().equals("rectangle")){
                     MyRectangle myRectangle = new MyEnhancedRectangle();
-                    myRectangle.mySetFill(jsonObject.get("fill") == null ? null: Color.valueOf(jsonObject.get("fill").toString()));
-                    myRectangle.mySetStroke(jsonObject.get("stroke") == null ? null: Color.valueOf(jsonObject.get("stroke").toString()));
-                    myRectangle.mySetHeight((double) jsonObject.get("height"));
-                    myRectangle.mySetWidth((double) jsonObject.get("width"));
-                    myRectangle.mySetX((double) jsonObject.get("x"));
-                    myRectangle.mySetY((double) jsonObject.get("y"));
-                    draw.addShape(myRectangle);
+                    Visitor visitor = new JSONImportVisitor(jsonObject, draw);
+                    myRectangle.accept(visitor);
                 }
                 else if(jsonObject.get("type").toString().equals("ellipse")){
                     MyEllipse myEllipse = new MyEnhancedEllipse();
-                    myEllipse.mySetFill(jsonObject.get("fill") == null ? null: Color.valueOf(jsonObject.get("fill").toString()));
-                    myEllipse.mySetStroke(jsonObject.get("stroke") == null ? null: Color.valueOf(jsonObject.get("stroke").toString()));
-                    myEllipse.mySetCenterX((double) jsonObject.get("centerX"));
-                    myEllipse.mySetCenterY((double) jsonObject.get("centerY"));
-                    myEllipse.mySetRadiusX((double) jsonObject.get("radiusX"));
-                    myEllipse.mySetRadiusY((double) jsonObject.get("radiusY"));
-                    draw.addShape(myEllipse);
+                    Visitor visitor = new JSONImportVisitor(jsonObject, draw);
+                    myEllipse.accept(visitor);
                 }
                 else if(jsonObject.get("type").toString().equals("line")){
                     MyLine myLine = new MyEnhancedLine();
-                    myLine.mySetFill(jsonObject.get("fill") == null ? null: Color.valueOf(jsonObject.get("fill").toString()));
-                    myLine.mySetStroke(jsonObject.get("stroke") == null ? null: Color.valueOf(jsonObject.get("stroke").toString()));
-                    myLine.mySetEndX((double) jsonObject.get("endX"));
-                    myLine.mySetEndY((double) jsonObject.get("endY"));
-                    myLine.mySetStartX((double) jsonObject.get("startX"));
-                    myLine.mySetStartY((double) jsonObject.get("startY"));
-                    draw.addShape(myLine);
+                    Visitor visitor = new JSONImportVisitor(jsonObject, draw);
+                    myLine.accept(visitor);
                 }
             }
         } 
