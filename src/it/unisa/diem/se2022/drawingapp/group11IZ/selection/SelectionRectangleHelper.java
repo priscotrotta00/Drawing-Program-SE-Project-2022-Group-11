@@ -26,6 +26,11 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     }
     
     @Override
+    MyRectangle getPreview(){
+        return (MyRectangle) super.getPreview();
+    }
+    
+    @Override
     ResizeRectangleCommand getCommand(){
         return (ResizeRectangleCommand) super.getCommand();
     }
@@ -40,26 +45,26 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
         // Initialize first vertex on the top left point of the rectangle
         this.getVertex1().mySetWidth(widthVertex);
         this.getVertex1().mySetHeight(heightVertex);
-        this.getVertex1().myXProperty().bind(this.getShape().topLeftXProperty());
-        this.getVertex1().myYProperty().bind(this.getShape().topLeftYProperty());
+        this.getVertex1().myXProperty().bind(this.getPreview().topLeftXProperty());
+        this.getVertex1().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize first vertex on the top right point of the rectangle
         this.getVertex2().mySetWidth(widthVertex);
         this.getVertex2().mySetHeight(heightVertex);
-        this.getVertex2().myXProperty().bind(this.getShape().bottomRightXProperty().subtract(widthVertex));
-        this.getVertex2().myYProperty().bind(this.getShape().topLeftYProperty());
+        this.getVertex2().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(widthVertex));
+        this.getVertex2().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize fourth vertex on the bottom left point of the rectangle
         this.getVertex4().mySetWidth(widthVertex);
         this.getVertex4().mySetHeight(heightVertex);
-        this.getVertex4().myXProperty().bind(this.getShape().topLeftXProperty());
-        this.getVertex4().myYProperty().bind(this.getShape().bottomRightYProperty().subtract(heightVertex));
+        this.getVertex4().myXProperty().bind(this.getPreview().topLeftXProperty());
+        this.getVertex4().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(heightVertex));
         
         // Initialize third vertex on the bottom right point of the rectangle
         this.getVertex3().mySetWidth(widthVertex);
         this.getVertex3().mySetHeight(heightVertex);
-        this.getVertex3().myXProperty().bind(this.getShape().bottomRightXProperty().subtract(widthVertex));
-        this.getVertex3().myYProperty().bind(this.getShape().bottomRightYProperty().subtract(heightVertex));
+        this.getVertex3().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(widthVertex));
+        this.getVertex3().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(heightVertex));
     }
 
     @Override
@@ -67,15 +72,15 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
         MyRectangle rectangleBoundingBox = new MyEnhancedRectangle();
         
         // Bind the bounding box to the rectangle
-        rectangleBoundingBox.myXProperty().bindBidirectional(this.getShape().myXProperty());
-        rectangleBoundingBox.myYProperty().bindBidirectional(this.getShape().myYProperty());
-        rectangleBoundingBox.myWidthProperty().bindBidirectional(this.getShape().myWidthProperty());
-        rectangleBoundingBox.myHeightProperty().bindBidirectional(this.getShape().myHeightProperty());
+        rectangleBoundingBox.myXProperty().bindBidirectional(this.getPreview().myXProperty());
+        rectangleBoundingBox.myYProperty().bindBidirectional(this.getPreview().myYProperty());
+        rectangleBoundingBox.myWidthProperty().bindBidirectional(this.getPreview().myWidthProperty());
+        rectangleBoundingBox.myHeightProperty().bindBidirectional(this.getPreview().myHeightProperty());
         
         // Define the aspect of the bounding box
         rectangleBoundingBox.mySetStroke(Color.BLACK);
         rectangleBoundingBox.mySetFill(Color.TRANSPARENT);
-        rectangleBoundingBox.mySetStrokeWidth(this.getShape().myGetStrokeWidth() + strokeVertexOffset);
+        rectangleBoundingBox.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + strokeVertexOffset);
         rectangleBoundingBox.myGetStrokeDashArray().addAll(strokeDashList);
         
         return rectangleBoundingBox;
@@ -94,45 +99,45 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
 
     @Override
     boolean onMouseDragVertex1Condition(double mouseX, double mouseY) {
-        return mouseX <= this.getShape().getBottomRightX() && mouseY <= this.getShape().getBottomRightY();
+        return mouseX <= this.getPreview().getBottomRightX() && mouseY <= this.getPreview().getBottomRightY();
     }
 
     @Override
     void onMouseDragVertex1Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(mouseX, mouseY, this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
-        this.getCommand().setNewCoordinates(mouseX, mouseY, this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
+        this.getPreview().modifyShape(mouseX, mouseY, this.getPreview().getBottomRightX(), this.getPreview().getBottomRightY());
+        this.getCommand().setNewCoordinates(mouseX, mouseY, this.getPreview().getBottomRightX(), this.getPreview().getBottomRightY());
     }
 
     @Override
     boolean onMouseDragVertex2Condition(double mouseX, double mouseY) {
-        return mouseX >= this.getShape().getTopLeftX() && mouseY <= this.getShape().getBottomRightY();
+        return mouseX >= this.getPreview().getTopLeftX() && mouseY <= this.getPreview().getBottomRightY();
     }
 
     @Override
     void onMouseDragVertex2Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(this.getShape().getTopLeftX(), mouseY, mouseX, this.getShape().getBottomRightY());
-        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), mouseY, mouseX, this.getShape().getBottomRightY());
+        this.getPreview().modifyShape(this.getPreview().getTopLeftX(), mouseY, mouseX, this.getPreview().getBottomRightY());
+        this.getCommand().setNewCoordinates(this.getPreview().getTopLeftX(), mouseY, mouseX, this.getPreview().getBottomRightY());
     }
 
     @Override
     boolean onMouseDragVertex4Condition(double mouseX, double mouseY) {
-        return mouseY >= this.getShape().getTopLeftY() && mouseX <= this.getShape().getBottomRightX();
+        return mouseY >= this.getPreview().getTopLeftY() && mouseX <= this.getPreview().getBottomRightX();
     }
 
     @Override
     void onMouseDragVertex4Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(mouseX, this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), mouseY);
-        this.getCommand().setNewCoordinates(mouseX, this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), mouseY);
+        this.getPreview().modifyShape(mouseX, this.getPreview().getTopLeftY(), this.getPreview().getBottomRightX(), mouseY);
+        this.getCommand().setNewCoordinates(mouseX, this.getPreview().getTopLeftY(), this.getPreview().getBottomRightX(), mouseY);
     }
 
     @Override
     boolean onMouseDragVertex3Condition(double mouseX, double mouseY) {
-        return mouseX >= this.getShape().getTopLeftX() && mouseY >= this.getShape().getTopLeftY();
+        return mouseX >= this.getPreview().getTopLeftX() && mouseY >= this.getPreview().getTopLeftY();
     }
 
     @Override
     void onMouseDragVertex3Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), mouseX, mouseY);
-        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), mouseX, mouseY);
+        this.getPreview().modifyShape(this.getPreview().getTopLeftX(), this.getPreview().getTopLeftY(), mouseX, mouseY);
+        this.getCommand().setNewCoordinates(this.getPreview().getTopLeftX(), this.getPreview().getTopLeftY(), mouseX, mouseY);
     }
 }

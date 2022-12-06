@@ -11,6 +11,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
@@ -749,5 +750,129 @@ public class ControllerTest {
         
         Drawing d=c.getDraw();
         assertTrue("Error in getDraw",d==drawing);
+    }
+    
+    @Test
+    public void testAddPreviewNewShape() throws IllegalArgumentException, IllegalAccessException{
+        this.drawingField.setAccessible(true);
+        this.drawPaneField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        MyShape preview = new MyEnhancedRectangle();
+        this.c.addPreviewNewShape(preview);
+        
+        assertTrue(pane.getChildren().contains(preview));
+        assertFalse(drawing.contains(preview));
+    }
+    
+    @Test
+    public void testRemovePreviewNewShape() throws IllegalAccessException{
+        this.drawingField.setAccessible(true);
+        this.drawPaneField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        MyShape preview = new MyEnhancedRectangle();
+        this.c.addPreviewNewShape(preview);
+        this.c.removePreviewNewShape(preview);
+        
+        assertFalse(pane.getChildren().contains(preview));
+        assertFalse(drawing.contains(preview));
+    }
+    
+    @Test (expected = RuntimeException.class)
+    public void testRemovePreviewNewShapeException() throws IllegalAccessException{
+        this.drawingField.setAccessible(true);
+        this.drawPaneField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        MyShape preview = new MyEnhancedRectangle();
+        this.c.removePreviewNewShape(preview);
+    }
+    
+    @Test
+    public void testSubstituteShapeWithPreview1() throws IllegalAccessException{
+        this.drawingField.setAccessible(true);
+        this.drawPaneField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        MyShape shape = new MyEnhancedRectangle();
+        this.c.addShape(shape);
+        
+        MyShape preview = this.c.substituteShapeWithPreview(shape);
+        
+        assertTrue(drawing.contains(shape));
+        assertFalse(pane.getChildren().contains(shape));
+        
+        //assertEquals(shape, preview);
+        
+        assertFalse(drawing.contains(preview));
+        assertTrue(pane.getChildren().contains(preview));
+    }
+    
+    @Test (expected = ShapeNotFoundException.class)
+    public void testSubstituteShapeWithPreview2() throws IllegalAccessException{
+        this.drawingField.setAccessible(true);
+        this.drawPaneField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        MyShape shape = new MyEnhancedRectangle();
+        MyShape preview = this.c.substituteShapeWithPreview(shape);
+    }
+    
+    @Test
+    public void testSubstitutePreviewWithOriginalShape1() throws IllegalAccessException {
+        this.drawingField.setAccessible(true);
+        this.drawPaneField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        MyShape shape = new MyEnhancedRectangle();
+        this.c.addShape(shape);
+        
+        MyShape preview = this.c.substituteShapeWithPreview(shape);
+        this.c.substitutePreviewWithOriginalShape(shape);
+        
+        assertTrue(drawing.contains(shape));
+        assertTrue(pane.getChildren().contains(shape));
+        
+        assertFalse(drawing.contains(preview));
+        assertFalse(pane.getChildren().contains(preview));
+    }
+    
+    @Test(expected = Exception.class)
+    public void testSubstitutePreviewWithOriginalShape2() throws IllegalAccessException{
+        this.drawingField.setAccessible(true);
+        this.drawPaneField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        MyShape shape = new MyEnhancedRectangle();
+        this.c.substitutePreviewWithOriginalShape(shape);
     }
 }

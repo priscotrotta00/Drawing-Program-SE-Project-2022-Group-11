@@ -21,6 +21,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,6 +105,8 @@ public class Controller implements Initializable {
     private Label colorsLabel;
     @FXML
     private Label optionsLabel;
+    
+    private final Map<MyShape, MyShape> previewShapesMap = new HashMap<>();
 
     /**
      * Initializes the controller class.
@@ -130,6 +134,7 @@ public class Controller implements Initializable {
         });
 
         selection = Selection.getInstance();
+        selection.setController(this);
         this.initializeChangeColorBindings();
         
 
@@ -396,5 +401,33 @@ public class Controller implements Initializable {
 
     public Drawing getDraw() {
         return this.draw;
+    }
+    
+    public void addPreviewNewShape(MyShape preview){
+        this.drawPane.getChildren().add((Shape) preview);
+    }
+    
+    public void removePreviewNewShape(MyShape preview){
+        if (!this.drawPane.getChildren().contains(preview)) throw new RuntimeException();
+        this.drawPane.getChildren().remove(preview);
+    }
+    
+    public MyShape substituteShapeWithPreview(MyShape shape){
+        int layer = this.draw.getShapeLayer(shape);
+        MyShape preview = shape.clone();
+        
+        drawPane.getChildren().remove((Shape) shape);
+        this.previewShapesMap.put(shape, preview);
+        drawPane.getChildren().add(layer, (Shape) preview);
+        
+        return preview;
+    }
+    
+    public void substitutePreviewWithOriginalShape(MyShape shape){
+        int layer = this.draw.getShapeLayer(shape);
+        MyShape preview = this.previewShapesMap.get(shape);
+        
+        this.drawPane.getChildren().remove((Shape) preview);
+        this.drawPane.getChildren().add(layer, (Shape) shape);
     }
 }

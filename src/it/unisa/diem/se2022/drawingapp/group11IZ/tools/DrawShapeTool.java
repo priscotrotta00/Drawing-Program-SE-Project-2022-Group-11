@@ -40,7 +40,7 @@ public abstract class DrawShapeTool implements Tool{
         this.startY = event.getY();
         
         this.setCreatedShape(this.createShape(startX, startY, startX, startY, c.getSelectedStrokeColor(), c.getSelectedFillColor()));
-        new CreateShapeCommand(c, this.createdShape).execute();
+        c.addPreviewNewShape(createdShape);
         
     }
 
@@ -74,11 +74,14 @@ public abstract class DrawShapeTool implements Tool{
      */
     @Override
     public void handleOnDragEnd(Controller c, MouseEvent event) {
-        this.setCreatedShape(null);
         this.startX = null;
         this.startY = null;
         this.endX = null;
         this.endY = null;
+        
+        c.removePreviewNewShape(createdShape);
+        new CreateShapeCommand(c, createdShape).execute();
+        this.setCreatedShape(null);
     }
 
     @Override

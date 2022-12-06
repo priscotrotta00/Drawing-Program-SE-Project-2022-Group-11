@@ -25,6 +25,11 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
     }
     
     @Override
+    MyEllipse getPreview(){
+        return (MyEllipse) super.getPreview();
+    }
+    
+    @Override
     ResizeEllipseCommand getCommand(){
         return (ResizeEllipseCommand) super.getCommand();
     }
@@ -39,15 +44,15 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
         MyEllipse ellipseBoundingBoxEdge = new MyEnhancedEllipse();
         
         // Bind the bounding box to the ellipse
-        ellipseBoundingBoxEdge.myCenterXProperty().bindBidirectional(this.getShape().myCenterXProperty());
-        ellipseBoundingBoxEdge.myCenterYProperty().bindBidirectional(this.getShape().myCenterYProperty());
-        ellipseBoundingBoxEdge.myRadiusXProperty().bindBidirectional(this.getShape().myRadiusXProperty());
-        ellipseBoundingBoxEdge.myRadiusYProperty().bindBidirectional(this.getShape().myRadiusYProperty());
+        ellipseBoundingBoxEdge.myCenterXProperty().bindBidirectional(this.getPreview().myCenterXProperty());
+        ellipseBoundingBoxEdge.myCenterYProperty().bindBidirectional(this.getPreview().myCenterYProperty());
+        ellipseBoundingBoxEdge.myRadiusXProperty().bindBidirectional(this.getPreview().myRadiusXProperty());
+        ellipseBoundingBoxEdge.myRadiusYProperty().bindBidirectional(this.getPreview().myRadiusYProperty());
         
         // Define the aspect of the bounding box
         ellipseBoundingBoxEdge.mySetFill(Color.TRANSPARENT);
         ellipseBoundingBoxEdge.mySetStroke(Color.BLACK);
-        ellipseBoundingBoxEdge.mySetStrokeWidth(this.getShape().myGetStrokeWidth() + strokeVertexOffset);
+        ellipseBoundingBoxEdge.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + strokeVertexOffset);
         ellipseBoundingBoxEdge.myGetStrokeDashArray().addAll(strokeDashList);
         
         return ellipseBoundingBoxEdge;
@@ -58,26 +63,26 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
         // Initialize first vertex at the top of the vertical diameter of the ellipse
         this.getVertex1().mySetWidth(widthVertex);
         this.getVertex1().mySetHeight(heightVertex);
-        this.getVertex1().myXProperty().bind(this.getShape().myCenterXProperty().subtract(widthVertex/2));
-        this.getVertex1().myYProperty().bind(this.getShape().topLeftYProperty());
+        this.getVertex1().myXProperty().bind(this.getPreview().myCenterXProperty().subtract(widthVertex/2));
+        this.getVertex1().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize second vertex at the right of the horizontal diameter of the ellipse
         this.getVertex2().mySetWidth(widthVertex);
         this.getVertex2().mySetHeight(heightVertex);
-        this.getVertex2().myXProperty().bind(this.getShape().bottomRightXProperty().subtract(widthVertex));
-        this.getVertex2().myYProperty().bind(this.getShape().myCenterYProperty().subtract(heightVertex/2));
+        this.getVertex2().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(widthVertex));
+        this.getVertex2().myYProperty().bind(this.getPreview().myCenterYProperty().subtract(heightVertex/2));
         
         // Initialize third vertex at the bottom of the vertical diameter of the ellipse
         this.getVertex3().mySetWidth(widthVertex);
         this.getVertex3().mySetHeight(heightVertex);
-        this.getVertex3().myXProperty().bind(this.getShape().myCenterXProperty().subtract(widthVertex/2));
-        this.getVertex3().myYProperty().bind(this.getShape().bottomRightYProperty().subtract(heightVertex));
+        this.getVertex3().myXProperty().bind(this.getPreview().myCenterXProperty().subtract(widthVertex/2));
+        this.getVertex3().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(heightVertex));
         
         // Initialize fourth vertex at the left of the horizontal diameter of the ellipse
         this.getVertex4().mySetWidth(widthVertex);
         this.getVertex4().mySetHeight(heightVertex);
-        this.getVertex4().myXProperty().bind(this.getShape().topLeftXProperty());
-        this.getVertex4().myYProperty().bind(this.getShape().myCenterYProperty().subtract(heightVertex/2));
+        this.getVertex4().myXProperty().bind(this.getPreview().topLeftXProperty());
+        this.getVertex4().myYProperty().bind(this.getPreview().myCenterYProperty().subtract(heightVertex/2));
     }
 
     @Override
@@ -93,46 +98,46 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
 
     @Override
     boolean onMouseDragVertex1Condition(double mouseX, double mouseY) {
-        return mouseY <= this.getShape().getBottomRightY();
+        return mouseY <= this.getPreview().getBottomRightY();
     }
 
     @Override
     void onMouseDragVertex1Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(this.getShape().getTopLeftX(), mouseY, this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
-        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), mouseY, this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
+        this.getPreview().modifyShape(this.getPreview().getTopLeftX(), mouseY, this.getPreview().getBottomRightX(), this.getPreview().getBottomRightY());
+        this.getCommand().setNewCoordinates(this.getPreview().getTopLeftX(), mouseY, this.getPreview().getBottomRightX(), this.getPreview().getBottomRightY());
     }
 
     @Override
     boolean onMouseDragVertex2Condition(double mouseX, double mouseY) {
-        return mouseX >= this.getShape().getTopLeftX();
+        return mouseX >= this.getPreview().getTopLeftX();
     }
 
     @Override
     void onMouseDragVertex2Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), mouseX, this.getShape().getBottomRightY());
-        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), mouseX, this.getShape().getBottomRightY());
+        this.getPreview().modifyShape(this.getPreview().getTopLeftX(), this.getPreview().getTopLeftY(), mouseX, this.getPreview().getBottomRightY());
+        this.getCommand().setNewCoordinates(this.getPreview().getTopLeftX(), this.getPreview().getTopLeftY(), mouseX, this.getPreview().getBottomRightY());
     }
 
     @Override
     boolean onMouseDragVertex3Condition(double mouseX, double mouseY) {
-        return mouseY >= this.getShape().getTopLeftY();
+        return mouseY >= this.getPreview().getTopLeftY();
     }
 
     @Override
     void onMouseDragVertex3Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), mouseY);
-        this.getCommand().setNewCoordinates(this.getShape().getTopLeftX(), this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), mouseY);
+        this.getPreview().modifyShape(this.getPreview().getTopLeftX(), this.getPreview().getTopLeftY(), this.getPreview().getBottomRightX(), mouseY);
+        this.getCommand().setNewCoordinates(this.getPreview().getTopLeftX(), this.getPreview().getTopLeftY(), this.getPreview().getBottomRightX(), mouseY);
     }
 
     @Override
     boolean onMouseDragVertex4Condition(double mouseX, double mouseY) {
-        return mouseX <= this.getShape().getBottomRightX();
+        return mouseX <= this.getPreview().getBottomRightX();
     }
 
     @Override
     void onMouseDragVertex4Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(mouseX, this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
-        this.getCommand().setNewCoordinates(mouseX, this.getShape().getTopLeftY(), this.getShape().getBottomRightX(), this.getShape().getBottomRightY());
+        this.getPreview().modifyShape(mouseX, this.getPreview().getTopLeftY(), this.getPreview().getBottomRightX(), this.getPreview().getBottomRightY());
+        this.getCommand().setNewCoordinates(mouseX, this.getPreview().getTopLeftY(), this.getPreview().getBottomRightX(), this.getPreview().getBottomRightY());
     }
     
 }

@@ -3,6 +3,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import javafx.beans.property.*;
@@ -21,9 +22,11 @@ import javafx.scene.shape.Shape;
 public class Selection implements Visitor{
     private Group selectionBorder;
     private MyShape selectedItem;
+    private MyShape selectedItemPreview;
     private BooleanProperty selected;
     private SelectionHelper helper;
     private static Selection instance = null;
+    private Controller controller;
 
     /**
      * Class constructor.
@@ -32,6 +35,10 @@ public class Selection implements Visitor{
         this.selectionBorder = new Group();
         this.selectedItem = null;
         this.selected = new SimpleBooleanProperty(false);
+    }
+    
+    public void setController(Controller controller){
+        this.controller = controller;
     }
     
     /**
@@ -111,9 +118,11 @@ public class Selection implements Visitor{
         }
         
         setSelectedItem(myRectangle);
+
+        this.selectedItemPreview = this.controller.substituteShapeWithPreview(myRectangle);
         
         helper = new SelectionRectangleHelper();
-        setSelectionBorder(helper.createBoundingBox(selectedItem));
+        setSelectionBorder(helper.createBoundingBox(selectedItem, selectedItemPreview));
         
         Parent parent = myRectangle.myGetParent();
         
@@ -148,7 +157,7 @@ public class Selection implements Visitor{
         setSelectedItem(myLine);
         
         helper = new SelectionLineHelper();
-        setSelectionBorder(helper.createBoundingBox(selectedItem));
+        setSelectionBorder(helper.createBoundingBox(selectedItem, selectedItemPreview));
         
         Parent parent = myLine.myGetParent();
         
@@ -183,7 +192,7 @@ public class Selection implements Visitor{
         setSelectedItem(myEllipse);
         
         helper = new SelectionEllipseHelper();
-        setSelectionBorder(helper.createBoundingBox(selectedItem));
+        setSelectionBorder(helper.createBoundingBox(selectedItem, selectedItemPreview));
         
         Parent parent = myEllipse.myGetParent();
         
@@ -214,6 +223,9 @@ public class Selection implements Visitor{
         Pane pane = (Pane) parent;
         
         pane.getChildren().removeAll(getSelectionBorder());
+        
+        this.controller.substitutePreviewWithOriginalShape(selectedItem);
+        this.selectedItemPreview = null;
         
         setSelectedItem(null);
         setSelected(false);
