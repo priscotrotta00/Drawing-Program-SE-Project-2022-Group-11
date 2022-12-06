@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.clipboard.Clipboard;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
@@ -104,6 +105,7 @@ public class Controller implements Initializable {
     @FXML
     private Label optionsLabel;
 
+    private Clipboard clipboard;
     /**
      * Initializes the controller class.
      */
@@ -113,6 +115,7 @@ public class Controller implements Initializable {
         System.out.println("Hello world");
         
         this.initializeToolToggleGroup();
+        this.clipboard= new Clipboard();
 
         //
         clip = new Rectangle();
@@ -134,7 +137,8 @@ public class Controller implements Initializable {
         
 
         this.initializeDeleteBindings();
-
+        this.initializeCopyShapeBindings();
+        
     }
 
     /**
@@ -206,6 +210,14 @@ public class Controller implements Initializable {
     public void initializeDeleteBindings() {
         BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         deleteButton.disableProperty().bind(del);
+    }
+    
+    /**
+     * Initialize the CopyShapeButton bind
+     */
+    public void initializeCopyShapeBindings(){
+        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        copyButton.disableProperty().bind(del);
     }
 
     public void updateDraw() {
@@ -370,8 +382,30 @@ public class Controller implements Initializable {
         ccc.execute();
     }
 
+    
+    /**
+     * get selected shape and call copyShape
+     * @param event 
+     */
     @FXML
     private void onCopyAction(ActionEvent event) {
+        MyShape s = selection.getSelectedItem();
+        selection.unSelect();
+        MyShape shapeClone=s.clone();
+        this.copyShape(shapeClone);
+        //prendo la figura selezionata e la passo alla copyShape
+    }
+    
+    /**
+     * Copy the shape in Clipboard for use it in future
+     * @param shape 
+     */
+    public void copyShape(MyShape shape){
+        this.clipboard.copy(shape);
+    }
+    
+    protected Clipboard getClipboard(){
+        return this.clipboard;
     }
 
     /**
