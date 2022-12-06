@@ -10,6 +10,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
@@ -53,6 +54,7 @@ public class ControllerTest {
     private Field changeStrokeColorField;
     private Field changeFillColorField;
     private Field selectionField;
+    private Field cutButtonField;
     
     public static class AsNonApp extends Application {
 
@@ -97,6 +99,7 @@ public class ControllerTest {
        
        deleteButtonField=Controller.class.getDeclaredField("deleteButton");
        selectionField=Controller.class.getDeclaredField("selection");
+       cutButtonField=Controller.class.getDeclaredField("cutButton");
        c = new Controller();
    }
    
@@ -737,6 +740,57 @@ public class ControllerTest {
         
         c.initializeDeleteBindings();
         assertTrue("error in bind", deleteButton.isDisabled());
+        
+    }
+    
+    @Test
+    public void testBindCutButton() throws IllegalArgumentException, IllegalAccessException{
+        this.cutButtonField.setAccessible(true);
+        
+        Button cutButton = new Button();
+        this.cutButtonField.set(c, cutButton);
+        this.selectionToggleButtonField.setAccessible(true); 
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);        
+        this.selectionField.setAccessible(true);     
+        
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
+        Selection.getInstance().unSelect();
+        this.selectionField.set(c, Selection.getInstance());
+ 
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(selection);
+        
+        
+        c.initializeCutBindings();
+        Assert.assertTrue("If cutButton is disabled", cutButton.isDisable());
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        MyShape myRectangle = new MyEnhancedRectangle();
+        c.addShape(myRectangle);
+        Selection.getInstance().select((MyRectangle) myRectangle);
+        
+        Assert.assertFalse("If cutButton is not disabled", cutButton.isDisable());
         
     }
     
