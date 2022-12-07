@@ -4,12 +4,14 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.clipboard.Clipboard;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.PasteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -27,6 +29,7 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -98,6 +101,7 @@ public class Controller implements Initializable {
     private Rectangle clip;
     private Tool selectedTool;
     private Selection selection;
+    private Clipboard clipboard;
 
     @FXML
     private Label colorsLabel;
@@ -134,6 +138,8 @@ public class Controller implements Initializable {
         
 
         this.initializeDeleteBindings();
+        
+        this.clipboard = new Clipboard();
 
     }
 
@@ -206,6 +212,11 @@ public class Controller implements Initializable {
     public void initializeDeleteBindings() {
         BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         deleteButton.disableProperty().bind(del);
+    }
+    
+    public void initializePasteBindings() {
+        ReadOnlyBooleanProperty paste = clipboard.copiedProperty();
+        pasteButton.disableProperty().bind(not(paste));
     }
 
     public void updateDraw() {
@@ -392,6 +403,10 @@ public class Controller implements Initializable {
 
     @FXML
     private void onPasteAction(ActionEvent event) {
+        if(!clipboard.copiedProperty().equals(true)) return;
+        MyShape s = clipboard.getNewCopy();
+        Command pasteShapeCommand = new PasteShapeCommand(this, s);
+        pasteShapeCommand.execute();
     }
 
     public Drawing getDraw() {

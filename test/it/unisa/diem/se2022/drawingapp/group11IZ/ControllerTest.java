@@ -5,6 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
 //import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
+import it.unisa.diem.se2022.drawingapp.group11IZ.clipboard.Clipboard;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
@@ -53,6 +54,8 @@ public class ControllerTest {
     private Field changeStrokeColorField;
     private Field changeFillColorField;
     private Field selectionField;
+    private Field clipboardField;
+    private Field pasteButtonField;
     
     public static class AsNonApp extends Application {
 
@@ -97,6 +100,9 @@ public class ControllerTest {
        
        deleteButtonField=Controller.class.getDeclaredField("deleteButton");
        selectionField=Controller.class.getDeclaredField("selection");
+       clipboardField=Controller.class.getDeclaredField("clipboard");
+       pasteButtonField=Controller.class.getDeclaredField("pasteButton");
+       
        c = new Controller();
    }
    
@@ -750,4 +756,23 @@ public class ControllerTest {
         Drawing d=c.getDraw();
         assertTrue("Error in getDraw",d==drawing);
     }
+    
+    @Test
+    public void testBindPasteButton() throws IllegalArgumentException, IllegalAccessException{
+        this.clipboardField.setAccessible(true);
+        this.pasteButtonField.setAccessible(true);
+        
+        Clipboard clipboard = new Clipboard();
+        MyShape shape = new MyEnhancedRectangle();
+        clipboard.copy(shape);
+        this.clipboardField.set(c, clipboard);
+        Button pasteButton = new Button();
+        this.pasteButtonField.set(c, pasteButton);
+        
+        c.initializePasteBindings();
+        
+        assertFalse("Error in DeleteButton binding", pasteButton.isDisable());
+              
+    }
+    
 }
