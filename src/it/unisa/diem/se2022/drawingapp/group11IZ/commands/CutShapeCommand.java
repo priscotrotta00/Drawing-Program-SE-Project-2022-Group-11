@@ -43,15 +43,15 @@ public class CutShapeCommand implements Command{
     public void execute() {
         this.controller.removeShape(this.cuttedShape);
         
-        // metodo per aggiungere la figura nella clipboard
+        this.controller.copyShape(this.cuttedShape);
+        
     }
 
     @Override
     public void undo() {
-        // prendere la clipboard dal controller, prendere l'elemento uguale a
-        // quello che tengo in questa istanza del cut
-        // aggiungere tale shape dinuovo nel Pane e Drawing e toglierlo
-        // dalla clipboard
+        
+        this.controller.addShape(this.cuttedShape);
+        
     }
     
 }

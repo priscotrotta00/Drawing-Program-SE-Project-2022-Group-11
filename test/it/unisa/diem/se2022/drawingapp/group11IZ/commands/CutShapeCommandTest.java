@@ -32,8 +32,11 @@ public class CutShapeCommandTest {
     private Pane pane;
     private Drawing draw;
     private Field selectionField;
+    private Field clipboardField;
     private Selection selection;
-    private MyShape myRectangle, myLine, myEllipse;
+    private MyEnhancedRectangle myRectangle;
+    private MyEnhancedLine myLine;
+    private MyEnhancedEllipse myEllipse;
     private Clipboard clipboard;
 
     private CutShapeCommand cutCommand;
@@ -43,15 +46,19 @@ public class CutShapeCommandTest {
         this.c = new Controller();
         this.pane = new Pane();
         this.draw = new Drawing();
+        this.clipboard = new Clipboard();
 
         drawPaneField = Controller.class.getDeclaredField("drawPane");
         drawField = Controller.class.getDeclaredField("draw");
+        clipboardField = Controller.class.getDeclaredField("clipboard");
 
         drawPaneField.setAccessible(true);
         drawField.setAccessible(true);
+        clipboardField.setAccessible(true);
 
-        drawPaneField.set(c, pane);
-        drawField.set(c, draw);
+        drawPaneField.set(this.c, this.pane);
+        drawField.set(this.c, this.draw);
+        clipboardField.set(this.c, this.clipboard);
         
         myRectangle = new MyEnhancedRectangle();
         myLine = new MyEnhancedLine();
@@ -61,7 +68,7 @@ public class CutShapeCommandTest {
         c.addShape(myLine);
         c.addShape(myEllipse);
         
-        clipboard = new Clipboard();
+        //clipboard = new Clipboard();
         //cutCommand = new CutShapeCommand(c, clipboard);
         
         selection = Selection.getInstance();
@@ -76,9 +83,19 @@ public class CutShapeCommandTest {
     public void executeTest(){
         
         cutCommand.execute();
-         
+        //System.out.println(clipboard.getNewCopy());
+        //System.out.println(myRectangle);
+        MyEnhancedRectangle copy = (MyEnhancedRectangle)clipboard.getNewCopy();
+        
+            
         Assert.assertFalse("If cutted shape is not in the drawing", pane.getChildren().contains((Node)myRectangle));
-        Assert.assertTrue("If clipboard contains shape", clipboard.getNewCopy() == myRectangle);
+        Assert.assertTrue("If clipboard contains shape", 
+                    copy.myGetX() == myRectangle.myGetX() &&
+                            copy.myGetY() == myRectangle.myGetY() &&
+                            copy.myGetWidth() == myRectangle.myGetWidth() &&
+                            copy.myGetLayoutX() == myRectangle.myGetLayoutX() &&
+                            copy.myGetLayoutY() == myRectangle.myGetLayoutY()
+                );
         
     }
     
@@ -88,9 +105,15 @@ public class CutShapeCommandTest {
         cutCommand.execute();
         
         cutCommand.undo();
-        
+        MyEnhancedRectangle copy = (MyEnhancedRectangle)clipboard.getNewCopy();
         Assert.assertTrue("If previous cutted shape is again in the drawing", pane.getChildren().contains((Node)myRectangle));
-        Assert.assertFalse("If clipboard does not contain the previous cutted shape", clipboard.getNewCopy() == myRectangle);
+        Assert.assertTrue("If clipboard does contains the restored cutted shape", 
+                copy.myGetX() == myRectangle.myGetX() &&
+                            copy.myGetY() == myRectangle.myGetY() &&
+                            copy.myGetWidth() == myRectangle.myGetWidth() &&
+                            copy.myGetLayoutX() == myRectangle.myGetLayoutX() &&
+                            copy.myGetLayoutY() == myRectangle.myGetLayoutY()
+        );
         
     }
 }

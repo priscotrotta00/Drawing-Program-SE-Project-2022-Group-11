@@ -23,8 +23,15 @@ public class ClipboardTest {
         Clipboard clipboard= new Clipboard();
         
         clipboard.copy(line);
+        MyEnhancedLine lineClone=(MyEnhancedLine) clipboard.getNewCopy();
         assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
-        assertTrue("Error in copy", clipboard.getNewCopy()==line);
+        assertTrue("Error in copy", lineClone.myGetEndX()==line.myGetEndX());
+        assertTrue("Error in copy", lineClone.myGetEndY()==line.myGetEndY());
+        assertTrue("Error in copy", lineClone.myGetStartY()==line.myGetStartY());
+        assertTrue("Error in copy", lineClone.myGetStartX()==line.myGetStartX());
+        assertTrue("Error in copy", lineClone.myGetFill()==line.myGetFill());
+        assertTrue("Error in copy", lineClone.myGetStroke()==line.myGetStroke());
+        assertTrue("Error in copy", lineClone.myGetStrokeWidth()==line.myGetStrokeWidth());
         
     }
     
@@ -33,7 +40,15 @@ public class ClipboardTest {
         Clipboard clipboard= new Clipboard();
         MyEnhancedLine line=new MyEnhancedLine();
         clipboard.copy(line);
-        assertTrue("error in getNewCopy", clipboard.getNewCopy()==line);
+        MyEnhancedLine lineClone=(MyEnhancedLine) clipboard.getNewCopy();
+        assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
+        assertTrue("Error in copy", lineClone.myGetEndX()==line.myGetEndX());
+        assertTrue("Error in copy", lineClone.myGetEndY()==line.myGetEndY());
+        assertTrue("Error in copy", lineClone.myGetStartY()==line.myGetStartY());
+        assertTrue("Error in copy", lineClone.myGetStartX()==line.myGetStartX());
+        assertTrue("Error in copy", lineClone.myGetFill()==line.myGetFill());
+        assertTrue("Error in copy", lineClone.myGetStroke()==line.myGetStroke());
+        assertTrue("Error in copy", lineClone.myGetStrokeWidth()==line.myGetStrokeWidth());
         
     }
     
