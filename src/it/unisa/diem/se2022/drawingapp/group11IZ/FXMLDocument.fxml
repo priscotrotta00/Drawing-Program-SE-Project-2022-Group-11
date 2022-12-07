@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="847.0" prefWidth="1087.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se2022.drawingapp.group11IZ.Controller">
+<VBox alignment="CENTER" prefHeight="847.0" prefWidth="1087.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se2022.drawingapp.group11IZ.Controller">
    <children>
       <TabPane prefHeight="194.0" prefWidth="1087.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -249,8 +249,8 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="50.0" prefWidth="306.0" spacing="10.0" style="-fx-background-color: light-grey;">
                                        <children>
-                                          <Button disable="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Foreground" />
-                                          <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Background" />
+                                          <Button fx:id="foregroundButton" disable="true" mnemonicParsing="false" onAction="#onForegroundAction" prefHeight="26.0" prefWidth="100.0" text="Foreground" />
+                                          <Button fx:id="backgroundButton" disable="true" mnemonicParsing="false" onAction="#onBackgroundAction" prefHeight="25.0" prefWidth="100.0" text="Background" />
                                        </children>
                                        <padding>
                                           <Insets bottom="8.0" top="4.0" />

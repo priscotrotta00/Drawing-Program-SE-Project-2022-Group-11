@@ -11,6 +11,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorComma
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveBackgroundShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -106,6 +107,10 @@ public class Controller implements Initializable {
     private Label optionsLabel;
 
     private Clipboard clipboard;
+    @FXML
+    private Button foregroundButton;
+    @FXML
+    private Button backgroundButton;
     /**
      * Initializes the controller class.
      */
@@ -138,7 +143,7 @@ public class Controller implements Initializable {
 
         this.initializeDeleteBindings();
         this.initializeCopyShapeBindings();
-        
+        this.initializeMoveBackgroundBindings();
     }
 
     /**
@@ -219,6 +224,14 @@ public class Controller implements Initializable {
         BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         copyButton.disableProperty().bind(del);
     }
+    
+    /**
+     * Initialize MoveBackground bindings
+     */
+    public void initializeMoveBackgroundBindings(){
+        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        backgroundButton.disableProperty().bind(del);
+    }
 
     public void updateDraw() {
 
@@ -290,6 +303,9 @@ public class Controller implements Initializable {
      */
     public void moveShapeToBackground(MyShape myShape) {
         this.draw.moveToBackground(myShape);
+        //remove shape from drawPane, add in first pos and add the another element ad the end of list
+        drawPane.getChildren().remove(myShape);
+        drawPane.getChildren().add(0,(Node) myShape);
     }
 
     /**
@@ -393,7 +409,7 @@ public class Controller implements Initializable {
         selection.unSelect();
         MyShape shapeClone=s.clone();
         this.copyShape(shapeClone);
-        //prendo la figura selezionata e la passo alla copyShape
+        //I take the selected shape and switch it to the copyShape
     }
     
     /**
@@ -434,5 +450,17 @@ public class Controller implements Initializable {
 
     public Drawing getDraw() {
         return this.draw;
+    }
+
+    @FXML
+    private void onForegroundAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void onBackgroundAction(ActionEvent event) {
+        MyShape s = selection.getSelectedItem();
+        selection.unSelect();
+        Command moveBackgroundCommand=new MoveBackgroundShapeCommand(this,s);
+        moveBackgroundCommand.execute();
     }
 }
