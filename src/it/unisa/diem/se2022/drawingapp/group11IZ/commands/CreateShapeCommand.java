@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 
@@ -13,18 +14,18 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
  * @author Felice Scala
  */
 public class CreateShapeCommand implements Command{
-    private Controller controller;
+    private Canvas canvas;
     private MyShape shape;
 
     /**
      * Create a new CreateShapeCommand, giving the receiver of the action and
      * parameters it requests
-     * @param controller Receiver of the action
+     * @param canvas Receiver of the action
      * @param shape Shape to be added to the drawing
      */
-    public CreateShapeCommand(Controller controller, MyShape shape) {
+    public CreateShapeCommand(Canvas canvas, MyShape shape) {
         //Retrieve receiver and parameters
-        this.controller = controller;
+        this.canvas = canvas;
         this.shape = shape;
     }
     
@@ -33,7 +34,7 @@ public class CreateShapeCommand implements Command{
      */
     @Override
     public void execute() {
-        this.controller.addShape(shape);
+        this.canvas.addShape(shape);
     }
 
     /**
@@ -42,7 +43,7 @@ public class CreateShapeCommand implements Command{
      */
     @Override
     public void undo() {
-        this.controller.removeShape(shape);
+        this.canvas.removeShape(shape);
     }
     
 }

@@ -43,13 +43,14 @@ public class DrawRectangleTool extends DrawShapeTool{
      */
     @Override
     MyShape createShape(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY, Color strokeColor, Color fillColor) {
-        MyRectangle rectangle = new MyEnhancedRectangle();
+        MyRectangle result = new MyEnhancedRectangle();
         
-        rectangle.modifyShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
-        rectangle.mySetStroke(strokeColor);
-        rectangle.mySetFill(fillColor);
+        result.modifyShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
+        result.mySetStroke(strokeColor);
+        result.mySetFill(fillColor);
+        result.mySetStrokeWidth(result.myGetStrokeWidth() + STROKE_WIDTH_OFFSET);
         
-        return rectangle;
+        return result;
     }
     
     /**

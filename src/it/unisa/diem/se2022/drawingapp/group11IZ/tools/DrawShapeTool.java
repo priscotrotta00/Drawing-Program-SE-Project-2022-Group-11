@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CreateShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -21,6 +22,8 @@ public abstract class DrawShapeTool implements Tool{
     private Double endX, endY;
     private MyShape createdShape;
     
+    static final double STROKE_WIDTH_OFFSET = 2;
+    
     MyShape getCreatedShape(){
         return this.createdShape;
     }
@@ -35,7 +38,7 @@ public abstract class DrawShapeTool implements Tool{
      * @param event Generated Event
      */
     @Override
-    public void handleOnDragBegin(Controller c, MouseEvent event) {
+    public void handleOnDragBegin(Canvas c, MouseEvent event) {
         this.startX = event.getX();
         this.startY = event.getY();
         
@@ -50,7 +53,7 @@ public abstract class DrawShapeTool implements Tool{
      * @param event Generated Event
      */
     @Override
-    public void handleOnMouseDrag(Controller c, MouseEvent event) {
+    public void handleOnMouseDrag(Canvas c, MouseEvent event) {
         double topLeftX, topLeftY, bottomRightX, bottomRightY;
         
         this.endX = event.getX();
@@ -73,7 +76,7 @@ public abstract class DrawShapeTool implements Tool{
      * @param event Generated Event
      */
     @Override
-    public void handleOnDragEnd(Controller c, MouseEvent event) {
+    public void handleOnDragEnd(Canvas c, MouseEvent event) {
         this.setCreatedShape(null);
         this.startX = null;
         this.startY = null;
@@ -82,12 +85,12 @@ public abstract class DrawShapeTool implements Tool{
     }
 
     @Override
-    public void handleOnPrimaryMouseClick(Controller c, MouseEvent event) {
+    public void handleOnPrimaryMouseClick(Canvas c, MouseEvent event) {
         //NOP
     }
 
     @Override
-    public void handleOnContextMenuRequested(Controller c, ContextMenuEvent event) {
+    public void handleOnContextMenuRequested(Canvas c, ContextMenuEvent event) {
         //NOP
     }
     

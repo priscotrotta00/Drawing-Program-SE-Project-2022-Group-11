@@ -4,9 +4,8 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
-import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -21,14 +20,14 @@ public interface Tool {
      * @param c Controller
      * @param event Generated Event
      */
-    public void handleOnDragBegin(Controller c, MouseEvent event);
+    public void handleOnDragBegin(Canvas c, MouseEvent event);
     
     /**
      * Method that handle the OnMouseDragged event genereated on the drawPane
      * @param c Controller
      * @param event Generated Event
      */
-    public void handleOnMouseDrag(Controller c, MouseEvent event);
+    public void handleOnMouseDrag(Canvas c, MouseEvent event);
     
     /**
      * Method that handle the OnMouseReleased event generated on the drawPane
@@ -36,7 +35,7 @@ public interface Tool {
      * @param c Controller
      * @param event Generated Event
      */
-    public void handleOnDragEnd(Controller c, MouseEvent event);
+    public void handleOnDragEnd(Canvas c, MouseEvent event);
     
     /**
      * Method that handle the OnMouseClicked event generated on the drawPane
@@ -44,7 +43,7 @@ public interface Tool {
      * @param c Controller
      * @param event Generated Event
      */
-    public void handleOnPrimaryMouseClick(Controller c, MouseEvent event);
+    public void handleOnPrimaryMouseClick(Canvas c, MouseEvent event);
     
     /**
      * Method that handle the OnContextMenuRequested event generated on the drawPane
@@ -52,7 +51,7 @@ public interface Tool {
      * @param c Controller
      * @param event Generated Event
      */
-    public void handleOnContextMenuRequested(Controller c, ContextMenuEvent event);
+    public void handleOnContextMenuRequested(Canvas c, ContextMenuEvent event);
     
     public static Tool getInstance() {
         return null;

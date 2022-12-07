@@ -4,12 +4,9 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
-import it.unisa.diem.se2022.drawingapp.group11IZ.clipboard.Clipboard;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -18,8 +15,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.SelectTool;
-import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
-import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,11 +23,9 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -40,10 +33,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import org.json.simple.parser.ParseException;
@@ -56,7 +46,7 @@ import org.json.simple.parser.ParseException;
 public class Controller implements Initializable {
 
     @FXML
-    private Pane drawPane;
+    private Canvas canvasController;
     @FXML
     private Button loadButton;
     @FXML
@@ -92,53 +82,24 @@ public class Controller implements Initializable {
     @FXML
     private ColorPicker fillColorPicker;
 
-    private Drawing draw;
-
     //ADDED
     private ToggleGroup toolToggleGroup;
-    private Rectangle clip;
-    private Tool selectedTool;
-    private Selection selection;
 
     @FXML
     private Label colorsLabel;
     @FXML
     private Label optionsLabel;
-
-    private Clipboard clipboard;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO
-        System.out.println("Hello world");
-        
         this.initializeToolToggleGroup();
-        this.clipboard= new Clipboard();
-
-        //
-        clip = new Rectangle();
-        clip.heightProperty().bind(drawPane.heightProperty());
-        clip.widthProperty().bind(drawPane.widthProperty());
-        drawPane.setClip(clip);
-
-        this.initializeDrawPaneEventHandlers();
-
-        //create draw
-        this.draw = new Drawing();
-
-        drawPane.setOnMouseClicked(value -> {
-            selectedTool.handleOnPrimaryMouseClick(this, value);
-        });
-
-        selection = Selection.getInstance();
         this.initializeChangeColorBindings();
-        
-
         this.initializeDeleteBindings();
         this.initializeCopyShapeBindings();
-        
+        this.strokeColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedStrokeColorProperty());
+        this.fillColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedFillColorProperty());
     }
 
     /**
@@ -166,40 +127,13 @@ public class Controller implements Initializable {
         rectangleToggleButton.selectedProperty().setValue(true);
 
     }
-
-    /**
-     * Initialize the Draw Pane Event Handlers
-     */
-    public void initializeDrawPaneEventHandlers() {
-        drawPane.setOnDragDetected(value -> {
-            selectedTool.handleOnDragBegin(this, value);
-            drawPane.setOnMouseDragged(event -> {
-                selectedTool.handleOnMouseDrag(this, event);
-            });
-            drawPane.setOnMouseReleased(event -> {
-                selectedTool.handleOnDragEnd(this, event);
-                drawPane.setOnMouseReleased(event2 -> {
-                });
-                drawPane.setOnMouseDragged(event2 -> {
-                });
-            });
-        });
-
-        drawPane.setOnMouseClicked(event -> {
-            selectedTool.handleOnPrimaryMouseClick(this, event);
-        });
-
-        drawPane.setOnContextMenuRequested(event -> {
-            selectedTool.handleOnContextMenuRequested(this, event);
-        });
-    }
     
     /**
      * Initialize the changeStrokeColorButton and changeFillColorButton bindings
      */
     
     public void initializeChangeColorBindings(){
-        BooleanBinding ex = Bindings.or(not(this.selectionToggleButton.selectedProperty()), not(selection.getSelectedProperty()));
+        BooleanBinding ex = Bindings.or(not(this.selectionToggleButton.selectedProperty()), not(this.canvasController.getSelection().getSelectedProperty()));
         changeStrokeColorButton.disableProperty().bind(ex);
         changeFillColorButton.disableProperty().bind(ex);
     }
@@ -208,7 +142,7 @@ public class Controller implements Initializable {
      * Initialize DeleteButton bind
      */
     public void initializeDeleteBindings() {
-        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         deleteButton.disableProperty().bind(del);
     }
     
@@ -216,16 +150,8 @@ public class Controller implements Initializable {
      * Initialize the CopyShapeButton bind
      */
     public void initializeCopyShapeBindings(){
-        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         copyButton.disableProperty().bind(del);
-    }
-
-    public void updateDraw() {
-
-    }
-
-    public Pane getDrawPane() {
-        return drawPane;
     }
 
     /**
@@ -238,60 +164,16 @@ public class Controller implements Initializable {
     public void updateSelectedTool(Toggle selectedToggle) {
         ToggleButton toggle = (ToggleButton) selectedToggle;
         if (toggle.equals(ellipseToggleButton)) {
-            this.selectedTool = DrawEllipseTool.getInstance();
+            this.canvasController.setTool(DrawEllipseTool.getInstance());
         } else if (toggle.equals(rectangleToggleButton)) {
-            this.selectedTool = DrawRectangleTool.getInstance();
+            this.canvasController.setTool(DrawRectangleTool.getInstance());
         } else if (toggle.equals(lineToggleButton)) {
-            this.selectedTool = DrawLineTool.getInstance();
+            this.canvasController.setTool(DrawLineTool.getInstance());
         } else if (toggle.equals(selectionToggleButton)) {
-            this.selectedTool = SelectTool.getInstance();
+            this.canvasController.setTool(SelectTool.getInstance());
         }
     }
-
-    public void updateSelectedColor() {
-
-    }
-
-    /**
-     * Add MyShape into draw and into Pane.
-     *
-     * @param shape
-     */
-    public void addShape(MyShape shape){
-        this.draw.addShape(shape);
-        drawPane.getChildren().add((Shape) shape);
-
-    }
-
-    /**
-     * Delete MyShape draw and into Pane.
-     *
-     * @param event
-     */
-    public void removeShape(MyShape myShape) {
-        this.draw.removeShape(myShape);
-        drawPane.getChildren().remove(myShape);
-
-    }
-
-    /**
-     * Move the shape in foreground
-     *
-     * @param myShape
-     */
-    public void moveShapeToForeground(MyShape myShape) {
-        this.draw.moveToForeground(myShape);
-    }
-
-    /**
-     * Move the shape in background
-     *
-     * @param myShape
-     */
-    public void moveShapeToBackground(MyShape myShape) {
-        this.draw.moveToBackground(myShape);
-    }
-
+    
     /**
      * Get the Stroke Color picked by user from the Stroke Color Picker
      *
@@ -324,16 +206,16 @@ public class Controller implements Initializable {
             File file = fc.showOpenDialog(null);
             if(file == null) return;
             Drawing loadedDrawing = Drawing.importDrawing(file);
-            selection.unSelect();
+            this.canvasController.getSelection().unSelect();
             
-            for(MyShape myShape : this.draw){
-                this.drawPane.getChildren().remove((Shape) myShape);
+            for(MyShape myShape : this.canvasController.getDraw()){
+                this.canvasController.getDrawPane().getChildren().remove((Shape) myShape);
             }
             
             for(MyShape myShape : loadedDrawing){
-                this.drawPane.getChildren().add((Shape) myShape);
+                this.canvasController.getDrawPane().getChildren().add((Shape) myShape);
             }
-            this.draw = loadedDrawing;
+            this.canvasController.setDraw(loadedDrawing);
         } catch (ParseException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -354,7 +236,7 @@ public class Controller implements Initializable {
 	File file = fc.showSaveDialog(null);
         if(file == null) return;
         try {
-            this.draw.exportDrawing(file);
+            this.canvasController.getDraw().exportDrawing(file);
         } catch (ExtensionFileException ex) {
             new Alert(Alert.AlertType.INFORMATION, "File must have a .json extension!").showAndWait();
         }
@@ -367,7 +249,7 @@ public class Controller implements Initializable {
     
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
-        Command ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
+        Command ccc = new ChangeStrokeColorCommand(this.canvasController.getSelection().getSelectedItem(), this.getSelectedStrokeColor());
         ccc.execute();
     }
 
@@ -378,7 +260,7 @@ public class Controller implements Initializable {
     
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
-        Command ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
+        Command ccc = new ChangeFillColorCommand(this.canvasController.getSelection().getSelectedItem(), this.getSelectedFillColor());
         ccc.execute();
     }
 
@@ -389,23 +271,11 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onCopyAction(ActionEvent event) {
-        MyShape s = selection.getSelectedItem();
-        selection.unSelect();
+        MyShape s = this.canvasController.getSelection().getSelectedItem();
+        this.canvasController.getSelection().unSelect();
         MyShape shapeClone=s.clone();
-        this.copyShape(shapeClone);
+        this.canvasController.copyShape(shapeClone);
         //prendo la figura selezionata e la passo alla copyShape
-    }
-    
-    /**
-     * Copy the shape in Clipboard for use it in future
-     * @param shape 
-     */
-    public void copyShape(MyShape shape){
-        this.clipboard.copy(shape);
-    }
-    
-    protected Clipboard getClipboard(){
-        return this.clipboard;
     }
 
     /**
@@ -414,9 +284,9 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onDeleteAction(ActionEvent event) {
-        MyShape s = selection.getSelectedItem();
-        selection.unSelect();
-        Command deleteCommand = new DeleteShapeCommand(this, s);
+        MyShape s = this.canvasController.getSelection().getSelectedItem();
+        this.canvasController.getSelection().unSelect();
+        Command deleteCommand = new DeleteShapeCommand(this.canvasController, s);
         deleteCommand.execute();
     }
 
@@ -427,8 +297,5 @@ public class Controller implements Initializable {
     @FXML
     private void onPasteAction(ActionEvent event) {
     }
-
-    public Drawing getDraw() {
-        return this.draw;
-    }
+    
 }

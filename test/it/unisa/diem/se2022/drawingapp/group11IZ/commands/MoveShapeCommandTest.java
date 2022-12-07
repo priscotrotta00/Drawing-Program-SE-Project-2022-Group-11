@@ -5,6 +5,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
@@ -24,6 +25,7 @@ import org.junit.Test;
  */
 public class MoveShapeCommandTest {
     
+    private Canvas canvas;
     private Selection selection;
     private Pane pane;
     private MyEnhancedLine myEnhancedLine;
@@ -34,8 +36,15 @@ public class MoveShapeCommandTest {
     
     @Before
     public void setUp() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException{
-        selection = Selection.getInstance();
+        canvas = new Canvas();
         pane = new Pane();
+        
+        Field drawPaneField = Canvas.class.getDeclaredField("drawPane");
+        drawPaneField.setAccessible(true);
+        drawPaneField.set(canvas, pane);
+        canvas.initialize(null, null);
+        
+        selection = this.canvas.getSelection();
         myEnhancedRectangle = new MyEnhancedRectangle();
         
         myEnhancedRectangle.mySetX(10);

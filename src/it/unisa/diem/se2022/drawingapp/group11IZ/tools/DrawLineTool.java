@@ -64,6 +64,7 @@ public class DrawLineTool extends DrawShapeTool{
         result = new MyEnhancedLine();
         result.modifyShape(startX, startY, endX, endY);
         result.mySetStroke(strokeColor);
+        result.mySetStrokeWidth(result.myGetStrokeWidth() + STROKE_WIDTH_OFFSET);
         
         return result;
     }

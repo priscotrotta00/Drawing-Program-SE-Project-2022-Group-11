@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -16,20 +17,19 @@ import java.util.logging.Logger;
  * @author saram
  */
 public class DeleteShapeCommand implements Command {
-    
-    private Controller controller;
+    private Canvas canvas;
     private MyShape shape;
     private int layerShape;
     
     /**
      * constructor of Delete Command
-     * @param controller
+     * @param canvas
      * @param shape 
      */
-    public DeleteShapeCommand(Controller controller, MyShape shape) {
-        this.controller=controller;
+    public DeleteShapeCommand(Canvas canvas, MyShape shape) {
+        this.canvas = canvas;
         this.shape=shape;
-        this.layerShape=this.controller.getDraw().getShapeLayer(shape);
+        this.layerShape=this.canvas.getDraw().getShapeLayer(shape);
         
     }
     /**
@@ -37,7 +37,7 @@ public class DeleteShapeCommand implements Command {
      */
     @Override
     public void execute() {
-        this.controller.removeShape(shape);
+        this.canvas.removeShape(shape);
         
     }
 
@@ -47,9 +47,9 @@ public class DeleteShapeCommand implements Command {
      */
     @Override
     public void undo() {
-        this.controller.addShape(shape);
+        this.canvas.addShape(shape);
         //change layer
-        this.controller.getDraw().moveToLayer(shape, layerShape);
+        this.canvas.getDraw().moveToLayer(shape, layerShape);
         
     }
     

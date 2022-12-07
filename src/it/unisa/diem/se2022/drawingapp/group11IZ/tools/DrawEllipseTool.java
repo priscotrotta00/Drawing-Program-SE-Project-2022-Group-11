@@ -49,6 +49,7 @@ public class DrawEllipseTool extends DrawShapeTool{
         result.modifyShape(topLeftX, topLeftY, bottomRightX, bottomRightY);
         result.mySetStroke(strokeColor);
         result.mySetFill(fillColor);
+        result.mySetStrokeWidth(result.myGetStrokeWidth() + STROKE_WIDTH_OFFSET);
         
         return result;
     }

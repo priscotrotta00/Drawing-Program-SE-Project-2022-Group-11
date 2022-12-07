@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
@@ -29,7 +30,7 @@ import org.junit.Assert;
  * @author Felice Scala
  */
 public class CreateShapeCommandTest {
-    private Controller c;
+    private Canvas c;
     private Field drawPaneField;
     private Field drawingField;
     private Field figuresDrawingField;
@@ -60,20 +61,18 @@ public class CreateShapeCommandTest {
     
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException{
-        c = new Controller();
+        c = new Canvas();
         pane = new Pane();
-        draw = new Drawing();
         
-        drawPaneField = Controller.class.getDeclaredField("drawPane");
-        drawingField = Controller.class.getDeclaredField("draw");
+        drawPaneField = Canvas.class.getDeclaredField("drawPane");
         figuresDrawingField = Drawing.class.getDeclaredField("figures");
         
         drawPaneField.setAccessible(true);
-        drawingField.setAccessible(true);
         figuresDrawingField.setAccessible(true);
         
         drawPaneField.set(c, pane);
-        drawingField.set(c, draw);
+        this.c.initialize(null, null);
+        draw = this.c.getDraw();
         figures = (List<MyShape>) figuresDrawingField.get(draw);
     }
     

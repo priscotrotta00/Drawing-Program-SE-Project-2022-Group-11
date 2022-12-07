@@ -3,6 +3,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import javafx.beans.property.*;
@@ -21,26 +22,18 @@ import javafx.scene.shape.Shape;
 public class Selection implements Visitor{
     private Group selectionBorder;
     private MyShape selectedItem;
-    private BooleanProperty selected;
+    private Canvas canvas;
+    
+    private final BooleanProperty selected = new SimpleBooleanProperty(false);
     private SelectionHelper helper;
-    private static Selection instance = null;
 
     /**
      * Class constructor.
      */
-    public Selection() {
+    public Selection(Canvas canvas) {
         this.selectionBorder = new Group();
         this.selectedItem = null;
-        this.selected = new SimpleBooleanProperty(false);
-    }
-    
-    /**
-     * 
-     * @return the instance of SelectTool.
-     */
-    public static Selection getInstance(){
-        if (instance == null) instance = new Selection();
-        return instance;
+        this.canvas = canvas;
     }
     
     /**
@@ -115,13 +108,7 @@ public class Selection implements Visitor{
         helper = new SelectionRectangleHelper();
         setSelectionBorder(helper.createBoundingBox(selectedItem));
         
-        Parent parent = myRectangle.myGetParent();
-        
-        if(!(parent instanceof Pane)) return;
-        
-        Pane pane = (Pane) parent;
-        
-        pane.getChildren().add(getSelectionBorder());
+        this.canvas.getDrawPane().getChildren().add(getSelectionBorder());
         
         setSelected(true);
     }
@@ -134,8 +121,6 @@ public class Selection implements Visitor{
      */
     public void select(MyLine myLine){
         if(getSelectedValue()) this.unSelect();
-        
-        MyLine highlightLine = new MyEnhancedLine();
         
         if(myLine.myGetFill() == Color.TRANSPARENT){
             MyShape shape = this.getSelectedItem();
@@ -150,13 +135,7 @@ public class Selection implements Visitor{
         helper = new SelectionLineHelper();
         setSelectionBorder(helper.createBoundingBox(selectedItem));
         
-        Parent parent = myLine.myGetParent();
-        
-        if(!(parent instanceof Pane)) return;
-        
-        Pane pane = (Pane) parent;
-        
-        pane.getChildren().add(getSelectionBorder());
+        this.canvas.getDrawPane().getChildren().add(getSelectionBorder());
         
         setSelected(true);
     }
@@ -185,13 +164,7 @@ public class Selection implements Visitor{
         helper = new SelectionEllipseHelper();
         setSelectionBorder(helper.createBoundingBox(selectedItem));
         
-        Parent parent = myEllipse.myGetParent();
-        
-        if(!(parent instanceof Pane)) return;
-        
-        Pane pane = (Pane) parent;
-        
-        pane.getChildren().add(getSelectionBorder());
+        this.canvas.getDrawPane().getChildren().add(getSelectionBorder());
         
         setSelected(true);
     }
@@ -203,17 +176,7 @@ public class Selection implements Visitor{
     public void unSelect(){
         if(!getSelectedValue()) return;
         
-        Node node = getSelectedItem().myGetParent(); 
-        
-        if(!(node instanceof Node)) return;
-        
-        Parent parent = (Parent) node;
-        
-        if(!(parent instanceof Pane)) return;
-       
-        Pane pane = (Pane) parent;
-        
-        pane.getChildren().removeAll(getSelectionBorder());
+        this.canvas.getDrawPane().getChildren().remove(getSelectionBorder());
         
         setSelectedItem(null);
         setSelected(false);

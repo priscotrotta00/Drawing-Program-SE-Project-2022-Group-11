@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
@@ -14,14 +15,14 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundEx
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
 import java.util.List;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
+import javafx.application.Application;
 import javafx.scene.layout.Pane;
-import org.junit.Assert;
+import javafx.stage.Stage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -30,8 +31,7 @@ import org.junit.Test;
  */
 public class DeleteShapeCommandTest {
 
-    
-    private Controller c;
+    private Canvas c;
     private Field drawField;
     private Field figuresField;
     private Field drawPaneField;
@@ -42,24 +42,44 @@ public class DeleteShapeCommandTest {
     private Selection selection;
 
     private DeleteShapeCommand deleteCommand;
+    
+    public static class AsNonApp extends Application {
+
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            //NOOP
+        }
+        
+    }
+    
+    @BeforeClass
+    public static void initJFX() {
+        Thread t = new Thread("JavaFX Init Thread") {
+            @Override
+            public void run() {
+                Application.launch(AsNonApp.class, new String[0]);
+            }
+        };
+        t.setDaemon(true);
+        t.start();
+    }
 
     //per ottenere i bottoni su cui fare controlli bind
     @Before
     public void setUp() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        this.c = new Controller();
+        this.c = new Canvas();
         this.pane = new Pane();
-        this.draw = new Drawing();
 
-        drawPaneField = Controller.class.getDeclaredField("drawPane");
-        drawField = Controller.class.getDeclaredField("draw");
+        drawPaneField = Canvas.class.getDeclaredField("drawPane");
         figuresField = Drawing.class.getDeclaredField("figures");
 
         drawPaneField.setAccessible(true);
-        drawField.setAccessible(true);
         figuresField.setAccessible(true);
 
         drawPaneField.set(c, pane);
-        drawField.set(c, draw);
+        this.c.initialize(null, null);
+        
+        draw = this.c.getDraw();
         figures = (List<MyShape>) figuresField.get(draw);
 
     }
@@ -67,7 +87,6 @@ public class DeleteShapeCommandTest {
     @Test(expected = ShapeNotFoundException.class)
     public void executeTest6() throws NoSuchFieldException, IllegalAccessException, Exception {
         //test delete a shape that is not in drawpane and figures, so addShape in drawing throw exception. Check if i have this exception
-        System.out.println("executeTest4");
         MyEnhancedLine line = new MyEnhancedLine();
         deleteCommand = new DeleteShapeCommand(c, line);
         deleteCommand.execute();
@@ -75,7 +94,6 @@ public class DeleteShapeCommandTest {
 
     @Test(expected = ShapeNotFoundException.class)
     public void executeTest7() throws NoSuchFieldException, IllegalAccessException, Exception {
-        System.out.println("executeTest5");
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         deleteCommand = new DeleteShapeCommand(c, rectangle);
         deleteCommand.execute();
@@ -84,7 +102,6 @@ public class DeleteShapeCommandTest {
 
     @Test(expected = ShapeNotFoundException.class)
     public void executeTest8() throws NoSuchFieldException, IllegalAccessException, Exception {
-        System.out.println("executeTest6");
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         deleteCommand = new DeleteShapeCommand(c, ellipse);
         deleteCommand.execute();
@@ -94,7 +111,6 @@ public class DeleteShapeCommandTest {
     @Test
     public void executeTest9() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         //add element in figures and pane and after delete it
-        System.out.println("remove");
 
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
@@ -137,10 +153,7 @@ public class DeleteShapeCommandTest {
 
     @Test
     public void executeTest10() throws IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
-        selection = Selection.getInstance();
-        selectionField = Controller.class.getDeclaredField("selection");
-        selectionField.setAccessible(true);
-        selectionField.set(c, selection);
+        selection = this.c.getSelection();
 
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
@@ -171,10 +184,7 @@ public class DeleteShapeCommandTest {
 
     @Test
     public void executeTest11() throws IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
-        selection = Selection.getInstance();
-        selectionField = Controller.class.getDeclaredField("selection");
-        selectionField.setAccessible(true);
-        selectionField.set(c, selection);
+        selection = this.c.getSelection();
 
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
@@ -200,10 +210,7 @@ public class DeleteShapeCommandTest {
 
     @Test
     public void executeTest12() throws IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
-        selection = Selection.getInstance();
-        selectionField = Controller.class.getDeclaredField("selection");
-        selectionField.setAccessible(true);
-        selectionField.set(c, selection);
+        selection = this.c.getSelection();
 
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
@@ -230,10 +237,7 @@ public class DeleteShapeCommandTest {
     
     @Test 
     public void undoTest1() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        selection = Selection.getInstance();
-        selectionField = Controller.class.getDeclaredField("selection");
-        selectionField.setAccessible(true);
-        selectionField.set(c, selection);
+        selection = this.c.getSelection();
 
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();

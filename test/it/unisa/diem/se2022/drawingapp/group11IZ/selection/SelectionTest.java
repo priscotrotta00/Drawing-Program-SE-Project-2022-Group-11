@@ -3,23 +3,28 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import java.lang.reflect.Field;
+import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  *
  * @author daddy
  */
 public class SelectionTest {
+    private Canvas canvas;
     private Selection selection;
     private Pane pane;
     private MyEnhancedLine myEnhancedLine;
@@ -35,11 +40,40 @@ public class SelectionTest {
     private Field selectedField;
     private Field selectedItemField;
     
+    public static class AsNonApp extends Application {
+
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            //NOOP
+        }
+        
+    }
+    
+    @BeforeClass
+    public static void initJFX() {
+        Thread t = new Thread("JavaFX Init Thread") {
+            @Override
+            public void run() {
+                Application.launch(AsNonApp.class, new String[0]);
+            }
+        };
+        t.setDaemon(true);
+        t.start();
+    }
+    
     @Before
     public void setUp() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException{
-        myEnhancedLine = new MyEnhancedLine();
-        selection = new Selection();
+        canvas = new Canvas();
         pane = new Pane();
+        
+        Field drawPaneField = Canvas.class.getDeclaredField("drawPane");
+        drawPaneField.setAccessible(true);
+        drawPaneField.set(canvas, pane);
+        canvas.initialize(null, null);
+        
+        selection = canvas.getSelection();
+        
+        myEnhancedLine = new MyEnhancedLine();
         myEnhancedRectangle = new MyEnhancedRectangle();
         myEnhancedEllipse = new MyEnhancedEllipse();
         
