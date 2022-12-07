@@ -10,6 +10,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -139,6 +140,9 @@ public class Controller implements Initializable {
         this.initializeDeleteBindings();
         this.initializeCopyShapeBindings();
         
+        
+        this.initializeCutBindings();
+
     }
 
     /**
@@ -218,6 +222,14 @@ public class Controller implements Initializable {
     public void initializeCopyShapeBindings(){
         BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         copyButton.disableProperty().bind(del);
+    }
+    
+    /**
+     * Initialize the CutShapeButton bind
+     */
+    public void initializeCutBindings(){
+        BooleanBinding cut = Bindings.or(not(this.selection.getSelectedProperty()),not(this.selectionToggleButton.selectedProperty()));
+        cutButton.disableProperty().bind(cut);
     }
 
     public void updateDraw() {
@@ -423,9 +435,19 @@ public class Controller implements Initializable {
         Command deleteCommand = new DeleteShapeCommand(this, s);
         deleteCommand.execute();
     }
-
+    
+    /**
+     * Execute the cut actions. Delete the shape and adds it in the clipboard
+     * @param event 
+     */
     @FXML
     private void onCutAction(ActionEvent event) {
+        // aggiungere qua la gestion di quando viene premuta la cut
+        MyShape selectedShape = selection.getSelectedItem();
+        selection.unSelect();
+        
+        Command cutCommand = new CutShapeCommand(selectedShape, this);
+        cutCommand.execute();
     }
 
     @FXML
