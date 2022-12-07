@@ -55,6 +55,7 @@ public class ControllerTest {
     private Field changeStrokeColorField;
     private Field changeFillColorField;
     private Field selectionField;
+    private Field clipboardField;
     
     public static class AsNonApp extends Application {
 
@@ -99,6 +100,7 @@ public class ControllerTest {
        copyButtonField=Controller.class.getDeclaredField("copyButton");
        deleteButtonField=Controller.class.getDeclaredField("deleteButton");
        selectionField=Controller.class.getDeclaredField("selection");
+       clipboardField=Controller.class.getDeclaredField("clipboard");
        c = new Controller();
    }
    
@@ -874,9 +876,11 @@ public class ControllerTest {
     public void copyShapeTest() throws IllegalArgumentException, IllegalAccessException{
         this.drawPaneField.setAccessible(true);
         this.drawingField.setAccessible(true);
-        
+        this.clipboardField.setAccessible(true);
         Pane pane = new Pane();
         Drawing drawing = new Drawing();
+        Clipboard clipboard=new Clipboard();
+        this.clipboardField.set(this.c, clipboard);
         this.drawPaneField.set(this.c, pane);
         this.drawingField.set(c, drawing);
         MyEnhancedLine lineShape=new MyEnhancedLine();
@@ -886,7 +890,7 @@ public class ControllerTest {
         //copyShape
         c.copyShape(Selection.getInstance().getSelectedItem());
         //check if lineShape is in clipboard 
-        Clipboard clipboard=c.getClipboard();
+        
         assertTrue("Error insert in clipboard", clipboard.hasCopiedShape());
         //check if the selected shape is equal to lineShape
         assertTrue("Error insert in clipboard 0", Selection.getInstance().getSelectedItem().myGetId()==lineShape.myGetId());
@@ -909,9 +913,13 @@ public class ControllerTest {
     public void copyShapeTest2() throws IllegalArgumentException, IllegalAccessException{
         this.drawPaneField.setAccessible(true);
         this.drawingField.setAccessible(true);
+        this.clipboardField.setAccessible(true);
         
         Pane pane = new Pane();
         Drawing drawing = new Drawing();
+        Clipboard clipboard=new Clipboard();
+        this.clipboardField.set(this.c, clipboard);
+        
         this.drawPaneField.set(this.c, pane);
         this.drawingField.set(c, drawing);
         MyEnhancedRectangle rectangleShape =new MyEnhancedRectangle();
@@ -920,7 +928,6 @@ public class ControllerTest {
         //copyShape
         c.copyShape(Selection.getInstance().getSelectedItem());
         //check if rectangleShape is in clipboard 
-        Clipboard clipboard=c.getClipboard();
         assertTrue("Error insert in clipboard", clipboard.hasCopiedShape());
         //check if the selected shape is equal to rectangleShape
         assertTrue("Error insert in clipboard 0", Selection.getInstance().getSelectedItem().myGetId()==rectangleShape.myGetId());
@@ -941,6 +948,10 @@ public class ControllerTest {
     public void copyShapeTest3() throws IllegalArgumentException, IllegalAccessException{
         this.drawPaneField.setAccessible(true);
         this.drawingField.setAccessible(true);
+        this.clipboardField.setAccessible(true);
+        
+        Clipboard clipboard=new Clipboard();
+        this.clipboardField.set(this.c, clipboard);
         
         Pane pane = new Pane();
         Drawing drawing = new Drawing();
@@ -952,7 +963,7 @@ public class ControllerTest {
         //copyShape
         c.copyShape(Selection.getInstance().getSelectedItem());
         //check if ellipseShape is in clipboard 
-        Clipboard clipboard=c.getClipboard();
+        
         assertTrue("Error insert in clipboard", clipboard.hasCopiedShape());
         //check if the selected shape is equal to ellipseShape
         assertTrue("Error insert in clipboard 0", Selection.getInstance().getSelectedItem().myGetId()==ellipseShape.myGetId());
