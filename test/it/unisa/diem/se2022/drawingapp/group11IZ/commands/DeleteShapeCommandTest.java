@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class DeleteShapeCommandTest {
 
-    //TEST 1-2-3 VANNO IN CONTROLLERTEST
+    
     private Controller c;
     private Field drawField;
     private Field figuresField;

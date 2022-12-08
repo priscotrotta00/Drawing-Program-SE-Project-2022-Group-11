@@ -318,7 +318,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
 
     @Override
     public MyShape clone() {
-        return new MyEnhancedEllipse(this);
+        return new MyEnhancedEllipse(this);        
     }
 
     @Override

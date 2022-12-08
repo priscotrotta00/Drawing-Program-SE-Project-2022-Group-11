@@ -6,7 +6,11 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import java.lang.reflect.Field;
@@ -79,9 +83,28 @@ public class PasteShapeCommandTest {
         PasteShapeCommand psc = new PasteShapeCommand(this.c, myRectangle);
         psc.execute();
         
-        MyShape myShape = figures.get(0);
+        MyShape myShape;
+        myShape = figures.get(0);
         
-        assertEquals("Error in the paste of the shape", myShape.toString(), myRectangle.toString());
+        assertEquals("Error in the paste of the rectangle", myShape.toString(), myRectangle.toString());
+        
+        MyEllipse myEllipse = new MyEnhancedEllipse();
+        
+        PasteShapeCommand psc2 = new PasteShapeCommand(this.c, myEllipse);
+        psc2.execute();
+        
+        myShape = figures.get(1);
+        
+        assertEquals("Error in the paste of the ellipse", myShape.toString(), myEllipse.toString());
+        
+        MyLine myLine = new MyEnhancedLine();
+        
+        PasteShapeCommand psc3 = new PasteShapeCommand(this.c, myLine);
+        psc3.execute();
+        
+        myShape = figures.get(2);
+        
+        assertEquals("Error in the paste of the line", myShape.toString(), myLine.toString());
     }
     
     @Test

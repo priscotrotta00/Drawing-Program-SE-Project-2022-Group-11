@@ -28,7 +28,9 @@ public class Clipboard {
      * @param shape 
      */
     public void copy(MyShape shape){
-        this.myShape=shape;
+        //shape is original shape
+        
+        this.myShape=shape.clone();
         this.copied.setValue(Boolean.TRUE);
     }
     
@@ -37,6 +39,10 @@ public class Clipboard {
      * @return 
      */
     public MyShape getNewCopy(){
+        return this.myShape.clone();
+    }
+    
+    public MyShape getMyShape(){
         return this.myShape;
     }
     

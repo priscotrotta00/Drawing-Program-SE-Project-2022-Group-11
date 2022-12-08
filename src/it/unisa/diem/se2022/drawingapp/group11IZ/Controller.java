@@ -39,6 +39,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -93,20 +96,28 @@ public class Controller implements Initializable {
     private Label fillLabel;
     @FXML
     private ColorPicker fillColorPicker;
-
-    private Drawing draw;
-
-    //ADDED
-    private ToggleGroup toolToggleGroup;
-    private Rectangle clip;
-    private Tool selectedTool;
-    private Selection selection;
-    private Clipboard clipboard;
-
     @FXML
     private Label colorsLabel;
     @FXML
     private Label optionsLabel;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab fileTab;
+    @FXML
+    private Tab editTab;
+    @FXML
+    private Tab viewTab;
+    @FXML
+    private Button undoButton;
+
+    //ADDED
+    private ToggleGroup toolToggleGroup;
+    private Drawing draw;
+    private Rectangle clip;
+    private Tool selectedTool;
+    private Selection selection;
+    private Clipboard clipboard;
 
     /**
      * Initializes the controller class.
@@ -116,7 +127,11 @@ public class Controller implements Initializable {
         //TODO
         System.out.println("Hello world");
         
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        selectionModel.select(editTab);
+        
         this.initializeToolToggleGroup();
+        this.clipboard= new Clipboard();
 
         //
         clip = new Rectangle();
@@ -136,11 +151,12 @@ public class Controller implements Initializable {
         selection = Selection.getInstance();
         this.initializeChangeColorBindings();
         
-
         this.initializeDeleteBindings();
-        
-        this.clipboard = new Clipboard();
 
+        this.initializeCopyShapeBindings();
+        
+        this.initializePasteBindings();
+        
     }
 
     /**
@@ -214,9 +230,19 @@ public class Controller implements Initializable {
         deleteButton.disableProperty().bind(del);
     }
     
+    /**
+     * Initialize the PasteShapeButton bind
+     */
+    
     public void initializePasteBindings() {
-        ReadOnlyBooleanProperty paste = clipboard.copiedProperty();
-        pasteButton.disableProperty().bind(not(paste));
+        pasteButton.disableProperty().bind(not(clipboard.copiedProperty()));
+    }
+    /**
+     * Initialize the CopyShapeButton bind
+     */
+    public void initializeCopyShapeBindings(){
+        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        copyButton.disableProperty().bind(del);
     }
 
     public void updateDraw() {
@@ -381,8 +407,34 @@ public class Controller implements Initializable {
         ccc.execute();
     }
 
+    
+    /**
+     * get selected shape and call copyShape
+     * @param event 
+     */
     @FXML
     private void onCopyAction(ActionEvent event) {
+        MyShape s = selection.getSelectedItem();
+        selection.unSelect();
+        MyShape shapeClone=s.clone();
+        this.copyShape(shapeClone);
+        //prendo la figura selezionata e la passo alla copyShape
+    }
+    
+    /**
+     * Copy the shape in Clipboard for use it in future
+     * @param shape 
+     */
+    public void copyShape(MyShape shape){
+        this.clipboard.copy(shape);
+    }
+    
+    /**
+     * Return clipboard
+     * @return 
+     */
+    protected Clipboard getClipboard(){
+        return this.clipboard;
     }
 
     /**
@@ -401,9 +453,15 @@ public class Controller implements Initializable {
     private void onCutAction(ActionEvent event) {
     }
 
+    /**
+     * Paste the shape contained in the Clipboard object on the drawing
+     * The method checks that the Clipboard object contains a shape
+     * @param event 
+     */
+    
     @FXML
     private void onPasteAction(ActionEvent event) {
-        if(!clipboard.copiedProperty().equals(true)) return;
+        if(not(clipboard.copiedProperty()).equals(true)) return;
         MyShape s = clipboard.getNewCopy();
         Command pasteShapeCommand = new PasteShapeCommand(this, s);
         pasteShapeCommand.execute();
@@ -411,5 +469,9 @@ public class Controller implements Initializable {
 
     public Drawing getDraw() {
         return this.draw;
+    }
+
+    @FXML
+    private void onUndoAction(ActionEvent event) {
     }
 }

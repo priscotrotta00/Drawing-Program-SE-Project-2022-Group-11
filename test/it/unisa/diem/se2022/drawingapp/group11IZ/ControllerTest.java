@@ -12,6 +12,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
@@ -49,7 +50,7 @@ public class ControllerTest {
     private Field drawingField;
     private Field strokeColorPickerField;
     private Field fillColorPickerField;
-    
+    private Field copyButtonField;
     private Field deleteButtonField;
     private Field changeStrokeColorField;
     private Field changeFillColorField;
@@ -97,7 +98,7 @@ public class ControllerTest {
        changeStrokeColorField = Controller.class.getDeclaredField("changeStrokeColorButton");
        changeFillColorField = Controller.class.getDeclaredField("changeFillColorButton");
        selectionField = Controller.class.getDeclaredField("selection");
-       
+       copyButtonField=Controller.class.getDeclaredField("copyButton");
        deleteButtonField=Controller.class.getDeclaredField("deleteButton");
        selectionField=Controller.class.getDeclaredField("selection");
        clipboardField=Controller.class.getDeclaredField("clipboard");
@@ -742,7 +743,7 @@ public class ControllerTest {
         
         
         c.initializeDeleteBindings();
-        assertTrue("error in bind", deleteButton.isDisabled());
+        assertTrue("error in bind", deleteButton.isDisable());
         
     }
     
@@ -757,6 +758,230 @@ public class ControllerTest {
         assertTrue("Error in getDraw",d==drawing);
     }
     
+    @Test //non ho premuto su seleziona.
+    public void testBindCopyButton1() throws IllegalArgumentException, IllegalAccessException{
+        this.copyButtonField.setAccessible(true);
+        Button copyButton=new Button();
+        this.copyButtonField.set(c, copyButton);
+        this.selectionToggleButtonField.setAccessible(true); 
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);        
+        this.selectionField.setAccessible(true);        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);      
+        this.selectionField.set(c, Selection.getInstance());
+ 
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(line);
+        c.initializeCopyShapeBindings();
+        assertTrue("error in bind", copyButton.isDisable());
+        
+    }
+    
+    @Test // ho premuto su seleziona.
+    public void testBindCopyButton2() throws IllegalArgumentException, IllegalAccessException{
+        
+        this.copyButtonField.setAccessible(true);
+        Button copyButton=new Button();
+        this.copyButtonField.set(c, copyButton);
+        this.selectionToggleButtonField.setAccessible(true); 
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);        
+        this.selectionField.setAccessible(true);        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);
+        Selection.getInstance().unSelect();
+        this.selectionField.set(c, Selection.getInstance());
+ 
+        c.initializeToolToggleGroup();
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(selection);
+        
+        
+        c.initializeCopyShapeBindings();
+        assertTrue("error in bind", copyButton.isDisable());
+        
+    }
+    
+    @Test // ho premuto su seleziona e scelto figura.
+    public void testBindCopyButton3() throws IllegalArgumentException, IllegalAccessException{
+        this.copyButtonField.setAccessible(true);
+        Button copyButton=new Button();
+        this.copyButtonField.set(c, copyButton);
+        this.selectionToggleButtonField.setAccessible(true); 
+        this.ellipseToggleButtonField.setAccessible(true);
+        this.lineToggleButtonField.setAccessible(true);
+        this.rectangleToggleButtonField.setAccessible(true);
+        //this.selectionToggleButtonField.setAccessible(true);
+        this.selectedToolField.setAccessible(true);
+        this.toolToggleGroupField.setAccessible(true);        
+        this.selectionField.setAccessible(true);        
+        ToggleButton line = new ToggleButton();
+        ToggleButton rectangle = new ToggleButton();
+        ToggleButton ellipse = new ToggleButton();
+        ToggleButton selection = new ToggleButton();
+        this.ellipseToggleButtonField.set(c, ellipse);
+        this.lineToggleButtonField.set(c, line);
+        this.rectangleToggleButtonField.set(c, rectangle);
+        this.selectionToggleButtonField.set(c, selection);      
+        this.selectionField.set(c, Selection.getInstance());
+ 
+        c.initializeToolToggleGroup();
+        c.initializeCopyShapeBindings();
+        
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        
+        
+        ToggleGroup toolToggleGroup = (ToggleGroup) toolToggleGroupField.get(c);
+        toolToggleGroup.selectToggle(selection);
+        
+        MyEnhancedLine lineShape=new MyEnhancedLine();
+        c.addShape(lineShape);
+        
+        Selection.getInstance().select(lineShape);
+        MyShape myShape = Selection.getInstance().getSelectedItem();
+        assertEquals(myShape.toString(), lineShape.toString());
+        
+        
+        assertFalse("error in bind2",selection.isDisable() );
+        assertFalse("error in bind", copyButton.isDisable());
+        
+    }
+    
+    @Test
+    public void copyShapeTest() throws IllegalArgumentException, IllegalAccessException{
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        this.clipboardField.setAccessible(true);
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        Clipboard clipboard=new Clipboard();
+        this.clipboardField.set(this.c, clipboard);
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        MyEnhancedLine lineShape=new MyEnhancedLine();
+        c.addShape(lineShape);
+        Selection.getInstance().select(lineShape); //selection the shape
+        assertTrue("Error in selection", Selection.getInstance().getSelectedValue());
+        //copyShape
+        c.copyShape(Selection.getInstance().getSelectedItem());
+        //check if lineShape is in clipboard 
+        
+        assertTrue("Error insert in clipboard", clipboard.hasCopiedShape());
+        //check if the selected shape is equal to lineShape
+        assertTrue("Error insert in clipboard 0", Selection.getInstance().getSelectedItem().myGetId()==lineShape.myGetId());
+        
+        //check if the shape in clipboard is equal to lineshape
+        
+        MyEnhancedLine shapeClipboard=(MyEnhancedLine) clipboard.getNewCopy();
+        
+        assertTrue("error insert in clipboard 1", shapeClipboard.myGetFill()==lineShape.myGetFill());
+        assertTrue("error insert in clipboard 2", shapeClipboard.myGetStroke()==lineShape.myGetStroke());
+        assertTrue("error insert in clipboard 3", shapeClipboard.myGetEndX()==lineShape.myGetEndX());
+        assertTrue("error insert in clipboard 4", shapeClipboard.myGetEndY()==lineShape.myGetEndY());
+        assertTrue("error insert in clipboard 5", shapeClipboard.myGetStartX()==lineShape.myGetStartX());
+        assertTrue("error insert in clipboard 6", shapeClipboard.myGetStartY()==lineShape.myGetStartY());
+        assertTrue("Error insert in clipboard 7", shapeClipboard.myGetStrokeWidth()==lineShape.myGetStrokeWidth());   
+        
+    }
+    
+    @Test
+    public void copyShapeTest2() throws IllegalArgumentException, IllegalAccessException{
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        this.clipboardField.setAccessible(true);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        Clipboard clipboard=new Clipboard();
+        this.clipboardField.set(this.c, clipboard);
+        
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        MyEnhancedRectangle rectangleShape =new MyEnhancedRectangle();
+        c.addShape(rectangleShape);
+        Selection.getInstance().select(rectangleShape); //selection the shape
+        //copyShape
+        c.copyShape(Selection.getInstance().getSelectedItem());
+        //check if rectangleShape is in clipboard 
+        assertTrue("Error insert in clipboard", clipboard.hasCopiedShape());
+        //check if the selected shape is equal to rectangleShape
+        assertTrue("Error insert in clipboard 0", Selection.getInstance().getSelectedItem().myGetId()==rectangleShape.myGetId());
+        //check if the shape in clipboard is equal to rectangleshape
+        MyEnhancedRectangle shapeClipboard=(MyEnhancedRectangle) clipboard.getNewCopy();
+        
+        assertTrue("error insert in clipboard 1", shapeClipboard.myGetFill()==rectangleShape.myGetFill());
+        assertTrue("error insert in clipboard 2", shapeClipboard.myGetStroke()==rectangleShape.myGetStroke());
+        assertTrue("error insert in clipboard 3", shapeClipboard.myGetWidth()==rectangleShape.myGetWidth());
+        assertTrue("error insert in clipboard 4", shapeClipboard.myGetHeight()==rectangleShape.myGetHeight());
+        assertTrue("error insert in clipboard 5", shapeClipboard.myGetX()==rectangleShape.myGetX());
+        assertTrue("error insert in clipboard 6", shapeClipboard.myGetY()==rectangleShape.myGetY());
+        assertTrue("Error insert in clipboard 7", shapeClipboard.myGetStrokeWidth()==rectangleShape.myGetStrokeWidth());   
+        
+    }
+    
+    @Test
+    public void copyShapeTest3() throws IllegalArgumentException, IllegalAccessException{
+        this.drawPaneField.setAccessible(true);
+        this.drawingField.setAccessible(true);
+        this.clipboardField.setAccessible(true);
+        
+        Clipboard clipboard=new Clipboard();
+        this.clipboardField.set(this.c, clipboard);
+        
+        Pane pane = new Pane();
+        Drawing drawing = new Drawing();
+        this.drawPaneField.set(this.c, pane);
+        this.drawingField.set(c, drawing);
+        MyEnhancedEllipse ellipseShape =new MyEnhancedEllipse();
+        c.addShape(ellipseShape);
+        Selection.getInstance().select(ellipseShape); //selection the shape
+        //copyShape
+        c.copyShape(Selection.getInstance().getSelectedItem());
+        //check if ellipseShape is in clipboard 
+        
+        assertTrue("Error insert in clipboard", clipboard.hasCopiedShape());
+        //check if the selected shape is equal to ellipseShape
+        assertTrue("Error insert in clipboard 0", Selection.getInstance().getSelectedItem().myGetId()==ellipseShape.myGetId());
+        //check if the shape in clipboard is equal to ellipseshape
+        MyEnhancedEllipse shapeClipboard=(MyEnhancedEllipse) clipboard.getNewCopy();
+        
+        assertTrue("error insert in clipboard 1", shapeClipboard.myGetFill()==ellipseShape.myGetFill());
+        assertTrue("error insert in clipboard 2", shapeClipboard.myGetStroke()==ellipseShape.myGetStroke());
+        assertTrue("error insert in clipboard 3", shapeClipboard.myGetRadiusX()==ellipseShape.myGetRadiusX());
+        assertTrue("error insert in clipboard 4", shapeClipboard.myGetRadiusY()==ellipseShape.myGetRadiusY());
+        assertTrue("error insert in clipboard 5", shapeClipboard.myGetCenterX()==ellipseShape.myGetCenterX());
+        assertTrue("error insert in clipboard 6", shapeClipboard.myGetCenterY()==ellipseShape.myGetCenterY());
+        assertTrue("Error insert in clipboard 7", shapeClipboard.myGetStrokeWidth()==ellipseShape.myGetStrokeWidth());   
+        
+    }
     @Test
     public void testBindPasteButton() throws IllegalArgumentException, IllegalAccessException{
         this.clipboardField.setAccessible(true);
