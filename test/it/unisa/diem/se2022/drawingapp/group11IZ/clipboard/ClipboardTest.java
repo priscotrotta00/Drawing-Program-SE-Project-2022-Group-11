@@ -18,7 +18,7 @@ import org.junit.Test;
  * @author saram
  */
 public class ClipboardTest {
-
+    
     @Test
     public void testCopy() {
         MyEnhancedLine line = new MyEnhancedLine();
@@ -93,7 +93,7 @@ public class ClipboardTest {
 
         clipboard.copy(line);
         clipboard.clear();
-        assertTrue("Error in clear", clipboard.getNewCopy() == null);
+        assertTrue("Error in clear", clipboard.getMyShape() == null);
         assertFalse("Error in clear2", clipboard.hasCopiedShape());
     }
 

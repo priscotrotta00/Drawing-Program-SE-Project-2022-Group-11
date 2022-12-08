@@ -39,6 +39,10 @@ public class Clipboard {
      * @return 
      */
     public MyShape getNewCopy(){
+        return this.myShape.clone();
+    }
+    
+    public MyShape getMyShape(){
         return this.myShape;
     }
     
