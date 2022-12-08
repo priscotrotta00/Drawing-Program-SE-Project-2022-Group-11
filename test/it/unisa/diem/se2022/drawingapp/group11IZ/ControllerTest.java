@@ -6,17 +6,21 @@ package it.unisa.diem.se2022.drawingapp.group11IZ;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
@@ -57,6 +61,11 @@ public class ControllerTest {
     private Field changeFillColorButtonField;
     private Field loadButtonField;
     private Field saveButonField;
+    private Field tabPaneField;
+    private Field fileTabField;
+    private Field editTabField;
+    private Field viewTabField;
+    private Field undoButtonField;
     private Field canvasField;
     
     private Field selectedToolField;
@@ -77,6 +86,11 @@ public class ControllerTest {
     private Button pasteButton;
     private ColorPicker strokeColorPicker;
     private ColorPicker fillColorPicker;
+    private TabPane tabPane;
+    private Tab fileTab;
+    private Tab editTab;
+    private Button undoButton;
+    private Tab viewTab;
     
     public static class AsNonApp extends Application {
 
@@ -120,6 +134,11 @@ public class ControllerTest {
         deleteButton = new Button();
         cutButton = new Button();
         pasteButton = new Button();
+        tabPane = new TabPane();
+        fileTab = new Tab();
+        editTab = new Tab();
+        undoButton = new Button();
+        viewTab = new Tab();
         
         lineToggleButtonField = Controller.class.getDeclaredField("lineToggleButton");
         rectangleToggleButtonField = Controller.class.getDeclaredField("rectangleToggleButton");
@@ -134,6 +153,11 @@ public class ControllerTest {
         deleteButtonField=Controller.class.getDeclaredField("deleteButton");
         cutButtonField = Controller.class.getDeclaredField("cutButton");
         pasteButtonField = Controller.class.getDeclaredField("pasteButton");
+        tabPaneField = Controller.class.getDeclaredField("tabPane");
+        fileTabField = Controller.class.getDeclaredField("fileTab");
+        editTabField = Controller.class.getDeclaredField("editTab");
+        viewTabField = Controller.class.getDeclaredField("viewTab");
+        undoButtonField = Controller.class.getDeclaredField("undoButton");
         canvasField = Controller.class.getDeclaredField("canvasController");
        
         this.ellipseToggleButtonField.setAccessible(true);
@@ -148,6 +172,11 @@ public class ControllerTest {
         this.cutButtonField.setAccessible(true);
         this.pasteButtonField.setAccessible(true);
         this.deleteButtonField.setAccessible(true);
+        this.tabPaneField.setAccessible(true);
+        this.fileTabField.setAccessible(true);
+        this.editTabField.setAccessible(true);
+        this.viewTabField.setAccessible(true);
+        this.undoButtonField.setAccessible(true);
         this.canvasField.setAccessible(true);
         
         this.ellipseToggleButtonField.set(controller, ellipseToggleButton);
@@ -162,6 +191,11 @@ public class ControllerTest {
         this.cutButtonField.set(controller, cutButton);
         this.pasteButtonField.set(controller, pasteButton);
         this.deleteButtonField.set(controller, deleteButton);
+        this.tabPaneField.set(controller, tabPane);
+        this.fileTabField.set(controller, fileTab);
+        this.editTabField.set(controller, editTab);
+        this.viewTabField.set(controller, viewTab);
+        this.undoButtonField.set(controller, undoButton);
         this.canvasField.set(controller, canvas);
         
         controller.initialize(null, null);
@@ -340,6 +374,17 @@ public class ControllerTest {
         assertTrue("error in bind", deleteButton.isDisable());
     }
     
+    @Test
+    public void testBindCutButton() throws IllegalArgumentException, IllegalAccessException{
+        Assert.assertTrue("If cutButton is disabled", cutButton.isDisable());
+        
+        MyShape myRectangle = new MyEnhancedRectangle();
+        canvas.addShape(myRectangle);
+        this.canvas.getSelection().select((MyRectangle) myRectangle);
+        this.selectionToggleButton.setSelected(true);
+        Assert.assertFalse("If cutButton is not disabled", cutButton.isDisable());
+    }
+    
     
     @Test //non ho premuto su seleziona.
     public void testBindCopyButton1() throws IllegalArgumentException, IllegalAccessException{
@@ -367,6 +412,16 @@ public class ControllerTest {
         assertFalse("error in bind2",selectionToggleButton.isDisable() );
         assertFalse("error in bind", copyButton.isDisable());
         
+    }
+    
+    @Test
+    public void testBindPasteButton() throws IllegalArgumentException, IllegalAccessException{       
+        MyShape shape = new MyEnhancedRectangle();
+        this.canvas.addShape(shape);
+        this.canvas.copyShape(shape);
+        
+        assertFalse("Error in DeleteButton binding", pasteButton.isDisable());
+              
     }
     
 }

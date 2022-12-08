@@ -7,7 +7,9 @@ package it.unisa.diem.se2022.drawingapp.group11IZ;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.PasteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -29,7 +31,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -52,8 +56,6 @@ public class Controller implements Initializable {
     @FXML
     private Button saveButton;
     @FXML
-    private Label shapeLabel;
-    @FXML
     private ToggleButton lineToggleButton;
     @FXML
     private ToggleButton rectangleToggleButton;
@@ -74,30 +76,40 @@ public class Controller implements Initializable {
     @FXML
     private Button pasteButton;
     @FXML
-    private Label strokeLabel;
-    @FXML
     private ColorPicker strokeColorPicker;
     @FXML
-    private Label fillLabel;
-    @FXML
     private ColorPicker fillColorPicker;
-
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab fileTab;
+    @FXML
+    private Tab editTab;
+    @FXML
+    private Button undoButton;
+    @FXML
+    private Tab viewTab;
     //ADDED
     private ToggleGroup toolToggleGroup;
-
-    @FXML
-    private Label colorsLabel;
-    @FXML
-    private Label optionsLabel;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        selectionModel.select(editTab);
+        
         this.initializeToolToggleGroup();
         this.initializeChangeColorBindings();
         this.initializeDeleteBindings();
+
         this.initializeCopyShapeBindings();
+        
+        this.initializePasteBindings();
+        
+        
+        this.initializeCutBindings();
+
         this.strokeColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedStrokeColorProperty());
         this.fillColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedFillColorProperty());
     }
@@ -147,11 +159,26 @@ public class Controller implements Initializable {
     }
     
     /**
+     * Initialize the PasteShapeButton bind
+     */
+    
+    public void initializePasteBindings() {
+        pasteButton.disableProperty().bind(not(this.canvasController.getClipboard().copiedProperty()));
+    }
+    /**
      * Initialize the CopyShapeButton bind
      */
     public void initializeCopyShapeBindings(){
         BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         copyButton.disableProperty().bind(del);
+    }
+    
+    /**
+     * Initialize the CutShapeButton bind
+     */
+    public void initializeCutBindings(){
+        BooleanBinding cut = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()),not(this.selectionToggleButton.selectedProperty()));
+        cutButton.disableProperty().bind(cut);
     }
 
     /**
@@ -289,13 +316,36 @@ public class Controller implements Initializable {
         Command deleteCommand = new DeleteShapeCommand(this.canvasController, s);
         deleteCommand.execute();
     }
-
+    
+    /**
+     * Execute the cut actions. Delete the shape and adds it in the clipboard
+     * @param event 
+     */
     @FXML
     private void onCutAction(ActionEvent event) {
+        // aggiungere qua la gestion di quando viene premuta la cut
+        MyShape selectedShape = this.canvasController.getSelection().getSelectedItem();
+        this.canvasController.getSelection().unSelect();
+        
+        Command cutCommand = new CutShapeCommand(selectedShape, this.canvasController);
+        cutCommand.execute();
+    }
+
+    /**
+     * Paste the shape contained in the Clipboard object on the drawing
+     * The method checks that the Clipboard object contains a shape
+     * @param event 
+     */
+    
+    @FXML
+    private void onPasteAction(ActionEvent event) {
+        if(not(this.canvasController.getClipboard().copiedProperty()).equals(true)) return;
+        MyShape s = this.canvasController.getClipboard().getNewCopy();
+        Command pasteShapeCommand = new PasteShapeCommand(this.canvasController, s);
+        pasteShapeCommand.execute();
     }
 
     @FXML
-    private void onPasteAction(ActionEvent event) {
+    private void onUndoAction(ActionEvent event) {
     }
-    
 }

@@ -176,6 +176,10 @@ public class Canvas implements Initializable {
         this.clipboard.copy(shape);
     }
     
+    /**
+     * Return clipboard
+     * @return 
+     */
     protected Clipboard getClipboard(){
         return this.clipboard;
     }
