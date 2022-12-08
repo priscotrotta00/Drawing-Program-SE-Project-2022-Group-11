@@ -117,11 +117,7 @@ public class Drawing implements Iterable<MyShape>{
             //delete myshape 
             int i = getShapeLayer(myShape);
             figures.remove(i);
-            moveToLayer(myShape, (figures.size() - 1));
-            //shift of figures. To avoid empty positions
-            for (int t = 0; t > figures.size(); t++) {
-                MyShape s = figures.set(t, figures.get(t + 1));
-            }
+            moveToLayer(myShape, figures.size());
         } catch (ShapeNotFoundException ex) {
             Logger.getLogger(Drawing.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -136,11 +132,7 @@ public class Drawing implements Iterable<MyShape>{
         try {
             int i = getShapeLayer(myShape);
             figures.remove(i);
-            //shift
-            for (int t = i; t > figures.size(); t++) {
-                //figures[i]=figures[i+1];
-                MyShape s = figures.set(t, figures.get(t + 1));
-            }
+            
             moveToLayer(myShape, 0);
         } catch (ShapeNotFoundException ex) {
             Logger.getLogger(Drawing.class.getName()).log(Level.SEVERE, null, ex);

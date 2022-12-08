@@ -12,6 +12,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveBackgroundShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveForegroundShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -144,6 +145,7 @@ public class Controller implements Initializable {
         this.initializeDeleteBindings();
         this.initializeCopyShapeBindings();
         this.initializeMoveBackgroundBindings();
+        this.initializeMoveForegroundBindings();
     }
 
     /**
@@ -232,6 +234,12 @@ public class Controller implements Initializable {
         BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         backgroundButton.disableProperty().bind(del);
     }
+    
+    public void initializeMoveForegroundBindings(){
+        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        foregroundButton.disableProperty().bind(del);
+    }
+
 
     public void updateDraw() {
 
@@ -283,7 +291,8 @@ public class Controller implements Initializable {
      */
     public void removeShape(MyShape myShape) {
         this.draw.removeShape(myShape);
-        drawPane.getChildren().remove(myShape);
+        int layer=drawPane.getChildren().indexOf(myShape);
+        drawPane.getChildren().remove(layer);
 
     }
 
@@ -293,7 +302,10 @@ public class Controller implements Initializable {
      * @param myShape
      */
     public void moveShapeToForeground(MyShape myShape) {
+        int layer=this.drawPane.getChildren().indexOf(myShape);
         this.draw.moveToForeground(myShape);
+        drawPane.getChildren().remove(layer);
+        drawPane.getChildren().add( (Node) myShape);
     }
 
     /**
@@ -302,9 +314,11 @@ public class Controller implements Initializable {
      * @param myShape
      */
     public void moveShapeToBackground(MyShape myShape) {
+        int layer=this.drawPane.getChildren().indexOf(myShape);
+        
         this.draw.moveToBackground(myShape);
         //remove shape from drawPane, add in first pos and add the another element ad the end of list
-        drawPane.getChildren().remove(myShape);
+        drawPane.getChildren().remove(layer);
         drawPane.getChildren().add(0,(Node) myShape);
     }
 
@@ -454,6 +468,11 @@ public class Controller implements Initializable {
 
     @FXML
     private void onForegroundAction(ActionEvent event) {
+        MyShape s = selection.getSelectedItem();
+        selection.unSelect();
+        Command moveForegroundCommand=new MoveForegroundShapeCommand(this,s);
+        moveForegroundCommand.execute();
+    
     }
 
     @FXML

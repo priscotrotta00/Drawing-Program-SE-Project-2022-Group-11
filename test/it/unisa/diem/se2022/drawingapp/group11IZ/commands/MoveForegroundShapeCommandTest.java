@@ -14,7 +14,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundEx
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
 import java.util.List;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -24,7 +23,7 @@ import org.junit.Test;
  *
  * @author saram
  */
-public class MoveBackgroundShapeCommandTest {
+public class MoveForegroundShapeCommandTest {
 
     private Controller c;
     private Field drawField;
@@ -35,7 +34,7 @@ public class MoveBackgroundShapeCommandTest {
     private List<MyShape> figures;
     private Field selectionField;
     private Selection selection;
-    private MoveBackgroundShapeCommand backgroundCommand;
+    private MoveForegroundShapeCommand foregroundCommand;
 
     @Before
     public void setUp() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
@@ -59,31 +58,31 @@ public class MoveBackgroundShapeCommandTest {
 
     @Test(expected = ShapeNotFoundException.class)
     public void executeTest1() {
-        //test move background a shape that is not in drawpane and figures, check if i have exception 
+        //test move foreground a shape that is not in drawpane and figures, check if i have exception 
         MyEnhancedLine line = new MyEnhancedLine();
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, line);
-        this.backgroundCommand.execute();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, line);
+        this.foregroundCommand.execute();
     }
 
     @Test(expected = ShapeNotFoundException.class)
     public void executeTest2() {
-        //test move background a shape that is not in drawpane and figures, check if i have exception 
+        //test move foreground a shape that is not in drawpane and figures, check if i have exception 
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, ellipse);
-        this.backgroundCommand.execute();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, ellipse);
+        this.foregroundCommand.execute();
     }
 
     @Test(expected = ShapeNotFoundException.class)
     public void executeTest3() {
-        //test move background a shape that is not in drawpane and figures, check if i have exception 
+        //test move foreground a shape that is not in drawpane and figures, check if i have exception 
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, rectangle);
-        this.backgroundCommand.execute();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, rectangle);
+        this.foregroundCommand.execute();
     }
 
     @Test
     public void executeTest4() {
-        //move a shape in background, but the shape is already, I test if it is still in background
+        //move a shape in foreground, but the shape is already, I test if it is still in background
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         MyEnhancedLine line = new MyEnhancedLine();
@@ -94,35 +93,35 @@ public class MoveBackgroundShapeCommandTest {
         createShapeE.execute();
         createShapeR.execute();
         createShapeL.execute();
-        //check if ellipse is in first pos in draw and in drawpane
-        assertTrue("error in addshape", draw.getShapeLayer(ellipse) == 0);
-        MyEnhancedEllipse firstPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in copy", firstPos.myGetRadiusX() == ellipse.myGetRadiusX());
-        assertTrue("Error in copy", firstPos.myGetRadiusY() == ellipse.myGetRadiusY());
-        assertTrue("Error in copy", firstPos.myGetCenterX() == ellipse.myGetCenterX());
-        assertTrue("Error in copy", firstPos.myGetCenterY() == ellipse.myGetCenterY());
-        assertTrue("Error in copy", firstPos.myGetFill() == ellipse.myGetFill());
-        assertTrue("Error in copy", firstPos.myGetStroke() == ellipse.myGetStroke());
-        assertTrue("Error in copy", firstPos.myGetStrokeWidth() == ellipse.myGetStrokeWidth());
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, ellipse);
-        this.backgroundCommand.execute();
-        //check if ellipse is in first pos after backgroundCommand.execute
-        assertTrue("error in background", draw.getShapeLayer(ellipse) == 0);
-        //check in drawPane
-        firstPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in background", firstPos.myGetRadiusX() == ellipse.myGetRadiusX());
-        assertTrue("Error in background", firstPos.myGetRadiusY() == ellipse.myGetRadiusY());
-        assertTrue("Error in background", firstPos.myGetCenterX() == ellipse.myGetCenterX());
-        assertTrue("Error in background", firstPos.myGetCenterY() == ellipse.myGetCenterY());
-        assertTrue("Error in background", firstPos.myGetFill() == ellipse.myGetFill());
-        assertTrue("Error in background", firstPos.myGetStroke() == ellipse.myGetStroke());
-        assertTrue("Error in background", firstPos.myGetStrokeWidth() == ellipse.myGetStrokeWidth());
+        //check if line is in last pos in draw and in drawpane
+        assertTrue("error in addshape", draw.getShapeLayer(line) == 2);
+        MyEnhancedLine lastPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in copy", lastPos.myGetEndX() == line.myGetEndX());
+        assertTrue("Error in copy", lastPos.myGetEndY() == line.myGetEndY());
+        assertTrue("Error in copy", lastPos.myGetStartY() == line.myGetStartY());
+        assertTrue("Error in copy", lastPos.myGetStartX() == line.myGetStartX());
+        assertTrue("Error in copy", lastPos.myGetFill() == line.myGetFill());
+        assertTrue("Error in copy", lastPos.myGetStroke() == line.myGetStroke());
+        assertTrue("Error in copy", lastPos.myGetStrokeWidth() == line.myGetStrokeWidth());
 
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, line);
+        this.foregroundCommand.execute();
+        //check if line is in last pos after foregroundCommand.execute
+        assertTrue("error in foreground", draw.getShapeLayer(line) == 2);
+        //check in drawPane
+        lastPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in foreground", lastPos.myGetEndX() == line.myGetEndX());
+        assertTrue("Error in foreground", lastPos.myGetEndY() == line.myGetEndY());
+        assertTrue("Error in foreground", lastPos.myGetStartY() == line.myGetStartY());
+        assertTrue("Error in foreground", lastPos.myGetStartX() == line.myGetStartX());
+        assertTrue("Error in foreground", lastPos.myGetFill() == line.myGetFill());
+        assertTrue("Error in foreground", lastPos.myGetStroke() == line.myGetStroke());
+        assertTrue("Error in foreground", lastPos.myGetStrokeWidth() == line.myGetStrokeWidth());
     }
 
     @Test
     public void executeTest5() {
-        //move a shape in background, but the shape is already, I test if it is still in background
+        //move a shape in foreground, but the shape is already, I test if it is still in background
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         MyEnhancedLine line = new MyEnhancedLine();
@@ -130,32 +129,32 @@ public class MoveBackgroundShapeCommandTest {
         CreateShapeCommand createShapeE = new CreateShapeCommand(this.c, ellipse);
         CreateShapeCommand createShapeR = new CreateShapeCommand(this.c, rectangle);
         CreateShapeCommand createShapeL = new CreateShapeCommand(this.c, line);
-        createShapeR.execute();
-        createShapeE.execute();
         createShapeL.execute();
-        //check if rectangle is in first pos
-        assertTrue("error in addshape", draw.getShapeLayer(rectangle) == 0);
-        MyEnhancedRectangle firstPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in copy", firstPos.myGetX() == rectangle.myGetX());
-        assertTrue("Error in copy", firstPos.myGetY() == rectangle.myGetY());
-        assertTrue("Error in copy", firstPos.myGetWidth() == rectangle.myGetHeight());
-        assertTrue("Error in copy", firstPos.myGetHeight() == rectangle.myGetHeight());
-        assertTrue("Error in copy", firstPos.myGetFill() == rectangle.myGetFill());
-        assertTrue("Error in copy", firstPos.myGetStroke() == rectangle.myGetStroke());
-        assertTrue("Error in copy", firstPos.myGetStrokeWidth() == rectangle.myGetStrokeWidth());
+        createShapeE.execute();
+        createShapeR.execute();
+        //check if rectangle is in last pos
+        assertTrue("error in addshape", draw.getShapeLayer(rectangle) == 2);
+        MyEnhancedRectangle lastPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in copy", lastPos.myGetX() == rectangle.myGetX());
+        assertTrue("Error in copy", lastPos.myGetY() == rectangle.myGetY());
+        assertTrue("Error in copy", lastPos.myGetWidth() == rectangle.myGetHeight());
+        assertTrue("Error in copy", lastPos.myGetHeight() == rectangle.myGetHeight());
+        assertTrue("Error in copy", lastPos.myGetFill() == rectangle.myGetFill());
+        assertTrue("Error in copy", lastPos.myGetStroke() == rectangle.myGetStroke());
+        assertTrue("Error in copy", lastPos.myGetStrokeWidth() == rectangle.myGetStrokeWidth());
 
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, rectangle);
-        this.backgroundCommand.execute();
-        //check if rectangle is in first pos after backgroundCommand.execute
-        assertTrue("error in background", draw.getShapeLayer(rectangle) == 0);
-        firstPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in background", firstPos.myGetX() == rectangle.myGetX());
-        assertTrue("Error in background", firstPos.myGetY() == rectangle.myGetY());
-        assertTrue("Error in background", firstPos.myGetWidth() == rectangle.myGetHeight());
-        assertTrue("Error in background", firstPos.myGetHeight() == rectangle.myGetHeight());
-        assertTrue("Error in background", firstPos.myGetFill() == rectangle.myGetFill());
-        assertTrue("Error in background", firstPos.myGetStroke() == rectangle.myGetStroke());
-        assertTrue("Error in background", firstPos.myGetStrokeWidth() == rectangle.myGetStrokeWidth());
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, rectangle);
+        this.foregroundCommand.execute();
+        //check if rectangle is in last pos after foregroundCommand.execute
+        assertTrue("error in foreground", draw.getShapeLayer(rectangle) == 2);
+        lastPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in foreground", lastPos.myGetX() == rectangle.myGetX());
+        assertTrue("Error in foreground", lastPos.myGetY() == rectangle.myGetY());
+        assertTrue("Error in foreground", lastPos.myGetWidth() == rectangle.myGetHeight());
+        assertTrue("Error in foreground", lastPos.myGetHeight() == rectangle.myGetHeight());
+        assertTrue("Error in foreground", lastPos.myGetFill() == rectangle.myGetFill());
+        assertTrue("Error in foreground", lastPos.myGetStroke() == rectangle.myGetStroke());
+        assertTrue("Error in foreground", lastPos.myGetStrokeWidth() == rectangle.myGetStrokeWidth());
 
     }
 
@@ -172,36 +171,35 @@ public class MoveBackgroundShapeCommandTest {
         createShapeL.execute();
         createShapeR.execute();
         createShapeE.execute();
-        //check if line is in first pos
-        assertTrue("error in addshape", draw.getShapeLayer(line) == 0);
-        MyEnhancedLine firstPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in copy", firstPos.myGetEndX() == line.myGetEndX());
-        assertTrue("Error in copy", firstPos.myGetEndY() == line.myGetEndY());
-        assertTrue("Error in copy", firstPos.myGetStartY() == line.myGetStartY());
-        assertTrue("Error in copy", firstPos.myGetStartX() == line.myGetStartX());
-        assertTrue("Error in copy", firstPos.myGetFill() == line.myGetFill());
-        assertTrue("Error in copy", firstPos.myGetStroke() == line.myGetStroke());
-        assertTrue("Error in copy", firstPos.myGetStrokeWidth() == line.myGetStrokeWidth());
-
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, line);
-        this.backgroundCommand.execute();
-        //check if line is in first pos after backgroundCommand.execute
-        assertTrue("error in background", draw.getShapeLayer(line) == 0);
-        //check in pane
-        firstPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in background", firstPos.myGetEndX() == line.myGetEndX());
-        assertTrue("Error in background", firstPos.myGetEndY() == line.myGetEndY());
-        assertTrue("Error in background", firstPos.myGetStartY() == line.myGetStartY());
-        assertTrue("Error in background", firstPos.myGetStartX() == line.myGetStartX());
-        assertTrue("Error in background", firstPos.myGetFill() == line.myGetFill());
-        assertTrue("Error in background", firstPos.myGetStroke() == line.myGetStroke());
-        assertTrue("Error in background", firstPos.myGetStrokeWidth() == line.myGetStrokeWidth());
+        //check if ellipse is in last pos in draw and in drawpane
+        assertTrue("error in addshape", draw.getShapeLayer(ellipse) == 2);
+        MyEnhancedEllipse lastPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in copy", lastPos.myGetRadiusX() == ellipse.myGetRadiusX());
+        assertTrue("Error in copy", lastPos.myGetRadiusY() == ellipse.myGetRadiusY());
+        assertTrue("Error in copy", lastPos.myGetCenterX() == ellipse.myGetCenterX());
+        assertTrue("Error in copy", lastPos.myGetCenterY() == ellipse.myGetCenterY());
+        assertTrue("Error in copy", lastPos.myGetFill() == ellipse.myGetFill());
+        assertTrue("Error in copy", lastPos.myGetStroke() == ellipse.myGetStroke());
+        assertTrue("Error in copy", lastPos.myGetStrokeWidth() == ellipse.myGetStrokeWidth());
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, ellipse);
+        this.foregroundCommand.execute();
+        //check if ellipse is in last pos after foregroundCommand.execute
+        assertTrue("error in foreground", draw.getShapeLayer(ellipse) == 2);
+        //check in drawPane
+        lastPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in foreground", lastPos.myGetRadiusX() == ellipse.myGetRadiusX());
+        assertTrue("Error in foreground", lastPos.myGetRadiusY() == ellipse.myGetRadiusY());
+        assertTrue("Error in foreground", lastPos.myGetCenterX() == ellipse.myGetCenterX());
+        assertTrue("Error in foreground", lastPos.myGetCenterY() == ellipse.myGetCenterY());
+        assertTrue("Error in foreground", lastPos.myGetFill() == ellipse.myGetFill());
+        assertTrue("Error in foreground", lastPos.myGetStroke() == ellipse.myGetStroke());
+        assertTrue("Error in foreground", lastPos.myGetStrokeWidth() == ellipse.myGetStrokeWidth());
 
     }
 
     @Test
     public void executeTest7() {
-        //move a shape in background
+        //move a shape in foreground
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         MyEnhancedLine line = new MyEnhancedLine();
@@ -209,27 +207,27 @@ public class MoveBackgroundShapeCommandTest {
         CreateShapeCommand createShapeE = new CreateShapeCommand(this.c, ellipse);
         CreateShapeCommand createShapeR = new CreateShapeCommand(this.c, rectangle);
         CreateShapeCommand createShapeL = new CreateShapeCommand(this.c, line);
-        createShapeL.execute();
-        createShapeR.execute();
         createShapeE.execute();
-        //move ellipse in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, ellipse);
-        this.backgroundCommand.execute();
-        assertTrue("error in background", draw.getShapeLayer(ellipse) == 0);
+        createShapeR.execute();
+        createShapeL.execute();
+        //move ellipse in foreground
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, ellipse);
+        this.foregroundCommand.execute();
+        assertTrue("error in foreground", draw.getShapeLayer(ellipse) == 2);
         //check in drawPane
-        MyEnhancedEllipse firstPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in background", firstPos.myGetRadiusX() == ellipse.myGetRadiusX());
-        assertTrue("Error in background", firstPos.myGetRadiusY() == ellipse.myGetRadiusY());
-        assertTrue("Error in background", firstPos.myGetCenterX() == ellipse.myGetCenterX());
-        assertTrue("Error in background", firstPos.myGetCenterY() == ellipse.myGetCenterY());
-        assertTrue("Error in background", firstPos.myGetFill() == ellipse.myGetFill());
-        assertTrue("Error in background", firstPos.myGetStroke() == ellipse.myGetStroke());
-        assertTrue("Error in background", firstPos.myGetStrokeWidth() == ellipse.myGetStrokeWidth());
+        MyEnhancedEllipse lastPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in foreground", lastPos.myGetRadiusX() == ellipse.myGetRadiusX());
+        assertTrue("Error in foreground", lastPos.myGetRadiusY() == ellipse.myGetRadiusY());
+        assertTrue("Error in foreground", lastPos.myGetCenterX() == ellipse.myGetCenterX());
+        assertTrue("Error in foreground", lastPos.myGetCenterY() == ellipse.myGetCenterY());
+        assertTrue("Error in foreground", lastPos.myGetFill() == ellipse.myGetFill());
+        assertTrue("Error in foreground", lastPos.myGetStroke() == ellipse.myGetStroke());
+        assertTrue("Error in foreground", lastPos.myGetStrokeWidth() == ellipse.myGetStrokeWidth());
     }
 
     @Test
     public void executeTest8() {
-        //move a shape in background
+        //move a shape in foreground
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         MyEnhancedLine line = new MyEnhancedLine();
@@ -240,25 +238,25 @@ public class MoveBackgroundShapeCommandTest {
         createShapeL.execute();
         createShapeR.execute();
         createShapeE.execute();
-        //move rectangle in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, rectangle);
-        this.backgroundCommand.execute();
-        //check if rectangle is in first pos after backgroundCommand.execute
-        assertTrue("error in background", draw.getShapeLayer(rectangle) == 0);
-        MyEnhancedRectangle firstPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in background", firstPos.myGetX() == rectangle.myGetX());
-        assertTrue("Error in background", firstPos.myGetY() == rectangle.myGetY());
-        assertTrue("Error in background", firstPos.myGetWidth() == rectangle.myGetHeight());
-        assertTrue("Error in background", firstPos.myGetHeight() == rectangle.myGetHeight());
-        assertTrue("Error in background", firstPos.myGetFill() == rectangle.myGetFill());
-        assertTrue("Error in background", firstPos.myGetStroke() == rectangle.myGetStroke());
-        assertTrue("Error in background", firstPos.myGetStrokeWidth() == rectangle.myGetStrokeWidth());
+        //move rectangle in foreground
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, rectangle);
+        this.foregroundCommand.execute();
+        //check if rectangle is in last pos after foreroundCommand.execute
+        assertTrue("error in foreground", draw.getShapeLayer(rectangle) == 2);
+        MyEnhancedRectangle lastPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in foreground", lastPos.myGetX() == rectangle.myGetX());
+        assertTrue("Error in foreground", lastPos.myGetY() == rectangle.myGetY());
+        assertTrue("Error in foreground", lastPos.myGetWidth() == rectangle.myGetHeight());
+        assertTrue("Error in foreground", lastPos.myGetHeight() == rectangle.myGetHeight());
+        assertTrue("Error in foreground", lastPos.myGetFill() == rectangle.myGetFill());
+        assertTrue("Error in foreground", lastPos.myGetStroke() == rectangle.myGetStroke());
+        assertTrue("Error in foreground", lastPos.myGetStrokeWidth() == rectangle.myGetStrokeWidth());
 
     }
 
     @Test
     public void executeTest9() {
-        //move a shape in background
+        //move a shape in foreground
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         MyEnhancedLine line = new MyEnhancedLine();
@@ -269,22 +267,22 @@ public class MoveBackgroundShapeCommandTest {
         createShapeR.execute();
         createShapeL.execute();
         createShapeE.execute();
-        //move line in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, line);
-        this.backgroundCommand.execute();
-        assertTrue("error in background", draw.getShapeLayer(line) == 0);
+        //move line in foreground
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, line);
+        this.foregroundCommand.execute();
+        assertTrue("error in foreground", draw.getShapeLayer(line) == 2);
         //check in pane
-        MyEnhancedLine firstPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(0);
-        assertTrue("Error in background", firstPos.myGetEndX() == line.myGetEndX());
-        assertTrue("Error in background", firstPos.myGetEndY() == line.myGetEndY());
-        assertTrue("Error in background", firstPos.myGetStartY() == line.myGetStartY());
-        assertTrue("Error in background", firstPos.myGetStartX() == line.myGetStartX());
-        assertTrue("Error in background", firstPos.myGetFill() == line.myGetFill());
-        assertTrue("Error in background", firstPos.myGetStroke() == line.myGetStroke());
-        assertTrue("Error in background", firstPos.myGetStrokeWidth() == line.myGetStrokeWidth());
+        MyEnhancedLine lastPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in foreground", lastPos.myGetEndX() == line.myGetEndX());
+        assertTrue("Error in foreground", lastPos.myGetEndY() == line.myGetEndY());
+        assertTrue("Error in foreground", lastPos.myGetStartY() == line.myGetStartY());
+        assertTrue("Error in foreground", lastPos.myGetStartX() == line.myGetStartX());
+        assertTrue("Error in foreground", lastPos.myGetFill() == line.myGetFill());
+        assertTrue("Error in foreground", lastPos.myGetStroke() == line.myGetStroke());
+        assertTrue("Error in foreground", lastPos.myGetStrokeWidth() == line.myGetStrokeWidth());
 
     }
-
+    
     //test undo
     @Test
     public void undoTest1() {
@@ -300,9 +298,9 @@ public class MoveBackgroundShapeCommandTest {
         createShapeL.execute();
         createShapeE.execute();
         //move line in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, line);
-        this.backgroundCommand.execute();
-        this.backgroundCommand.undo();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, line);
+        this.foregroundCommand.execute();
+        this.foregroundCommand.undo();
         //check if line is in pos 1 in draw 
         assertTrue("error in undo", draw.getShapeLayer(line) == 1);
         //check in pane
@@ -316,6 +314,7 @@ public class MoveBackgroundShapeCommandTest {
         assertTrue("Error in undo", secondPos.myGetStrokeWidth() == line.myGetStrokeWidth());
     }
 
+
     @Test
     public void undoTest2() {
         //move a shape in background
@@ -326,17 +325,17 @@ public class MoveBackgroundShapeCommandTest {
         CreateShapeCommand createShapeE = new CreateShapeCommand(this.c, ellipse);
         CreateShapeCommand createShapeR = new CreateShapeCommand(this.c, rectangle);
         CreateShapeCommand createShapeL = new CreateShapeCommand(this.c, line);
-        createShapeR.execute();
-        createShapeL.execute();
         createShapeE.execute();
+        createShapeL.execute();
+        createShapeR.execute();
         //move line in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, ellipse);
-        this.backgroundCommand.execute();
-        this.backgroundCommand.undo();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, ellipse);
+        this.foregroundCommand.execute();
+        this.foregroundCommand.undo();
         //check if ellipse is in pos 2 in draw 
-        assertTrue("error in undo", draw.getShapeLayer(ellipse) == 2);
+        assertTrue("error in undo", draw.getShapeLayer(ellipse) == 0);
         //check in pane
-        MyEnhancedEllipse lastPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(2);
+        MyEnhancedEllipse lastPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(0);
         assertTrue("Error in undo", lastPos.myGetRadiusX() == ellipse.myGetRadiusX());
         assertTrue("Error in undo", lastPos.myGetRadiusY() == ellipse.myGetRadiusY());
         assertTrue("Error in undo", lastPos.myGetCenterX() == ellipse.myGetCenterX());
@@ -361,9 +360,9 @@ public class MoveBackgroundShapeCommandTest {
         createShapeR.execute();
         createShapeE.execute();
         //move rectangle in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, rectangle);
-        this.backgroundCommand.execute();
-        this.backgroundCommand.undo();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, rectangle);
+        this.foregroundCommand.execute();
+        this.foregroundCommand.undo();
         //check if rectangle is in first pos after backgroundCommand.execute
         assertTrue("error in undo", draw.getShapeLayer(rectangle) == 1);
         MyEnhancedRectangle firstPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(1);
@@ -387,16 +386,16 @@ public class MoveBackgroundShapeCommandTest {
         CreateShapeCommand createShapeE = new CreateShapeCommand(this.c, ellipse);
         CreateShapeCommand createShapeR = new CreateShapeCommand(this.c, rectangle);
         CreateShapeCommand createShapeL = new CreateShapeCommand(this.c, line);
-        createShapeR.execute();
-        createShapeL.execute();
         createShapeE.execute();
+        createShapeL.execute();
+        createShapeR.execute();
         //move rectangle in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, rectangle);
-        this.backgroundCommand.execute();
-        this.backgroundCommand.undo();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, rectangle);
+        this.foregroundCommand.execute();
+        this.foregroundCommand.undo();
         //check if rectangle is in first pos after backgroundCommand.execute
-        assertTrue("error in undo", draw.getShapeLayer(rectangle) == 0);
-        MyEnhancedRectangle firstPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(0);
+        assertTrue("error in undo", draw.getShapeLayer(rectangle) == 2);
+        MyEnhancedRectangle firstPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(2);
         assertTrue("Error in undo", firstPos.myGetX() == rectangle.myGetX());
         assertTrue("Error in undo", firstPos.myGetY() == rectangle.myGetY());
         assertTrue("Error in undo", firstPos.myGetWidth() == rectangle.myGetHeight());
@@ -417,17 +416,17 @@ public class MoveBackgroundShapeCommandTest {
         CreateShapeCommand createShapeE = new CreateShapeCommand(this.c, ellipse);
         CreateShapeCommand createShapeR = new CreateShapeCommand(this.c, rectangle);
         CreateShapeCommand createShapeL = new CreateShapeCommand(this.c, line);
-        createShapeE.execute();
-        createShapeL.execute();
         createShapeR.execute();
+        createShapeL.execute();
+        createShapeE.execute();
         //move line in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, ellipse);
-        this.backgroundCommand.execute();
-        this.backgroundCommand.undo();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, ellipse);
+        this.foregroundCommand.execute();
+        this.foregroundCommand.undo();
         //check if ellipse is in pos 2 in draw 
-        assertTrue("error in undo", draw.getShapeLayer(ellipse) == 0);
+        assertTrue("error in undo", draw.getShapeLayer(ellipse) == 2);
         //check in pane
-        MyEnhancedEllipse lastPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(0);
+        MyEnhancedEllipse lastPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(2);
         assertTrue("Error in undo", lastPos.myGetRadiusX() == ellipse.myGetRadiusX());
         assertTrue("Error in undo", lastPos.myGetRadiusY() == ellipse.myGetRadiusY());
         assertTrue("Error in undo", lastPos.myGetCenterX() == ellipse.myGetCenterX());
@@ -448,17 +447,17 @@ public class MoveBackgroundShapeCommandTest {
         CreateShapeCommand createShapeE = new CreateShapeCommand(this.c, ellipse);
         CreateShapeCommand createShapeR = new CreateShapeCommand(this.c, rectangle);
         CreateShapeCommand createShapeL = new CreateShapeCommand(this.c, line);
-        createShapeL.execute();
-        createShapeR.execute();
         createShapeE.execute();
+        createShapeR.execute();
+        createShapeL.execute();
         //move line in background
-        this.backgroundCommand = new MoveBackgroundShapeCommand(c, line);
-        this.backgroundCommand.execute();
-        this.backgroundCommand.undo();
+        this.foregroundCommand = new MoveForegroundShapeCommand(c, line);
+        this.foregroundCommand.execute();
+        this.foregroundCommand.undo();
         //check if line is in pos 1 in draw 
-        assertTrue("error in undo", draw.getShapeLayer(line) == 0);
+        assertTrue("error in undo", draw.getShapeLayer(line) == 2);
         //check in pane
-        MyEnhancedLine secondPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(0);
+        MyEnhancedLine secondPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(2);
         assertTrue("Error in undo", secondPos.myGetEndX() == line.myGetEndX());
         assertTrue("Error in undo", secondPos.myGetEndY() == line.myGetEndY());
         assertTrue("Error in undo", secondPos.myGetStartY() == line.myGetStartY());
@@ -467,5 +466,6 @@ public class MoveBackgroundShapeCommandTest {
         assertTrue("Error in undo", secondPos.myGetStroke() == line.myGetStroke());
         assertTrue("Error in undo", secondPos.myGetStrokeWidth() == line.myGetStrokeWidth());
     }
+
 
 }
