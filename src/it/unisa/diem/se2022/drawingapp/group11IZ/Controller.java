@@ -12,6 +12,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.PasteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
@@ -29,6 +30,7 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,6 +40,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -92,21 +97,29 @@ public class Controller implements Initializable {
     private Label fillLabel;
     @FXML
     private ColorPicker fillColorPicker;
-
-    private Drawing draw;
-
-    //ADDED
-    private ToggleGroup toolToggleGroup;
-    private Rectangle clip;
-    private Tool selectedTool;
-    private Selection selection;
-
     @FXML
     private Label colorsLabel;
     @FXML
     private Label optionsLabel;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab fileTab;
+    @FXML
+    private Tab editTab;
+    @FXML
+    private Tab viewTab;
+    @FXML
+    private Button undoButton;
 
+    //ADDED
+    private ToggleGroup toolToggleGroup;
+    private Drawing draw;
+    private Rectangle clip;
+    private Tool selectedTool;
+    private Selection selection;
     private Clipboard clipboard;
+
     /**
      * Initializes the controller class.
      */
@@ -114,6 +127,9 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //TODO
         System.out.println("Hello world");
+        
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        selectionModel.select(editTab);
         
         this.initializeToolToggleGroup();
         this.clipboard= new Clipboard();
@@ -136,9 +152,11 @@ public class Controller implements Initializable {
         selection = Selection.getInstance();
         this.initializeChangeColorBindings();
         
-
         this.initializeDeleteBindings();
+
         this.initializeCopyShapeBindings();
+        
+        this.initializePasteBindings();
         
         
         this.initializeCutBindings();
@@ -216,6 +234,13 @@ public class Controller implements Initializable {
         deleteButton.disableProperty().bind(del);
     }
     
+    /**
+     * Initialize the PasteShapeButton bind
+     */
+    
+    public void initializePasteBindings() {
+        pasteButton.disableProperty().bind(not(clipboard.copiedProperty()));
+    }
     /**
      * Initialize the CopyShapeButton bind
      */
@@ -450,11 +475,25 @@ public class Controller implements Initializable {
         cutCommand.execute();
     }
 
+    /**
+     * Paste the shape contained in the Clipboard object on the drawing
+     * The method checks that the Clipboard object contains a shape
+     * @param event 
+     */
+    
     @FXML
     private void onPasteAction(ActionEvent event) {
+        if(not(clipboard.copiedProperty()).equals(true)) return;
+        MyShape s = clipboard.getNewCopy();
+        Command pasteShapeCommand = new PasteShapeCommand(this, s);
+        pasteShapeCommand.execute();
     }
 
     public Drawing getDraw() {
         return this.draw;
+    }
+
+    @FXML
+    private void onUndoAction(ActionEvent event) {
     }
 }
