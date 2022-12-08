@@ -12,6 +12,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveBackgroundShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveForegroundShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.PasteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -119,7 +121,10 @@ public class Controller implements Initializable {
     private Tool selectedTool;
     private Selection selection;
     private Clipboard clipboard;
-
+    @FXML
+    private Button foregroundButton;
+    @FXML
+    private Button backgroundButton;
     /**
      * Initializes the controller class.
      */
@@ -155,6 +160,8 @@ public class Controller implements Initializable {
         this.initializeDeleteBindings();
 
         this.initializeCopyShapeBindings();
+        this.initializeMoveBackgroundBindings();
+        this.initializeMoveForegroundBindings();
         
         this.initializePasteBindings();
         
@@ -250,6 +257,23 @@ public class Controller implements Initializable {
     }
     
     /**
+     * Initialize MoveBackground bindings
+     */
+    public void initializeMoveBackgroundBindings(){
+        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        backgroundButton.disableProperty().bind(del);
+        System.out.println("Sono qui");
+    }
+    /**
+     * Initialize ForeBackground bindings
+     */
+    public void initializeMoveForegroundBindings(){
+        BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        foregroundButton.disableProperty().bind(del);
+    }
+    
+    
+    /*
      * Initialize the CutShapeButton bind
      */
     public void initializeCutBindings(){
@@ -307,7 +331,8 @@ public class Controller implements Initializable {
      */
     public void removeShape(MyShape myShape) {
         this.draw.removeShape(myShape);
-        drawPane.getChildren().remove(myShape);
+        int layer=drawPane.getChildren().indexOf(myShape);
+        drawPane.getChildren().remove(layer);
 
     }
 
@@ -317,7 +342,10 @@ public class Controller implements Initializable {
      * @param myShape
      */
     public void moveShapeToForeground(MyShape myShape) {
+        int layer=this.drawPane.getChildren().indexOf(myShape);
         this.draw.moveToForeground(myShape);
+        drawPane.getChildren().remove(layer);
+        drawPane.getChildren().add( (Node) myShape);
     }
 
     /**
@@ -326,7 +354,12 @@ public class Controller implements Initializable {
      * @param myShape
      */
     public void moveShapeToBackground(MyShape myShape) {
+        int layer=this.drawPane.getChildren().indexOf(myShape);
+        
         this.draw.moveToBackground(myShape);
+        //remove shape from drawPane, add in first pos and add the another element ad the end of list
+        drawPane.getChildren().remove(layer);
+        drawPane.getChildren().add(0,(Node) myShape);
     }
 
     /**
@@ -430,7 +463,7 @@ public class Controller implements Initializable {
         selection.unSelect();
         MyShape shapeClone=s.clone();
         this.copyShape(shapeClone);
-        //prendo la figura selezionata e la passo alla copyShape
+        //I take the selected shape and switch it to the copyShape
     }
     
     /**
@@ -493,6 +526,22 @@ public class Controller implements Initializable {
         return this.draw;
     }
 
+    @FXML
+    private void onForegroundAction(ActionEvent event) {
+        MyShape s = selection.getSelectedItem();
+        selection.unSelect();
+        Command moveForegroundCommand=new MoveForegroundShapeCommand(this,s);
+        moveForegroundCommand.execute();
+    
+    }
+
+    @FXML
+    private void onBackgroundAction(ActionEvent event) {
+        MyShape s = selection.getSelectedItem();
+        selection.unSelect();
+        Command moveBackgroundCommand=new MoveBackgroundShapeCommand(this,s);
+        moveBackgroundCommand.execute();}
+    
     @FXML
     private void onUndoAction(ActionEvent event) {
     }

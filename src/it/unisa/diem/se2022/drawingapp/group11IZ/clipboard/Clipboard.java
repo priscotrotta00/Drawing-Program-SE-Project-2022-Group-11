@@ -35,16 +35,21 @@ public class Clipboard {
     }
     
     /**
-     * Obtain the salved shape
+     * return the value of myShape
+     * @return 
+     */
+    public MyShape getMyShape(){
+        return this.myShape;
+    }
+    
+    /**
+     * return the copy of a shape
      * @return 
      */
     public MyShape getNewCopy(){
         return this.myShape.clone();
     }
     
-    public MyShape getMyShape(){
-        return this.myShape;
-    }
     
     /**
      * Clear clipboard, so delete saved shape
