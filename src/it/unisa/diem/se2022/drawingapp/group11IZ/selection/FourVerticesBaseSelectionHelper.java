@@ -25,6 +25,7 @@ import javafx.scene.shape.Shape;
  */
 public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper{
     private MyShape shape;
+    private MyShape preview;
     private ResizeShapeCommand command;
     
     private MyShape boundingBoxEdge;
@@ -39,8 +40,9 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     static final List<Double> strokeDashList = Arrays.asList(5.0, 10.0, 5.0, 10.0);
     
     @Override
-    public Group createBoundingBox(MyShape shape) {
+    public Group createBoundingBox(MyShape shape, MyShape preview) {
         this.shape = shape;
+        this.preview = preview;
         this.command = createResizeShapeCommand();
         
         // Create the bounding box's components
@@ -299,6 +301,10 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     
     MyShape getShape(){
         return shape;
+    }
+    
+    MyShape getPreview(){
+        return preview;
     }
     
     MyShape getBoundingBoxEdge(){

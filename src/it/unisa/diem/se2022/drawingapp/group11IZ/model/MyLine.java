@@ -5,6 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.scene.shape.Line;
 
 /**
  *
@@ -27,5 +28,7 @@ public interface MyLine extends MyShape{
     
     @Override
     public void modifyShape(double startX, double startY, double endX, double endY);
+    @Override
+    public Line getView();
     
 }

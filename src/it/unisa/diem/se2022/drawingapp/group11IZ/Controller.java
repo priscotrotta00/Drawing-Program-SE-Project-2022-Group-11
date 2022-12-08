@@ -17,6 +17,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.SelectTool;
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;

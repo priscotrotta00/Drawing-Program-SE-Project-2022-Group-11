@@ -230,5 +230,10 @@ public class MyEnhancedLine extends Line implements MyLine{
     public double myGetLayoutY() {
         return super.getLayoutY();
     }
+    
+    @Override
+    public Line getView(){
+        return (Line) this;
+    }
 
 }

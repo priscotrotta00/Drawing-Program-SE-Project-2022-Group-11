@@ -9,11 +9,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 
 /**
  *
@@ -22,7 +18,8 @@ import javafx.scene.shape.Shape;
 public class Selection implements Visitor{
     private Group selectionBorder;
     private MyShape selectedItem;
-    private Canvas canvas;
+    private MyShape selectedItemPreview;
+    private final Canvas canvas;
     
     private final BooleanProperty selected = new SimpleBooleanProperty(false);
     private SelectionHelper helper;
@@ -68,6 +65,10 @@ public class Selection implements Visitor{
         this.selectedItem = selectedItem;
     }
     
+    public MyShape getSelectedItemPreview(){
+        return selectedItemPreview;
+    }
+    
     /**
      * 
      * @return the BooleanProperty
@@ -93,8 +94,6 @@ public class Selection implements Visitor{
     public void select(MyRectangle myRectangle){
         if(getSelectedValue()) this.unSelect();
         
-        MyRectangle highlightRectangle = new MyEnhancedRectangle();
-        
         if(myRectangle.myGetFill() == Color.TRANSPARENT){
             MyShape shape = this.getSelectedItem();
             
@@ -104,9 +103,11 @@ public class Selection implements Visitor{
         }
         
         setSelectedItem(myRectangle);
+
+        this.selectedItemPreview = this.canvas.substituteShapeWithPreview(myRectangle);
         
         helper = new SelectionRectangleHelper();
-        setSelectionBorder(helper.createBoundingBox(selectedItem));
+        setSelectionBorder(helper.createBoundingBox(selectedItem, selectedItemPreview));
         
         this.canvas.getDrawPane().getChildren().add(getSelectionBorder());
         
@@ -131,9 +132,10 @@ public class Selection implements Visitor{
         }
         
         setSelectedItem(myLine);
+        this.selectedItemPreview = this.canvas.substituteShapeWithPreview(myLine);
         
         helper = new SelectionLineHelper();
-        setSelectionBorder(helper.createBoundingBox(selectedItem));
+        setSelectionBorder(helper.createBoundingBox(selectedItem, selectedItemPreview));
         
         this.canvas.getDrawPane().getChildren().add(getSelectionBorder());
         
@@ -149,8 +151,6 @@ public class Selection implements Visitor{
     public void select(MyEllipse myEllipse){
         if(getSelectedValue()) this.unSelect();
         
-        MyEllipse highlightEllipse = new MyEnhancedEllipse();
-        
         if(myEllipse.myGetFill() == Color.TRANSPARENT){
             MyShape shape = this.getSelectedItem();
             
@@ -160,9 +160,10 @@ public class Selection implements Visitor{
         }
         
         setSelectedItem(myEllipse);
+        this.selectedItemPreview = this.canvas.substituteShapeWithPreview(myEllipse);
         
         helper = new SelectionEllipseHelper();
-        setSelectionBorder(helper.createBoundingBox(selectedItem));
+        setSelectionBorder(helper.createBoundingBox(selectedItem, selectedItemPreview));
         
         this.canvas.getDrawPane().getChildren().add(getSelectionBorder());
         
@@ -177,6 +178,9 @@ public class Selection implements Visitor{
         if(!getSelectedValue()) return;
         
         this.canvas.getDrawPane().getChildren().remove(getSelectionBorder());
+        
+        this.canvas.substitutePreviewWithOriginalShape(selectedItem);
+        this.selectedItemPreview = null;
         
         setSelectedItem(null);
         setSelected(false);

@@ -10,15 +10,17 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.Tool;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 /**
  * FXML Controller class
@@ -36,6 +38,7 @@ public class Canvas implements Initializable {
     private Tool selectedTool;
     private final ObjectProperty<Color> selectedStrokeColor = new SimpleObjectProperty<>();
     private final ObjectProperty<Color> selectedFillColor = new SimpleObjectProperty<>();
+    private final Map<MyShape, MyShape> previewShapesMap = new HashMap<>();
 
     public Color getSelectedFillColor() {
         return selectedFillColor.get();
@@ -135,19 +138,16 @@ public class Canvas implements Initializable {
      */
     public void addShape(MyShape shape){
         this.draw.addShape(shape);
-        drawPane.getChildren().add((Shape) shape);
-
+        drawPane.getChildren().add(shape.getView());
     }
     
     /**
      * Delete MyShape draw and into Pane.
-     *
-     * @param event
+     * @param myShape
      */
     public void removeShape(MyShape myShape) {
         this.draw.removeShape(myShape);
-        drawPane.getChildren().remove(myShape);
-
+        drawPane.getChildren().remove(myShape.getView());
     }
 
     /**
@@ -184,4 +184,39 @@ public class Canvas implements Initializable {
         return this.selection;
     }
     
+    public void addBoundingBox(Group boundingBox){
+        this.drawPane.getChildren().add(boundingBox);
+    }
+    
+    public void removeBoundingBox(Group boundingBox){
+        this.drawPane.getChildren().remove(boundingBox);
+    }
+    
+    public void addPreviewNewShape(MyShape preview){
+        this.drawPane.getChildren().add(preview.getView());
+    }
+    
+    public void removePreviewNewShape(MyShape preview){
+        if (!this.drawPane.getChildren().contains(preview.getView())) throw new RuntimeException();
+        this.drawPane.getChildren().remove(preview.getView());
+    }
+    
+    public MyShape substituteShapeWithPreview(MyShape shape){
+        int layer = this.draw.getShapeLayer(shape);
+        MyShape preview = shape.clone();
+        
+        drawPane.getChildren().remove(shape.getView());
+        this.previewShapesMap.put(shape, preview);
+        drawPane.getChildren().add(layer, preview.getView());
+        
+        return preview;
+    }
+    
+    public void substitutePreviewWithOriginalShape(MyShape shape){
+        int layer = this.draw.getShapeLayer(shape);
+        MyShape preview = this.previewShapesMap.get(shape);
+        
+        this.drawPane.getChildren().remove(preview.getView());
+        this.drawPane.getChildren().add(layer, shape.getView());
+    }
 }

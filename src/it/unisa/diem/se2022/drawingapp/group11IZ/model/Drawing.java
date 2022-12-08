@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -215,5 +214,9 @@ public class Drawing implements Iterable<MyShape>{
     @Override
     public Iterator<MyShape> iterator() {
         return this.figures.iterator();
+    }
+    
+    public boolean contains(MyShape shape){
+        return this.figures.contains(shape);
     }
 }

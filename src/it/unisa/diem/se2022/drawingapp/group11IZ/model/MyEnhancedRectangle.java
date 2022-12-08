@@ -309,4 +309,9 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
     public double myGetLayoutY() {
         return super.getLayoutY();
     }
+    
+    @Override
+    public Rectangle getView(){
+        return (Rectangle) this;
+    }
 }

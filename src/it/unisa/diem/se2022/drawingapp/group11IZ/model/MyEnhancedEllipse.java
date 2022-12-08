@@ -330,5 +330,10 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
     public double myGetLayoutY() {
         return super.getLayoutY();
     }
+    
+    @Override
+    public Ellipse getView(){
+        return (Ellipse) this;
+    }
 }
 

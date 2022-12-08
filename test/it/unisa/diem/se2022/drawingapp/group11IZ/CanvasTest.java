@@ -9,6 +9,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
 import javafx.application.Application;
@@ -200,5 +202,73 @@ public class CanvasTest {
         assertTrue("error insert in clipboard 6", shapeClipboard.myGetCenterY()==ellipseShape.myGetCenterY());
         assertTrue("Error insert in clipboard 7", shapeClipboard.myGetStrokeWidth()==ellipseShape.myGetStrokeWidth());   
         
+    }
+    
+    @Test
+    public void testAddPreviewNewShape() throws IllegalArgumentException, IllegalAccessException{
+        MyShape preview = new MyEnhancedRectangle();
+        this.canvas.addPreviewNewShape(preview);
+        
+        assertTrue(pane.getChildren().contains(preview.getView()));
+        assertFalse(draw.contains(preview));
+    }
+    
+    @Test
+    public void testRemovePreviewNewShape() throws IllegalAccessException{
+        MyShape preview = new MyEnhancedRectangle();
+        this.canvas.addPreviewNewShape(preview);
+        this.canvas.removePreviewNewShape(preview);
+        
+        assertFalse(pane.getChildren().contains(preview.getView()));
+        assertFalse(draw.contains(preview));
+    }
+    
+    @Test (expected = RuntimeException.class)
+    public void testRemovePreviewNewShapeException() throws IllegalAccessException{
+        MyShape preview = new MyEnhancedRectangle();
+        this.canvas.removePreviewNewShape(preview);
+    }
+    
+    @Test
+    public void testSubstituteShapeWithPreview1() throws IllegalAccessException{
+        MyShape shape = new MyEnhancedRectangle();
+        this.canvas.addShape(shape);
+        
+        MyShape preview = this.canvas.substituteShapeWithPreview(shape);
+        
+        assertTrue(draw.contains(shape));
+        assertFalse(pane.getChildren().contains(shape.getView()));
+        
+        //assertEquals(shape, preview);
+        
+        assertFalse(draw.contains(preview));
+        assertTrue(pane.getChildren().contains(preview.getView()));
+    }
+    
+    @Test (expected = ShapeNotFoundException.class)
+    public void testSubstituteShapeWithPreview2() throws IllegalAccessException{
+        MyShape shape = new MyEnhancedRectangle();
+        MyShape preview = this.canvas.substituteShapeWithPreview(shape);
+    }
+    
+    @Test
+    public void testSubstitutePreviewWithOriginalShape1() throws IllegalAccessException {
+        MyShape shape = new MyEnhancedRectangle();
+        this.canvas.addShape(shape);
+        
+        MyShape preview = this.canvas.substituteShapeWithPreview(shape);
+        this.canvas.substitutePreviewWithOriginalShape(shape);
+        
+        assertTrue(draw.contains(shape));
+        assertTrue(pane.getChildren().contains(shape.getView()));
+        
+        assertFalse(draw.contains(preview));
+        assertFalse(pane.getChildren().contains(preview.getView()));
+    }
+    
+    @Test(expected = Exception.class)
+    public void testSubstitutePreviewWithOriginalShape2() throws IllegalAccessException{
+        MyShape shape = new MyEnhancedRectangle();
+        this.canvas.substitutePreviewWithOriginalShape(shape);
     }
 }

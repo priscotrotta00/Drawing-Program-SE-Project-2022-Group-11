@@ -6,6 +6,7 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.scene.shape.Ellipse;
 
 /**
  *
@@ -32,4 +33,6 @@ public interface MyEllipse extends MyShape {
     public ReadOnlyDoubleProperty bottomRightXProperty();
     public double getBottomRightY();
     public ReadOnlyDoubleProperty bottomRightYProperty();
+    @Override
+    public Ellipse getView();
 }

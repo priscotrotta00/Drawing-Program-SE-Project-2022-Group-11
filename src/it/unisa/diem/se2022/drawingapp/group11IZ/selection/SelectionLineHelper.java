@@ -25,6 +25,11 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
     }
     
     @Override
+    MyLine getPreview(){
+        return (MyLine) super.getPreview();
+    }
+    
+    @Override
     ResizeLineCommand getCommand(){
         return (ResizeLineCommand) super.getCommand();
     }
@@ -39,14 +44,14 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
         MyLine lineBoundingBoxEdge = new MyEnhancedLine();
         
         // Bind the bounding box to the line
-        lineBoundingBoxEdge.myStartXProperty().bind(this.getShape().myStartXProperty());
-        lineBoundingBoxEdge.myStartYProperty().bind(this.getShape().myStartYProperty());
-        lineBoundingBoxEdge.myEndXProperty().bind(this.getShape().myEndXProperty());
-        lineBoundingBoxEdge.myEndYProperty().bind(this.getShape().myEndYProperty());
+        lineBoundingBoxEdge.myStartXProperty().bind(this.getPreview().myStartXProperty());
+        lineBoundingBoxEdge.myStartYProperty().bind(this.getPreview().myStartYProperty());
+        lineBoundingBoxEdge.myEndXProperty().bind(this.getPreview().myEndXProperty());
+        lineBoundingBoxEdge.myEndYProperty().bind(this.getPreview().myEndYProperty());
         lineBoundingBoxEdge.myGetStrokeDashArray().addAll(strokeDashList);
         
         // Define the aspect of the bounding box
-        lineBoundingBoxEdge.mySetStrokeWidth(this.getShape().myGetStrokeWidth() + strokeVertexOffset);
+        lineBoundingBoxEdge.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + strokeVertexOffset);
         lineBoundingBoxEdge.mySetFill(Color.TRANSPARENT);
         
         return lineBoundingBoxEdge;
@@ -57,14 +62,14 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
         // Initialize first vertex on the start point of the line
         this.getVertex1().mySetWidth(widthVertex);
         this.getVertex1().mySetHeight(heightVertex);
-        this.getVertex1().myXProperty().bind(this.getShape().myStartXProperty().subtract(widthVertex/2));
-        this.getVertex1().myYProperty().bind(this.getShape().myStartYProperty().subtract(widthVertex/2));
+        this.getVertex1().myXProperty().bind(this.getPreview().myStartXProperty().subtract(widthVertex/2));
+        this.getVertex1().myYProperty().bind(this.getPreview().myStartYProperty().subtract(widthVertex/2));
         
         // Initialize first vertex on the end point of the line
         this.getVertex2().mySetWidth(widthVertex);
         this.getVertex2().mySetHeight(heightVertex);
-        this.getVertex2().myXProperty().bind(this.getShape().myEndXProperty().subtract(widthVertex/2));
-        this.getVertex2().myYProperty().bind(this.getShape().myEndYProperty().subtract(widthVertex/2));
+        this.getVertex2().myXProperty().bind(this.getPreview().myEndXProperty().subtract(widthVertex/2));
+        this.getVertex2().myYProperty().bind(this.getPreview().myEndYProperty().subtract(widthVertex/2));
     }
 
     @Override
@@ -83,7 +88,7 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
 
     @Override
     void onMouseDragVertex1Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(mouseX, mouseY, this.getShape().myGetEndX(), this.getShape().myGetEndY());
+        this.getPreview().modifyShape(mouseX, mouseY, this.getShape().myGetEndX(), this.getShape().myGetEndY());
         this.getCommand().setNewCoordinates(mouseX, mouseY, this.getShape().myGetEndX(), this.getShape().myGetEndY());
     }
 
@@ -94,7 +99,7 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
 
     @Override
     void onMouseDragVertex2Action(double mouseX, double mouseY) {
-        this.getShape().modifyShape(this.getShape().myGetStartX(), this.getShape().myGetStartY(), mouseX, mouseY);
+        this.getPreview().modifyShape(this.getShape().myGetStartX(), this.getShape().myGetStartY(), mouseX, mouseY);
         this.getCommand().setNewCoordinates(this.getShape().myGetStartX(), this.getShape().myGetStartY(), mouseX, mouseY);
     }
     

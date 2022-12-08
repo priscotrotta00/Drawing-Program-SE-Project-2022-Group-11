@@ -19,5 +19,5 @@ public interface SelectionHelper {
      * @param shape Shape around which the bounding box will be created
      * @return A bounding box bindend with the given shape
      */
-    public Group createBoundingBox(MyShape shape);
+    public Group createBoundingBox(MyShape shape, MyShape preview);
 }

@@ -48,5 +48,5 @@ public interface MyShape extends Cloneable{
     public MyShape clone();
     public double myGetLayoutX();
     public double myGetLayoutY();
-    
+    public Shape getView();
 }
