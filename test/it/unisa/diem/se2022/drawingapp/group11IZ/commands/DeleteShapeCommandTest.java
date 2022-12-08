@@ -178,8 +178,6 @@ public class DeleteShapeCommandTest {
         assertEquals("Error in remove", layer1, 1);
         //check drawPane
         assertFalse("Error in removeShape", pane.getChildren().contains(ellipse));
-        selection.unSelect();
-
     }
 
     @Test
@@ -204,7 +202,6 @@ public class DeleteShapeCommandTest {
         assertFalse("Ellipse is not delete from figures", figures.contains(line));
         //check drawPane
         assertFalse("Error in removeShape", pane.getChildren().contains(line));
-        selection.unSelect();
 
     }
 
@@ -230,7 +227,6 @@ public class DeleteShapeCommandTest {
         assertFalse("Ellipse is not delete from figures", figures.contains(rectangle));
         //check drawPane
         assertFalse("Error in removeShape", pane.getChildren().contains(rectangle));
-        selection.unSelect();
 
     }
     
@@ -252,7 +248,6 @@ public class DeleteShapeCommandTest {
         selection.select(rectangle);
         deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
         deleteCommand.execute();
-        selection.unSelect();
         
         deleteCommand.undo();
         //check if ellipse is in figures and in pane

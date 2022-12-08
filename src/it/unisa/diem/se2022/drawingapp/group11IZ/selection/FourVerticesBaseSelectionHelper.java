@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
@@ -26,6 +27,7 @@ import javafx.scene.shape.Shape;
 public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper{
     private MyShape shape;
     private MyShape preview;
+    private Canvas canvas;
     private ResizeShapeCommand command;
     
     private MyShape boundingBoxEdge;
@@ -40,20 +42,21 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     static final List<Double> strokeDashList = Arrays.asList(5.0, 10.0, 5.0, 10.0);
     
     @Override
-    public Group createBoundingBox(MyShape shape, MyShape preview) {
-        this.shape = shape;
-        this.preview = preview;
+    public Group createBoundingBox() {
+        Group boundingBoxGroup;
+        
+        this.preview = this.canvas.substituteShapeWithPreview(shape);
         this.command = createResizeShapeCommand();
         
         // Create the bounding box's components
-        Group boundingBoxGroup = new Group();
+        boundingBoxGroup = new Group();
         vertex1 = new MyEnhancedRectangle();
         vertex2 = new MyEnhancedRectangle();
         vertex3 = new MyEnhancedRectangle();
         vertex4 = new MyEnhancedRectangle();
         
         // Initialize edge and vertices
-        boundingBoxEdge = this.createBoundingBoxEdge();
+        this.boundingBoxEdge = this.createBoundingBoxEdge();
         this.updateVertices();
         this.initializeVerticesHandlers();
         
@@ -61,6 +64,12 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         this.insertElementsInsideGroup(boundingBoxGroup);
         
         return boundingBoxGroup;
+    }
+
+    @Override
+    public void destroyBoundingBox() {
+        this.canvas.substitutePreviewWithOriginalShape(shape);
+        this.preview = null;
     }
     
     /**
@@ -299,6 +308,10 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         return vertex4;
     }
     
+    void setShape(MyShape shape) {
+        this.shape = shape;
+    }
+    
     MyShape getShape(){
         return shape;
     }
@@ -313,6 +326,14 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     
     ResizeShapeCommand getCommand(){
         return command;
+    }
+    
+    void setCanvas(Canvas canvas){
+        this.canvas = canvas;
+    }
+    
+    Canvas getCanvas(){
+        return canvas;
     }
     
 }

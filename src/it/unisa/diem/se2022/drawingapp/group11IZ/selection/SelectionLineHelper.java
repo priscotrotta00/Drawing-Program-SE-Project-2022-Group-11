@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeLineCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
@@ -19,6 +20,11 @@ import javafx.scene.shape.Shape;
  */
 public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
 
+    public SelectionLineHelper(Canvas canvas, MyLine line) {
+        this.setCanvas(canvas);
+        this.setShape(line);
+    }
+    
     @Override
     MyLine getShape(){
         return (MyLine) super.getShape();

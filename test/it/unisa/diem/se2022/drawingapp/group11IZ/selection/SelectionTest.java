@@ -4,7 +4,6 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.*;
 import java.lang.reflect.Field;
 import javafx.application.Application;
@@ -14,7 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.junit.Test;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -104,7 +102,7 @@ public class SelectionTest {
     @Test
     public void selectLineTest() throws IllegalArgumentException, IllegalAccessException{
         
-        pane.getChildren().add(myEnhancedLine);
+        canvas.addShape(myEnhancedLine);
         
         selection.select(myEnhancedLine);
         
@@ -125,7 +123,7 @@ public class SelectionTest {
     @Test
     public void selectRectangleTest() throws IllegalArgumentException, IllegalAccessException{
         
-        pane.getChildren().add(myEnhancedRectangle);
+        canvas.addShape(myEnhancedRectangle);
         
         selection.select(myEnhancedRectangle);
         
@@ -146,7 +144,7 @@ public class SelectionTest {
     @Test
     public void selectEllipseTest() throws IllegalArgumentException, IllegalAccessException{
    
-        pane.getChildren().add(myEnhancedEllipse);
+        canvas.addShape(myEnhancedEllipse);
         
         selection.select(myEnhancedEllipse);
         
@@ -168,7 +166,7 @@ public class SelectionTest {
     @Test
     public void unSelectTest() throws IllegalArgumentException, IllegalAccessException{
         
-        pane.getChildren().add(myEnhancedRectangle);
+        canvas.addShape(myEnhancedRectangle);
         
         selection.select(myEnhancedRectangle);
         

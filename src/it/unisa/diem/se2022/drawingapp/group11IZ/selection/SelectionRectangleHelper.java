@@ -4,12 +4,12 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeRectangleCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import java.util.Arrays;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -19,6 +19,11 @@ import javafx.scene.shape.Shape;
  * @author Felice Scala
  */
 public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
+    
+    public SelectionRectangleHelper(Canvas canvas, MyRectangle rectangle){
+        this.setCanvas(canvas);
+        this.setShape(rectangle);
+    }
     
     @Override
     MyRectangle getShape(){

@@ -4,7 +4,6 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.Group;
 
 /**
@@ -16,8 +15,9 @@ public interface SelectionHelper {
     
     /**
      * Create the bounding box that will surround the given shape
-     * @param shape Shape around which the bounding box will be created
      * @return A bounding box bindend with the given shape
      */
-    public Group createBoundingBox(MyShape shape, MyShape preview);
+    public Group createBoundingBox();
+    
+    public void destroyBoundingBox();
 }

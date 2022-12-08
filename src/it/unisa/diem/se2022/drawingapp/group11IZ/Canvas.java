@@ -202,8 +202,13 @@ public class Canvas implements Initializable {
     }
     
     public MyShape substituteShapeWithPreview(MyShape shape){
-        int layer = this.draw.getShapeLayer(shape);
-        MyShape preview = shape.clone();
+        int layer;
+        MyShape preview;
+        
+        layer = this.draw.getShapeLayer(shape);
+        preview = shape.clone();
+        preview.myStrokeProperty().bind(selectedStrokeColor);
+        preview.myFillProperty().bind(selectedFillColor);
         
         drawPane.getChildren().remove(shape.getView());
         this.previewShapesMap.put(shape, preview);

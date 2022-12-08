@@ -52,7 +52,7 @@ public class MoveShapeCommandTest {
         myEnhancedRectangle.mySetWidth(20);
         myEnhancedRectangle.mySetHeight(10);
         
-        pane.getChildren().add(myEnhancedRectangle);
+        this.canvas.addShape(myEnhancedRectangle);
         
         selection.select(myEnhancedRectangle);
         

@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeEllipseCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
@@ -18,6 +19,11 @@ import javafx.scene.shape.Shape;
  * @author Felice Scala
  */
 public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
+    
+    public SelectionEllipseHelper(Canvas canvas, MyEllipse ellipse){
+        this.setCanvas(canvas);
+        this.setShape(ellipse);
+    }
     
     @Override
     MyEllipse getShape(){
