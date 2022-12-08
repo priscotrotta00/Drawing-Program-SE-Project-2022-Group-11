@@ -64,29 +64,38 @@ public class MoveShapeCommandTest {
     
     @Test
     public void initializeMoveShapeCommandTest() throws IllegalArgumentException, IllegalAccessException{
-        Assert.assertEquals("If oldX is 0.0", oldXField.get(msc), 0.0);
-        Assert.assertEquals("If oldX is 0.0", oldYField.get(msc), 0.0);
+        //Assert.assertEquals("If oldX is 0.0", oldXField.get(msc), 0.0);
+        //Assert.assertEquals("If oldX is 0.0", oldYField.get(msc), 0.0);
         
         MyShape shape = (MyShape)selectedItemField.get(selection);
-        Assert.assertEquals("If newX is equal to selectedShape minX coordinate", newXField.get(msc), shape.myGetLayoutBounds().getMinX());
-        Assert.assertEquals("If newY is equal to selectedShape minY coordinate", newYField.get(msc), shape.myGetLayoutBounds().getMinY());
+        Assert.assertEquals("If oldX is equal to selectedShape minX coordinate", oldXField.get(msc), shape.myGetLayoutBounds().getMinX());
+        Assert.assertEquals("If oldY is equal to selectedShape minY coordinate", oldYField.get(msc), shape.myGetLayoutBounds().getMinY());
     }
     
     @Test
-    public void moveShapeTest() throws IllegalArgumentException, IllegalAccessException{
-        double x = (Double)newXField.get(msc);
-        double y = (Double)newYField.get(msc);
-        
-        MyShape shape = (MyShape)selectedItemField.get(selection);
-        shape.moveShape(50.0, 50.0);
+    public void executeMoveShapeTest() throws IllegalArgumentException, IllegalAccessException{
+        double x = 50.0;
+        double y = 50.0;
+        msc.setNewCoordinates(x, y);
         
         msc.execute();
         
-        Assert.assertEquals("If oldX is equal to the old value of newX",oldXField.get(msc), x);
-        Assert.assertEquals("If oldY is equal to the old value of newY",oldYField.get(msc), y);
-        Assert.assertEquals("If newX is equal to the new top-left X coordinate of the shape",newXField.get(msc), shape.myGetLayoutBounds().getMinX());
-        Assert.assertEquals("If newY is equal to the new top-left Y coordinate of the shape",newYField.get(msc), shape.myGetLayoutBounds().getMinY());
+        Assert.assertEquals("If oldX is equal to setted coordinates", x, oldXField.get(msc));
+        Assert.assertEquals("If oldY is equal to setted coordinates", y, oldYField.get(msc));
+    }
+    
+    @Test
+    public void undoMoveShapeTest() throws IllegalArgumentException, IllegalAccessException{
+        double x = 50.0;
+        double y = 50.0;
+        msc.setNewCoordinates(x, y);
         
+        msc.execute();
+        
+        msc.undo();
+        
+        Assert.assertEquals("If newX is equal to setted coordinates", x, newXField.get(msc));
+        Assert.assertEquals("If newY is equal to setted coordinates", y, newYField.get(msc));
     }
     
 }

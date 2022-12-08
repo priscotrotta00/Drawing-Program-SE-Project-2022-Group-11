@@ -9,7 +9,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandInvoker;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
@@ -100,6 +100,7 @@ public class Controller implements Initializable {
     private Rectangle clip;
     private Tool selectedTool;
     private Selection selection;
+    private CommandInvoker commandInvoker;
 
     @FXML
     private Label colorsLabel;
@@ -142,7 +143,8 @@ public class Controller implements Initializable {
         
         
         this.initializeCutBindings();
-
+        
+        commandInvoker = new CommandInvoker();
     }
 
     /**
@@ -238,6 +240,10 @@ public class Controller implements Initializable {
 
     public Pane getDrawPane() {
         return drawPane;
+    }
+    
+    public CommandInvoker getCommandInvoker(){
+        return this.commandInvoker;
     }
 
     /**
@@ -380,7 +386,7 @@ public class Controller implements Initializable {
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
         Command ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
-        ccc.execute();
+        commandInvoker.execute(ccc);
     }
 
     /**
@@ -391,7 +397,7 @@ public class Controller implements Initializable {
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
         Command ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
-        ccc.execute();
+        commandInvoker.execute(ccc);
     }
 
     
@@ -433,7 +439,7 @@ public class Controller implements Initializable {
         MyShape s = selection.getSelectedItem();
         selection.unSelect();
         Command deleteCommand = new DeleteShapeCommand(this, s);
-        deleteCommand.execute();
+        commandInvoker.execute(deleteCommand);
     }
     
     /**
@@ -447,7 +453,7 @@ public class Controller implements Initializable {
         selection.unSelect();
         
         Command cutCommand = new CutShapeCommand(selectedShape, this);
-        cutCommand.execute();
+        commandInvoker.execute(cutCommand);
     }
 
     @FXML

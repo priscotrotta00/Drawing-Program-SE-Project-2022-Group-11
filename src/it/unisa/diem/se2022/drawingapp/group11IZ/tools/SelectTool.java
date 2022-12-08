@@ -68,7 +68,7 @@ public class SelectTool implements Tool{
     }
     
     /**
-     * Check if durign the drag action a shape is selected
+     * During the drag action actually moves the selected shape
      * 
      * @param c
      * @param event 
@@ -77,15 +77,14 @@ public class SelectTool implements Tool{
     public void handleOnMouseDrag(Controller c, MouseEvent event) {
         if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
-        //selectedShape.getSelectedItem().mySetLayoutX(this.endX - selectedShape.getSelectedItem().myGetLayoutBounds().getMinX());
-        //selectedShape.getSelectedItem().mySetLayoutY(this.endY - selectedShape.getSelectedItem().myGetLayoutBounds().getMinY());
-
-        //msc.execute();
+        msc.setNewCoordinates(event.getX(), event.getY());
+        
+        c.getCommandInvoker().execute(msc);
     }
     
     /**
      * When released the mouse left click change the position of
-     * the shape and execute operation on the MoveShapeCommand object
+     * the shape
      * @param c
      * @param event 
      */
@@ -95,9 +94,6 @@ public class SelectTool implements Tool{
         if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
         selectedShape.getSelectedItem().moveShape(event.getX(), event.getY());
-        msc.execute();
-        
-        msc = null;
     }
     
     /**

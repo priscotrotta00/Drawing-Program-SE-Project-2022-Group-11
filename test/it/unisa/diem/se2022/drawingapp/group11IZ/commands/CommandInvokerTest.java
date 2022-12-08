@@ -1,0 +1,266 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
+
+import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
+import it.unisa.diem.se2022.drawingapp.group11IZ.clipboard.Clipboard;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
+import java.lang.reflect.Field;
+import java.util.List;
+import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+/**
+ *
+ * @author daddy
+ */
+public class CommandInvokerTest {
+    private CommandInvoker commandInvoker;
+    private Controller c;
+    
+    private Pane pane;
+    private Drawing draw;
+    private List<MyShape> figures;
+    private Clipboard clipboard;
+    private Selection selection;
+    
+    private Field figuresDrawingField;
+    private Field drawPaneField;
+    private Field drawingField;
+    private Field clipboardField;
+    
+    public static class AsNonApp extends Application {
+
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            //NOOP
+        }
+        
+    }
+    
+    @BeforeClass
+    public static void initJFX() {
+        Thread t = new Thread("JavaFX Init Thread") {
+            @Override
+            public void run() {
+                Application.launch(AsNonApp.class, new String[0]);
+            }
+        };
+        t.setDaemon(true);
+        t.start();
+    }
+    
+    @Before
+    public void setUp() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        commandInvoker = new CommandInvoker();
+        c = new Controller();
+        pane = new Pane();
+        draw = new Drawing();
+        clipboard = new Clipboard();
+        
+        drawPaneField = Controller.class.getDeclaredField("drawPane");
+        drawingField = Controller.class.getDeclaredField("draw");
+        figuresDrawingField = Drawing.class.getDeclaredField("figures");
+        clipboardField = Controller.class.getDeclaredField("clipboard");
+
+        drawPaneField.setAccessible(true);
+        drawingField.setAccessible(true);
+        figuresDrawingField.setAccessible(true);
+        clipboardField.setAccessible(true);
+
+        drawPaneField.set(c, pane);
+        drawingField.set(c, draw);
+        clipboardField.set(c, clipboard);
+        
+        figures = (List<MyShape>) figuresDrawingField.get(draw);
+    
+    }
+    
+    @Test
+    public void invokerChangeColorCommandTest(){
+        MyShape myRectangle = new MyEnhancedRectangle();
+        myRectangle.mySetFill(Color.RED);
+        
+        ChangeColorCommand cccFill = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        
+        commandInvoker.execute(cccFill);
+        
+        Assert.assertEquals("Command invoker executed change of color", myRectangle.myGetFill().toString(), Color.BLUEVIOLET.toString());
+        
+        commandInvoker.undoLast();
+        
+        Assert.assertEquals("Command invoker executed change of color", myRectangle.myGetFill().toString(), Color.RED.toString());
+        
+        myRectangle.mySetStroke(Color.RED);
+        ChangeColorCommand cccStroke = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
+        
+        commandInvoker.execute(cccStroke);
+        
+        Assert.assertEquals("Command invoker executed change of color", myRectangle.myGetStroke().toString(), Color.BLUEVIOLET.toString());
+        
+        commandInvoker.undoLast();
+        
+        Assert.assertEquals("Command invoker executed change of color", myRectangle.myGetStroke().toString(), Color.RED.toString());
+        
+    }
+    
+    @Test
+    public void invokerCreateShapeCommandTest(){
+        MyShape shape = new MyEnhancedRectangle();
+        Command command = new CreateShapeCommand(c, shape);
+        commandInvoker.execute(command);
+        
+        Assert.assertTrue("Verify shape is inserted in pane", pane.getChildrenUnmodifiable().contains((Shape) shape));
+        Assert.assertTrue("Verify shape is inserted in drawing", figures.contains(shape));
+    
+        commandInvoker.undoLast();
+        
+        Assert.assertFalse("Verify shape is not in pane anymore", pane.getChildrenUnmodifiable().contains((Shape) shape));
+        Assert.assertFalse("Verify shape is not in drawing anymore", figures.contains(shape));
+    }
+    
+    @Test
+    public void invokerCutShapeCommandTest(){
+        MyEnhancedRectangle myRectangle = new MyEnhancedRectangle();
+        MyEnhancedLine myLine = new MyEnhancedLine();
+        MyEnhancedEllipse myEllipse = new MyEnhancedEllipse();
+        
+        c.addShape(myRectangle);
+        c.addShape(myLine);
+        c.addShape(myEllipse);
+        
+        selection = Selection.getInstance();
+        selection.select((MyEnhancedRectangle)myRectangle);
+        
+        CutShapeCommand cutCommand = new CutShapeCommand(selection.getSelectedItem(), c);
+        
+        commandInvoker.execute(cutCommand);
+        
+        MyEnhancedRectangle copy = (MyEnhancedRectangle)clipboard.getNewCopy();
+        
+            
+        Assert.assertFalse("If cutted shape is not in the drawing", pane.getChildren().contains((Node)myRectangle));
+        Assert.assertTrue("If clipboard contains shape", 
+                    copy.myGetX() == myRectangle.myGetX() &&
+                            copy.myGetY() == myRectangle.myGetY() &&
+                            copy.myGetWidth() == myRectangle.myGetWidth() &&
+                            copy.myGetLayoutX() == myRectangle.myGetLayoutX() &&
+                            copy.myGetLayoutY() == myRectangle.myGetLayoutY()
+                );
+        
+        commandInvoker.undoLast();
+        
+        MyEnhancedRectangle copy2 = (MyEnhancedRectangle)clipboard.getNewCopy();
+        Assert.assertTrue("If previous cutted shape is again in the drawing", pane.getChildren().contains((Node)myRectangle));
+        Assert.assertTrue("If clipboard does contains the restored cutted shape", 
+                copy2.myGetX() == myRectangle.myGetX() &&
+                            copy2.myGetY() == myRectangle.myGetY() &&
+                            copy2.myGetWidth() == myRectangle.myGetWidth() &&
+                            copy2.myGetLayoutX() == myRectangle.myGetLayoutX() &&
+                            copy2.myGetLayoutY() == myRectangle.myGetLayoutY()
+        );
+        
+    }
+    
+    @Test
+    public void invokerDeleteShapeCommandTest(){
+        MyEnhancedLine line = new MyEnhancedLine();
+        c.addShape(line);
+        
+        selection = Selection.getInstance();
+        selection.select(line);
+        
+        DeleteShapeCommand deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
+        commandInvoker.execute(deleteCommand);
+        
+        Assert.assertFalse("Ellipse is not delete from figures", figures.contains(line));
+        
+        Assert.assertFalse("Error in removeShape", pane.getChildren().contains(line));
+        
+        commandInvoker.undoLast();
+        Assert.assertTrue("Line is not insert in figures", figures.contains(line));
+        
+        int layer=draw.getShapeLayer(line);
+        assertEquals("Error in add", layer, 0);
+        
+    }
+    
+    @Test
+    public void invokerMoveShapeCommandTest() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        double x = 50.0;
+        double y = 50.0;
+        MyEnhancedRectangle myEnhancedRectangle = new MyEnhancedRectangle();
+        
+        myEnhancedRectangle.mySetX(10);
+        myEnhancedRectangle.mySetY(10);
+        myEnhancedRectangle.mySetWidth(20);
+        myEnhancedRectangle.mySetHeight(10);
+        
+        Field oldXField = MoveShapeCommand.class.getDeclaredField("oldX");
+        Field oldYField = MoveShapeCommand.class.getDeclaredField("oldY");
+        Field newXField = MoveShapeCommand.class.getDeclaredField("newX");
+        Field newYField = MoveShapeCommand.class.getDeclaredField("newY");
+        
+        oldXField.setAccessible(true);
+        oldYField.setAccessible(true);
+        newXField.setAccessible(true);
+        newYField.setAccessible(true);
+        
+        MoveShapeCommand msc = new MoveShapeCommand(myEnhancedRectangle);
+        
+        msc.setNewCoordinates(x, y);
+        
+        commandInvoker.execute(msc);
+        
+        Assert.assertEquals("If oldX is equal to setted coordinates", x, oldXField.get(msc));
+        Assert.assertEquals("If oldY is equal to setted coordinates", y, oldYField.get(msc));
+        
+        commandInvoker.undoLast();
+        
+        Assert.assertEquals("If newX is equal to setted coordinates", x, newXField.get(msc));
+        Assert.assertEquals("If newY is equal to setted coordinates", y, newYField.get(msc));
+    
+    }
+    
+    @Test
+    public void invokerResizeShapeCommand(){
+        MyRectangle shape = new MyEnhancedRectangle();
+        
+        ResizeShapeCommand command = new ResizeRectangleCommand(shape, 10, 10, 30, 20);
+        commandInvoker.execute(command);
+        
+        Assert.assertEquals(10, shape.getTopLeftX(), 0);
+        Assert.assertEquals(10, shape.getTopLeftY(), 0);
+        Assert.assertEquals(30, shape.getBottomRightX(), 0);
+        Assert.assertEquals(20, shape.getBottomRightY(), 0);
+        
+        command = new ResizeRectangleCommand(shape, 10, 40, 80, 70);
+        commandInvoker.execute(command);
+        commandInvoker.undoLast();
+        
+        Assert.assertEquals(10, shape.getTopLeftX(), 0);
+        Assert.assertEquals(10, shape.getTopLeftY(), 0);
+        Assert.assertEquals(30, shape.getBottomRightX(), 0);
+        Assert.assertEquals(20, shape.getBottomRightY(), 0);
+    
+    }
+}
