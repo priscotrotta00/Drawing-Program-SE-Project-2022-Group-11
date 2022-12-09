@@ -77,9 +77,8 @@ public class SelectTool implements Tool{
     public void handleOnMouseDrag(Controller c, MouseEvent event) {
         if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
-        msc.setNewCoordinates(event.getX(), event.getY());
+        selectedShape.getSelectedItem().moveShape(event.getX(), event.getY());
         
-        c.getCommandInvoker().execute(msc);
     }
     
     /**
@@ -93,7 +92,9 @@ public class SelectTool implements Tool{
     public void handleOnDragEnd(Controller c, MouseEvent event) {
         if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
-        selectedShape.getSelectedItem().moveShape(event.getX(), event.getY());
+        msc.setNewCoordinates(event.getX(), event.getY());
+        
+        c.getCommandInvoker().execute(msc);
     }
     
     /**

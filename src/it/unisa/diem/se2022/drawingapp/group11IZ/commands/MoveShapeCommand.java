@@ -23,8 +23,10 @@ public class MoveShapeCommand implements Command{
      */
     public MoveShapeCommand(MyShape shape) {
         this.shape = shape;
-        this.oldX = this.shape.myGetLayoutBounds().getMinX();
-        this.oldY = this.shape.myGetLayoutBounds().getMinY();
+        double diffX = this.shape.myGetLayoutBounds().getMaxX() - this.shape.myGetLayoutBounds().getMinX();
+        double diffY = this.shape.myGetLayoutBounds().getMaxY() - this.shape.myGetLayoutBounds().getMinY();
+        this.oldX = this.shape.myGetLayoutBounds().getMinX() + diffX/2;
+        this.oldY = this.shape.myGetLayoutBounds().getMinY() + diffY/2;
     }
     
     /**
@@ -85,9 +87,7 @@ public class MoveShapeCommand implements Command{
     @Override
     public void execute() {
         shape.moveShape(this.newX, this.newY);
-        
-        this.oldX = this.newX;
-        this.oldY = this.newY;
+                
     }
     
     /**
@@ -98,8 +98,6 @@ public class MoveShapeCommand implements Command{
     public void undo() {
         shape.moveShape(this.oldX, this.oldY);
         
-        this.newX = this.oldX;
-        this.newY = this.oldY;
     }
     
     

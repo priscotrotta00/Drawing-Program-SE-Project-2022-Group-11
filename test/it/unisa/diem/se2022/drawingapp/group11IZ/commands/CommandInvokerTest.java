@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -229,15 +230,48 @@ public class CommandInvokerTest {
         
         msc.setNewCoordinates(x, y);
         
+        double diffX = myEnhancedRectangle.myGetLayoutBounds().getMaxX() - myEnhancedRectangle.myGetLayoutBounds().getMinX();
+        double diffY = myEnhancedRectangle.myGetLayoutBounds().getMaxY() - myEnhancedRectangle.myGetLayoutBounds().getMinY();
+
+        Assert.assertEquals("If oldX is equal to selectedShape minX coordinate", oldXField.get(msc), myEnhancedRectangle.myGetLayoutBounds().getMinX() + diffX / 2);
+        Assert.assertEquals("If oldY is equal to selectedShape minY coordinate", oldYField.get(msc), myEnhancedRectangle.myGetLayoutBounds().getMinY() + diffY / 2);
+        
         commandInvoker.execute(msc);
         
-        Assert.assertEquals("If oldX is equal to setted coordinates", x, oldXField.get(msc));
-        Assert.assertEquals("If oldY is equal to setted coordinates", y, oldYField.get(msc));
-        
+        Assert.assertTrue("If correctly moved", x == (myEnhancedRectangle.myGetLayoutBounds().getMinX() + diffX / 2));
+        Assert.assertTrue("If correctly moved", y == (myEnhancedRectangle.myGetLayoutBounds().getMinY() + diffY / 2));
+    
         commandInvoker.undoLast();
         
-        Assert.assertEquals("If newX is equal to setted coordinates", x, newXField.get(msc));
-        Assert.assertEquals("If newY is equal to setted coordinates", y, newYField.get(msc));
+        Assert.assertFalse("If correctly done the undo", x == (myEnhancedRectangle.myGetLayoutBounds().getMinX() + diffX / 2));
+        Assert.assertFalse("If correctly done the undo", y == (myEnhancedRectangle.myGetLayoutBounds().getMinY() + diffY / 2));
+        
+        Assert.assertTrue("If coordinates are correct", ((double)oldXField.get(msc)) == (myEnhancedRectangle.myGetLayoutBounds().getMinX() + diffX / 2));
+        Assert.assertTrue("If coordinates are correct", ((double)oldYField.get(msc)) == (myEnhancedRectangle.myGetLayoutBounds().getMinY() + diffY / 2));
+    
+    }
+    
+    @Test
+    public void invokerPasteShapeCommand(){
+        MyRectangle myRectangle = new MyEnhancedRectangle();
+        myRectangle.mySetFill(Color.RED);
+        myRectangle.mySetStroke(Color.BLACK);
+        myRectangle.mySetLayoutX(50.0);
+        myRectangle.mySetLayoutY(50.0);
+        myRectangle.mySetHeight(30.0);
+        myRectangle.mySetWidth(70.0);
+        
+        PasteShapeCommand psc = new PasteShapeCommand(this.c, myRectangle);
+        //psc.execute();
+        commandInvoker.execute(psc);
+        
+        MyShape myShape;
+        myShape = figures.get(0);
+        
+        Assert.assertEquals("Error in the paste of the rectangle", myShape.toString(), myRectangle.toString());
+        //psc.undo();
+        commandInvoker.undoLast();
+        Assert.assertTrue("Error in the undo paste of the shape", figures.isEmpty());
     
     }
     
@@ -262,5 +296,28 @@ public class CommandInvokerTest {
         Assert.assertEquals(30, shape.getBottomRightX(), 0);
         Assert.assertEquals(20, shape.getBottomRightY(), 0);
     
+    }
+    
+    @Test
+    public void clearStacktest(){
+        MyShape myRectangle = new MyEnhancedRectangle();
+        Command command = new CreateShapeCommand(c, myRectangle);
+        commandInvoker.execute(command);
+        myRectangle.mySetFill(Color.RED);
+        
+        ChangeColorCommand cccFill = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        
+        commandInvoker.execute(cccFill);
+        myRectangle.mySetStroke(Color.RED);
+        ChangeColorCommand cccStroke = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
+        
+        commandInvoker.execute(cccStroke);
+        
+        Assert.assertFalse("If stack is not empty", commandInvoker.stackIsEmptyProperty().get());
+        
+        commandInvoker.clearStack();
+        
+        Assert.assertTrue("If stack is empty", commandInvoker.stackIsEmptyProperty().get());
+        
     }
 }

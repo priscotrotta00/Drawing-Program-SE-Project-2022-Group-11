@@ -40,7 +40,7 @@ public abstract class DrawShapeTool implements Tool{
         this.startY = event.getY();
         
         this.setCreatedShape(this.createShape(startX, startY, startX, startY, c.getSelectedStrokeColor(), c.getSelectedFillColor()));
-        new CreateShapeCommand(c, this.createdShape).execute();
+        c.getCommandInvoker().execute(new CreateShapeCommand(c, this.createdShape));
         
     }
 

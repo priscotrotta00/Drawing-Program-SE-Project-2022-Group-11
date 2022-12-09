@@ -30,12 +30,9 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -46,7 +43,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -153,18 +149,16 @@ public class Controller implements Initializable {
         });
 
         selection = Selection.getInstance();
-        this.initializeChangeColorBindings();
-        
-        this.initializeDeleteBindings();
-
-        this.initializeCopyShapeBindings();
-        
-        this.initializePasteBindings();
-        
-        
-        this.initializeCutBindings();
-        
         commandInvoker = new CommandInvoker();
+        
+        this.initializeChangeColorBindings();
+        this.initializeDeleteBindings();
+        this.initializeCopyShapeBindings();
+        this.initializePasteBindings();
+        this.initializeCutBindings();
+        this.initializeUndoBindings();
+        
+        
     }
 
     /**
@@ -259,6 +253,10 @@ public class Controller implements Initializable {
     public void initializeCutBindings(){
         BooleanBinding cut = Bindings.or(not(this.selection.getSelectedProperty()),not(this.selectionToggleButton.selectedProperty()));
         cutButton.disableProperty().bind(cut);
+    }
+    
+    public void initializeUndoBindings(){
+        undoButton.disableProperty().bind(commandInvoker.stackIsEmptyProperty());
     }
 
     public void updateDraw() {
@@ -475,7 +473,6 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onCutAction(ActionEvent event) {
-        // aggiungere qua la gestion di quando viene premuta la cut
         MyShape selectedShape = selection.getSelectedItem();
         selection.unSelect();
         
@@ -494,7 +491,7 @@ public class Controller implements Initializable {
         if(not(clipboard.copiedProperty()).equals(true)) return;
         MyShape s = clipboard.getNewCopy();
         Command pasteShapeCommand = new PasteShapeCommand(this, s);
-        pasteShapeCommand.execute();
+        commandInvoker.execute(pasteShapeCommand);
     }
 
     public Drawing getDraw() {
@@ -503,5 +500,8 @@ public class Controller implements Initializable {
 
     @FXML
     private void onUndoAction(ActionEvent event) {
+        if(selection.getSelectedValue()) selection.unSelect();
+        
+        this.commandInvoker.undoLast();
     }
 }
