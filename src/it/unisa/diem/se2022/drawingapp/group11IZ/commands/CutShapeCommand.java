@@ -6,9 +6,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
-import it.unisa.diem.se2022.drawingapp.group11IZ.clipboard.Clipboard;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import javafx.scene.Node;
 
 /**
  *
@@ -49,7 +47,6 @@ public class CutShapeCommand implements Command{
 
     @Override
     public void undo() {
-        
         this.controller.addShape(this.cuttedShape);
         
     }

@@ -17,16 +17,27 @@ public class MoveShapeCommand implements Command{
     private MyShape shape;
     
     /**
-     * Costructor. Initialize the shape and the new top left
-     * coordinates of the shape with the shape coordinates. 
-     * Inizialize the old coordinates to zero
+     * Costructor. Initialize the shape and the old top left
+     * coordinates of the shape with the shape coordinates.
      * @param shape 
      */
     public MoveShapeCommand(MyShape shape) {
         this.shape = shape;
-        this.newX = this.shape.myGetLayoutBounds().getMinX();
-        this.newY = this.shape.myGetLayoutBounds().getMinY();
-        this.oldX = this.oldY = 0.0;
+        double diffX = this.shape.myGetLayoutBounds().getMaxX() - this.shape.myGetLayoutBounds().getMinX();
+        double diffY = this.shape.myGetLayoutBounds().getMaxY() - this.shape.myGetLayoutBounds().getMinY();
+        this.oldX = this.shape.myGetLayoutBounds().getMinX() + diffX/2;
+        this.oldY = this.shape.myGetLayoutBounds().getMinY() + diffY/2;
+    }
+    
+    /**
+     * Sets the new coordinates. Values newX and NewY are
+     * passed as parameter.
+     * @param newX
+     * @param newY 
+     */
+    public void setNewCoordinates(double newX, double newY){
+        this.newX = newX;
+        this.newY = newY;
     }
 
     public double getOldX() {
@@ -70,21 +81,23 @@ public class MoveShapeCommand implements Command{
     }
     
     /**
-     * This method handle the changing of new and old coordinates
-     * of the shape
+     * This method calls the method moveShape passing as values this newX and
+     * newY and than it change this oldX and oldY value with newX and newY
      */
     @Override
     public void execute() {
-        this.oldX = this.newX;
-        this.oldY = this.newY;
-        this.newX = this.shape.myGetLayoutBounds().getMinX();
-        this.newY = this.shape.myGetLayoutBounds().getMinY();
+        shape.moveShape(this.newX, this.newY);
+                
     }
     
+    /**
+     * This method calls the method moveShape passing as values this oldX and
+     * oldY and than it change this newX and newY value with oldX and oldY
+     */
     @Override
     public void undo() {
-        //this.newX = this.oldX;
-        //this.newY = this.oldY;  
+        shape.moveShape(this.oldX, this.oldY);
+        
     }
     
     

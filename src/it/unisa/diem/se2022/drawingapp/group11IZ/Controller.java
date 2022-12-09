@@ -9,7 +9,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandExecutor;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandInvoker;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveBackgroundShapeCommand;
@@ -32,8 +32,6 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,7 +46,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -99,6 +96,17 @@ public class Controller implements Initializable {
     private Label fillLabel;
     @FXML
     private ColorPicker fillColorPicker;
+
+    private Drawing draw;
+
+    //ADDED
+    private ToggleGroup toolToggleGroup;
+    private Rectangle clip;
+    private Tool selectedTool;
+    private Selection selection;
+    private CommandInvoker commandInvoker;
+    private Clipboard clipboard;
+
     @FXML
     private Label colorsLabel;
     @FXML
@@ -114,13 +122,6 @@ public class Controller implements Initializable {
     @FXML
     private Button undoButton;
 
-    //ADDED
-    private ToggleGroup toolToggleGroup;
-    private Drawing draw;
-    private Rectangle clip;
-    private Tool selectedTool;
-    private Selection selection;
-    private Clipboard clipboard;
     @FXML
     private Button foregroundButton;
     @FXML
@@ -155,19 +156,19 @@ public class Controller implements Initializable {
         });
 
         selection = Selection.getInstance();
-        this.initializeChangeColorBindings();
+        commandInvoker = new CommandInvoker();
         
+        this.initializeChangeColorBindings();
         this.initializeDeleteBindings();
-
         this.initializeCopyShapeBindings();
         this.initializeMoveBackgroundBindings();
         this.initializeMoveForegroundBindings();
         
         this.initializePasteBindings();
-        
-        
         this.initializeCutBindings();
-
+        this.initializeUndoBindings();
+        
+        
     }
 
     /**
@@ -262,7 +263,6 @@ public class Controller implements Initializable {
     public void initializeMoveBackgroundBindings(){
         BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         backgroundButton.disableProperty().bind(del);
-        System.out.println("Sono qui");
     }
     /**
      * Initialize ForeBackground bindings
@@ -280,6 +280,10 @@ public class Controller implements Initializable {
         BooleanBinding cut = Bindings.or(not(this.selection.getSelectedProperty()),not(this.selectionToggleButton.selectedProperty()));
         cutButton.disableProperty().bind(cut);
     }
+    
+    public void initializeUndoBindings(){
+        undoButton.disableProperty().bind(commandInvoker.stackIsEmptyProperty());
+    }
 
     public void updateDraw() {
 
@@ -287,6 +291,10 @@ public class Controller implements Initializable {
 
     public Pane getDrawPane() {
         return drawPane;
+    }
+    
+    public CommandInvoker getCommandInvoker(){
+        return this.commandInvoker;
     }
 
     /**
@@ -438,7 +446,7 @@ public class Controller implements Initializable {
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
         Command ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
-        ccc.execute();
+        commandInvoker.execute(ccc);
     }
 
     /**
@@ -449,7 +457,7 @@ public class Controller implements Initializable {
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
         Command ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
-        ccc.execute();
+        commandInvoker.execute(ccc);
     }
 
     
@@ -491,7 +499,7 @@ public class Controller implements Initializable {
         MyShape s = selection.getSelectedItem();
         selection.unSelect();
         Command deleteCommand = new DeleteShapeCommand(this, s);
-        deleteCommand.execute();
+        commandInvoker.execute(deleteCommand);
     }
     
     /**
@@ -500,12 +508,11 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onCutAction(ActionEvent event) {
-        // aggiungere qua la gestion di quando viene premuta la cut
         MyShape selectedShape = selection.getSelectedItem();
         selection.unSelect();
         
         Command cutCommand = new CutShapeCommand(selectedShape, this);
-        cutCommand.execute();
+        commandInvoker.execute(cutCommand);
     }
 
     /**
@@ -519,7 +526,7 @@ public class Controller implements Initializable {
         if(not(clipboard.copiedProperty()).equals(true)) return;
         MyShape s = clipboard.getNewCopy();
         Command pasteShapeCommand = new PasteShapeCommand(this, s);
-        pasteShapeCommand.execute();
+        commandInvoker.execute(pasteShapeCommand);
     }
 
     public Drawing getDraw() {
@@ -531,8 +538,7 @@ public class Controller implements Initializable {
         MyShape s = selection.getSelectedItem();
         selection.unSelect();
         Command moveForegroundCommand=new MoveForegroundShapeCommand(this,s);
-        moveForegroundCommand.execute();
-    
+        commandInvoker.execute(moveForegroundCommand);
     }
 
     @FXML
@@ -540,9 +546,13 @@ public class Controller implements Initializable {
         MyShape s = selection.getSelectedItem();
         selection.unSelect();
         Command moveBackgroundCommand=new MoveBackgroundShapeCommand(this,s);
-        moveBackgroundCommand.execute();}
+        commandInvoker.execute(moveBackgroundCommand);
+    }
     
     @FXML
     private void onUndoAction(ActionEvent event) {
+        if(selection.getSelectedValue()) selection.unSelect();
+        
+        this.commandInvoker.undoLast();
     }
 }
