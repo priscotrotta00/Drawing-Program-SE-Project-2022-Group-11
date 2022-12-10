@@ -29,11 +29,17 @@ public class MoveBackgroundShapeCommand implements Command {
         this.layerShape=this.controller.getDraw().getShapeLayer(shape);
         
     }
+    /**
+     * Execute the MoveBackground
+     */
     @Override
     public void execute() {
         this.controller.moveShapeToBackground(shape);
     }
 
+    /**
+     * Undo of operation MoveBackground
+     */
     @Override
     public void undo() {
         this.controller.removeShape(shape);

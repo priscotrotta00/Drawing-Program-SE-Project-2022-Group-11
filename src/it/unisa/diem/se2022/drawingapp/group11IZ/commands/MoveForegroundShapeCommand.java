@@ -29,13 +29,18 @@ public class MoveForegroundShapeCommand implements Command {
         this.layerShape=this.controller.getDraw().getShapeLayer(shape);
         
     }
-    
+    /**
+     * Execute MoveForeground
+     */
     @Override
     public void execute() {
         this.controller.moveShapeToForeground(shape);
         
     }
 
+    /**
+     * Undo of operation
+     */
     @Override
     public void undo() {
         this.controller.removeShape(shape);
