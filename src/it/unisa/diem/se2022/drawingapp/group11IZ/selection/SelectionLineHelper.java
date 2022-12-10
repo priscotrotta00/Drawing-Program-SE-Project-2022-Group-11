@@ -54,10 +54,10 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
         lineBoundingBoxEdge.myStartYProperty().bind(this.getPreview().myStartYProperty());
         lineBoundingBoxEdge.myEndXProperty().bind(this.getPreview().myEndXProperty());
         lineBoundingBoxEdge.myEndYProperty().bind(this.getPreview().myEndYProperty());
-        lineBoundingBoxEdge.myGetStrokeDashArray().addAll(strokeDashList);
+        lineBoundingBoxEdge.myGetStrokeDashArray().addAll(STROKE_DASH_LIST);
         
         // Define the aspect of the bounding box
-        lineBoundingBoxEdge.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + strokeVertexOffset);
+        lineBoundingBoxEdge.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + STROKE_VERTEX_OFFSET);
         lineBoundingBoxEdge.mySetFill(Color.TRANSPARENT);
         
         return lineBoundingBoxEdge;
@@ -66,16 +66,16 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
     @Override
     void updateVertices() {
         // Initialize first vertex on the start point of the line
-        this.getVertex1().mySetWidth(widthVertex);
-        this.getVertex1().mySetHeight(heightVertex);
-        this.getVertex1().myXProperty().bind(this.getPreview().myStartXProperty().subtract(widthVertex/2));
-        this.getVertex1().myYProperty().bind(this.getPreview().myStartYProperty().subtract(widthVertex/2));
+        this.getVertex1().mySetWidth(WIDTH_VERTEX);
+        this.getVertex1().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex1().myXProperty().bind(this.getPreview().myStartXProperty().subtract(WIDTH_VERTEX/2));
+        this.getVertex1().myYProperty().bind(this.getPreview().myStartYProperty().subtract(WIDTH_VERTEX/2));
         
         // Initialize first vertex on the end point of the line
-        this.getVertex2().mySetWidth(widthVertex);
-        this.getVertex2().mySetHeight(heightVertex);
-        this.getVertex2().myXProperty().bind(this.getPreview().myEndXProperty().subtract(widthVertex/2));
-        this.getVertex2().myYProperty().bind(this.getPreview().myEndYProperty().subtract(widthVertex/2));
+        this.getVertex2().mySetWidth(WIDTH_VERTEX);
+        this.getVertex2().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex2().myXProperty().bind(this.getPreview().myEndXProperty().subtract(WIDTH_VERTEX/2));
+        this.getVertex2().myYProperty().bind(this.getPreview().myEndYProperty().subtract(WIDTH_VERTEX/2));
     }
 
     @Override
