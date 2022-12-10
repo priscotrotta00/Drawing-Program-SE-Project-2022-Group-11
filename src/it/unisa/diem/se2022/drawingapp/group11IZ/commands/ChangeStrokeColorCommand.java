@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
 
@@ -20,9 +21,10 @@ public class ChangeStrokeColorCommand extends ChangeColorCommand{
      * @param newColor The new stroke color of the shape
      */
     
-    public ChangeStrokeColorCommand(MyShape myShape, Color newColor) {
+    public ChangeStrokeColorCommand(Canvas canvas, MyShape myShape, Color newColor) {
         super.setMyShape(myShape);
         super.setNewColor(newColor);
+        super.setCanvas(canvas);
     }
     
     /**
@@ -33,7 +35,7 @@ public class ChangeStrokeColorCommand extends ChangeColorCommand{
     
     @Override
     public void changeColor(Color color) {
-        super.getMyShape().mySetStroke(color);
+        super.getCanvas().changeShapeStrokeColor(this.getMyShape(), color);
     }
     
 }

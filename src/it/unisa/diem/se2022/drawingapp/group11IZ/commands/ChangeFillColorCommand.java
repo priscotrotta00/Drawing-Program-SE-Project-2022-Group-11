@@ -4,7 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
 
@@ -21,9 +21,10 @@ public class ChangeFillColorCommand extends ChangeColorCommand{
      * @param newColor The new fill color of the shape
      */
     
-    public ChangeFillColorCommand(MyShape myShape, Color newColor) {
+    public ChangeFillColorCommand(Canvas canvas, MyShape myShape, Color newColor) {
         super.setMyShape(myShape);
         super.setNewColor(newColor);
+        super.setCanvas(canvas);
     }
         
     /**
@@ -34,7 +35,7 @@ public class ChangeFillColorCommand extends ChangeColorCommand{
     
     @Override
     public void changeColor(Color color) {
-        super.getMyShape().mySetFill(color);
+        super.getCanvas().changeShapeFillColor(this.getMyShape(), color);
     }
     
 }

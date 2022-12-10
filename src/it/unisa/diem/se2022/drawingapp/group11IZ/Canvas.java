@@ -231,8 +231,6 @@ public class Canvas implements Initializable {
         
         layer = this.draw.getShapeLayer(shape);
         preview = shape.clone();
-        preview.myStrokeProperty().bind(selectedStrokeColor);
-        preview.myFillProperty().bind(selectedFillColor);
         
         drawPane.getChildren().remove(shape.getView());
         this.previewShapesMap.put(shape, preview);
@@ -284,6 +282,26 @@ public class Canvas implements Initializable {
         //for drawpane
         this.getDrawPane().getChildren().add(layer, s.getView());
 
+    }
+    
+    /**
+     * Change stroke color of the given shape and its preview (if any)
+     * @param myShape
+     * @param color 
+     */
+    public void changeShapeStrokeColor(MyShape myShape, Color color) {
+        myShape.mySetStroke(color);
+        if (this.previewShapesMap.containsKey(myShape)) this.previewShapesMap.get(myShape).mySetStroke(color);
+    }
+    
+    /**
+     * Change fill color of the given shape and its preview (if any)
+     * @param myShape
+     * @param color 
+     */
+    public void changeShapeFillColor(MyShape myShape, Color color) {
+        myShape.mySetFill(color);
+        if (this.previewShapesMap.containsKey(myShape)) this.previewShapesMap.get(myShape).mySetFill(color);
     }
     
 }

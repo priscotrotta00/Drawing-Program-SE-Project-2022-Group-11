@@ -4,19 +4,45 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import java.lang.reflect.Field;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import org.junit.Before;
 
 /**
  *
  * @author prisc
  */
 public class ChangeColorCommandTest {
+    private Canvas canvas;
+    private Field drawField;
+    private Field drawPaneField;
+    private Pane pane;
+    private Drawing draw;
+
+    @Before
+    public void setUp() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        this.canvas = new Canvas();
+        this.pane = new Pane();
+
+        drawPaneField = Canvas.class.getDeclaredField("drawPane");
+        drawField = Canvas.class.getDeclaredField("draw");
+        
+        drawPaneField.setAccessible(true);
+        drawField.setAccessible(true);
+        
+        drawPaneField.set(canvas, pane);
+        canvas.initialize(null, null);
+        draw = canvas.getDraw();
+        
+    }
     
     /*@Test
     public void testSetOldColor() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
@@ -33,7 +59,7 @@ public class ChangeColorCommandTest {
     public void testSetNewColor() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.RED);
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         ccc.setNewColor(Color.YELLOW);
         Field newColorField = ChangeColorCommand.class.getDeclaredField("newColor");
         newColorField.setAccessible(true);
@@ -44,7 +70,7 @@ public class ChangeColorCommandTest {
     public void testSetMyShape() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.RED);
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         MyShape myLine = new MyEnhancedLine();
         ccc.setMyShape(myLine);
         Field myShapeField = ChangeColorCommand.class.getDeclaredField("myShape");
@@ -55,25 +81,25 @@ public class ChangeColorCommandTest {
     @Test (expected = NullPointerException.class)   //Test with a null object Shape
     public void testChangeFillColorCommandNullShape(){
         MyShape myShape = null;
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myShape, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myShape, Color.BLUEVIOLET);
     }
     
     @Test (expected = NullPointerException.class)   //Test with a null object Fill Color
     public void testChangeFillColorCommandNullColor(){
         MyShape myRectangle = new MyEnhancedRectangle();
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, null);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, null);
     }
     
     @Test (expected = NullPointerException.class)   //Test with a null object Shape
     public void testChangeStrokeColorCommandNullShape(){
         MyShape myShape = null;
-        ChangeColorCommand ccc = new ChangeStrokeColorCommand(myShape, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeStrokeColorCommand(canvas, myShape, Color.BLUEVIOLET);
     }
     
     @Test (expected = NullPointerException.class)   //Test with a null object Stroke Color
     public void testChangeStrokeColorCommandNullColor(){
         MyShape myRectangle = new MyEnhancedRectangle();
-        ChangeColorCommand ccc = new ChangeStrokeColorCommand(myRectangle, null);
+        ChangeColorCommand ccc = new ChangeStrokeColorCommand(canvas, myRectangle, null);
     }
     
     /*@Test
@@ -89,7 +115,7 @@ public class ChangeColorCommandTest {
     public void testGetNewColor(){
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.RED);
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         Color oldColor = ccc.getNewColor();
         assertEquals("Error in getNewColor", Color.BLUEVIOLET.toString(), oldColor.toString());
     }
@@ -98,7 +124,7 @@ public class ChangeColorCommandTest {
     public void testGetMyShape(){
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.RED);
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         MyShape testShape = ccc.getMyShape();
         assertEquals("Error in getMyShape", myRectangle.toString(), testShape.toString());
     }
@@ -108,7 +134,7 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.RED);
         
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         ccc.changeColor(ccc.getNewColor()); 
         assertEquals("Fill color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetFill().toString());
     }
@@ -118,7 +144,7 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.RED);
         
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
         assertEquals("Fill color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetFill().toString());
     }
@@ -128,7 +154,7 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.RED);
         
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
         assertEquals("Fill color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetFill().toString());
         
@@ -141,9 +167,9 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.ANTIQUEWHITE);
         
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
-        ChangeColorCommand ccc2 = new ChangeFillColorCommand(myRectangle, Color.BROWN);
+        ChangeColorCommand ccc2 = new ChangeFillColorCommand(canvas, myRectangle, Color.BROWN);
         ccc2.execute(); 
         
         ccc2.undo();
@@ -155,7 +181,7 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetStroke(Color.RED);
         
-        ChangeColorCommand ccc = new ChangeStrokeColorCommand(myRectangle, Color.BLACK);
+        ChangeColorCommand ccc = new ChangeStrokeColorCommand(canvas, myRectangle, Color.BLACK);
         ccc.changeColor(ccc.getNewColor()); 
         assertEquals("Stroke color is not changed correctly!", Color.BLACK.toString(), myRectangle.myGetStroke().toString());
     }
@@ -165,7 +191,7 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetStroke(Color.RED);
         
-        ChangeColorCommand ccc = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeStrokeColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
         assertEquals("Stroke color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetStroke().toString());
     }
@@ -175,7 +201,7 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetStroke(Color.RED);
         
-        ChangeColorCommand ccc = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeStrokeColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
         assertEquals("Stroke color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetStroke().toString());
     
@@ -188,9 +214,9 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetStroke(Color.ANTIQUEWHITE);
         
-        ChangeColorCommand ccc = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand ccc = new ChangeStrokeColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
-        ChangeColorCommand ccc2 = new ChangeStrokeColorCommand(myRectangle, Color.BROWN);
+        ChangeColorCommand ccc2 = new ChangeStrokeColorCommand(canvas, myRectangle, Color.BROWN);
         ccc2.execute(); 
         
         ccc2.undo();

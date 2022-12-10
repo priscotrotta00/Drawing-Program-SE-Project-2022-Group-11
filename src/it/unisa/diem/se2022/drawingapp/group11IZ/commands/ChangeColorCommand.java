@@ -4,6 +4,7 @@
  */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
+import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
 
@@ -14,6 +15,7 @@ import javafx.scene.paint.Color;
 public abstract class ChangeColorCommand implements Command{
     private MyShape myShape;
     private MyShape.Snapshot snapshot;
+    private Canvas canvas;
     private Color newColor;
     
     /**
@@ -53,6 +55,14 @@ public abstract class ChangeColorCommand implements Command{
     void setNewColor(Color newColor) {
         if(newColor == null) throw new NullPointerException();
         this.newColor = newColor;
+    }
+    
+    Canvas getCanvas(){
+        return canvas;
+    }
+    
+    void setCanvas(Canvas canvas){
+        this.canvas = canvas;
     }
     
     /**

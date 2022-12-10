@@ -244,7 +244,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
-        Command ccc = new ChangeStrokeColorCommand(this.canvasController.getSelection().getSelectedItem(), this.getSelectedStrokeColor());
+        Command ccc = new ChangeStrokeColorCommand(this.canvasController, this.canvasController.getSelection().getSelectedItem(), this.getSelectedStrokeColor());
 
         this.canvasController.getCommandInvoker().execute(ccc);
     }
@@ -255,7 +255,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
-        Command ccc = new ChangeFillColorCommand(this.canvasController.getSelection().getSelectedItem(), this.getSelectedFillColor());
+        Command ccc = new ChangeFillColorCommand(this.canvasController, this.canvasController.getSelection().getSelectedItem(), this.getSelectedFillColor());
         this.canvasController.getCommandInvoker().execute(ccc);
     }
     

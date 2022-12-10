@@ -16,7 +16,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
 import java.util.Iterator;
-import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -95,7 +94,7 @@ public class CommandInvokerTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         myRectangle.mySetFill(Color.RED);
         
-        ChangeColorCommand cccFill = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand cccFill = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         
         commandInvoker.execute(cccFill);
         
@@ -106,7 +105,7 @@ public class CommandInvokerTest {
         Assert.assertEquals("Command invoker executed change of color", myRectangle.myGetFill().toString(), Color.RED.toString());
         
         myRectangle.mySetStroke(Color.RED);
-        ChangeColorCommand cccStroke = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand cccStroke = new ChangeStrokeColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         
         commandInvoker.execute(cccStroke);
         
@@ -307,11 +306,11 @@ public class CommandInvokerTest {
         commandInvoker.execute(command);
         myRectangle.mySetFill(Color.RED);
         
-        ChangeColorCommand cccFill = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand cccFill = new ChangeFillColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         
         commandInvoker.execute(cccFill);
         myRectangle.mySetStroke(Color.RED);
-        ChangeColorCommand cccStroke = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
+        ChangeColorCommand cccStroke = new ChangeStrokeColorCommand(canvas, myRectangle, Color.BLUEVIOLET);
         
         commandInvoker.execute(cccStroke);
         
