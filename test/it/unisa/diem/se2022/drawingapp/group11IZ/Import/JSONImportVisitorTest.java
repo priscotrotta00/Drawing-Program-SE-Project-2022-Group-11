@@ -69,6 +69,7 @@ public class JSONImportVisitorTest {
         jsonRectangleObject.put("width", myRectangle.myGetWidth());
         jsonRectangleObject.put("x", myRectangle.myGetX());
         jsonRectangleObject.put("y", myRectangle.myGetY());
+        jsonRectangleObject.put("stroke-width", myRectangle.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyRectangle myTestRectangle = new MyEnhancedRectangle();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonRectangleObject, draw);
@@ -89,6 +90,7 @@ public class JSONImportVisitorTest {
         jsonRectangleObject.put("width", myRectangle.myGetWidth());
         jsonRectangleObject.put("x", myRectangle.myGetX());
         jsonRectangleObject.put("y", myRectangle.myGetY());
+        jsonRectangleObject.put("stroke-width", myRectangle.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyRectangle myTestRectangle = new MyEnhancedRectangle();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonRectangleObject, draw);
@@ -107,6 +109,7 @@ public class JSONImportVisitorTest {
         myRectangle.mySetWidth(50.0);
         myRectangle.mySetX(20.0);
         myRectangle.mySetY(20.0);
+        myRectangle.mySetStrokeWidth(2.0);
         jsonRectangleObject.put("type", "rectangle");
         jsonRectangleObject.put("fill", myRectangle.myGetFill().toString());
         jsonRectangleObject.put("stroke", myRectangle.myGetStroke().toString());
@@ -114,6 +117,7 @@ public class JSONImportVisitorTest {
         jsonRectangleObject.put("width", myRectangle.myGetWidth());
         jsonRectangleObject.put("x", myRectangle.myGetX());
         jsonRectangleObject.put("y", myRectangle.myGetY());
+        jsonRectangleObject.put("stroke-width", myRectangle.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyRectangle myTestRectangle = new MyEnhancedRectangle();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonRectangleObject, draw);
@@ -132,6 +136,7 @@ public class JSONImportVisitorTest {
         myRectangle.mySetWidth(50.0);
         myRectangle.mySetX(20.0);
         myRectangle.mySetY(20.0);
+        myRectangle.mySetStrokeWidth(2.0);
         jsonRectangleObject.put("type", "rectangle");
         jsonRectangleObject.put("fill", null);
         jsonRectangleObject.put("stroke", null);
@@ -139,6 +144,7 @@ public class JSONImportVisitorTest {
         jsonRectangleObject.put("width", myRectangle.myGetWidth());
         jsonRectangleObject.put("x", myRectangle.myGetX());
         jsonRectangleObject.put("y", myRectangle.myGetY());
+        jsonRectangleObject.put("stroke-width", myRectangle.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyRectangle myTestRectangle = new MyEnhancedRectangle();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonRectangleObject, draw);
@@ -157,6 +163,7 @@ public class JSONImportVisitorTest {
         myRectangle.mySetWidth(-50.0);
         myRectangle.mySetX(-20.0);
         myRectangle.mySetY(-20.0);
+        myRectangle.mySetStrokeWidth(-2.0);
         jsonRectangleObject.put("type", "rectangle");
         jsonRectangleObject.put("fill", myRectangle.myGetFill().toString());
         jsonRectangleObject.put("stroke", myRectangle.myGetStroke().toString());
@@ -164,6 +171,7 @@ public class JSONImportVisitorTest {
         jsonRectangleObject.put("width", myRectangle.myGetWidth());
         jsonRectangleObject.put("x", myRectangle.myGetX());
         jsonRectangleObject.put("y", myRectangle.myGetY());
+        jsonRectangleObject.put("stroke-width", myRectangle.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyRectangle myTestRectangle = new MyEnhancedRectangle();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonRectangleObject, draw);
@@ -182,6 +190,7 @@ public class JSONImportVisitorTest {
         myRectangle.mySetWidth(-50.0);
         myRectangle.mySetX(-20.0);
         myRectangle.mySetY(-20.0);
+        myRectangle.mySetStrokeWidth(-2.0);
         jsonRectangleObject.put("type", "rectangle");
         jsonRectangleObject.put("fill", null);
         jsonRectangleObject.put("stroke", null);
@@ -189,6 +198,7 @@ public class JSONImportVisitorTest {
         jsonRectangleObject.put("width", myRectangle.myGetWidth());
         jsonRectangleObject.put("x", myRectangle.myGetX());
         jsonRectangleObject.put("y", myRectangle.myGetY());
+        jsonRectangleObject.put("stroke-width", myRectangle.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyRectangle myTestRectangle = new MyEnhancedRectangle();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonRectangleObject, draw);
@@ -227,6 +237,7 @@ public class JSONImportVisitorTest {
         jsonEllipseObject.put("centerY", myEllipse.myGetCenterY());
         jsonEllipseObject.put("radiusX", myEllipse.myGetRadiusX());
         jsonEllipseObject.put("radiusY", myEllipse.myGetRadiusY());
+        jsonEllipseObject.put("stroke-width", myEllipse.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyEllipse myTestEllipse = new MyEnhancedEllipse();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonEllipseObject, draw);
@@ -247,6 +258,7 @@ public class JSONImportVisitorTest {
         jsonEllipseObject.put("centerY", myEllipse.myGetCenterY());
         jsonEllipseObject.put("radiusX", myEllipse.myGetRadiusX());
         jsonEllipseObject.put("radiusY", myEllipse.myGetRadiusY());
+        jsonEllipseObject.put("stroke-width", myEllipse.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyEllipse myTestEllipse = new MyEnhancedEllipse();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonEllipseObject, draw);
@@ -265,6 +277,7 @@ public class JSONImportVisitorTest {
         myEllipse.mySetRadiusY(50.0);
         myEllipse.mySetStroke(Color.BLACK);
         myEllipse.mySetFill(Color.WHITE);
+        myEllipse.mySetStrokeWidth(2.0);
         jsonEllipseObject.put("type", "ellipse");
         jsonEllipseObject.put("fill", myEllipse.myGetFill().toString());
         jsonEllipseObject.put("stroke", myEllipse.myGetStroke().toString());
@@ -272,6 +285,7 @@ public class JSONImportVisitorTest {
         jsonEllipseObject.put("centerY", myEllipse.myGetCenterY());
         jsonEllipseObject.put("radiusX", myEllipse.myGetRadiusX());
         jsonEllipseObject.put("radiusY", myEllipse.myGetRadiusY());
+        jsonEllipseObject.put("stroke-width", myEllipse.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyEllipse myTestEllipse = new MyEnhancedEllipse();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonEllipseObject, draw);
@@ -290,6 +304,7 @@ public class JSONImportVisitorTest {
         myEllipse.mySetRadiusY(50.0);
         myEllipse.mySetStroke(null);
         myEllipse.mySetFill(null);
+        myEllipse.mySetStrokeWidth(2.0);
         jsonEllipseObject.put("type", "ellipse");
         jsonEllipseObject.put("fill", null);
         jsonEllipseObject.put("stroke", null);
@@ -297,6 +312,7 @@ public class JSONImportVisitorTest {
         jsonEllipseObject.put("centerY", myEllipse.myGetCenterY());
         jsonEllipseObject.put("radiusX", myEllipse.myGetRadiusX());
         jsonEllipseObject.put("radiusY", myEllipse.myGetRadiusY());
+        jsonEllipseObject.put("stroke-width", myEllipse.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyEllipse myTestEllipse = new MyEnhancedEllipse();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonEllipseObject, draw);
@@ -315,6 +331,7 @@ public class JSONImportVisitorTest {
         myEllipse.mySetRadiusY(-50.0);
         myEllipse.mySetStroke(Color.BLACK);
         myEllipse.mySetFill(Color.WHITE);
+        myEllipse.mySetStrokeWidth(-2.0);
         jsonEllipseObject.put("type", "ellipse");
         jsonEllipseObject.put("fill", myEllipse.myGetFill().toString());
         jsonEllipseObject.put("stroke", myEllipse.myGetStroke().toString());
@@ -322,6 +339,7 @@ public class JSONImportVisitorTest {
         jsonEllipseObject.put("centerY", myEllipse.myGetCenterY());
         jsonEllipseObject.put("radiusX", myEllipse.myGetRadiusX());
         jsonEllipseObject.put("radiusY", myEllipse.myGetRadiusY());
+        jsonEllipseObject.put("stroke-width", myEllipse.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyEllipse myTestEllipse = new MyEnhancedEllipse();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonEllipseObject, draw);
@@ -340,6 +358,7 @@ public class JSONImportVisitorTest {
         myEllipse.mySetRadiusY(-50.0);
         myEllipse.mySetStroke(null);
         myEllipse.mySetFill(null);
+        myEllipse.mySetStrokeWidth(-2.0);
         jsonEllipseObject.put("type", "ellipse");
         jsonEllipseObject.put("fill", null);
         jsonEllipseObject.put("stroke", null);
@@ -347,6 +366,7 @@ public class JSONImportVisitorTest {
         jsonEllipseObject.put("centerY", myEllipse.myGetCenterY());
         jsonEllipseObject.put("radiusX", myEllipse.myGetRadiusX());
         jsonEllipseObject.put("radiusY", myEllipse.myGetRadiusY());
+        jsonEllipseObject.put("stroke-width", myEllipse.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyEllipse myTestEllipse = new MyEnhancedEllipse();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonEllipseObject, draw);
@@ -384,7 +404,8 @@ public class JSONImportVisitorTest {
         jsonLineObject.put("endX", myLine.myGetEndX());
         jsonLineObject.put("endY", myLine.myGetEndY());
         jsonLineObject.put("startX", myLine.myGetStartX());
-        jsonLineObject.put("startY", myLine.myGetStartY());  
+        jsonLineObject.put("startY", myLine.myGetStartY());
+        jsonLineObject.put("stroke-width", myLine.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyLine myTestLine = new MyEnhancedLine();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonLineObject, draw);
@@ -405,6 +426,7 @@ public class JSONImportVisitorTest {
         jsonLineObject.put("endY", myLine.myGetEndY());
         jsonLineObject.put("startX", myLine.myGetStartX());
         jsonLineObject.put("startY", myLine.myGetStartY());  
+        jsonLineObject.put("stroke-width", myLine.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyLine myTestLine = new MyEnhancedLine();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonLineObject, draw);
@@ -423,6 +445,7 @@ public class JSONImportVisitorTest {
         myLine.mySetStartY(25.0);
         myLine.mySetFill(Color.WHITE);
         myLine.mySetStroke(Color.BLACK);
+        myLine.mySetStrokeWidth(2.0);
         jsonLineObject.put("type", "line");
         jsonLineObject.put("fill", myLine.myGetFill().toString());
         jsonLineObject.put("stroke", myLine.myGetStroke().toString());
@@ -430,6 +453,7 @@ public class JSONImportVisitorTest {
         jsonLineObject.put("endY", myLine.myGetEndY());
         jsonLineObject.put("startX", myLine.myGetStartX());
         jsonLineObject.put("startY", myLine.myGetStartY());  
+        jsonLineObject.put("stroke-width", myLine.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyLine myTestLine = new MyEnhancedLine();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonLineObject, draw);
@@ -448,6 +472,7 @@ public class JSONImportVisitorTest {
         myLine.mySetStartY(25.0);
         myLine.mySetFill(null);
         myLine.mySetStroke(null);
+        myLine.mySetStrokeWidth(2.0);
         jsonLineObject.put("type", "line");
         jsonLineObject.put("fill", null);
         jsonLineObject.put("stroke", null);
@@ -455,6 +480,7 @@ public class JSONImportVisitorTest {
         jsonLineObject.put("endY", myLine.myGetEndY());
         jsonLineObject.put("startX", myLine.myGetStartX());
         jsonLineObject.put("startY", myLine.myGetStartY());  
+        jsonLineObject.put("stroke-width", myLine.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyLine myTestLine = new MyEnhancedLine();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonLineObject, draw);
@@ -473,6 +499,7 @@ public class JSONImportVisitorTest {
         myLine.mySetStartY(-25.0);
         myLine.mySetFill(Color.WHITE);
         myLine.mySetStroke(Color.BLACK);
+        myLine.mySetStrokeWidth(-2.0);
         jsonLineObject.put("type", "line");
         jsonLineObject.put("fill", myLine.myGetFill().toString());
         jsonLineObject.put("stroke", myLine.myGetStroke().toString());
@@ -480,6 +507,7 @@ public class JSONImportVisitorTest {
         jsonLineObject.put("endY", myLine.myGetEndY());
         jsonLineObject.put("startX", myLine.myGetStartX());
         jsonLineObject.put("startY", myLine.myGetStartY());  
+        jsonLineObject.put("stroke-width", myLine.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyLine myTestLine = new MyEnhancedLine();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonLineObject, draw);
@@ -498,13 +526,15 @@ public class JSONImportVisitorTest {
         myLine.mySetStartY(-25.0);
         myLine.mySetFill(null);
         myLine.mySetStroke(null);
+        myLine.mySetStrokeWidth(-2.0);
         jsonLineObject.put("type", "line");
         jsonLineObject.put("fill", null);
         jsonLineObject.put("stroke", null);
         jsonLineObject.put("endX", myLine.myGetEndX());
         jsonLineObject.put("endY", myLine.myGetEndY());
         jsonLineObject.put("startX", myLine.myGetStartX());
-        jsonLineObject.put("startY", myLine.myGetStartY());  
+        jsonLineObject.put("startY", myLine.myGetStartY()); 
+        jsonLineObject.put("stroke-width", myLine.myGetStrokeWidth());
         Drawing draw = new Drawing();
         MyLine myTestLine = new MyEnhancedLine();
         JSONImportVisitor visitor = new JSONImportVisitor(jsonLineObject, draw);
