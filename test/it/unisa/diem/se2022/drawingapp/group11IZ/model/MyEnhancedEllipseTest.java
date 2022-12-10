@@ -419,6 +419,7 @@ public class MyEnhancedEllipseTest {
         assertEquals(20, r.myGetRadiusY(), 0);
     }
     
+    @Test
     public void testClone(){
         //create shape ellipse
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
@@ -444,6 +445,31 @@ public class MyEnhancedEllipseTest {
         assertTrue("error in copy of stroke ", ellipseCopy.myGetStroke()==ellipse.myGetStroke());
         assertTrue("error in copy of strokeWidth ", ellipseCopy.myGetStrokeWidth()==ellipse.myGetStrokeWidth());
         
+        
+    }
+    
+    @Test
+    public void testSnapshot(){
+        MyEnhancedEllipse ellipse;
+        MyEnhancedEllipse.Snapshot snapshot;
+        
+        ellipse = new MyEnhancedEllipse();
+        ellipse.modifyShape(10, 20, 50, 60);
+        ellipse.mySetFill(Color.BLACK);
+        ellipse.mySetStroke(Color.WHITE);
+        
+        snapshot = ellipse.getSnapshot();
+        ellipse.modifyShape(100, -20, 180, 60);
+        ellipse.mySetFill(Color.GREEN);
+        ellipse.mySetStroke(Color.RED);
+        
+        snapshot.restore();
+        assertEquals(Color.BLACK, ellipse.myGetFill());
+        assertEquals(Color.WHITE, ellipse.myGetStroke());
+        assertEquals(10, ellipse.getTopLeftX(), 0);
+        assertEquals(20, ellipse.getTopLeftY(), 0);
+        assertEquals(50, ellipse.getBottomRightX(), 0);
+        assertEquals(60, ellipse.getBottomRightY(), 0);
         
     }
 }

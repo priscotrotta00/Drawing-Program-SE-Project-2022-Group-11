@@ -335,5 +335,41 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
     public Ellipse getView(){
         return (Ellipse) this;
     }
+    
+    public Snapshot getSnapshot(){
+        return new Snapshot(this);
+    }
+    
+    public class Snapshot implements MyShape.Snapshot{
+        private MyEnhancedEllipse ellipse;
+        private double centerX;
+        private double centerY;
+        private double radiusX;
+        private double radiusY;
+        private Paint stroke;
+        private Paint fill;
+
+        private Snapshot(MyEnhancedEllipse rectangle){
+            this.ellipse = rectangle;
+            this.centerX = rectangle.myGetCenterX();
+            this.centerY = rectangle.myGetCenterY();
+            this.radiusX = rectangle.myGetRadiusX();
+            this.radiusY = rectangle.myGetRadiusY();
+            this.fill = rectangle.myGetFill();
+            this.stroke = rectangle.myGetStroke();
+            
+        }
+        
+        @Override
+        public void restore() {
+            this.ellipse.mySetCenterX(centerX);
+            this.ellipse.mySetCenterY(centerY);
+            this.ellipse.mySetRadiusX(radiusX);
+            this.ellipse.mySetRadiusY(radiusY);
+            this.ellipse.mySetFill(fill);
+            this.ellipse.mySetStroke(stroke);
+        }
+        
+    }
 }
 

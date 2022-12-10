@@ -5,7 +5,6 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeRectangleCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
@@ -36,13 +35,13 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     }
     
     @Override
-    ResizeRectangleCommand getCommand(){
-        return (ResizeRectangleCommand) super.getCommand();
+    ResizeShapeCommand getCommand(){
+        return (ResizeShapeCommand) super.getCommand();
     }
 
     @Override
     ResizeShapeCommand createResizeShapeCommand() {
-        return new ResizeRectangleCommand(this.getShape());
+        return new ResizeShapeCommand(this.getShape());
     }
     
     @Override

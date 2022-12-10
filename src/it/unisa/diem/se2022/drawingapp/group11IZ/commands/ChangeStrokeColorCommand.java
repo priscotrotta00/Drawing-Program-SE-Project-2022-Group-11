@@ -23,7 +23,6 @@ public class ChangeStrokeColorCommand extends ChangeColorCommand{
     public ChangeStrokeColorCommand(MyShape myShape, Color newColor) {
         super.setMyShape(myShape);
         super.setNewColor(newColor);
-        super.setOldColor((Color) myShape.myGetStroke());
     }
     
     /**

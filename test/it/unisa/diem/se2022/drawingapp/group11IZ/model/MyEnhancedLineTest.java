@@ -428,4 +428,25 @@ public class MyEnhancedLineTest {
         
         
     }
+    
+    @Test
+    public void testSnapshot(){
+        MyEnhancedLine line;
+        MyEnhancedLine.Snapshot snapshot;
+        
+        line = new MyEnhancedLine();
+        line.modifyShape(10, 20, 50, 60);
+        line.mySetStroke(Color.WHITE);
+        
+        snapshot = line.getSnapshot();
+        line.modifyShape(100, -20, 180, 60);
+        line.mySetStroke(Color.RED);
+        
+        snapshot.restore();
+        assertEquals(Color.WHITE, line.myGetStroke());
+        assertEquals(10, line.getStartX(), 0);
+        assertEquals(20, line.getStartY(), 0);
+        assertEquals(50, line.getEndX(), 0);
+        assertEquals(60, line.getEndY(), 0);
+    }
 }

@@ -27,7 +27,7 @@ public class ResizeEllipseCommandTest {
     
     @Test
     public void testExecute1(){
-        this.command = new ResizeEllipseCommand(shape, 10, 10, 50, 20);
+        this.command = new ResizeShapeCommand(shape, 10, 10, 50, 20);
         this.command.execute();
         
         Assert.assertEquals(10, this.shape.getTopLeftX(), 0);
@@ -43,25 +43,25 @@ public class ResizeEllipseCommandTest {
     
     @Test(expected=InvalidCoordinatesException.class)
     public void testExecute2(){
-        this.command = new ResizeEllipseCommand(shape, 50, 20, 10, 10);
+        this.command = new ResizeShapeCommand(shape, 50, 20, 10, 10);
         this.command.execute();
     }
     
     @Test(expected=InvalidCoordinatesException.class)
     public void testExecute3(){
-        this.command = new ResizeEllipseCommand(shape, 50, 20, 70, 10);
+        this.command = new ResizeShapeCommand(shape, 50, 20, 70, 10);
         this.command.execute();
     }
     
     @Test(expected=InvalidCoordinatesException.class)
     public void testExecute4(){
-        this.command = new ResizeEllipseCommand(shape, 50, 20, 10, 70);
+        this.command = new ResizeShapeCommand(shape, 50, 20, 10, 70);
         this.command.execute();
     }
     
     @Test
     public void testExecute5(){
-        this.command = new ResizeEllipseCommand(shape, -10, -20, 30, 60);
+        this.command = new ResizeShapeCommand(shape, -10, -20, 30, 60);
         this.command.execute();
         
         Assert.assertEquals(-10, this.shape.getTopLeftX(), 0);
@@ -77,7 +77,7 @@ public class ResizeEllipseCommandTest {
     
     @Test
     public void testExecute6(){
-        this.command = new ResizeEllipseCommand(shape, 10, -20, 30, 60);
+        this.command = new ResizeShapeCommand(shape, 10, -20, 30, 60);
         this.command.execute();
         
         Assert.assertEquals(10, this.shape.getTopLeftX(), 0);
@@ -93,7 +93,7 @@ public class ResizeEllipseCommandTest {
     
     @Test
     public void testExecute7(){
-        this.command = new ResizeEllipseCommand(shape, -50, 20, 30, 60);
+        this.command = new ResizeShapeCommand(shape, -50, 20, 30, 60);
         this.command.execute();
         
         Assert.assertEquals(-50, this.shape.getTopLeftX(), 0);
@@ -109,7 +109,7 @@ public class ResizeEllipseCommandTest {
     
     @Test
     public void testExecute8(){
-        this.command = new ResizeEllipseCommand(shape, -30, -60, -20, -20);
+        this.command = new ResizeShapeCommand(shape, -30, -60, -20, -20);
         this.command.execute();
         
         Assert.assertEquals(-30, this.shape.getTopLeftX(), 0);
@@ -125,7 +125,7 @@ public class ResizeEllipseCommandTest {
     
     @Test
     public void testExecute9(){
-        this.command = new ResizeEllipseCommand(shape, -50, 20, -30, 60);
+        this.command = new ResizeShapeCommand(shape, -50, 20, -30, 60);
         this.command.execute();
         
         Assert.assertEquals(-50, this.shape.getTopLeftX(), 0);
@@ -141,7 +141,7 @@ public class ResizeEllipseCommandTest {
     
     @Test
     public void testExecute10(){
-        this.command = new ResizeEllipseCommand(shape, 10, -60, 30, -20);
+        this.command = new ResizeShapeCommand(shape, 10, -60, 30, -20);
         this.command.execute();
         
         Assert.assertEquals(10, this.shape.getTopLeftX(), 0);
@@ -157,15 +157,15 @@ public class ResizeEllipseCommandTest {
     
     @Test(expected = NoNewCoordinatesException.class)
     public void testExecute11(){
-        this.command = new ResizeEllipseCommand(shape);
+        this.command = new ResizeShapeCommand(shape);
         this.command.execute();
     }
     
     @Test
     public void testUndo1(){
-        new ResizeEllipseCommand(shape, 10, 40, 50, 60).execute();
+        new ResizeShapeCommand(shape, 10, 40, 50, 60).execute();
         
-        this.command = new ResizeEllipseCommand(shape, 10, 40, 80, 70);
+        this.command = new ResizeShapeCommand(shape, 10, 40, 80, 70);
         this.command.execute();
         this.command.undo();
         
@@ -177,18 +177,18 @@ public class ResizeEllipseCommandTest {
     
     @Test
     public void testUndo2(){
-        ResizeEllipseCommand command1;
-        ResizeEllipseCommand command2;
-        ResizeEllipseCommand command3;
+        ResizeShapeCommand command1;
+        ResizeShapeCommand command2;
+        ResizeShapeCommand command3;
         
-        command1 = new ResizeEllipseCommand(shape, -10, -35, 40, 50);
+        command1 = new ResizeShapeCommand(shape, -10, -35, 40, 50);
         command1.execute();
         
-        command2 = new ResizeEllipseCommand(shape);
+        command2 = new ResizeShapeCommand(shape);
         command2.setNewCoordinates(20, 20, 20, 20);
         command2.execute();
         
-        command3 = new ResizeEllipseCommand(shape);
+        command3 = new ResizeShapeCommand(shape);
         command3.setNewCoordinates(30, 40, 100, 60);
         command3.execute();
         

@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
  */
 public abstract class ChangeColorCommand implements Command{
     private MyShape myShape;
-    private Color oldColor;
+    private MyShape.Snapshot snapshot;
     private Color newColor;
     
     /**
@@ -33,25 +33,7 @@ public abstract class ChangeColorCommand implements Command{
     void setMyShape(MyShape myShape) {
         if(myShape == null) throw new NullPointerException();
         this.myShape = myShape;
-    }
-    
-    /**
-     * return the object oldColor
-     * @return object oldColor
-     */
-    
-    Color getOldColor() {
-        return this.oldColor;
-    }
-
-    /**
-     * Set the object oldColor with the passed parameter
-     * @param oldColor the object oldColor that you want to set
-     */
-    
-    void setOldColor(Color oldColor) {
-        if(oldColor == null) throw new NullPointerException();
-        this.oldColor = oldColor;
+        this.snapshot = myShape.getSnapshot();
     }
     
     /**
@@ -97,7 +79,7 @@ public abstract class ChangeColorCommand implements Command{
     
     @Override
     public void undo(){
-        this.changeColor(this.oldColor);
+        this.snapshot.restore();
     }
     
 }

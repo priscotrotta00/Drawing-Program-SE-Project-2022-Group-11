@@ -13,6 +13,7 @@ import javafx.geometry.Bounds;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Parent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -310,8 +311,45 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         return super.getLayoutY();
     }
     
+    
     @Override
     public Rectangle getView(){
         return (Rectangle) this;
+    }
+    
+    public Snapshot getSnapshot(){
+        return new Snapshot(this);
+    }
+    
+    public class Snapshot implements MyShape.Snapshot{
+        private final MyEnhancedRectangle rectangle;
+        private final double x;
+        private final double y;
+        private final double width;
+        private final double height;
+        private final Paint stroke;
+        private final Paint fill;
+
+        private Snapshot(MyEnhancedRectangle rectangle){
+            this.rectangle = rectangle;
+            this.x = rectangle.myGetX();
+            this.y = rectangle.myGetY();
+            this.width = rectangle.myGetWidth();
+            this.height = rectangle.myGetHeight();
+            this.fill = rectangle.myGetFill();
+            this.stroke = rectangle.myGetStroke();
+            
+        }
+        
+        @Override
+        public void restore() {
+            this.rectangle.mySetX(x);
+            this.rectangle.mySetY(y);
+            this.rectangle.mySetWidth(width);
+            this.rectangle.mySetHeight(height);
+            this.rectangle.mySetFill(fill);
+            this.rectangle.mySetStroke(stroke);
+        }
+        
     }
 }

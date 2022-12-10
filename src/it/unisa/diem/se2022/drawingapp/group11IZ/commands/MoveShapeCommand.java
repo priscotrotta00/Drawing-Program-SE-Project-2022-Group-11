@@ -10,11 +10,10 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
  * @author daddy
  */
 public class MoveShapeCommand implements Command{
-    private double oldX;
-    private double oldY;
     private double newX;
     private double newY;
     private MyShape shape;
+    private MyShape.Snapshot snapshot;
     
     /**
      * Costructor. Initialize the shape and the old top left
@@ -25,8 +24,7 @@ public class MoveShapeCommand implements Command{
         this.shape = shape;
         double diffX = this.shape.myGetLayoutBounds().getMaxX() - this.shape.myGetLayoutBounds().getMinX();
         double diffY = this.shape.myGetLayoutBounds().getMaxY() - this.shape.myGetLayoutBounds().getMinY();
-        this.oldX = this.shape.myGetLayoutBounds().getMinX() + diffX/2;
-        this.oldY = this.shape.myGetLayoutBounds().getMinY() + diffY/2;
+        this.snapshot = shape.getSnapshot();
     }
     
     /**
@@ -55,7 +53,7 @@ public class MoveShapeCommand implements Command{
      */
     @Override
     public void undo() {
-        shape.moveShape(this.oldX, this.oldY);
+        snapshot.restore();
     }
     
     

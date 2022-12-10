@@ -34,10 +34,10 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
     private MyRectangle vertex1;
     private MyRectangle vertex2;
     
-    static final double widthVertex = 10;
-    static final double heightVertex = 10;
-    static final double strokeVertexOffset = 2;
-    static final List<Double> strokeDashList = Arrays.asList(5.0, 10.0, 5.0, 10.0);
+    static final double WIDTH_VERTEX = 10;
+    static final double HEIGHT_VERTEX = 10;
+    static final double STROKE_VERTEX_OFFSET = 2;
+    static final List<Double> STROKE_DASH_LIST = Arrays.asList(5.0, 10.0, 5.0, 10.0);
     
     @Override
     public Group createBoundingBox() {
@@ -90,7 +90,7 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
      * Initialize all the defined event handlers that will define the resize
      * functionality
      */
-    private void initializeVerticesHandlers(){
+    void initializeVerticesHandlers(){
         Shape vertex1Cast = (Shape) vertex1;
         vertex1Cast.setCursor(Cursor.NE_RESIZE);
         vertex1Cast.setOnMouseDragged(event -> {
@@ -213,6 +213,10 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
     
     MyShape getBoundingBoxEdge(){
         return boundingBoxEdge;
+    }
+    
+    void setCommand(ResizeShapeCommand command){
+        this.command = command;
     }
     
     ResizeShapeCommand getCommand(){

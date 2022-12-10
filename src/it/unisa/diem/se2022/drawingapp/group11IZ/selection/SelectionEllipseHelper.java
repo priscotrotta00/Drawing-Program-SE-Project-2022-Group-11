@@ -5,7 +5,6 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeEllipseCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
@@ -34,15 +33,10 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
     public MyEllipse getPreview(){
         return (MyEllipse) super.getPreview();
     }
-    
-    @Override
-    ResizeEllipseCommand getCommand(){
-        return (ResizeEllipseCommand) super.getCommand();
-    }
 
     @Override
     ResizeShapeCommand createResizeShapeCommand() {
-        return new ResizeEllipseCommand(this.getShape());
+        return new ResizeShapeCommand(this.getShape());
     }
 
     @Override
