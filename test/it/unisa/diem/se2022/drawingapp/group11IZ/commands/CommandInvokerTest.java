@@ -16,6 +16,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Node;
@@ -40,11 +41,9 @@ public class CommandInvokerTest {
     
     private Pane pane;
     private Drawing draw;
-    private List<MyShape> figures;
     private Clipboard clipboard;
     private Selection selection;
     
-    private Field figuresDrawingField;
     private Field drawPaneField;
     private Field drawingField;
     private Field clipboardField;
@@ -77,12 +76,10 @@ public class CommandInvokerTest {
         
         drawPaneField = Canvas.class.getDeclaredField("drawPane");
         drawingField = Canvas.class.getDeclaredField("draw");
-        figuresDrawingField = Drawing.class.getDeclaredField("figures");
         clipboardField = Canvas.class.getDeclaredField("clipboard");
 
         drawPaneField.setAccessible(true);
         drawingField.setAccessible(true);
-        figuresDrawingField.setAccessible(true);
         clipboardField.setAccessible(true);
 
         drawPaneField.set(canvas, pane);
@@ -91,7 +88,6 @@ public class CommandInvokerTest {
         commandInvoker = canvas.getCommandInvoker();
         clipboard = (Clipboard) clipboardField.get(canvas);
         draw = canvas.getDraw();
-        figures = (List<MyShape>) figuresDrawingField.get(draw);
     
     }
     
@@ -126,16 +122,18 @@ public class CommandInvokerTest {
     @Test
     public void invokerCreateShapeCommandTest(){
         MyShape shape = new MyEnhancedRectangle();
+        
         Command command = new CreateShapeCommand(canvas, shape);
         commandInvoker.execute(command);
         
         Assert.assertTrue("Verify shape is inserted in pane", pane.getChildrenUnmodifiable().contains((Shape) shape));
-        Assert.assertTrue("Verify shape is inserted in drawing", figures.contains(shape));
+        Iterator<MyShape> iter = draw.iterator();
+        Assert.assertTrue("Verify shape is inserted in drawing", iter.next()==shape);
     
         commandInvoker.undoLast();
-        
+        iter = draw.iterator();
         Assert.assertFalse("Verify shape is not in pane anymore", pane.getChildrenUnmodifiable().contains((Shape) shape));
-        Assert.assertFalse("Verify shape is not in drawing anymore", figures.contains(shape));
+        Assert.assertFalse("Verify shape is not in drawing anymore", iter.hasNext());
     }
     
     @Test
@@ -186,18 +184,20 @@ public class CommandInvokerTest {
         MyEnhancedLine line = new MyEnhancedLine();
         canvas.addShape(line);
         
+        
         selection = canvas.getSelection();
         selection.select(line);
         
         DeleteShapeCommand deleteCommand = new DeleteShapeCommand(canvas, selection.getSelectedItem());
         commandInvoker.execute(deleteCommand);
-        
-        Assert.assertFalse("Ellipse is not delete from figures", figures.contains(line));
+        Iterator<MyShape> iter = draw.iterator();
+        Assert.assertFalse("Ellipse is not delete from figures", iter.hasNext());
         
         Assert.assertFalse("Error in removeShape", pane.getChildren().contains(line));
         
         commandInvoker.undoLast();
-        Assert.assertTrue("Line is not insert in figures", figures.contains(line));
+        iter = draw.iterator();
+        Assert.assertTrue("Line is not insert in figures", iter.next()==line);
         
         int layer=draw.getShapeLayer(line);
         assertEquals("Error in add", layer, 0);
@@ -260,17 +260,21 @@ public class CommandInvokerTest {
         myRectangle.mySetHeight(30.0);
         myRectangle.mySetWidth(70.0);
         
+        
+        
         PasteShapeCommand psc = new PasteShapeCommand(canvas, myRectangle);
         //psc.execute();
         commandInvoker.execute(psc);
         
+        Iterator<MyShape> iter = draw.iterator();
         MyShape myShape;
-        myShape = figures.get(0);
+        myShape = iter.next();
         
         Assert.assertEquals("Error in the paste of the rectangle", myShape.toString(), myRectangle.toString());
         //psc.undo();
         commandInvoker.undoLast();
-        Assert.assertTrue("Error in the undo paste of the shape", figures.isEmpty());
+        iter = draw.iterator();
+        Assert.assertFalse("Error in the undo paste of the shape", iter.hasNext());
     
     }
     

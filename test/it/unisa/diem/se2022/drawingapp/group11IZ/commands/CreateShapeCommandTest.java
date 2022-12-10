@@ -14,6 +14,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.AddedDuplicateException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
@@ -33,10 +34,8 @@ public class CreateShapeCommandTest {
     private Canvas c;
     private Field drawPaneField;
     private Field drawingField;
-    private Field figuresDrawingField;
     private Pane pane;
     private Drawing draw;
-    private List<MyShape> figures;
     
     public static class AsNonApp extends Application {
 
@@ -65,15 +64,12 @@ public class CreateShapeCommandTest {
         pane = new Pane();
         
         drawPaneField = Canvas.class.getDeclaredField("drawPane");
-        figuresDrawingField = Drawing.class.getDeclaredField("figures");
         
         drawPaneField.setAccessible(true);
-        figuresDrawingField.setAccessible(true);
         
         drawPaneField.set(c, pane);
         this.c.initialize(null, null);
         draw = this.c.getDraw();
-        figures = (List<MyShape>) figuresDrawingField.get(draw);
     }
     
     @Test
@@ -81,9 +77,9 @@ public class CreateShapeCommandTest {
         MyShape shape = new MyEnhancedRectangle();
         Command command = new CreateShapeCommand(c, shape);
         command.execute();
-        
+        Iterator<MyShape> iter = draw.iterator();
         Assert.assertTrue("Verify shape is inserted in pane", pane.getChildrenUnmodifiable().contains((Shape) shape));
-        Assert.assertTrue("Verify shape is inserted in drawing", figures.contains(shape));
+        Assert.assertTrue("Verify shape is inserted in drawing", iter.next() == shape);
     }
     
     @Test (expected=AddedDuplicateException.class)
@@ -100,21 +96,27 @@ public class CreateShapeCommandTest {
         MyEnhancedEllipse ellipse=new MyEnhancedEllipse();
         new CreateShapeCommand(c, ellipse).execute();
         //check if ellipse is in figures. If ellipse is in figures, add went well, else throws exception.
-        Assert.assertTrue("Ellipse is not in figures", figures.contains(ellipse));
+        Iterator<MyShape> iter = draw.iterator();
+        Assert.assertTrue("Ellipse is not in figures", iter.next() == ellipse);
         Assert.assertTrue("Verify Ellipse is in Pane", pane.getChildrenUnmodifiable().contains(ellipse));
         
         //test add rectangle
         MyEnhancedRectangle rectangle=new MyEnhancedRectangle();
         new CreateShapeCommand(c, rectangle).execute();
+        iter = draw.iterator();
+        iter.next();
         //check if rectangle is in figures. If rectangle is in figures, add went well, else throws exception.
-        Assert.assertTrue("Rectangle is not in figures", figures.contains(rectangle));
+        Assert.assertTrue("Rectangle is not in figures", iter.next() == rectangle);
         Assert.assertTrue("Verify Rectangle is in Pane", pane.getChildrenUnmodifiable().contains(rectangle));
         
         //test add line
         MyEnhancedLine line=new MyEnhancedLine();
         new CreateShapeCommand(c, line).execute();
+        iter = draw.iterator();
+        iter.next();
+        iter.next();
         //check if line is in figures. If line is in figures, add went well, else throws exception.
-        Assert.assertTrue("Line is not in figures", figures.contains(line));
+        Assert.assertTrue("Line is not in figures", iter.next() == line);
         Assert.assertTrue("Verify Line is in Pane", pane.getChildrenUnmodifiable().contains(line));
     }
         
@@ -124,9 +126,9 @@ public class CreateShapeCommandTest {
         Command command = new CreateShapeCommand(c, shape);
         command.execute();
         command.undo();
-        
+        Iterator<MyShape> iter = draw.iterator();
         Assert.assertFalse("Verify shape is not in pane anymore", pane.getChildrenUnmodifiable().contains((Shape) shape));
-        Assert.assertFalse("Verify shape is not in drawing anymore", figures.contains(shape));
+        Assert.assertFalse("Verify shape is not in drawing anymore", iter.hasNext());
     }
     
     @Test
@@ -135,24 +137,30 @@ public class CreateShapeCommandTest {
         MyEnhancedEllipse ellipse=new MyEnhancedEllipse();
         Command command1 = new CreateShapeCommand(c, ellipse);
         command1.execute();
+        Iterator<MyShape> iter = draw.iterator();
         //check if ellipse is in figures. If ellipse is in figures, add went well, else throws exception.
-        Assert.assertTrue("Ellipse is not in figures", figures.contains(ellipse));
+        Assert.assertTrue("Ellipse is not in figures", iter.next() == ellipse);
         Assert.assertTrue("Verify Ellipse is in Pane", pane.getChildrenUnmodifiable().contains(ellipse));
         
         //test add rectangle
         MyEnhancedRectangle rectangle=new MyEnhancedRectangle();
         Command command2 = new CreateShapeCommand(c, rectangle);
         command2.execute();
+        iter = draw.iterator();
+        iter.next();
         //check if rectangle is in figures. If rectangle is in figures, add went well, else throws exception.
-        Assert.assertTrue("Rectangle is not in figures", figures.contains(rectangle));
+        Assert.assertTrue("Rectangle is not in figures", iter.next() == rectangle);
         Assert.assertTrue("Verify Rectangle is in Pane", pane.getChildrenUnmodifiable().contains(rectangle));
         
         //test add line
         MyEnhancedLine line=new MyEnhancedLine();
         Command command3 = new CreateShapeCommand(c, line);
         command3.execute();
+        iter = draw.iterator();
+        iter.next();
+        iter.next();
         //check if line is in figures. If line is in figures, add went well, else throws exception.
-        Assert.assertTrue("Line is not in figures", figures.contains(line));
+        Assert.assertTrue("Line is not in figures", iter.next() == line);
         Assert.assertTrue("Verify Line is in Pane", pane.getChildrenUnmodifiable().contains(line));
     }
     

@@ -103,7 +103,6 @@ public class SelectTool implements Tool{
     public void handleOnPrimaryMouseClick(Canvas c, MouseEvent event) {
         this.selectedShape = c.getSelection();
         EventTarget eventTarget = event.getTarget();
-        System.out.println(eventTarget);
         
         if (eventTarget.equals(selectedShape.getSelectionBorder()))
             return;

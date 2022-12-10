@@ -16,6 +16,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
@@ -36,7 +37,6 @@ public class PasteShapeCommandTest {
     private Pane pane;
     private Selection selection;
     private Drawing draw;
-    private List<MyShape> figures;
     
     public static class AsNonApp extends Application {
 
@@ -62,7 +62,6 @@ public class PasteShapeCommandTest {
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException{
         Field drawPaneField;
-        Field figuresField;
         
         this.c = new Canvas();
         this.pane = new Pane();
@@ -75,9 +74,6 @@ public class PasteShapeCommandTest {
         this.draw = this.c.getDraw();
         this.selection = this.c.getSelection();
         
-        figuresField = Drawing.class.getDeclaredField("figures");
-        figuresField.setAccessible(true);
-        figures = (List<MyShape>) figuresField.get(draw);
     }
     
     
@@ -106,9 +102,9 @@ public class PasteShapeCommandTest {
         
         PasteShapeCommand psc = new PasteShapeCommand(this.c, myRectangle);
         psc.execute();
-        
+        Iterator<MyShape> iter = draw.iterator();
         MyShape myShape;
-        myShape = figures.get(0);
+        myShape = iter.next();
         
         assertEquals("Error in the paste of the rectangle", myShape.toString(), myRectangle.toString());
         
@@ -116,8 +112,9 @@ public class PasteShapeCommandTest {
         
         PasteShapeCommand psc2 = new PasteShapeCommand(this.c, myEllipse);
         psc2.execute();
-        
-        myShape = figures.get(1);
+        iter = draw.iterator();
+        iter.next();
+        myShape = iter.next();;
         
         assertEquals("Error in the paste of the ellipse", myShape.toString(), myEllipse.toString());
         
@@ -126,7 +123,10 @@ public class PasteShapeCommandTest {
         PasteShapeCommand psc3 = new PasteShapeCommand(this.c, myLine);
         psc3.execute();
         
-        myShape = figures.get(2);
+        iter = draw.iterator();
+        iter.next();
+        iter.next();
+        myShape = iter.next();;
         
         assertEquals("Error in the paste of the line", myShape.toString(), myLine.toString());
     }
@@ -143,12 +143,12 @@ public class PasteShapeCommandTest {
         
         PasteShapeCommand psc = new PasteShapeCommand(this.c, myRectangle);
         psc.execute();
-        
-        MyShape myShape = figures.get(0);
+        Iterator<MyShape> iter = draw.iterator();
+        MyShape myShape = iter.next();
         assertEquals("Error in the paste of the shape", myShape.toString(), myRectangle.toString());
         
         psc.undo();
-        assertTrue("Error in the undo paste of the shape", figures.isEmpty());
+        assertTrue("Error in the undo paste of the shape", iter.hasNext());
     }
     
 }
