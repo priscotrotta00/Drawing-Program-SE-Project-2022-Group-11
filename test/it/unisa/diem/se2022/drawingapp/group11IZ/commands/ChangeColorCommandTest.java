@@ -26,7 +26,7 @@ public class ChangeColorCommandTest {
         ccc.setOldColor(Color.YELLOW);
         Field oldColorField = ChangeColorCommand.class.getDeclaredField("oldColor");
         oldColorField.setAccessible(true);
-        assertEquals("Error in setOldColor", oldColorField.get(ccc).toString(), Color.YELLOW.toString());
+        assertEquals("Error in setOldColor", Color.YELLOW.toString(), oldColorField.get(ccc).toString());
     }
     
     @Test
@@ -37,7 +37,7 @@ public class ChangeColorCommandTest {
         ccc.setNewColor(Color.YELLOW);
         Field newColorField = ChangeColorCommand.class.getDeclaredField("newColor");
         newColorField.setAccessible(true);
-        assertEquals("Error in setOldColor", newColorField.get(ccc).toString(), Color.YELLOW.toString());
+        assertEquals("Error in setOldColor", Color.YELLOW.toString(), newColorField.get(ccc).toString());
     }
     
     @Test
@@ -49,7 +49,7 @@ public class ChangeColorCommandTest {
         ccc.setMyShape(myLine);
         Field myShapeField = ChangeColorCommand.class.getDeclaredField("myShape");
         myShapeField.setAccessible(true);
-        assertEquals("Error in setOldColor", myShapeField.get(ccc).toString(), myLine.toString());
+        assertEquals("Error in setOldColor", myLine.toString(), myShapeField.get(ccc).toString());
     }
     
     @Test (expected = NullPointerException.class)   //Test with a null object Shape
@@ -82,7 +82,7 @@ public class ChangeColorCommandTest {
         myRectangle.mySetFill(Color.RED);
         ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
         Color oldColor = ccc.getOldColor();
-        assertEquals("Error in getOldColor", oldColor.toString(),Color.RED.toString());
+        assertEquals("Error in getOldColor", Color.RED.toString(), oldColor.toString());
     }
     
     @Test
@@ -91,7 +91,7 @@ public class ChangeColorCommandTest {
         myRectangle.mySetFill(Color.RED);
         ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
         Color oldColor = ccc.getNewColor();
-        assertEquals("Error in getNewColor", oldColor.toString(),Color.BLUEVIOLET.toString());
+        assertEquals("Error in getNewColor", Color.BLUEVIOLET.toString(), oldColor.toString());
     }
     
     @Test
@@ -100,7 +100,7 @@ public class ChangeColorCommandTest {
         myRectangle.mySetFill(Color.RED);
         ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
         MyShape testShape = ccc.getMyShape();
-        assertEquals("Error in getMyShape", testShape.toString(), myRectangle.toString());
+        assertEquals("Error in getMyShape", myRectangle.toString(), testShape.toString());
     }
     
     @Test
@@ -110,7 +110,7 @@ public class ChangeColorCommandTest {
         
         ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
         ccc.changeColor(ccc.getNewColor()); 
-        assertEquals("Fill color is not changed correctly!",myRectangle.myGetFill().toString(), Color.BLUEVIOLET.toString());
+        assertEquals("Fill color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetFill().toString());
     }
     
     @Test
@@ -120,7 +120,7 @@ public class ChangeColorCommandTest {
         
         ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
-        assertEquals("Fill color is not changed correctly!",myRectangle.myGetFill().toString(), Color.BLUEVIOLET.toString());
+        assertEquals("Fill color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetFill().toString());
     }
     
     @Test
@@ -130,10 +130,10 @@ public class ChangeColorCommandTest {
         
         ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
-        assertEquals("Fill color is not changed correctly!",myRectangle.myGetFill().toString(), Color.BLUEVIOLET.toString());
+        assertEquals("Fill color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetFill().toString());
         
         ccc.undo();
-        assertEquals("Fill color is not reverted correctly!",myRectangle.myGetFill().toString(), Color.RED.toString());
+        assertEquals("Fill color is not reverted correctly!", Color.RED.toString(), myRectangle.myGetFill().toString());
     }
     
     @Test
@@ -147,7 +147,7 @@ public class ChangeColorCommandTest {
         ccc2.execute(); 
         
         ccc2.undo();
-        assertEquals("Fill color is not reverted correctly!",myRectangle.myGetFill().toString(), Color.BLUEVIOLET.toString());
+        assertEquals("Fill color is not reverted correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetFill().toString());
     }
     
     @Test
@@ -157,7 +157,7 @@ public class ChangeColorCommandTest {
         
         ChangeColorCommand ccc = new ChangeStrokeColorCommand(myRectangle, Color.BLACK);
         ccc.changeColor(ccc.getNewColor()); 
-        assertEquals("Stroke color is not changed correctly!",myRectangle.myGetStroke().toString(), Color.BLACK.toString());
+        assertEquals("Stroke color is not changed correctly!", Color.BLACK.toString(), myRectangle.myGetStroke().toString());
     }
        
     @Test
@@ -167,7 +167,7 @@ public class ChangeColorCommandTest {
         
         ChangeColorCommand ccc = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
-        assertEquals("Stroke color is not changed correctly!",myRectangle.myGetStroke().toString(), Color.BLUEVIOLET.toString());
+        assertEquals("Stroke color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetStroke().toString());
     }
     
     @Test
@@ -177,10 +177,10 @@ public class ChangeColorCommandTest {
         
         ChangeColorCommand ccc = new ChangeStrokeColorCommand(myRectangle, Color.BLUEVIOLET);
         ccc.execute(); 
-        assertEquals("Stroke color is not changed correctly!",myRectangle.myGetStroke().toString(), Color.BLUEVIOLET.toString());
+        assertEquals("Stroke color is not changed correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetStroke().toString());
     
         ccc.undo();
-        assertEquals("Stroke color is not reverted correctly!",myRectangle.myGetStroke().toString(), Color.RED.toString());
+        assertEquals("Stroke color is not reverted correctly!", Color.RED.toString(), myRectangle.myGetStroke().toString());
     }
     
     @Test
@@ -194,7 +194,7 @@ public class ChangeColorCommandTest {
         ccc2.execute(); 
         
         ccc2.undo();
-        assertEquals("Stroke color is not reverted correctly!",myRectangle.myGetStroke().toString(), Color.BLUEVIOLET.toString());
+        assertEquals("Stroke color is not reverted correctly!", Color.BLUEVIOLET.toString(), myRectangle.myGetStroke().toString());
     }
     
 }

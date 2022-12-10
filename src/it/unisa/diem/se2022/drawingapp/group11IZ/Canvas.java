@@ -21,6 +21,7 @@ import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  * FXML Controller class
@@ -227,5 +228,19 @@ public class Canvas implements Initializable {
         
         this.drawPane.getChildren().remove(preview.getView());
         this.drawPane.getChildren().add(layer, shape.getView());
+    }
+    
+    public void initializeNewDrawing(Drawing draw){
+        if(draw == null) throw new NullPointerException();
+        this.getSelection().unSelect();
+
+        for(MyShape myShape : this.getDraw()){
+            this.getDrawPane().getChildren().remove((Shape) myShape);
+        }
+
+        for(MyShape myShape : draw){
+            this.getDrawPane().getChildren().add((Shape) myShape);
+        }
+        this.setDraw(draw);
     }
 }

@@ -13,7 +13,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
-import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;

@@ -7,8 +7,6 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.clipboard;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import java.lang.reflect.Field;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

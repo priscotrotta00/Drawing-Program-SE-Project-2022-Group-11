@@ -12,8 +12,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
-import javafx.beans.property.BooleanProperty;
-import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import org.junit.Assert;
 import org.junit.Before;

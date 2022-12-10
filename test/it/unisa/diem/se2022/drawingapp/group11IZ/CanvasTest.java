@@ -271,4 +271,55 @@ public class CanvasTest {
         MyShape shape = new MyEnhancedRectangle();
         this.canvas.substitutePreviewWithOriginalShape(shape);
     }
+    
+    @Test (expected = NullPointerException.class)   //Check that the initializeNewDrawing method throws a NullPointerException 
+                                                    //if invoked on a null Drawing object
+    public void testInitializeNewNullDrawing(){
+        Drawing drawing = null;
+        this.canvas.initializeNewDrawing(drawing);
+    }
+    
+    @Test
+    public void testInitializeNewEmptyDrawing(){    //Check that the initializeNewDrawing method
+        MyEnhancedEllipse ellipse= new MyEnhancedEllipse();
+        canvas.addShape(ellipse);
+        MyEnhancedRectangle rectangle= new MyEnhancedRectangle();
+        canvas.addShape(rectangle);
+        MyEnhancedLine line= new MyEnhancedLine();
+        canvas.addShape(line);
+        
+        Drawing drawing = new Drawing();
+        this.canvas.initializeNewDrawing(drawing);
+        assertFalse(pane.getChildren().contains(rectangle));
+        assertFalse(pane.getChildren().contains(ellipse));
+        assertFalse(pane.getChildren().contains(line));
+        assertTrue(pane.getChildren().isEmpty());
+    }
+    
+    @Test
+    public void testInitializeNewDrawing(){
+        MyEnhancedEllipse ellipse= new MyEnhancedEllipse();
+        canvas.addShape(ellipse);
+        MyEnhancedRectangle rectangle= new MyEnhancedRectangle();
+        canvas.addShape(rectangle);
+        MyEnhancedLine line= new MyEnhancedLine();
+        canvas.addShape(line);
+        
+        Drawing drawing = new Drawing();
+        MyEnhancedEllipse ellipse2 = new MyEnhancedEllipse();
+        drawing.addShape(ellipse2);
+        MyEnhancedRectangle rectangle2 = new MyEnhancedRectangle();
+        drawing.addShape(rectangle2);
+        MyEnhancedLine line2 = new MyEnhancedLine();
+        drawing.addShape(line2);
+        
+        this.canvas.initializeNewDrawing(drawing);
+        assertTrue(pane.getChildren().contains(rectangle2));
+        assertFalse(pane.getChildren().contains(rectangle));
+        assertTrue(pane.getChildren().contains(ellipse2));
+        assertFalse(pane.getChildren().contains(ellipse));
+        assertTrue(pane.getChildren().contains(line2));
+        assertFalse(pane.getChildren().contains(line));
+    }
+    
 }

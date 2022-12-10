@@ -5,7 +5,6 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
@@ -16,10 +15,9 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
-import java.util.List;
+import java.util.Iterator;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -36,7 +34,6 @@ public class PasteShapeCommandTest {
     private Pane pane;
     private Selection selection;
     private Drawing draw;
-    private List<MyShape> figures;
     
     public static class AsNonApp extends Application {
 
@@ -62,7 +59,6 @@ public class PasteShapeCommandTest {
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException{
         Field drawPaneField;
-        Field figuresField;
         
         this.c = new Canvas();
         this.pane = new Pane();
@@ -74,10 +70,7 @@ public class PasteShapeCommandTest {
         
         this.draw = this.c.getDraw();
         this.selection = this.c.getSelection();
-        
-        figuresField = Drawing.class.getDeclaredField("figures");
-        figuresField.setAccessible(true);
-        figures = (List<MyShape>) figuresField.get(draw);
+       
     }
     
     
@@ -97,58 +90,52 @@ public class PasteShapeCommandTest {
     @Test
     public void testPasteShape() {
         MyRectangle myRectangle = new MyEnhancedRectangle();
-        myRectangle.mySetFill(Color.RED);
-        myRectangle.mySetStroke(Color.BLACK);
-        myRectangle.mySetLayoutX(50.0);
-        myRectangle.mySetLayoutY(50.0);
-        myRectangle.mySetHeight(30.0);
-        myRectangle.mySetWidth(70.0);
-        
         PasteShapeCommand psc = new PasteShapeCommand(this.c, myRectangle);
         psc.execute();
         
-        MyShape myShape;
-        myShape = figures.get(0);
-        
-        assertEquals("Error in the paste of the rectangle", myShape.toString(), myRectangle.toString());
-        
         MyEllipse myEllipse = new MyEnhancedEllipse();
-        
         PasteShapeCommand psc2 = new PasteShapeCommand(this.c, myEllipse);
         psc2.execute();
         
-        myShape = figures.get(1);
-        
-        assertEquals("Error in the paste of the ellipse", myShape.toString(), myEllipse.toString());
-        
         MyLine myLine = new MyEnhancedLine();
-        
         PasteShapeCommand psc3 = new PasteShapeCommand(this.c, myLine);
         psc3.execute();
         
-        myShape = figures.get(2);
-        
-        assertEquals("Error in the paste of the line", myShape.toString(), myLine.toString());
+        Iterator<MyShape> itr;
+        itr = this.draw.iterator();
+        assertTrue("No one shapes added to the drawing", itr.hasNext());
+        assertEquals("Error in the paste of the rectangle", myRectangle.toString(), itr.next().toString());
+        assertEquals("Error in the paste of the ellipse", myEllipse.toString(), itr.next().toString());
+        assertEquals("Error in the paste of the line", myLine.toString(), itr.next().toString());
     }
     
     @Test
     public void testUndoPasteShape() {
         MyRectangle myRectangle = new MyEnhancedRectangle();
-        myRectangle.mySetFill(Color.RED);
-        myRectangle.mySetStroke(Color.BLACK);
-        myRectangle.mySetLayoutX(50.0);
-        myRectangle.mySetLayoutY(50.0);
-        myRectangle.mySetHeight(30.0);
-        myRectangle.mySetWidth(70.0);
-        
         PasteShapeCommand psc = new PasteShapeCommand(this.c, myRectangle);
         psc.execute();
         
-        MyShape myShape = figures.get(0);
-        assertEquals("Error in the paste of the shape", myShape.toString(), myRectangle.toString());
+        MyEllipse myEllipse = new MyEnhancedEllipse();
+        PasteShapeCommand psc2 = new PasteShapeCommand(this.c, myEllipse);
+        psc2.execute();
+        
+        MyLine myLine = new MyEnhancedLine();
+        PasteShapeCommand psc3 = new PasteShapeCommand(this.c, myLine);
+        psc3.execute();
+        
+        Iterator<MyShape> itr;
+        itr = this.draw.iterator();
+        assertTrue("No one shapes added to the drawing", itr.hasNext());
+        assertEquals("Error in the paste of the rectangle", myRectangle.toString(), itr.next().toString());
+        assertEquals("Error in the paste of the ellipse", myEllipse.toString(), itr.next().toString());
+        assertEquals("Error in the paste of the line", myLine.toString(), itr.next().toString());
         
         psc.undo();
-        assertTrue("Error in the undo paste of the shape", figures.isEmpty());
+        psc2.undo();
+        psc3.undo();
+        
+        itr = this.draw.iterator();
+        assertFalse("Error in the undo paste of the shape", itr.hasNext());
     }
     
 }

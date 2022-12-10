@@ -10,9 +10,9 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.PasteShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.exceptions.ExtensionFileException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ExtensionFileException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawEllipseTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawLineTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
@@ -20,8 +20,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.SelectTool;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
@@ -38,9 +36,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
-import org.json.simple.parser.ParseException;
 
 /**
  * FXML Controller class
@@ -91,13 +87,19 @@ public class Controller implements Initializable {
     private Tab viewTab;
     //ADDED
     private ToggleGroup toolToggleGroup;
+    private FileManager fileManager;
+    
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
         selectionModel.select(editTab);
+        
+        fileManager = new FileManager();
         
         this.initializeToolToggleGroup();
         this.initializeChangeColorBindings();
@@ -225,29 +227,14 @@ public class Controller implements Initializable {
      * @param event
      */
     @FXML
-    private void onLoadAction(ActionEvent event) {
-        try {
-            FileChooser fc = new FileChooser();
-            fc.setTitle("Open a drawing with .json extension");
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));
-            File file = fc.showOpenDialog(null);
-            if(file == null) return;
-            Drawing loadedDrawing = Drawing.importDrawing(file);
-            this.canvasController.getSelection().unSelect();
-            
-            for(MyShape myShape : this.canvasController.getDraw()){
-                this.canvasController.getDrawPane().getChildren().remove((Shape) myShape);
-            }
-            
-            for(MyShape myShape : loadedDrawing){
-                this.canvasController.getDrawPane().getChildren().add((Shape) myShape);
-            }
-            this.canvasController.setDraw(loadedDrawing);
-        } catch (ParseException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void onLoadAction(ActionEvent event){
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open a drawing with .json extension");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));
+        File file = fc.showOpenDialog(null);
+        if(file == null) return;
+        Drawing loadedDrawing = fileManager.loadFile(file);
+        this.canvasController.initializeNewDrawing(loadedDrawing);
     }
 
     /**
@@ -257,15 +244,15 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onSaveAction(ActionEvent event) {
-        FileChooser fc = new FileChooser();     //IN SCRITTURA
+        FileChooser fc = new FileChooser();
         fc.setTitle("Save the drawing in a .json file extension");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));	
 	File file = fc.showSaveDialog(null);
         if(file == null) return;
         try {
-            this.canvasController.getDraw().exportDrawing(file);
-        } catch (ExtensionFileException ex) {
-            new Alert(Alert.AlertType.INFORMATION, "File must have a .json extension!").showAndWait();
+            fileManager.saveFile(file, this.canvasController.getDraw());
+        } catch(ExtensionFileException ex){
+            new Alert(Alert.AlertType.ERROR, "File must have a .json extension!").showAndWait(); 
         }
     }
 

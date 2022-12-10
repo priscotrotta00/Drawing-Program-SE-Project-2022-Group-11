@@ -11,12 +11,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="970.0" prefWidth="1120.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se2022.drawingapp.group11IZ.Controller">
+<VBox alignment="CENTER" prefHeight="970.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se2022.drawingapp.group11IZ.Controller">
    <children>
       <TabPane fx:id="tabPane" prefHeight="220.0" prefWidth="1120.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -56,9 +55,9 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="190.0" prefWidth="1116.0">
                      <children>
-                        <HBox prefHeight="170.4" prefWidth="1120.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox alignment="CENTER" prefHeight="170.4" prefWidth="1120.0" style="-fx-border-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <VBox prefHeight="171.0" prefWidth="349.0" style="-fx-border-color: grey;">
+                              <VBox alignment="TOP_CENTER" prefHeight="171.0" prefWidth="349.0" style="-fx-border-color: grey;">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="271.0" style="-fx-border-color: grey;">
                                        <children>
@@ -125,7 +124,7 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" prefHeight="171.0" prefWidth="436.0" style="-fx-border-color: grey;">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="40.0" prefWidth="433.0" style="-fx-border-color: grey;">
+                                    <HBox alignment="CENTER" prefHeight="40.0" prefWidth="432.0" style="-fx-border-color: grey;">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="80.0" text="Colors" textAlignment="CENTER">
                                              <font>
@@ -134,9 +133,9 @@
                                           </Label>
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="133.0" prefWidth="430.0">
+                                    <HBox alignment="CENTER" prefHeight="133.0" prefWidth="432.0">
                                        <children>
-                                          <VBox alignment="CENTER" prefHeight="125.0" prefWidth="278.0" style="-fx-border-color: grey;">
+                                          <VBox alignment="CENTER" prefHeight="108.0" prefWidth="275.0" style="-fx-border-color: grey;">
                                              <children>
                                                 <VBox alignment="CENTER" prefHeight="104.0" prefWidth="265.0" spacing="30.0">
                                                    <children>
@@ -160,7 +159,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox alignment="CENTER" prefHeight="125.0" prefWidth="179.0" spacing="10.0" style="-fx-border-color: grey;">
+                                          <VBox alignment="CENTER" prefHeight="65.0" prefWidth="161.0" spacing="10.0" style="-fx-border-color: grey;">
                                              <children>
                                                 <Button fx:id="changeStrokeColorButton" disable="true" mnemonicParsing="false" onAction="#onChangeStrokeColorAction" prefHeight="40.0" prefWidth="120.0">
                                                    <graphic>
@@ -187,7 +186,7 @@
                                     <Insets bottom="2.0" left="2.0" right="2.0" />
                                  </opaqueInsets>
                               </VBox>
-                              <VBox prefHeight="169.0" prefWidth="336.0" style="-fx-border-color: grey;">
+                              <VBox alignment="TOP_CENTER" prefHeight="169.0" prefWidth="336.0" style="-fx-border-color: grey;">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="302.0" style="-fx-border-color: grey;">
                                        <children>
@@ -304,7 +303,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <HBox>
+      <HBox prefHeight="783.0" prefWidth="1116.0">
          <children>
             <fx:include fx:id="canvas" source="FXMLCanvas.fxml" />
          </children>

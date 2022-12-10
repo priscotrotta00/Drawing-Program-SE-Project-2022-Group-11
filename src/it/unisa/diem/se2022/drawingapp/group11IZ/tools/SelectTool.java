@@ -9,7 +9,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.event.EventTarget;
-import javafx.scene.Group;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 
