@@ -46,6 +46,8 @@ public class Drawing implements Iterable<MyShape>{
      */
     public void moveToLayer(MyShape myShape, int i) {
         //add myShape in position i 
+       
+        figures.remove(myShape);
         figures.add(i, myShape);//Inserts the specified element at the specified position in this list. 
         //Shifts the element currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
     }

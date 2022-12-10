@@ -43,13 +43,8 @@ public class MoveForegroundShapeCommand implements Command {
      */
     @Override
     public void undo() {
-        this.canvas.removeShape(shape);
-        //for draw
-        this.canvas.getDraw().addShape(shape);
-        this.canvas.getDraw().moveToLayer(shape, layerShape);
-        //for drawpane
-        this.canvas.getDrawPane().getChildren().add(layerShape, (Node)shape);
-
+        this.canvas.moveToLayer(shape, this.layerShape);
+        
     }
     
 }

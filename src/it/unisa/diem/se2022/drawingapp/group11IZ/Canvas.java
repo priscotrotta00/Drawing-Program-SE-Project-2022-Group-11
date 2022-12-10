@@ -19,6 +19,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -242,5 +243,18 @@ public class Canvas implements Initializable {
         
         this.drawPane.getChildren().remove(preview.getView());
         this.drawPane.getChildren().add(layer, shape.getView());
+    }
+    /**
+     * Move the shape at different Layer
+     * @param s 
+     */
+    public void moveToLayer(MyShape s, int layer){
+        this.removeShape(s);
+        //for draw
+        this.getDraw().addShape(s);
+        this.getDraw().moveToLayer(s, layer);
+        //for drawpane
+        this.getDrawPane().getChildren().add(layer, s.getView());
+
     }
 }
