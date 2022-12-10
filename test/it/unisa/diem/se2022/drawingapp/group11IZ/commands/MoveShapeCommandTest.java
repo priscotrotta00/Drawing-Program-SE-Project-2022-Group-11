@@ -93,11 +93,13 @@ public class MoveShapeCommandTest {
 
         msc.execute();
         
-        double diffX = shape.myGetLayoutBounds().getMaxX() - shape.myGetLayoutBounds().getMinX();
-        double diffY = shape.myGetLayoutBounds().getMaxY() - shape.myGetLayoutBounds().getMinY();
+        double widthDiv2 = 10;
+        double heightDiv2 = 5;
+        double valueX = x - widthDiv2;
+        double valueY = y - heightDiv2;
         
-        Assert.assertTrue("If correctly moved", x == (shape.myGetLayoutBounds().getMinX() + diffX / 2));
-        Assert.assertTrue("If correctly moved", y == (shape.myGetLayoutBounds().getMinY() + diffY / 2));
+        Assert.assertTrue("If correctly moved", valueX == shape.myGetLayoutBounds().getMinX());
+        Assert.assertTrue("If correctly moved", valueY == shape.myGetLayoutBounds().getMinY());
     }
 
     @Test
@@ -110,14 +112,19 @@ public class MoveShapeCommandTest {
 
         msc.undo();
         
-        double diffX = shape.myGetLayoutBounds().getMaxX() - shape.myGetLayoutBounds().getMinX();
-        double diffY = shape.myGetLayoutBounds().getMaxY() - shape.myGetLayoutBounds().getMinY();
+        double widthDiv2 = 10;
+        double heightDiv2 = 5;
+        double valueX = x - widthDiv2;
+        double valueY = y - heightDiv2;
         
-        Assert.assertFalse("If correctly done the undo", x == (shape.myGetLayoutBounds().getMinX() + diffX / 2));
-        Assert.assertFalse("If correctly done the undo", y == (shape.myGetLayoutBounds().getMinY() + diffY / 2));
+        Assert.assertFalse("If correctly done the undo", valueX == shape.myGetLayoutBounds().getMinX());
+        Assert.assertFalse("If correctly done the undo", valueY == shape.myGetLayoutBounds().getMinY());
         
-        Assert.assertTrue("If coordinates are correct", ((double)oldXField.get(msc)) == (shape.myGetLayoutBounds().getMinX() + diffX / 2));
-        Assert.assertTrue("If coordinates are correct", ((double)oldYField.get(msc)) == (shape.myGetLayoutBounds().getMinY() + diffY / 2));
+        valueX = (double)oldXField.get(msc) - widthDiv2;
+        valueY = (double)oldYField.get(msc) - heightDiv2;
+        
+        Assert.assertTrue("If coordinates are correct", valueX == shape.myGetLayoutBounds().getMinX());
+        Assert.assertTrue("If coordinates are correct", valueY == shape.myGetLayoutBounds().getMinY());
     }
 
 }
