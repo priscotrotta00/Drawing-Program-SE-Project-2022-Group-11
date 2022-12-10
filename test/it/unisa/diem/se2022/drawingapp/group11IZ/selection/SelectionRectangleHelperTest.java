@@ -5,7 +5,8 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeRectangleCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import java.lang.reflect.Field;
@@ -67,7 +68,7 @@ public class SelectionRectangleHelperTest {
         
         resizeCommandField = TwoVerticesBaseSelectionHelper.class.getDeclaredField("command");
         resizeCommandField.setAccessible(true);
-        resizeCommandField.set(helper, new ResizeRectangleCommand(rectangle));
+        resizeCommandField.set(helper, new ResizeShapeCommand(rectangle));
     }
     
     @Test

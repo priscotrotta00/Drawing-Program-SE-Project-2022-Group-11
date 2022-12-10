@@ -234,5 +234,41 @@ public class MyEnhancedLine extends Line implements MyLine{
     public Line getView(){
         return (Line) this;
     }
+    
+    public Snapshot getSnapshot(){
+        return new Snapshot(this);
+    }
+    
+    public class Snapshot implements MyShape.Snapshot{
+        private MyEnhancedLine line;
+        private double startX;
+        private double startY;
+        private double endX;
+        private double endY;
+        private Paint stroke;
+        private Paint fill;
+
+        private Snapshot(MyEnhancedLine line){
+            this.line = line;
+            this.startX = line.myGetStartX();
+            this.startY = line.myGetStartY();
+            this.endX = line.myGetEndX();
+            this.endY = line.myGetEndY();
+            this.fill = line.myGetFill();
+            this.stroke = line.myGetStroke();
+            
+        }
+        
+        @Override
+        public void restore() {
+            this.line.mySetStartX(startX);
+            this.line.mySetStartY(startY);
+            this.line.mySetEndX(endX);
+            this.line.mySetEndY(endY);
+            this.line.mySetFill(fill);
+            this.line.mySetStroke(stroke);
+        }
+        
+    }
 
 }

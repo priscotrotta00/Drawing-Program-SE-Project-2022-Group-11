@@ -27,19 +27,19 @@ public class ResizeRectangleCommandTest {
     
     @Test(expected=NoNewCoordinatesException.class)
     public void testExecute1(){
-        this.command = new ResizeRectangleCommand(shape);
+        this.command = new ResizeShapeCommand(shape);
         this.command.execute();
     }
     
     @Test(expected=InvalidCoordinatesException.class)
     public void testExecute2(){
-        this.command = new ResizeRectangleCommand(shape, 10, 30, -10, -20);
+        this.command = new ResizeShapeCommand(shape, 10, 30, -10, -20);
         this.command.execute();
     }
     
     @Test
     public void testExecute3(){
-        this.command = new ResizeRectangleCommand(shape, 10, 10, 30, 20);
+        this.command = new ResizeShapeCommand(shape, 10, 10, 30, 20);
         this.command.execute();
         
         Assert.assertEquals(10, this.shape.getTopLeftX(), 0);
@@ -50,7 +50,7 @@ public class ResizeRectangleCommandTest {
     
     @Test
     public void testExecute4(){
-        this.command = new ResizeRectangleCommand(shape, 10, 10, 50, 20);
+        this.command = new ResizeShapeCommand(shape, 10, 10, 50, 20);
         this.command.execute();
         
         Assert.assertEquals(10, this.shape.getTopLeftX(), 0);
@@ -64,25 +64,25 @@ public class ResizeRectangleCommandTest {
     
     @Test(expected=InvalidCoordinatesException.class)
     public void testExecute5(){
-        this.command = new ResizeRectangleCommand(shape, 50, 20, 10, 10);
+        this.command = new ResizeShapeCommand(shape, 50, 20, 10, 10);
         this.command.execute();
     }
     
     @Test(expected=InvalidCoordinatesException.class)
     public void testExecute6(){
-        this.command = new ResizeRectangleCommand(shape, 50, 20, 70, 10);
+        this.command = new ResizeShapeCommand(shape, 50, 20, 70, 10);
         this.command.execute();
     }
     
     @Test(expected=InvalidCoordinatesException.class)
     public void testExecute7(){
-        this.command = new ResizeRectangleCommand(shape, 50, 20, 10, 70);
+        this.command = new ResizeShapeCommand(shape, 50, 20, 10, 70);
         this.command.execute();
     }
     
     @Test
     public void testExecute8(){
-        this.command = new ResizeRectangleCommand(shape, -10, -20, 30, 60);
+        this.command = new ResizeShapeCommand(shape, -10, -20, 30, 60);
         this.command.execute();
         
         Assert.assertEquals(-10, this.shape.getTopLeftX(), 0);
@@ -96,7 +96,7 @@ public class ResizeRectangleCommandTest {
     
     @Test
     public void testExecute9(){
-        this.command = new ResizeRectangleCommand(shape, 10, -20, 30, 60);
+        this.command = new ResizeShapeCommand(shape, 10, -20, 30, 60);
         this.command.execute();
         
         Assert.assertEquals(10, this.shape.getTopLeftX(), 0);
@@ -110,7 +110,7 @@ public class ResizeRectangleCommandTest {
     
     @Test
     public void testExecute10(){
-        this.command = new ResizeRectangleCommand(shape, -50, 20, 30, 60);
+        this.command = new ResizeShapeCommand(shape, -50, 20, 30, 60);
         this.command.execute();
         
         Assert.assertEquals(-50, this.shape.getTopLeftX(), 0);
@@ -124,7 +124,7 @@ public class ResizeRectangleCommandTest {
     
     @Test
     public void testExecute11(){
-        this.command = new ResizeRectangleCommand(shape, -30, -60, -20, -20);
+        this.command = new ResizeShapeCommand(shape, -30, -60, -20, -20);
         this.command.execute();
         
         Assert.assertEquals(-30, this.shape.getTopLeftX(), 0);
@@ -138,7 +138,7 @@ public class ResizeRectangleCommandTest {
     
     @Test
     public void testExecute12(){
-        this.command = new ResizeRectangleCommand(shape, -50, 20, -30, 60);
+        this.command = new ResizeShapeCommand(shape, -50, 20, -30, 60);
         this.command.execute();
         
         Assert.assertEquals(-50, this.shape.getTopLeftX(), 0);
@@ -152,7 +152,7 @@ public class ResizeRectangleCommandTest {
     
     @Test
     public void testExecute13(){
-        this.command = new ResizeRectangleCommand(shape, 10, -60, 30, -20);
+        this.command = new ResizeShapeCommand(shape, 10, -60, 30, -20);
         this.command.execute();
         
         Assert.assertEquals(10, this.shape.getTopLeftX(), 0);
@@ -166,9 +166,9 @@ public class ResizeRectangleCommandTest {
     
     @Test
     public void testUndo1(){
-        new ResizeRectangleCommand(shape, 10, 40, 50, 60).execute();
+        new ResizeShapeCommand(shape, 10, 40, 50, 60).execute();
         
-        this.command = new ResizeRectangleCommand(shape, 10, 40, 80, 70);
+        this.command = new ResizeShapeCommand(shape, 10, 40, 80, 70);
         this.command.execute();
         this.command.undo();
         
@@ -180,18 +180,18 @@ public class ResizeRectangleCommandTest {
     
     @Test
     public void testUndo2(){
-        ResizeRectangleCommand command1;
-        ResizeRectangleCommand command2;
-        ResizeRectangleCommand command3;
+        ResizeShapeCommand command1;
+        ResizeShapeCommand command2;
+        ResizeShapeCommand command3;
         
-        command1 = new ResizeRectangleCommand(shape, -10, -35, 40, 50);
+        command1 = new ResizeShapeCommand(shape, -10, -35, 40, 50);
         command1.execute();
         
-        command2 = new ResizeRectangleCommand(shape);
+        command2 = new ResizeShapeCommand(shape);
         command2.setNewCoordinates(20, 20, 20, 20);
         command2.execute();
         
-        command3 = new ResizeRectangleCommand(shape);
+        command3 = new ResizeShapeCommand(shape);
         command3.setNewCoordinates(30, 40, 100, 60);
         command3.execute();
         

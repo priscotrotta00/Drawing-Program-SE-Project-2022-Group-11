@@ -45,8 +45,37 @@ public interface MyShape extends Cloneable{
     public ObservableList<Double> myGetStrokeDashArray();
     public Bounds myGetLayoutBounds();
     public void moveShape(double topLeftX, double topLeftY);
-    public MyShape clone();
     public double myGetLayoutX();
     public double myGetLayoutY();
+    
+    /**
+     * Create a new clone of the shape, according to the Prototype Pattern
+     * @return A clone of the shape
+     */
+    public MyShape clone();
+    
+    /**
+     * Get the associated JavaFX Shape Object, to be used inside the View 
+     * components
+     * @return A JavaFX Shape object
+     */
     public Shape getView();
+    
+    /**
+     * Get a snapshot of the current state of the shape, which can be used to
+     * restore it later (according to the Memento pattern)
+     * @return A snapshot of the current state
+     */
+    public Snapshot getSnapshot();
+    
+    /**
+     * Interface that represents a snapshot of a shape's state
+     */
+    public interface Snapshot {
+        /**
+         * Restore the state memorized inside the snapshot on the shape it is
+         * associated with
+         */
+        public void restore();
+    }
 }

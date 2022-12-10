@@ -215,12 +215,12 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
         return boundingBoxEdge;
     }
     
-    ResizeShapeCommand getCommand(){
-        return command;
-    }
-    
     void setCommand(ResizeShapeCommand command){
         this.command = command;
+    }
+    
+    ResizeShapeCommand getCommand(){
+        return command;
     }
     
     void setCanvas(Canvas canvas) {

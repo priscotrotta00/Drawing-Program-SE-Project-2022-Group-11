@@ -24,8 +24,6 @@ public class ChangeFillColorCommand extends ChangeColorCommand{
     public ChangeFillColorCommand(MyShape myShape, Color newColor) {
         super.setMyShape(myShape);
         super.setNewColor(newColor);
-        if(!(myShape instanceof MyLine))
-            super.setOldColor((Color) myShape.myGetFill());
     }
         
     /**

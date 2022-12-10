@@ -391,6 +391,8 @@ public class MyEnhancedRectangleTest {
         assertEquals(20, r.myGetWidth(), 0);
         assertEquals(40, r.myGetHeight(), 0);
     }
+    
+    @Test
     public void testClone(){
         //create shape ellipse
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
@@ -416,6 +418,31 @@ public class MyEnhancedRectangleTest {
         assertTrue("error in copy of stroke ",rectangleCopy.myGetStroke()==rectangle.myGetStroke());
         assertTrue("error in copy of strokeWidth ", rectangleCopy.myGetStrokeWidth()==rectangle.myGetStrokeWidth());
         
+        
+    }
+    
+    @Test
+    public void testSnapshot(){
+        MyEnhancedRectangle rectangle;
+        MyEnhancedRectangle.Snapshot snapshot;
+        
+        rectangle = new MyEnhancedRectangle();
+        rectangle.modifyShape(10, 20, 50, 60);
+        rectangle.mySetFill(Color.BLACK);
+        rectangle.mySetStroke(Color.WHITE);
+        
+        snapshot = rectangle.getSnapshot();
+        rectangle.modifyShape(100, -20, 180, 60);
+        rectangle.mySetFill(Color.GREEN);
+        rectangle.mySetStroke(Color.RED);
+        
+        snapshot.restore();
+        assertEquals(Color.BLACK, rectangle.myGetFill());
+        assertEquals(Color.WHITE, rectangle.myGetStroke());
+        assertEquals(10, rectangle.getTopLeftX(), 0);
+        assertEquals(20, rectangle.getTopLeftY(), 0);
+        assertEquals(50, rectangle.getBottomRightX(), 0);
+        assertEquals(60, rectangle.getBottomRightY(), 0);
         
     }
     

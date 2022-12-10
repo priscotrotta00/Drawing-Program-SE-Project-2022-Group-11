@@ -5,7 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeLineCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
@@ -36,13 +36,13 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
     }
     
     @Override
-    ResizeLineCommand getCommand(){
-        return (ResizeLineCommand) super.getCommand();
+    ResizeShapeCommand getCommand(){
+        return (ResizeShapeCommand) super.getCommand();
     }
 
     @Override
     ResizeShapeCommand createResizeShapeCommand() {
-        return new ResizeLineCommand(this.getShape());
+        return new ResizeShapeCommand(this.getShape());
     }
     
     @Override

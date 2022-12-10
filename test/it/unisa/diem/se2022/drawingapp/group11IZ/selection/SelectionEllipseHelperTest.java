@@ -5,7 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeEllipseCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
@@ -68,7 +68,7 @@ public class SelectionEllipseHelperTest {
         
         resizeCommandField = TwoVerticesBaseSelectionHelper.class.getDeclaredField("command");
         resizeCommandField.setAccessible(true);
-        resizeCommandField.set(helper, new ResizeEllipseCommand(ellipse));
+        resizeCommandField.set(helper, new ResizeShapeCommand(ellipse));
     }
     
     @Test

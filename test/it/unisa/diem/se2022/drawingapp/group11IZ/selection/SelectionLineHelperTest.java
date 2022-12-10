@@ -5,7 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeLineCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
@@ -68,7 +68,7 @@ public class SelectionLineHelperTest {
         
         resizeCommandField = TwoVerticesBaseSelectionHelper.class.getDeclaredField("command");
         resizeCommandField.setAccessible(true);
-        resizeCommandField.set(helper, new ResizeLineCommand(line));
+        resizeCommandField.set(helper, new ResizeShapeCommand(line));
     }
     
     @Test

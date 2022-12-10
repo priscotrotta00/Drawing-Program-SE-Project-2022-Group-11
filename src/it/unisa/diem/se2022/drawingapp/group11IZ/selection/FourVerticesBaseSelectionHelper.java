@@ -40,7 +40,6 @@ public abstract class FourVerticesBaseSelectionHelper extends TwoVerticesBaseSel
      * Initialize all the defined event handlers that will define the resize
      * functionality
      */
-    @Override
     void initializeVerticesHandlers(){
         super.initializeVerticesHandlers();
         
