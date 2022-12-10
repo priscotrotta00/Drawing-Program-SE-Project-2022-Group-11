@@ -264,6 +264,7 @@ public class Controller implements Initializable {
         BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         backgroundButton.disableProperty().bind(del);
     }
+    
     /**
      * Initialize ForeBackground bindings
      */
@@ -271,7 +272,6 @@ public class Controller implements Initializable {
         BooleanBinding del = Bindings.or(not(selection.getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
         foregroundButton.disableProperty().bind(del);
     }
-    
     
     /*
      * Initialize the CutShapeButton bind
@@ -281,6 +281,9 @@ public class Controller implements Initializable {
         cutButton.disableProperty().bind(cut);
     }
     
+    /**
+     * Initialize the Undo bind
+     */
     public void initializeUndoBindings(){
         undoButton.disableProperty().bind(commandInvoker.stackIsEmptyProperty());
     }
@@ -293,6 +296,10 @@ public class Controller implements Initializable {
         return drawPane;
     }
     
+    /**
+     * 
+     * @return the command invoker associated with the controller
+     */
     public CommandInvoker getCommandInvoker(){
         return this.commandInvoker;
     }
@@ -442,7 +449,6 @@ public class Controller implements Initializable {
      * Change the stroke color of the selected shape with the color in the StrokeColorPicker
      * @param event 
      */
-    
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
         Command ccc = new ChangeStrokeColorCommand(selection.getSelectedItem(), this.getSelectedStrokeColor());
@@ -453,13 +459,11 @@ public class Controller implements Initializable {
      * Change the fill color of the selected shape with the color in the fillColorPicker
      * @param event 
      */
-    
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
         Command ccc = new ChangeFillColorCommand(selection.getSelectedItem(), this.getSelectedFillColor());
         commandInvoker.execute(ccc);
     }
-
     
     /**
      * get selected shape and call copyShape
@@ -520,7 +524,6 @@ public class Controller implements Initializable {
      * The method checks that the Clipboard object contains a shape
      * @param event 
      */
-    
     @FXML
     private void onPasteAction(ActionEvent event) {
         if(not(clipboard.copiedProperty()).equals(true)) return;
@@ -549,10 +552,13 @@ public class Controller implements Initializable {
         commandInvoker.execute(moveBackgroundCommand);
     }
     
+    /**
+     * Execute the undo operation of the last command executed
+     * @param event 
+     */
     @FXML
     private void onUndoAction(ActionEvent event) {
         if(selection.getSelectedValue()) selection.unSelect();
-        
         this.commandInvoker.undoLast();
     }
 }
