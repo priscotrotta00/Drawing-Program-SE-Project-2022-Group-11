@@ -307,7 +307,8 @@ public class Controller implements Initializable {
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
         Command ccc = new ChangeStrokeColorCommand(this.canvasController.getSelection().getSelectedItem(), this.getSelectedStrokeColor());
-        ccc.execute();
+
+        this.canvasController.getCommandInvoker().execute(ccc);
     }
 
     /**
@@ -317,7 +318,7 @@ public class Controller implements Initializable {
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
         Command ccc = new ChangeFillColorCommand(this.canvasController.getSelection().getSelectedItem(), this.getSelectedFillColor());
-        ccc.execute();
+        this.canvasController.getCommandInvoker().execute(ccc);
     }
     
     /**
@@ -342,7 +343,7 @@ public class Controller implements Initializable {
         MyShape s = this.canvasController.getSelection().getSelectedItem();
         this.canvasController.getSelection().unSelect();
         Command deleteCommand = new DeleteShapeCommand(this.canvasController, s);
-        deleteCommand.execute();
+        this.canvasController.getCommandInvoker().execute(deleteCommand);
     }
     
     /**
@@ -356,7 +357,7 @@ public class Controller implements Initializable {
         this.canvasController.getSelection().unSelect();
         
         Command cutCommand = new CutShapeCommand(selectedShape, this.canvasController);
-        cutCommand.execute();
+        this.canvasController.getCommandInvoker().execute(cutCommand);
     }
 
     /**
@@ -369,7 +370,7 @@ public class Controller implements Initializable {
         if(not(this.canvasController.getClipboard().copiedProperty()).equals(true)) return;
         MyShape s = this.canvasController.getClipboard().getNewCopy();
         Command pasteShapeCommand = new PasteShapeCommand(this.canvasController, s);
-        pasteShapeCommand.execute();
+        this.canvasController.getCommandInvoker().execute(pasteShapeCommand);
     }
 
     /**

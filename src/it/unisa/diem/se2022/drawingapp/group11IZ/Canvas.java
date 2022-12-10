@@ -150,8 +150,11 @@ public class Canvas implements Initializable {
      * @param myShape
      */
     public void removeShape(MyShape myShape) {
+        drawPane.getChildren().remove(this.draw.getShapeLayer(myShape));
+    
         this.draw.removeShape(myShape);
-        drawPane.getChildren().remove(myShape.getView());
+        //drawPane.getChildren().remove(myShape.getView());
+       // drawPane.getChildren().remove(this.drawPane.getChildren().re);
     }
 
     /**
@@ -257,4 +260,15 @@ public class Canvas implements Initializable {
         this.getDrawPane().getChildren().add(layer, s.getView());
 
     }
+    
+    public void moveToLayer2(MyShape s, int layer){
+        
+        //for draw
+        this.getDraw().addShape(s);
+        this.getDraw().moveToLayer(s, layer);
+        //for drawpane
+        this.getDrawPane().getChildren().add(layer, s.getView());
+
+    }
+    
 }

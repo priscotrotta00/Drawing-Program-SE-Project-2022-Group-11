@@ -5,7 +5,6 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
@@ -14,12 +13,14 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -32,7 +33,6 @@ import org.junit.Test;
 public class DeleteShapeCommandTest {
 
     private Canvas c;
-    private Field drawField;
     private Field figuresField;
     private Field drawPaneField;
     private Pane pane;
@@ -126,7 +126,8 @@ public class DeleteShapeCommandTest {
         deleteCommand = new DeleteShapeCommand(c, ellipse);
         deleteCommand.execute();
         //check if ellipse is delete from figures
-        assertFalse("Ellipse is not delete from figures", figures.contains(ellipse));
+        Iterator<MyShape> iter=draw.iterator();
+        assertNotEquals("Ellipse is not delete from figures", iter.next(),ellipse);
         //check if in pos0 i have rectangle and in pos1 i have line
         int layer1 = draw.getShapeLayer(rectangle);
         assertEquals("Error in remove", layer1, 0);
@@ -138,15 +139,17 @@ public class DeleteShapeCommandTest {
         //test remove rectangle
         deleteCommand = new DeleteShapeCommand(c, rectangle);
         deleteCommand.execute();
+        Iterator<MyShape> iter2=draw.iterator();
         //check if rectangle is delete from figures
-        assertFalse("Rectangle is not delete from figures", figures.contains(rectangle));
+        assertNotEquals("Rectangle is not delete from figures", iter2.next(),rectangle);
         assertFalse("Error in removeShape", pane.getChildren().contains(rectangle));
 
         //test remove line
         deleteCommand = new DeleteShapeCommand(c, line);
         deleteCommand.execute();
         //check if line is delete from figures
-        assertFalse("Line is not delete from figures", figures.contains(line));
+        Iterator<MyShape> iter3=draw.iterator();
+        assertFalse("Line is not delete from figures",iter3.hasNext());
         assertFalse("Error in removeShape", pane.getChildren().contains(line));
 
     }
@@ -169,8 +172,9 @@ public class DeleteShapeCommandTest {
         selection.select(ellipse);
         deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
         deleteCommand.execute();
+        Iterator<MyShape> iter=draw.iterator();
         //check if ellipse is delete from figures
-        assertFalse("Ellipse is not delete from figures", figures.contains(ellipse));
+        assertNotEquals("Ellipse is not delete from figures", iter.next(),ellipse);
         //check if in pos0 i have rectangle and in pos1 i have line
         int layer1 = draw.getShapeLayer(rectangle);
         assertEquals("Error in remove", layer1, 0);
@@ -198,8 +202,11 @@ public class DeleteShapeCommandTest {
         selection.select(line);
         deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
         deleteCommand.execute();
-        //check if ellipse is delete from figures
-        assertFalse("Ellipse is not delete from figures", figures.contains(line));
+        Iterator<MyShape> iter=draw.iterator();
+        assertEquals("Error in delete", iter.next(),ellipse);
+        assertEquals("Error in delete", iter.next(),rectangle);
+        //check if line is delete from figures
+        assertFalse("Ellipse is not delete from figures", iter.hasNext());
         //check drawPane
         assertFalse("Error in removeShape", pane.getChildren().contains(line));
 
@@ -221,13 +228,21 @@ public class DeleteShapeCommandTest {
         createShapeL.execute();
 
         selection.select(rectangle);
-        deleteCommand = new DeleteShapeCommand(c, selection.getSelectedItem());
+        deleteCommand = new DeleteShapeCommand(c, rectangle);
         deleteCommand.execute();
         //check if ellipse is delete from figures
-        assertFalse("Ellipse is not delete from figures", figures.contains(rectangle));
+        Iterator<MyShape> iter=draw.iterator();
+        assertEquals("rectangle is not delete from figures", iter.next(),ellipse);
+        assertEquals("rectangle is not delete from figures", iter.next(),line);
+        assertFalse("rectangle is not delete from figures", iter.hasNext());
+        
+       // System.out.println(pane.getChildren());
+        
         //check drawPane
         assertFalse("Error in removeShape", pane.getChildren().contains(rectangle));
-
+        assertEquals("Error in removeShape", pane.getChildren().get(0),ellipse);
+        assertEquals("Error in removeShape", pane.getChildren().get(1),line);
+        
     }
     
     
@@ -250,12 +265,16 @@ public class DeleteShapeCommandTest {
         deleteCommand.execute();
         
         deleteCommand.undo();
-        //check if ellipse is in figures and in pane
-        assertTrue("Ellipse is not insert in figures", figures.contains(ellipse));
-        assertTrue("Error in addShape", pane.getChildren().contains(ellipse));
+        //check if rectangle is in figures and in pane
+        Iterator<MyShape> iter=draw.iterator();
+        assertEquals("rectangle is not insert in figures", iter.next(),ellipse);
+        assertEquals("rectangle is not insert in figures", iter.next(),rectangle);
+        assertEquals("rectangle is not insert in figures", iter.next(),line);
         //check layer of ellipse
-        int layer=draw.getShapeLayer(ellipse);
-        assertEquals("Error in add", layer, 0);
+        assertTrue("error in undo",this.pane.getChildren().contains(ellipse));
+        assertTrue("error in undo",this.pane.getChildren().indexOf(ellipse)==0);
+        assertTrue("error in undo",this.pane.getChildren().indexOf(rectangle)==1);
+        assertTrue("error in undo",this.pane.getChildren().indexOf(line)==2);
         
     }
     

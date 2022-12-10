@@ -5,16 +5,13 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
-import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
-import java.util.List;
 import javafx.scene.layout.Pane;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -28,13 +25,9 @@ public class MoveForegroundShapeCommandTest {
 
     private Canvas canvas;
     private Field drawField;
-    private Field figuresField;
     private Field drawPaneField;
     private Pane pane;
     private Drawing draw;
-    private List<MyShape> figures;
-    private Field selectionField;
-    private Selection selection;
     private MoveForegroundShapeCommand foregroundCommand;
 
     @Before
@@ -45,17 +38,14 @@ public class MoveForegroundShapeCommandTest {
 
         drawPaneField = Canvas.class.getDeclaredField("drawPane");
         drawField = Canvas.class.getDeclaredField("draw");
-        figuresField = Drawing.class.getDeclaredField("figures");
-
+        
         drawPaneField.setAccessible(true);
         drawField.setAccessible(true);
-        figuresField.setAccessible(true);
-
+        
         drawPaneField.set(canvas, pane);
         canvas.initialize(null, null);
         draw = canvas.getDraw();
-        figures = (List<MyShape>) figuresField.get(draw);
-
+        
     }
 
     @Test(expected = ShapeNotFoundException.class)
