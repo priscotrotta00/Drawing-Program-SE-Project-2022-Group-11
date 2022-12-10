@@ -31,7 +31,7 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
     }
     
     @Override
-    MyEllipse getPreview(){
+    public MyEllipse getPreview(){
         return (MyEllipse) super.getPreview();
     }
     
@@ -58,8 +58,8 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
         // Define the aspect of the bounding box
         ellipseBoundingBoxEdge.mySetFill(Color.TRANSPARENT);
         ellipseBoundingBoxEdge.mySetStroke(Color.BLACK);
-        ellipseBoundingBoxEdge.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + strokeVertexOffset);
-        ellipseBoundingBoxEdge.myGetStrokeDashArray().addAll(strokeDashList);
+        ellipseBoundingBoxEdge.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + STROKE_VERTEX_OFFSET);
+        ellipseBoundingBoxEdge.myGetStrokeDashArray().addAll(STROKE_DASH_LIST);
         
         return ellipseBoundingBoxEdge;
     }
@@ -67,28 +67,28 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void updateVertices() {
         // Initialize first vertex at the top of the vertical diameter of the ellipse
-        this.getVertex1().mySetWidth(widthVertex);
-        this.getVertex1().mySetHeight(heightVertex);
-        this.getVertex1().myXProperty().bind(this.getPreview().myCenterXProperty().subtract(widthVertex/2));
+        this.getVertex1().mySetWidth(WIDTH_VERTEX);
+        this.getVertex1().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex1().myXProperty().bind(this.getPreview().myCenterXProperty().subtract(WIDTH_VERTEX/2));
         this.getVertex1().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize second vertex at the right of the horizontal diameter of the ellipse
-        this.getVertex2().mySetWidth(widthVertex);
-        this.getVertex2().mySetHeight(heightVertex);
-        this.getVertex2().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(widthVertex));
-        this.getVertex2().myYProperty().bind(this.getPreview().myCenterYProperty().subtract(heightVertex/2));
+        this.getVertex2().mySetWidth(WIDTH_VERTEX);
+        this.getVertex2().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex2().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(WIDTH_VERTEX));
+        this.getVertex2().myYProperty().bind(this.getPreview().myCenterYProperty().subtract(HEIGHT_VERTEX/2));
         
         // Initialize third vertex at the bottom of the vertical diameter of the ellipse
-        this.getVertex3().mySetWidth(widthVertex);
-        this.getVertex3().mySetHeight(heightVertex);
-        this.getVertex3().myXProperty().bind(this.getPreview().myCenterXProperty().subtract(widthVertex/2));
-        this.getVertex3().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(heightVertex));
+        this.getVertex3().mySetWidth(WIDTH_VERTEX);
+        this.getVertex3().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex3().myXProperty().bind(this.getPreview().myCenterXProperty().subtract(WIDTH_VERTEX/2));
+        this.getVertex3().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(HEIGHT_VERTEX));
         
         // Initialize fourth vertex at the left of the horizontal diameter of the ellipse
-        this.getVertex4().mySetWidth(widthVertex);
-        this.getVertex4().mySetHeight(heightVertex);
+        this.getVertex4().mySetWidth(WIDTH_VERTEX);
+        this.getVertex4().mySetHeight(HEIGHT_VERTEX);
         this.getVertex4().myXProperty().bind(this.getPreview().topLeftXProperty());
-        this.getVertex4().myYProperty().bind(this.getPreview().myCenterYProperty().subtract(heightVertex/2));
+        this.getVertex4().myYProperty().bind(this.getPreview().myCenterYProperty().subtract(HEIGHT_VERTEX/2));
     }
 
     @Override

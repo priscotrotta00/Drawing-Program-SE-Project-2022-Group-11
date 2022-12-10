@@ -206,7 +206,7 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
         return shape;
     }
     
-    MyShape getPreview(){
+    public MyShape getPreview(){
         return preview;
     }
     

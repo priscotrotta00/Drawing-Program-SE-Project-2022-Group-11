@@ -9,6 +9,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorComma
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveBackgroundShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveForegroundShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.PasteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
@@ -88,6 +90,10 @@ public class Controller implements Initializable {
     @FXML
     private Button undoButton;
     @FXML
+    private Button foregroundButton;
+    @FXML
+    private Button backgroundButton;
+    @FXML
     private Tab viewTab;
     //ADDED
     private ToggleGroup toolToggleGroup;
@@ -102,16 +108,18 @@ public class Controller implements Initializable {
         this.initializeToolToggleGroup();
         this.initializeChangeColorBindings();
         this.initializeDeleteBindings();
-
         this.initializeCopyShapeBindings();
+        this.initializeMoveBackgroundBindings();
+        this.initializeMoveForegroundBindings();
         
         this.initializePasteBindings();
-        
-        
         this.initializeCutBindings();
 
         this.strokeColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedStrokeColorProperty());
         this.fillColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedFillColorProperty());
+        this.initializeUndoBindings();
+        
+        
     }
 
     /**
@@ -174,11 +182,31 @@ public class Controller implements Initializable {
     }
     
     /**
+     * Initialize MoveBackground bindings
+     */
+    public void initializeMoveBackgroundBindings(){
+        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        backgroundButton.disableProperty().bind(del);
+    }
+    /**
+     * Initialize ForeBackground bindings
+     */
+    public void initializeMoveForegroundBindings(){
+        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
+        foregroundButton.disableProperty().bind(del);
+    }
+    
+    
+    /*
      * Initialize the CutShapeButton bind
      */
     public void initializeCutBindings(){
         BooleanBinding cut = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()),not(this.selectionToggleButton.selectedProperty()));
         cutButton.disableProperty().bind(cut);
+    }
+    
+    public void initializeUndoBindings(){
+        undoButton.disableProperty().bind(this.canvasController.getCommandInvoker().stackIsEmptyProperty());
     }
 
     /**
@@ -346,6 +374,25 @@ public class Controller implements Initializable {
     }
 
     @FXML
+    private void onForegroundAction(ActionEvent event) {
+        MyShape s = this.canvasController.getSelection().getSelectedItem();
+        this.canvasController.getSelection().unSelect();
+        Command moveForegroundCommand=new MoveForegroundShapeCommand(this.canvasController,s);
+        this.canvasController.getCommandInvoker().execute(moveForegroundCommand);
+    }
+
+    @FXML
+    private void onBackgroundAction(ActionEvent event) {
+        MyShape s = this.canvasController.getSelection().getSelectedItem();
+        this.canvasController.getSelection().unSelect();
+        Command moveBackgroundCommand=new MoveBackgroundShapeCommand(this.canvasController, s);
+        this.canvasController.getCommandInvoker().execute(moveBackgroundCommand);
+    }
+    
+    @FXML
     private void onUndoAction(ActionEvent event) {
+        if(this.canvasController.getSelection().getSelectedValue()) this.canvasController.getSelection().unSelect();
+        
+        this.canvasController.getCommandInvoker().undoLast();
     }
 }

@@ -16,7 +16,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.tools.DrawRectangleTool;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Tab;
@@ -55,6 +54,8 @@ public class ControllerTest {
     private Field fillColorPickerField;
     private Field copyButtonField;
     private Field cutButtonField;
+    private Field backgroundButtonField;
+    private Field foregroundButtonField;
     private Field pasteButtonField;
     private Field deleteButtonField;
     private Field changeStrokeColorButtonField;
@@ -84,6 +85,8 @@ public class ControllerTest {
     private Button deleteButton;
     private Button cutButton;
     private Button pasteButton;
+    private Button backgroundButton;
+    private Button foregroundButton;
     private ColorPicker strokeColorPicker;
     private ColorPicker fillColorPicker;
     private TabPane tabPane;
@@ -134,6 +137,8 @@ public class ControllerTest {
         deleteButton = new Button();
         cutButton = new Button();
         pasteButton = new Button();
+        backgroundButton = new Button();
+        foregroundButton = new Button();
         tabPane = new TabPane();
         fileTab = new Tab();
         editTab = new Tab();
@@ -153,6 +158,8 @@ public class ControllerTest {
         deleteButtonField=Controller.class.getDeclaredField("deleteButton");
         cutButtonField = Controller.class.getDeclaredField("cutButton");
         pasteButtonField = Controller.class.getDeclaredField("pasteButton");
+        backgroundButtonField = Controller.class.getDeclaredField("backgroundButton");
+        foregroundButtonField = Controller.class.getDeclaredField("foregroundButton");
         tabPaneField = Controller.class.getDeclaredField("tabPane");
         fileTabField = Controller.class.getDeclaredField("fileTab");
         editTabField = Controller.class.getDeclaredField("editTab");
@@ -172,6 +179,8 @@ public class ControllerTest {
         this.cutButtonField.setAccessible(true);
         this.pasteButtonField.setAccessible(true);
         this.deleteButtonField.setAccessible(true);
+        this.backgroundButtonField.setAccessible(true);
+        this.foregroundButtonField.setAccessible(true);
         this.tabPaneField.setAccessible(true);
         this.fileTabField.setAccessible(true);
         this.editTabField.setAccessible(true);
@@ -191,6 +200,8 @@ public class ControllerTest {
         this.cutButtonField.set(controller, cutButton);
         this.pasteButtonField.set(controller, pasteButton);
         this.deleteButtonField.set(controller, deleteButton);
+        this.backgroundButtonField.set(controller, backgroundButton);
+        this.foregroundButtonField.set(controller, foregroundButton);
         this.tabPaneField.set(controller, tabPane);
         this.fileTabField.set(controller, fileTab);
         this.editTabField.set(controller, editTab);
@@ -346,7 +357,7 @@ public class ControllerTest {
         assertFalse("Error in bind changeStrokeColorButton", changeFillColorButton.isDisable());
     }
     
-    @Test // ho premuto su seleziona e scelto figura.
+    @Test // I pressed on select and chose figure.
     public void testBindDeleteButton3() throws IllegalArgumentException, IllegalAccessException{
         MyEnhancedLine lineShape=new MyEnhancedLine();
         canvas.addShape(lineShape);
@@ -362,13 +373,13 @@ public class ControllerTest {
     }
     
     
-    @Test //non ho premuto su seleziona.
+    @Test //I didn't press select.
     public void testBindDeleteButton1() throws IllegalArgumentException, IllegalAccessException{
         assertTrue("error in bind", deleteButton.isDisable());
         
     }
     
-    @Test // ho premuto su seleziona.
+    @Test // I pressed on select.
     public void testBindDeleteButton2() throws IllegalArgumentException, IllegalAccessException{
         selectionToggleButton.setSelected(true);
         assertTrue("error in bind", deleteButton.isDisable());
@@ -392,14 +403,14 @@ public class ControllerTest {
         
     }
     
-    @Test // ho premuto su seleziona.
+    @Test // I pressed on select.
     public void testBindCopyButton2() throws IllegalArgumentException, IllegalAccessException{
         selectionToggleButton.setSelected(true);
         assertTrue("error in bind", copyButton.isDisable());
         
     }
     
-    @Test // ho premuto su seleziona e scelto figura.
+    @Test // I pressed on select and chose figure.
     public void testBindCopyButton3() throws IllegalArgumentException, IllegalAccessException{
         MyEnhancedLine lineShape=new MyEnhancedLine();
         canvas.addShape(lineShape);
@@ -423,5 +434,59 @@ public class ControllerTest {
         assertFalse("Error in DeleteButton binding", pasteButton.isDisable());
               
     }
+    
+    @Test // I pressed on select
+    public void testBindBackgroundButton2() throws IllegalArgumentException, IllegalAccessException{
+        selectionToggleButton.setSelected(true);
+        assertTrue("error in bind", backgroundButton.isDisable());
+        
+    }
+    
+    @Test // I pressed on select and chose figure.
+    public void testBindBackgroundButton3() throws IllegalArgumentException, IllegalAccessException{
+        selectionToggleButton.setSelected(true);
+        
+        MyEnhancedLine lineShape=new MyEnhancedLine();
+        canvas.addShape(lineShape);
+        
+        canvas.getSelection().select(lineShape);
+        MyShape myShape = canvas.getSelection().getSelectedItem();
+        assertEquals(myShape.toString(), lineShape.toString());
+        
+        
+        assertFalse("error in bind2",selectionToggleButton.isDisable() );
+        assertFalse("error in bind", backgroundButton.isDisable());
+        
+    }
+    
+    @Test //I didn't press select.
+    public void testBindForegroundButton1() throws IllegalArgumentException, IllegalAccessException{
+        assertTrue("error in bind", foregroundButton.isDisable());
+    }
+    
+    @Test // I pressed on select
+    public void testBindForegroundButton2() throws IllegalArgumentException, IllegalAccessException{
+        assertTrue("error in bind", foregroundButton.isDisable());
+        
+    }
+    
+    @Test // I pressed on select and chose figure.
+    public void testBindForegroundButton3() throws IllegalArgumentException, IllegalAccessException{
+        selectionToggleButton.setSelected(true);
+        
+        MyEnhancedLine lineShape=new MyEnhancedLine();
+        canvas.addShape(lineShape);
+        
+        canvas.getSelection().select(lineShape);
+        MyShape myShape = canvas.getSelection().getSelectedItem();
+        assertEquals(myShape.toString(), lineShape.toString());
+        
+        
+        assertFalse("error in bind2",selectionToggleButton.isDisable() );
+        assertFalse("error in bind", foregroundButton.isDisable());
+        
+    }
+    
+
     
 }

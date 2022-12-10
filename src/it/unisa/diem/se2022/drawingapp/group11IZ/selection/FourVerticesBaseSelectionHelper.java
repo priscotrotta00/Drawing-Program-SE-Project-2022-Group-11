@@ -36,10 +36,10 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
     private MyRectangle vertex3;
     private MyRectangle vertex4;
     
-    static final double widthVertex = 10;
-    static final double heightVertex = 10;
-    static final double strokeVertexOffset = 2;
-    static final List<Double> strokeDashList = Arrays.asList(5.0, 10.0, 5.0, 10.0);
+    static final double WIDTH_VERTEX = 10;
+    static final double HEIGHT_VERTEX = 10;
+    static final double STROKE_VERTEX_OFFSET = 2;
+    static final List<Double> STROKE_DASH_LIST = Arrays.asList(5.0, 10.0, 5.0, 10.0);
     
     @Override
     public Group createBoundingBox() {
@@ -316,7 +316,7 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         return shape;
     }
     
-    MyShape getPreview(){
+    public MyShape getPreview(){
         return preview;
     }
     

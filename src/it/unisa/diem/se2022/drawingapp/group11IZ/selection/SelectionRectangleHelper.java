@@ -31,7 +31,7 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     }
     
     @Override
-    MyRectangle getPreview(){
+    public MyRectangle getPreview(){
         return (MyRectangle) super.getPreview();
     }
     
@@ -48,28 +48,28 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
     @Override
     void updateVertices(){
         // Initialize first vertex on the top left point of the rectangle
-        this.getVertex1().mySetWidth(widthVertex);
-        this.getVertex1().mySetHeight(heightVertex);
+        this.getVertex1().mySetWidth(WIDTH_VERTEX);
+        this.getVertex1().mySetHeight(HEIGHT_VERTEX);
         this.getVertex1().myXProperty().bind(this.getPreview().topLeftXProperty());
         this.getVertex1().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize first vertex on the top right point of the rectangle
-        this.getVertex2().mySetWidth(widthVertex);
-        this.getVertex2().mySetHeight(heightVertex);
-        this.getVertex2().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(widthVertex));
+        this.getVertex2().mySetWidth(WIDTH_VERTEX);
+        this.getVertex2().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex2().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(WIDTH_VERTEX));
         this.getVertex2().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize fourth vertex on the bottom left point of the rectangle
-        this.getVertex4().mySetWidth(widthVertex);
-        this.getVertex4().mySetHeight(heightVertex);
+        this.getVertex4().mySetWidth(WIDTH_VERTEX);
+        this.getVertex4().mySetHeight(HEIGHT_VERTEX);
         this.getVertex4().myXProperty().bind(this.getPreview().topLeftXProperty());
-        this.getVertex4().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(heightVertex));
+        this.getVertex4().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(HEIGHT_VERTEX));
         
         // Initialize third vertex on the bottom right point of the rectangle
-        this.getVertex3().mySetWidth(widthVertex);
-        this.getVertex3().mySetHeight(heightVertex);
-        this.getVertex3().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(widthVertex));
-        this.getVertex3().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(heightVertex));
+        this.getVertex3().mySetWidth(WIDTH_VERTEX);
+        this.getVertex3().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex3().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(WIDTH_VERTEX));
+        this.getVertex3().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(HEIGHT_VERTEX));
     }
 
     @Override
@@ -85,8 +85,8 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
         // Define the aspect of the bounding box
         rectangleBoundingBox.mySetStroke(Color.BLACK);
         rectangleBoundingBox.mySetFill(Color.TRANSPARENT);
-        rectangleBoundingBox.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + strokeVertexOffset);
-        rectangleBoundingBox.myGetStrokeDashArray().addAll(strokeDashList);
+        rectangleBoundingBox.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + STROKE_VERTEX_OFFSET);
+        rectangleBoundingBox.myGetStrokeDashArray().addAll(STROKE_DASH_LIST);
         
         return rectangleBoundingBox;
     }

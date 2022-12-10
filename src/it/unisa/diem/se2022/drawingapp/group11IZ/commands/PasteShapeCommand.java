@@ -5,10 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
-import it.unisa.diem.se2022.drawingapp.group11IZ.Controller;
-import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import javafx.scene.paint.Color;
 
 /**
  * Class that represents the "Paste shape" Command that will be executed by

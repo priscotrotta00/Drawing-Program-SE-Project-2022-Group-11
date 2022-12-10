@@ -5,6 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.clipboard.Clipboard;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CommandInvoker;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
@@ -34,6 +35,7 @@ public class Canvas implements Initializable {
     private Drawing draw;
     private Rectangle clip;
     private Selection selection;
+    private CommandInvoker commandInvoker;
     private Clipboard clipboard;
     private Tool selectedTool;
     private final ObjectProperty<Color> selectedStrokeColor = new SimpleObjectProperty<>();
@@ -72,6 +74,7 @@ public class Canvas implements Initializable {
         this.draw = new Drawing();
         this.clipboard = new Clipboard();
         this.selection = new Selection(this);
+        this.commandInvoker = new CommandInvoker();
         
         clip = new Rectangle();
         clip.heightProperty().bind(drawPane.heightProperty());
@@ -156,7 +159,10 @@ public class Canvas implements Initializable {
      * @param myShape
      */
     public void moveShapeToForeground(MyShape myShape) {
+        int layer=this.drawPane.getChildren().indexOf(myShape);
         this.draw.moveToForeground(myShape);
+        drawPane.getChildren().remove(layer);
+        drawPane.getChildren().add(myShape.getView());
     }
 
     /**
@@ -165,7 +171,12 @@ public class Canvas implements Initializable {
      * @param myShape
      */
     public void moveShapeToBackground(MyShape myShape) {
+        int layer=this.drawPane.getChildren().indexOf(myShape);
+        
         this.draw.moveToBackground(myShape);
+        //remove shape from drawPane, add in first pos and add the another element ad the end of list
+        drawPane.getChildren().remove(layer);
+        drawPane.getChildren().add(0, myShape.getView());
     }
     
     /**
@@ -182,6 +193,10 @@ public class Canvas implements Initializable {
      */
     protected Clipboard getClipboard(){
         return this.clipboard;
+    }
+    
+    public CommandInvoker getCommandInvoker(){
+        return this.commandInvoker;
     }
     
     public Selection getSelection(){
