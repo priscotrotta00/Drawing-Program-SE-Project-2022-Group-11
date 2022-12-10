@@ -23,7 +23,7 @@ public class ClipboardTest {
         Clipboard clipboard = new Clipboard();
 
         clipboard.copy(line);
-        MyEnhancedLine lineClone = (MyEnhancedLine) clipboard.getNewCopy();
+        MyEnhancedLine lineClone = (MyEnhancedLine) clipboard.getMyShape();
         assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
         assertTrue("Error in copy", lineClone.myGetEndX() == line.myGetEndX());
         assertTrue("Error in copy", lineClone.myGetEndY() == line.myGetEndY());
@@ -32,7 +32,7 @@ public class ClipboardTest {
         assertTrue("Error in copy", lineClone.myGetFill() == line.myGetFill());
         assertTrue("Error in copy", lineClone.myGetStroke() == line.myGetStroke());
         assertTrue("Error in copy", lineClone.myGetStrokeWidth() == line.myGetStrokeWidth());
-
+        
     }
 
     @Test
@@ -40,7 +40,7 @@ public class ClipboardTest {
         Clipboard clipboard = new Clipboard();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         clipboard.copy(rectangle);
-        MyEnhancedRectangle rectangleClone = (MyEnhancedRectangle) clipboard.getNewCopy();
+        MyEnhancedRectangle rectangleClone = (MyEnhancedRectangle) clipboard.getMyShape();
         assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
         assertTrue("Error in copy", rectangleClone.myGetX() == rectangle.myGetX());
         assertTrue("Error in copy", rectangleClone.myGetY() == rectangle.myGetY());
@@ -56,7 +56,7 @@ public class ClipboardTest {
         Clipboard clipboard = new Clipboard();
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         clipboard.copy(ellipse);
-        MyEnhancedEllipse ellipseClone = (MyEnhancedEllipse) clipboard.getNewCopy();
+        MyEnhancedEllipse ellipseClone = (MyEnhancedEllipse) clipboard.getMyShape();
         assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
         assertTrue("Error in copy", ellipseClone.myGetRadiusX() == ellipse.myGetRadiusX());
         assertTrue("Error in copy", ellipseClone.myGetRadiusY() == ellipse.myGetRadiusY());
@@ -81,9 +81,45 @@ public class ClipboardTest {
         assertTrue("Error in copy", lineClone.myGetFill() == line.myGetFill());
         assertTrue("Error in copy", lineClone.myGetStroke() == line.myGetStroke());
         assertTrue("Error in copy", lineClone.myGetStrokeWidth() == line.myGetStrokeWidth());
-
+        
+    }
+    
+    @Test
+    public void testGetNewCopy2() {
+        Clipboard clipboard = new Clipboard();
+        MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
+        clipboard.copy(rectangle);
+        MyEnhancedRectangle rectangleClone = (MyEnhancedRectangle) clipboard.getNewCopy();
+        assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
+        assertTrue("Error in copy", rectangleClone.myGetX() == rectangle.myGetX());
+        assertTrue("Error in copy", rectangleClone.myGetY() == rectangle.myGetY());
+        assertTrue("Error in copy", rectangleClone.myGetWidth() == rectangle.myGetHeight());
+        assertTrue("Error in copy", rectangleClone.myGetHeight() == rectangle.myGetHeight());
+        assertTrue("Error in copy", rectangleClone.myGetFill() == rectangle.myGetFill());
+        assertTrue("Error in copy", rectangleClone.myGetStroke() == rectangle.myGetStroke());
+        assertTrue("Error in copy", rectangleClone.myGetStrokeWidth() == rectangle.myGetStrokeWidth());
+        
+    }
+    
+    @Test
+    public void testGetNewCopy3() {
+        Clipboard clipboard = new Clipboard();
+        MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
+        clipboard.copy(ellipse);
+        MyEnhancedEllipse ellipseClone = (MyEnhancedEllipse) clipboard.getNewCopy();
+        assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
+        assertTrue("Error in copy", ellipseClone.myGetRadiusX() == ellipse.myGetRadiusX());
+        assertTrue("Error in copy", ellipseClone.myGetRadiusY() == ellipse.myGetRadiusY());
+        assertTrue("Error in copy", ellipseClone.myGetCenterX()== ellipse.myGetCenterX());
+        assertTrue("Error in copy", ellipseClone.myGetCenterY() == ellipse.myGetCenterY());
+        assertTrue("Error in copy", ellipseClone.myGetFill() == ellipse.myGetFill());
+        assertTrue("Error in copy", ellipseClone.myGetStroke() == ellipse.myGetStroke());
+        assertTrue("Error in copy", ellipseClone.myGetStrokeWidth() == ellipse.myGetStrokeWidth());
+        
     }
 
+
+    
     @Test
     public void testClear() {
         MyEnhancedLine line = new MyEnhancedLine();

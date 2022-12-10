@@ -41,14 +41,6 @@ public class SelectTool implements Tool{
     
     /**
      * 
-     * @return the Selection attribute
-     */
-    public Selection getSelectedShape() {
-        return selectedShape;
-    }
-    
-    /**
-     * 
      * @param shape 
      */
     public void setSelectedShape(MyShape shape) {
@@ -69,7 +61,7 @@ public class SelectTool implements Tool{
     }
     
     /**
-     * Check if durign the drag action a shape is selected
+     * During the drag action actually moves the selected shape
      * 
      * @param c
      * @param event 
@@ -79,28 +71,24 @@ public class SelectTool implements Tool{
         this.selectedShape = c.getSelection();
         if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
-        //selectedShape.getSelectedItem().mySetLayoutX(this.endX - selectedShape.getSelectedItem().myGetLayoutBounds().getMinX());
-        //selectedShape.getSelectedItem().mySetLayoutY(this.endY - selectedShape.getSelectedItem().myGetLayoutBounds().getMinY());
-
-        //msc.execute();
+        selectedShape.getSelectedItemPreview().moveShape(event.getX(), event.getY());
+        
     }
     
     /**
-     * When released the mouse left click change the position of
-     * the shape and execute operation on the MoveShapeCommand object
+     * When released the mouse left-click the position of
+     * the shape is changed
      * @param c
      * @param event 
      */
-    
     @Override
     public void handleOnDragEnd(Canvas c, MouseEvent event) {
         this.selectedShape = c.getSelection();
         if(!selectedShape.getSelectedValue() || !event.getTarget().equals(selectedShape.getSelectionBorder().getChildren().get(0))) return;
         
-        selectedShape.getSelectedItem().moveShape(event.getX(), event.getY());
-        msc.execute();
+        msc.setNewCoordinates(event.getX(), event.getY());
         
-        msc = null;
+        c.getCommandInvoker().execute(msc);
     }
     
     /**
@@ -114,7 +102,6 @@ public class SelectTool implements Tool{
     public void handleOnPrimaryMouseClick(Canvas c, MouseEvent event) {
         this.selectedShape = c.getSelection();
         EventTarget eventTarget = event.getTarget();
-        System.out.println(eventTarget);
         
         if (eventTarget.equals(selectedShape.getSelectionBorder()))
             return;

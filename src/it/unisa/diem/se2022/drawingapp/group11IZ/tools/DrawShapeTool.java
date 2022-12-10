@@ -82,7 +82,7 @@ public abstract class DrawShapeTool implements Tool{
         this.endY = null;
         
         c.removePreviewNewShape(createdShape);
-        new CreateShapeCommand(c, createdShape).execute();
+        c.getCommandInvoker().execute(new CreateShapeCommand(c, createdShape));
         this.setCreatedShape(null);
     }
 

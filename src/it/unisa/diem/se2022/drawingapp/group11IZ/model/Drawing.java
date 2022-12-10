@@ -33,6 +33,8 @@ public class Drawing implements Iterable<MyShape>{
      */
     public void moveToLayer(MyShape myShape, int i) {
         //add myShape in position i 
+       
+        figures.remove(myShape);
         figures.add(i, myShape);//Inserts the specified element at the specified position in this list. 
         //Shifts the element currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
     }
@@ -99,18 +101,10 @@ public class Drawing implements Iterable<MyShape>{
      * @param myShape
      */
     public void moveToForeground(MyShape myShape) {
-        try {
-            //delete myshape 
-            int i = getShapeLayer(myShape);
-            figures.remove(i);
-            moveToLayer(myShape, (figures.size() - 1));
-            //shift of figures. To avoid empty positions
-            for (int t = 0; t > figures.size(); t++) {
-                MyShape s = figures.set(t, figures.get(t + 1));
-            }
-        } catch (ShapeNotFoundException ex) {
-            Logger.getLogger(Drawing.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //delete myshape 
+        int i = getShapeLayer(myShape);
+        figures.remove(i);
+        moveToLayer(myShape, figures.size());
     }
 
     /**
@@ -119,22 +113,9 @@ public class Drawing implements Iterable<MyShape>{
      * @param myShape
      */
     public void moveToBackground(MyShape myShape) {
-        try {
-            int i = getShapeLayer(myShape);
-            figures.remove(i);
-            //shift
-            for (int t = i; t > figures.size(); t++) {
-                //figures[i]=figures[i+1];
-                MyShape s = figures.set(t, figures.get(t + 1));
-            }
-            moveToLayer(myShape, 0);
-        } catch (ShapeNotFoundException ex) {
-            Logger.getLogger(Drawing.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void moveFigure(MyShape myShape, double x, double y) {
-
+        int i = getShapeLayer(myShape);
+        figures.remove(i);
+        moveToLayer(myShape, 0);
     }
 
     @Override

@@ -5,6 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeEllipseCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
@@ -50,6 +51,7 @@ public class SelectionEllipseHelperTest {
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException{
         Field drawPaneField;
+        Field resizeCommandField;
         Pane pane;
         
         this.canvas = new Canvas();
@@ -63,6 +65,10 @@ public class SelectionEllipseHelperTest {
         this.canvas.addShape(ellipse);
         
         this.helper = new SelectionEllipseHelper(canvas, ellipse);
+        
+        resizeCommandField = FourVerticesBaseSelectionHelper.class.getDeclaredField("command");
+        resizeCommandField.setAccessible(true);
+        resizeCommandField.set(helper, new ResizeEllipseCommand(ellipse));
     }
     
     @Test

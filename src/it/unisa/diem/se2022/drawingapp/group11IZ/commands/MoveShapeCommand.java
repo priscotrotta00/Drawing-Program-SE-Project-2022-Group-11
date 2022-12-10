@@ -17,74 +17,45 @@ public class MoveShapeCommand implements Command{
     private MyShape shape;
     
     /**
-     * Costructor. Initialize the shape and the new top left
-     * coordinates of the shape with the shape coordinates. 
-     * Inizialize the old coordinates to zero
+     * Costructor. Initialize the shape and the old top left
+     * coordinates of the shape with the shape coordinates.
      * @param shape 
      */
     public MoveShapeCommand(MyShape shape) {
         this.shape = shape;
-        this.newX = this.shape.myGetLayoutBounds().getMinX();
-        this.newY = this.shape.myGetLayoutBounds().getMinY();
-        this.oldX = this.oldY = 0.0;
-    }
-
-    public double getOldX() {
-        return oldX;
-    }
-
-    public void setOldX(double oldX) {
-        this.oldX = oldX;
-    }
-
-    public double getOldY() {
-        return oldY;
-    }
-
-    public void setOldY(double oldY) {
-        this.oldY = oldY;
-    }
-
-    public double getNewX() {
-        return newX;
-    }
-
-    public void setNewX(double newX) {
-        this.newX = newX;
-    }
-
-    public double getNewY() {
-        return newY;
-    }
-
-    public void setNewY(double newY) {
-        this.newY = newY;
-    }
-
-    public MyShape getShape() {
-        return shape;
-    }
-
-    public void setShape(MyShape shape) {
-        this.shape = shape;
+        double diffX = this.shape.myGetLayoutBounds().getMaxX() - this.shape.myGetLayoutBounds().getMinX();
+        double diffY = this.shape.myGetLayoutBounds().getMaxY() - this.shape.myGetLayoutBounds().getMinY();
+        this.oldX = this.shape.myGetLayoutBounds().getMinX() + diffX/2;
+        this.oldY = this.shape.myGetLayoutBounds().getMinY() + diffY/2;
     }
     
     /**
-     * This method handle the changing of new and old coordinates
-     * of the shape
+     * Sets the new coordinates. Values newX and NewY are
+     * passed as parameter.
+     * @param newX
+     * @param newY 
+     */
+    public void setNewCoordinates(double newX, double newY){
+        this.newX = newX;
+        this.newY = newY;
+    }
+    
+    /**
+     * This method calls the method moveShape passing as values this newX and
+     * newY
      */
     @Override
     public void execute() {
-        this.oldX = this.newX;
-        this.oldY = this.newY;
-        this.newX = this.shape.myGetLayoutBounds().getMinX();
-        this.newY = this.shape.myGetLayoutBounds().getMinY();
+        shape.moveShape(this.newX, this.newY);
     }
     
+    /**
+     * This method calls the method moveShape passing as values this oldX and
+     * oldY
+     */
     @Override
     public void undo() {
-        //this.newX = this.oldX;
-        //this.newY = this.oldY;  
+        shape.moveShape(this.oldX, this.oldY);
     }
     
     

@@ -31,7 +31,7 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
     }
     
     @Override
-    MyLine getPreview(){
+    public MyLine getPreview(){
         return (MyLine) super.getPreview();
     }
     

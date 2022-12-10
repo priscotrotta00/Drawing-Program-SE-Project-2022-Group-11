@@ -5,6 +5,7 @@
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeLineCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
@@ -50,6 +51,7 @@ public class SelectionLineHelperTest {
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException{
         Field drawPaneField;
+        Field resizeCommandField;
         Pane pane;
         
         this.canvas = new Canvas();
@@ -63,6 +65,10 @@ public class SelectionLineHelperTest {
         this.canvas.addShape(line);
         
         this.helper = new SelectionLineHelper(canvas, line);
+        
+        resizeCommandField = TwoVerticesBaseSelectionHelper.class.getDeclaredField("command");
+        resizeCommandField.setAccessible(true);
+        resizeCommandField.set(helper, new ResizeLineCommand(line));
     }
     
     @Test

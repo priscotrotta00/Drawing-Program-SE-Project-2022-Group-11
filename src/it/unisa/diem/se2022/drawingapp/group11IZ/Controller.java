@@ -9,6 +9,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeStrokeColorComma
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.Command;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.CutShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.DeleteShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveBackgroundShapeCommand;
+import it.unisa.diem.se2022.drawingapp.group11IZ.commands.MoveForegroundShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.PasteShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.exceptions.ExtensionFileException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.Drawing;
@@ -23,6 +25,7 @@ import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -84,6 +87,10 @@ public class Controller implements Initializable {
     @FXML
     private Button undoButton;
     @FXML
+    private Button foregroundButton;
+    @FXML
+    private Button backgroundButton;
+    @FXML
     private Tab viewTab;
     //ADDED
     private ToggleGroup toolToggleGroup;
@@ -96,21 +103,28 @@ public class Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        BooleanBinding selectedAndChosenSelectToolCondition;
+        SingleSelectionModel<Tab> selectionModel;
+        
+        selectionModel = tabPane.getSelectionModel();
         selectionModel.select(editTab);
         
         fileManager = new FileManager();
         
+        selectedAndChosenSelectToolCondition = Bindings.or(
+                not(this.selectionToggleButton.selectedProperty()), 
+                not(this.canvasController.getSelection().getSelectedProperty())
+        );
         this.initializeToolToggleGroup();
-        this.initializeChangeColorBindings();
-        this.initializeDeleteBindings();
-
-        this.initializeCopyShapeBindings();
-        
-        this.initializePasteBindings();
-        
-        
-        this.initializeCutBindings();
+        this.initializeButtonDisablePropertyBinding(this.changeFillColorButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.changeStrokeColorButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.deleteButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.copyButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.cutButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.backgroundButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.foregroundButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.pasteButton, this.canvasController.getClipboard().copiedProperty().not());
+        this.initializeButtonDisablePropertyBinding(this.undoButton, this.canvasController.getCommandInvoker().stackIsEmptyProperty());
 
         this.strokeColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedStrokeColorProperty());
         this.fillColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedFillColorProperty());
@@ -143,44 +157,12 @@ public class Controller implements Initializable {
     }
     
     /**
-     * Initialize the changeStrokeColorButton and changeFillColorButton bindings
+     * Initialize the bind between the Disable property of a button and another Observable Boolean Value
+     * @param button Button on which the binding should be performed
+     * @param observable Other observable boolean value on which the binding should be performed
      */
-    
-    public void initializeChangeColorBindings(){
-        BooleanBinding ex = Bindings.or(not(this.selectionToggleButton.selectedProperty()), not(this.canvasController.getSelection().getSelectedProperty()));
-        changeStrokeColorButton.disableProperty().bind(ex);
-        changeFillColorButton.disableProperty().bind(ex);
-    }
-
-    /**
-     * Initialize DeleteButton bind
-     */
-    public void initializeDeleteBindings() {
-        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
-        deleteButton.disableProperty().bind(del);
-    }
-    
-    /**
-     * Initialize the PasteShapeButton bind
-     */
-    
-    public void initializePasteBindings() {
-        pasteButton.disableProperty().bind(not(this.canvasController.getClipboard().copiedProperty()));
-    }
-    /**
-     * Initialize the CopyShapeButton bind
-     */
-    public void initializeCopyShapeBindings(){
-        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
-        copyButton.disableProperty().bind(del);
-    }
-    
-    /**
-     * Initialize the CutShapeButton bind
-     */
-    public void initializeCutBindings(){
-        BooleanBinding cut = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()),not(this.selectionToggleButton.selectedProperty()));
-        cutButton.disableProperty().bind(cut);
+    private void initializeButtonDisablePropertyBinding(Button button, ObservableValue<? extends Boolean> observable){
+        button.disableProperty().bind(observable);
     }
 
     /**
@@ -260,24 +242,22 @@ public class Controller implements Initializable {
      * Change the stroke color of the selected shape with the color in the StrokeColorPicker
      * @param event 
      */
-    
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
         Command ccc = new ChangeStrokeColorCommand(this.canvasController.getSelection().getSelectedItem(), this.getSelectedStrokeColor());
-        ccc.execute();
+
+        this.canvasController.getCommandInvoker().execute(ccc);
     }
 
     /**
      * Change the fill color of the selected shape with the color in the fillColorPicker
      * @param event 
      */
-    
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
         Command ccc = new ChangeFillColorCommand(this.canvasController.getSelection().getSelectedItem(), this.getSelectedFillColor());
-        ccc.execute();
+        this.canvasController.getCommandInvoker().execute(ccc);
     }
-
     
     /**
      * get selected shape and call copyShape
@@ -301,7 +281,7 @@ public class Controller implements Initializable {
         MyShape s = this.canvasController.getSelection().getSelectedItem();
         this.canvasController.getSelection().unSelect();
         Command deleteCommand = new DeleteShapeCommand(this.canvasController, s);
-        deleteCommand.execute();
+        this.canvasController.getCommandInvoker().execute(deleteCommand);
     }
     
     /**
@@ -315,7 +295,7 @@ public class Controller implements Initializable {
         this.canvasController.getSelection().unSelect();
         
         Command cutCommand = new CutShapeCommand(selectedShape, this.canvasController);
-        cutCommand.execute();
+        this.canvasController.getCommandInvoker().execute(cutCommand);
     }
 
     /**
@@ -323,16 +303,46 @@ public class Controller implements Initializable {
      * The method checks that the Clipboard object contains a shape
      * @param event 
      */
-    
     @FXML
     private void onPasteAction(ActionEvent event) {
         if(not(this.canvasController.getClipboard().copiedProperty()).equals(true)) return;
         MyShape s = this.canvasController.getClipboard().getNewCopy();
         Command pasteShapeCommand = new PasteShapeCommand(this.canvasController, s);
-        pasteShapeCommand.execute();
+        this.canvasController.getCommandInvoker().execute(pasteShapeCommand);
     }
 
+    /**
+     * Execute MoveForeground action
+     * @param event 
+     */
+    @FXML
+    private void onForegroundAction(ActionEvent event) {
+        MyShape s = this.canvasController.getSelection().getSelectedItem();
+        this.canvasController.getSelection().unSelect();
+        Command moveForegroundCommand=new MoveForegroundShapeCommand(this.canvasController,s);
+        this.canvasController.getCommandInvoker().execute(moveForegroundCommand);
+    }
+
+    /**
+     * Execute MoveBackground action
+     * @param event 
+     */
+    @FXML
+    private void onBackgroundAction(ActionEvent event) {
+        MyShape s = this.canvasController.getSelection().getSelectedItem();
+        this.canvasController.getSelection().unSelect();
+        Command moveBackgroundCommand=new MoveBackgroundShapeCommand(this.canvasController, s);
+        this.canvasController.getCommandInvoker().execute(moveBackgroundCommand);
+    }
+    
+    /**
+     * Execute the undo operation of the last command executed
+     * @param event 
+     */
     @FXML
     private void onUndoAction(ActionEvent event) {
+        if(this.canvasController.getSelection().getSelectedValue()) this.canvasController.getSelection().unSelect();
+        
+        this.canvasController.getCommandInvoker().undoLast();
     }
 }

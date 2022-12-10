@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="970.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se2022.drawingapp.group11IZ.Controller">
+<VBox alignment="CENTER" prefHeight="970.0" prefWidth="1120.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se2022.drawingapp.group11IZ.Controller">
    <children>
       <TabPane fx:id="tabPane" prefHeight="220.0" prefWidth="1120.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -256,9 +256,9 @@
                                                             </ImageView>
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteAction" prefHeight="25.0" prefWidth="100.0">
+                                                      <Button fx:id="deleteButton" disable="true" mnemonicParsing="false" onAction="#onDeleteAction" prefHeight="25.0" prefWidth="100.0">
                                                          <graphic>
-                                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                            <ImageView disable="true" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
                                                                   <Image url="@images/delete.png" />
                                                                </image>
@@ -272,8 +272,8 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="230.0" spacing="10.0" style="-fx-background-color: light-grey;">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Foreground" />
-                                                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Background" />
+                                                      <Button fx:id="foregroundButton" disable="true" mnemonicParsing="false" onAction="#onForegroundAction" prefHeight="26.0" prefWidth="100.0" text="Foreground" />
+                                                      <Button fx:id="backgroundButton" disable="true" mnemonicParsing="false" onAction="#onBackgroundAction" prefHeight="25.0" prefWidth="100.0" text="Background" />
                                                    </children>
                                                    <padding>
                                                       <Insets bottom="10.0" left="5.0" top="5.0" />
