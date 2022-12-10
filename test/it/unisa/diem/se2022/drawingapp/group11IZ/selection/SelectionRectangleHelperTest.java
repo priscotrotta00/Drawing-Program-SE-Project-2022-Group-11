@@ -65,7 +65,7 @@ public class SelectionRectangleHelperTest {
         
         this.helper = new SelectionRectangleHelper(canvas, rectangle);
         
-        resizeCommandField = FourVerticesBaseSelectionHelper.class.getDeclaredField("command");
+        resizeCommandField = TwoVerticesBaseSelectionHelper.class.getDeclaredField("command");
         resizeCommandField.setAccessible(true);
         resizeCommandField.set(helper, new ResizeRectangleCommand(rectangle));
     }

@@ -66,7 +66,7 @@ public class SelectionEllipseHelperTest {
         
         this.helper = new SelectionEllipseHelper(canvas, ellipse);
         
-        resizeCommandField = FourVerticesBaseSelectionHelper.class.getDeclaredField("command");
+        resizeCommandField = TwoVerticesBaseSelectionHelper.class.getDeclaredField("command");
         resizeCommandField.setAccessible(true);
         resizeCommandField.set(helper, new ResizeEllipseCommand(ellipse));
     }
