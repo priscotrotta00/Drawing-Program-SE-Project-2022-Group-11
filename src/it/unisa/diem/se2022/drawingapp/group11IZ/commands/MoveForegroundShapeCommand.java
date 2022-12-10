@@ -29,13 +29,18 @@ public class MoveForegroundShapeCommand implements Command {
         this.layerShape=this.canvas.getDraw().getShapeLayer(shape);
         
     }
-    
+    /**
+     * Execute MoveForeground
+     */
     @Override
     public void execute() {
         this.canvas.moveShapeToForeground(shape);
         
     }
 
+    /**
+     * Undo of operation
+     */
     @Override
     public void undo() {
         this.canvas.removeShape(shape);

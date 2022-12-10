@@ -77,12 +77,11 @@ public class SelectTool implements Tool{
     }
     
     /**
-     * When released the mouse left click change the position of
-     * the shape
+     * When released the mouse left-click the position of
+     * the shape is changed
      * @param c
      * @param event 
      */
-    
     @Override
     public void handleOnDragEnd(Canvas c, MouseEvent event) {
         this.selectedShape = c.getSelection();

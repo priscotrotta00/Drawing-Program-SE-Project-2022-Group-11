@@ -18,7 +18,6 @@ public class Clipboard {
     private BooleanProperty copied;
     
     public Clipboard(){
-        
         copied=new SimpleBooleanProperty(false);
         this.myShape=null;
     }
@@ -29,7 +28,6 @@ public class Clipboard {
      */
     public void copy(MyShape shape){
         //shape is original shape
-        
         this.myShape=shape.clone();
         this.copied.setValue(Boolean.TRUE);
     }
@@ -64,7 +62,6 @@ public class Clipboard {
      * @return 
      */
     public ReadOnlyBooleanProperty copiedProperty(){
-       // return ReadOnlyBooleanProperty.readOnlyBooleanProperty(copied);
        return (ReadOnlyBooleanProperty)copied;
     }
     
@@ -74,6 +71,5 @@ public class Clipboard {
      */
     public boolean hasCopiedShape(){
         return this.copied.getValue();
-       // return this.copied.get();
     }
 }

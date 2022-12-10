@@ -39,65 +39,23 @@ public class MoveShapeCommand implements Command{
         this.newX = newX;
         this.newY = newY;
     }
-
-    public double getOldX() {
-        return oldX;
-    }
-
-    public void setOldX(double oldX) {
-        this.oldX = oldX;
-    }
-
-    public double getOldY() {
-        return oldY;
-    }
-
-    public void setOldY(double oldY) {
-        this.oldY = oldY;
-    }
-
-    public double getNewX() {
-        return newX;
-    }
-
-    public void setNewX(double newX) {
-        this.newX = newX;
-    }
-
-    public double getNewY() {
-        return newY;
-    }
-
-    public void setNewY(double newY) {
-        this.newY = newY;
-    }
-
-    public MyShape getShape() {
-        return shape;
-    }
-
-    public void setShape(MyShape shape) {
-        this.shape = shape;
-    }
     
     /**
      * This method calls the method moveShape passing as values this newX and
-     * newY and than it change this oldX and oldY value with newX and newY
+     * newY
      */
     @Override
     public void execute() {
         shape.moveShape(this.newX, this.newY);
-                
     }
     
     /**
      * This method calls the method moveShape passing as values this oldX and
-     * oldY and than it change this newX and newY value with oldX and oldY
+     * oldY
      */
     @Override
     public void undo() {
         shape.moveShape(this.oldX, this.oldY);
-        
     }
     
     
