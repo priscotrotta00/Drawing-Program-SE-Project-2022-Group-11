@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.not;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -102,24 +103,29 @@ public class Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        BooleanBinding selectedAndChosenSelectToolCondition;
+        SingleSelectionModel<Tab> selectionModel;
+        
+        selectionModel = tabPane.getSelectionModel();
         selectionModel.select(editTab);
         
+        selectedAndChosenSelectToolCondition = Bindings.or(
+                not(this.selectionToggleButton.selectedProperty()), 
+                not(this.canvasController.getSelection().getSelectedProperty())
+        );
         this.initializeToolToggleGroup();
-        this.initializeChangeColorBindings();
-        this.initializeDeleteBindings();
-        this.initializeCopyShapeBindings();
-        this.initializeMoveBackgroundBindings();
-        this.initializeMoveForegroundBindings();
-        
-        this.initializePasteBindings();
-        this.initializeCutBindings();
+        this.initializeButtonDisablePropertyBinding(this.changeFillColorButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.changeStrokeColorButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.deleteButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.copyButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.cutButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.backgroundButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.foregroundButton, selectedAndChosenSelectToolCondition);
+        this.initializeButtonDisablePropertyBinding(this.pasteButton, this.canvasController.getClipboard().copiedProperty().not());
+        this.initializeButtonDisablePropertyBinding(this.undoButton, this.canvasController.getCommandInvoker().stackIsEmptyProperty());
 
         this.strokeColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedStrokeColorProperty());
         this.fillColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedFillColorProperty());
-        this.initializeUndoBindings();
-        
-        
     }
 
     /**
@@ -149,67 +155,12 @@ public class Controller implements Initializable {
     }
     
     /**
-     * Initialize the changeStrokeColorButton and changeFillColorButton bindings
+     * Initialize the bind between the Disable property of a button and another Observable Boolean Value
+     * @param button Button on which the binding should be performed
+     * @param observable Other observable boolean value on which the binding should be performed
      */
-    
-    public void initializeChangeColorBindings(){
-        BooleanBinding ex = Bindings.or(not(this.selectionToggleButton.selectedProperty()), not(this.canvasController.getSelection().getSelectedProperty()));
-        changeStrokeColorButton.disableProperty().bind(ex);
-        changeFillColorButton.disableProperty().bind(ex);
-    }
-
-    /**
-     * Initialize DeleteButton bind
-     */
-    public void initializeDeleteBindings() {
-        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
-        deleteButton.disableProperty().bind(del);
-    }
-    
-    /**
-     * Initialize the PasteShapeButton bind
-     */
-    
-    public void initializePasteBindings() {
-        pasteButton.disableProperty().bind(not(this.canvasController.getClipboard().copiedProperty()));
-    }
-    /**
-     * Initialize the CopyShapeButton bind
-     */
-    public void initializeCopyShapeBindings(){
-        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
-        copyButton.disableProperty().bind(del);
-    }
-    
-    /**
-     * Initialize MoveBackground bindings
-     */
-    public void initializeMoveBackgroundBindings(){
-        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
-        backgroundButton.disableProperty().bind(del);
-    }
-    
-    /**
-     * Initialize ForeBackground bindings
-     */
-    public void initializeMoveForegroundBindings(){
-        BooleanBinding del = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()), not(this.selectionToggleButton.selectedProperty()));
-        foregroundButton.disableProperty().bind(del);
-    }
-    
-    /*
-     * Initialize the CutShapeButton bind
-     */
-    public void initializeCutBindings(){
-        BooleanBinding cut = Bindings.or(not(this.canvasController.getSelection().getSelectedProperty()),not(this.selectionToggleButton.selectedProperty()));
-        cutButton.disableProperty().bind(cut);
-    }
-    
-    /**
-     * Initialize the Undo bind
-     */
-    public void initializeUndoBindings(){
-        undoButton.disableProperty().bind(this.canvasController.getCommandInvoker().stackIsEmptyProperty());
+    private void initializeButtonDisablePropertyBinding(Button button, ObservableValue<? extends Boolean> observable){
+        button.disableProperty().bind(observable);
     }
 
     /**

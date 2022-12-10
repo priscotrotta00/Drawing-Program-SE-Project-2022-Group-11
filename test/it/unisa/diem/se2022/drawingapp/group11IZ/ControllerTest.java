@@ -431,7 +431,7 @@ public class ControllerTest {
         this.canvas.addShape(shape);
         this.canvas.copyShape(shape);
         
-        assertFalse("Error in DeleteButton binding", pasteButton.isDisable());
+        assertFalse("Error in PasteButton binding", pasteButton.isDisable());
               
     }
     
