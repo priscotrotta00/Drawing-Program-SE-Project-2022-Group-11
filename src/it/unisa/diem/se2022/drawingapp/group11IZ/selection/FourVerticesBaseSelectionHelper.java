@@ -46,7 +46,6 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         Group boundingBoxGroup;
         
         this.preview = this.canvas.substituteShapeWithPreview(shape);
-        this.command = createResizeShapeCommand();
         
         // Create the bounding box's components
         boundingBoxGroup = new Group();
@@ -102,9 +101,10 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         Shape vertex1Cast = (Shape) vertex1;
         vertex1Cast.setCursor(Cursor.NE_RESIZE);
         vertex1Cast.setOnMouseDragged(event -> {
+            this.command = createResizeShapeCommand();
             this.handleOnMouseDragVertex1(event);
             vertex1Cast.setOnMouseReleased(event2 -> {
-                this.getCommand().execute();
+                this.canvas.getCommandInvoker().execute(this.getCommand());
                 vertex1Cast.setOnMouseReleased(event3 -> {});
             });
         });
@@ -113,9 +113,10 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         Shape vertex2Cast = (Shape) vertex2;
         vertex2Cast.setCursor(Cursor.NE_RESIZE);
         vertex2Cast.setOnMouseDragged(event -> {
+            this.command = createResizeShapeCommand();
             this.handleOnMouseDragVertex2(event);
             vertex2Cast.setOnMouseReleased(event2 -> {
-                this.getCommand().execute();
+                this.canvas.getCommandInvoker().execute(this.getCommand());
                 vertex2Cast.setOnMouseReleased(event3 -> {});
             });
         });
@@ -124,9 +125,10 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         Shape vertex3Cast = (Shape) vertex3;
         vertex3Cast.setCursor(Cursor.NE_RESIZE);
         vertex3Cast.setOnMouseDragged(event -> {
+            this.command = createResizeShapeCommand();
             this.handleOnMouseDragVertex3(event);
             vertex3Cast.setOnMouseReleased(event2 -> {
-                this.getCommand().execute();
+                this.canvas.getCommandInvoker().execute(this.getCommand());
                 vertex3Cast.setOnMouseReleased(event3 -> {});
             });
         });
@@ -135,9 +137,10 @@ public abstract class FourVerticesBaseSelectionHelper implements SelectionHelper
         Shape vertex4Cast = (Shape) vertex4;
         vertex4Cast.setCursor(Cursor.NE_RESIZE);
         vertex4Cast.setOnMouseDragged(event -> {
+            this.command = createResizeShapeCommand();
             this.handleOnMouseDragVertex4(event);
             vertex4Cast.setOnMouseReleased(event2 -> {
-                this.getCommand().execute();
+                this.canvas.getCommandInvoker().execute(this.getCommand());
                 vertex4Cast.setOnMouseReleased(event3 -> {});
             });
         });
