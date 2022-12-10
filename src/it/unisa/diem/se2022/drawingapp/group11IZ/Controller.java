@@ -536,6 +536,10 @@ public class Controller implements Initializable {
         return this.draw;
     }
 
+    /**
+     * Execute MoveForeground action
+     * @param event 
+     */
     @FXML
     private void onForegroundAction(ActionEvent event) {
         MyShape s = selection.getSelectedItem();
@@ -544,6 +548,10 @@ public class Controller implements Initializable {
         commandInvoker.execute(moveForegroundCommand);
     }
 
+    /**
+     * Execute MoveBackground action
+     * @param event 
+     */
     @FXML
     private void onBackgroundAction(ActionEvent event) {
         MyShape s = selection.getSelectedItem();
