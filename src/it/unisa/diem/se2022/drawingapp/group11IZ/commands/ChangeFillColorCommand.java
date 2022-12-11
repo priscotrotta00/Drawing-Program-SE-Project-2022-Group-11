@@ -17,6 +17,7 @@ public class ChangeFillColorCommand extends ChangeColorCommand{
 
     /**
      * Create a new ChangeFillColorCommand
+     * @param canvas Canvas that contains the logic for modifying the shape
      * @param myShape Shape whose fill color needs to be changed
      * @param newColor The new fill color of the shape
      */
