@@ -38,10 +38,7 @@ public class DeleteShapeCommand implements Command {
      */
     @Override
     public void undo() {
-        //this.canvas.addShape(shape);
-        //change layer
-        //this.canvas.getDraw().moveToLayer(shape, layerShape);
-        this.canvas.moveToLayer2(shape, layerShape);
+        this.canvas.moveToLayer(shape, layerShape,false);
     }
     
 }

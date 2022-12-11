@@ -29,7 +29,7 @@ public abstract class ChangeColorCommand implements Command{
 
     /**
      * Set the object myShape with the passed parameter
-     * @param myShape the object myShape that you want to set
+     * @param myShape The object myShape that you want to set
      */
     
     void setMyShape(MyShape myShape) {
@@ -39,8 +39,8 @@ public abstract class ChangeColorCommand implements Command{
     }
     
     /**
-     * return the object newColor
-     * @return object newcolor
+     * Return the object newColor
+     * @return Object newcolor
      */
     
     Color getNewColor() {
@@ -49,7 +49,7 @@ public abstract class ChangeColorCommand implements Command{
 
     /**
      * Set the object newColor with the passed parameter
-     * @param newColor the object newColor that you want to set
+     * @param newColor The object newColor that you want to set
      */
     
     void setNewColor(Color newColor) {
@@ -57,9 +57,19 @@ public abstract class ChangeColorCommand implements Command{
         this.newColor = newColor;
     }
     
+    /**
+     * Return the object canvas
+     * @return Object canvas
+     */
+    
     Canvas getCanvas(){
         return canvas;
     }
+    
+    /**
+     * Set the object canvas with the passed parameter
+     * @param canvas The object canvas that you want to set
+     */
     
     void setCanvas(Canvas canvas){
         this.canvas = canvas;
