@@ -329,6 +329,7 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         private final double height;
         private final Paint stroke;
         private final Paint fill;
+        private final double strokeWidth;
 
         private Snapshot(MyEnhancedRectangle rectangle){
             this.rectangle = rectangle;
@@ -338,7 +339,7 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
             this.height = rectangle.myGetHeight();
             this.fill = rectangle.myGetFill();
             this.stroke = rectangle.myGetStroke();
-            
+            this.strokeWidth = rectangle.myGetStrokeWidth();
         }
         
         @Override
@@ -349,6 +350,7 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
             this.rectangle.mySetHeight(height);
             this.rectangle.mySetFill(fill);
             this.rectangle.mySetStroke(stroke);
+            this.rectangle.mySetStrokeWidth(strokeWidth);
         }
         
     }

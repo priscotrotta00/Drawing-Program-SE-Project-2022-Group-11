@@ -240,13 +240,14 @@ public class MyEnhancedLine extends Line implements MyLine{
     }
     
     public class Snapshot implements MyShape.Snapshot{
-        private MyEnhancedLine line;
-        private double startX;
-        private double startY;
-        private double endX;
-        private double endY;
-        private Paint stroke;
-        private Paint fill;
+        private final MyEnhancedLine line;
+        private final double startX;
+        private final double startY;
+        private final double endX;
+        private final double endY;
+        private final Paint stroke;
+        private final Paint fill;
+        private final double strokeWidth;
 
         private Snapshot(MyEnhancedLine line){
             this.line = line;
@@ -256,7 +257,7 @@ public class MyEnhancedLine extends Line implements MyLine{
             this.endY = line.myGetEndY();
             this.fill = line.myGetFill();
             this.stroke = line.myGetStroke();
-            
+            this.strokeWidth = line.myGetStrokeWidth();
         }
         
         @Override
@@ -267,6 +268,7 @@ public class MyEnhancedLine extends Line implements MyLine{
             this.line.mySetEndY(endY);
             this.line.mySetFill(fill);
             this.line.mySetStroke(stroke);
+            this.line.mySetStrokeWidth(strokeWidth);
         }
         
     }

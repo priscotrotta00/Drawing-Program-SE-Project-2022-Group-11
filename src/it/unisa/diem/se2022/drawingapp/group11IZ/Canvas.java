@@ -303,11 +303,14 @@ public class Canvas implements Initializable {
     }
     
     /**
-     * Move the shape at different Layer
-     * @param s 
+     * Move the shape at different Layer. Bool is true when i need to remove the element first
+     * @param s
+     * @param layer
+     * @param bool 
      */
-    public void moveToLayer(MyShape s, int layer){
-        this.removeShape(s);
+    public void moveToLayer(MyShape s, int layer, boolean bool){
+        if (bool)
+            this.removeShape(s);
         //for draw
         this.getDraw().addShape(s);
         this.getDraw().moveToLayer(s, layer);
@@ -316,15 +319,6 @@ public class Canvas implements Initializable {
 
     }
     
-    public void moveToLayer2(MyShape s, int layer){
-        
-        //for draw
-        this.getDraw().addShape(s);
-        this.getDraw().moveToLayer(s, layer);
-        //for drawpane
-        this.getDrawPane().getChildren().add(layer, s.getView());
-
-    }
     
     /**
      * Change stroke color of the given shape and its preview (if any)

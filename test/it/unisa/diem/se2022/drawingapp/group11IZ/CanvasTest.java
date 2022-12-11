@@ -281,7 +281,7 @@ public class CanvasTest {
         this.canvas.addShape(l);
         MyEnhancedEllipse e = new MyEnhancedEllipse();
         this.canvas.addShape(e);
-        this.canvas.moveToLayer(e,0);
+        this.canvas.moveToLayer(e,0,true);
         //check in draw
         assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(e)==0);
         assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(r)==1);
@@ -324,7 +324,7 @@ public class CanvasTest {
         this.canvas.addShape(l);
         MyEnhancedEllipse e = new MyEnhancedEllipse();
         this.canvas.addShape(e);
-        this.canvas.moveToLayer(l,2);
+        this.canvas.moveToLayer(l,2,true);
         //check in draw
         assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(e)==1);
         assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(r)==0);
@@ -368,7 +368,7 @@ public class CanvasTest {
         this.canvas.addShape(l);
         MyEnhancedEllipse e = new MyEnhancedEllipse();
         this.canvas.addShape(e);
-        this.canvas.moveToLayer(r,2);
+        this.canvas.moveToLayer(r,2,true);
         //check in draw
         assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(e)==1);
         assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(r)==2);
@@ -403,6 +403,137 @@ public class CanvasTest {
         
         
     }
+    
+    
+    
+    @Test
+    public void testMoveToLayer3(){
+        MyEnhancedRectangle r = new MyEnhancedRectangle();
+        MyEnhancedLine l = new MyEnhancedLine();
+        this.canvas.addShape(l);
+        MyEnhancedEllipse e = new MyEnhancedEllipse();
+        this.canvas.addShape(e);
+        this.canvas.moveToLayer(r,2,false);
+        //check in draw
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(e)==1);
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(r)==2);
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(l)==0);
+        //check in drawpane
+        MyEnhancedLine firstPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(0);
+        assertTrue("Error in moveToLayer", firstPos.myGetEndX() == l.myGetEndX());
+        assertTrue("Error in moveToLayer", firstPos.myGetEndY() == l.myGetEndY());
+        assertTrue("Error in moveToLayer", firstPos.myGetStartY() == l.myGetStartY());
+        assertTrue("Error in moveToLayer", firstPos.myGetStartX() == l.myGetStartX());
+        assertTrue("Error in moveToLayer", firstPos.myGetFill() == l.myGetFill());
+        assertTrue("Error in moveToLayer", firstPos.myGetStroke() == l.myGetStroke());
+        assertTrue("Error in moveToLayer", firstPos.myGetStrokeWidth() == l.myGetStrokeWidth());
+
+        MyEnhancedRectangle lastPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in moveToLayer", lastPos.myGetX() == r.myGetX());
+        assertTrue("Error in moveToLayer", lastPos.myGetY() == r.myGetY());
+        assertTrue("Error in moveToLayer", lastPos.myGetWidth() == r.myGetHeight());
+        assertTrue("Error in moveToLayer", lastPos.myGetHeight() == r.myGetHeight());
+        assertTrue("Error in moveToLayer", lastPos.myGetFill() == r.myGetFill());
+        assertTrue("Error in moveToLayer", lastPos.myGetStroke() == r.myGetStroke());
+        assertTrue("Error in moveToLayer", lastPos.myGetStrokeWidth() == r.myGetStrokeWidth());
+
+        MyEnhancedEllipse secondPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(1);
+        assertTrue("Error in moveToLayer", secondPos.myGetRadiusX() == e.myGetRadiusX());
+        assertTrue("Error in moveToLayer", secondPos.myGetRadiusY() == e.myGetRadiusY());
+        assertTrue("Error in moveToLayer", secondPos.myGetCenterX() == e.myGetCenterX());
+        assertTrue("Error in moveToLayer", secondPos.myGetCenterY() == e.myGetCenterY());
+        assertTrue("Error in moveToLayer", secondPos.myGetFill() == e.myGetFill());
+        assertTrue("Error in moveToLayer", secondPos.myGetStroke() == e.myGetStroke());
+        assertTrue("Error in moveToLayer", secondPos.myGetStrokeWidth() == e.myGetStrokeWidth()); 
+        
+        
+    }
+    
+    @Test
+    public void testMoveToLayer4(){
+        MyEnhancedRectangle r = new MyEnhancedRectangle();
+        this.canvas.addShape(r);
+        MyEnhancedLine l = new MyEnhancedLine();
+        MyEnhancedEllipse e = new MyEnhancedEllipse();
+        this.canvas.addShape(e);
+        this.canvas.moveToLayer(l,2,false);
+        //check in draw
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(e)==1);
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(r)==0);
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(l)==2);
+        //check in drawpane
+        MyEnhancedLine lastPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in moveToLayer", lastPos.myGetEndX() == l.myGetEndX());
+        assertTrue("Error in moveToLayer", lastPos.myGetEndY() == l.myGetEndY());
+        assertTrue("Error in moveToLayer", lastPos.myGetStartY() == l.myGetStartY());
+        assertTrue("Error in moveToLayer", lastPos.myGetStartX() == l.myGetStartX());
+        assertTrue("Error in moveToLayer", lastPos.myGetFill() == l.myGetFill());
+        assertTrue("Error in moveToLayer", lastPos.myGetStroke() == l.myGetStroke());
+        assertTrue("Error in moveToLayer", lastPos.myGetStrokeWidth() == l.myGetStrokeWidth());
+
+        MyEnhancedRectangle firstPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(0);
+        assertTrue("Error in moveToLayer", firstPos.myGetX() == r.myGetX());
+        assertTrue("Error in moveToLayer", firstPos.myGetY() == r.myGetY());
+        assertTrue("Error in moveToLayer", firstPos.myGetWidth() == r.myGetHeight());
+        assertTrue("Error in moveToLayer", firstPos.myGetHeight() == r.myGetHeight());
+        assertTrue("Error in moveToLayer", firstPos.myGetFill() == r.myGetFill());
+        assertTrue("Error in moveToLayer", firstPos.myGetStroke() == r.myGetStroke());
+        assertTrue("Error in moveToLayer", firstPos.myGetStrokeWidth() == r.myGetStrokeWidth());
+
+        MyEnhancedEllipse secondPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(1);
+        assertTrue("Error in moveToLayer", secondPos.myGetRadiusX() == e.myGetRadiusX());
+        assertTrue("Error in moveToLayer", secondPos.myGetRadiusY() == e.myGetRadiusY());
+        assertTrue("Error in moveToLayer", secondPos.myGetCenterX() == e.myGetCenterX());
+        assertTrue("Error in moveToLayer", secondPos.myGetCenterY() == e.myGetCenterY());
+        assertTrue("Error in moveToLayer", secondPos.myGetFill() == e.myGetFill());
+        assertTrue("Error in moveToLayer", secondPos.myGetStroke() == e.myGetStroke());
+        assertTrue("Error in moveToLayer", secondPos.myGetStrokeWidth() == e.myGetStrokeWidth()); 
+        
+        
+    }
+    
+    @Test
+    public void testMoveToLayer5(){
+        MyEnhancedRectangle r = new MyEnhancedRectangle();
+        this.canvas.addShape(r);
+        MyEnhancedLine l = new MyEnhancedLine();
+        this.canvas.addShape(l);
+        MyEnhancedEllipse e = new MyEnhancedEllipse();
+        this.canvas.moveToLayer(e,0,false);
+        //check in draw
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(e)==0);
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(r)==1);
+        assertTrue("error in moveToLayer of draw",this.canvas.getDraw().getShapeLayer(l)==2);
+        //check in drawpane
+        MyEnhancedEllipse firstPos = (MyEnhancedEllipse) (MyShape) this.pane.getChildren().get(0);
+        assertTrue("Error in moveToLayer", firstPos.myGetRadiusX() == e.myGetRadiusX());
+        assertTrue("Error in moveToLayer", firstPos.myGetRadiusY() == e.myGetRadiusY());
+        assertTrue("Error in moveToLayer", firstPos.myGetCenterX() == e.myGetCenterX());
+        assertTrue("Error in moveToLayer", firstPos.myGetCenterY() == e.myGetCenterY());
+        assertTrue("Error in moveToLayer", firstPos.myGetFill() == e.myGetFill());
+        assertTrue("Error in moveToLayer", firstPos.myGetStroke() == e.myGetStroke());
+        assertTrue("Error in moveToLayer", firstPos.myGetStrokeWidth() == e.myGetStrokeWidth()); 
+        
+        MyEnhancedLine lastPos = (MyEnhancedLine) (MyShape) this.pane.getChildren().get(2);
+        assertTrue("Error in moveToLayer", lastPos.myGetEndX() == l.myGetEndX());
+        assertTrue("Error in moveToLayer", lastPos.myGetEndY() == l.myGetEndY());
+        assertTrue("Error in moveToLayer", lastPos.myGetStartY() == l.myGetStartY());
+        assertTrue("Error in moveToLayer", lastPos.myGetStartX() == l.myGetStartX());
+        assertTrue("Error in moveToLayer", lastPos.myGetFill() == l.myGetFill());
+        assertTrue("Error in moveToLayer", lastPos.myGetStroke() == l.myGetStroke());
+        assertTrue("Error in moveToLayer", lastPos.myGetStrokeWidth() == l.myGetStrokeWidth());
+    
+        MyEnhancedRectangle secondPos = (MyEnhancedRectangle) (MyShape) this.pane.getChildren().get(1);
+        assertTrue("Error in moveToLayer", secondPos.myGetX() == r.myGetX());
+        assertTrue("Error in moveToLayer", secondPos.myGetY() == r.myGetY());
+        assertTrue("Error in moveToLayer", secondPos.myGetWidth() == r.myGetHeight());
+        assertTrue("Error in moveToLayer", secondPos.myGetHeight() == r.myGetHeight());
+        assertTrue("Error in moveToLayer", secondPos.myGetFill() == r.myGetFill());
+        assertTrue("Error in moveToLayer", secondPos.myGetStroke() == r.myGetStroke());
+        assertTrue("Error in moveToLayer", secondPos.myGetStrokeWidth() == r.myGetStrokeWidth());
+
+    }
+    
     
     
     @Test (expected = NullPointerException.class)   //Check that the initializeNewDrawing method throws a NullPointerException 
