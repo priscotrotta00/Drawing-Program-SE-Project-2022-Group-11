@@ -49,7 +49,5 @@ public class MoveShapeCommand implements Command{
     public void undo() {
         snapshot.restore();
     }
-    
-    
 
 }

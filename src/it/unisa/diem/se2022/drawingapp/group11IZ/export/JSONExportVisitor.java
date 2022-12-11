@@ -25,7 +25,6 @@ public class JSONExportVisitor implements Visitor{
      * Visit a rectangle and put his properties in a JSON Array
      * @param myRectangle is the myRectangle object you want to visit
      */
-    
     @Override
     public void visitRectangle(MyRectangle myRectangle) {
         if(myRectangle == null) throw new ExportException();
@@ -40,12 +39,11 @@ public class JSONExportVisitor implements Visitor{
         jsonRectangleObject.put("stroke-width", myRectangle.myGetStrokeWidth());
         jsonArray.add(jsonRectangleObject);
     }
-
+    
     /**
      * Visit an ellipse and put her properties in a JSON Array
      * @param myEllipse is the myEllipse object you want to visit
      */
-    
     @Override
     public void visitEllipse(MyEllipse myEllipse) {
         if(myEllipse == null) throw new ExportException();

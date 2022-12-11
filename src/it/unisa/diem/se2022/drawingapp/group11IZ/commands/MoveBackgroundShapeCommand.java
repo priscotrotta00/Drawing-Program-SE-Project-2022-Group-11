@@ -38,6 +38,6 @@ public class MoveBackgroundShapeCommand implements Command {
     @Override
     public void undo() {
         this.canvas.moveToLayer(shape,this.layerShape,true);
-          }
+    }
     
 }

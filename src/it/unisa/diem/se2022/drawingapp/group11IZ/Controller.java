@@ -209,9 +209,8 @@ public class Controller implements Initializable {
 
     /**
      * Load the drawing from a JSON file
-     *
      * @param event
-     */
+     */    
     @FXML
     private void onLoadAction(ActionEvent event){
         // Open a new File Chooser to select a new file
@@ -228,9 +227,8 @@ public class Controller implements Initializable {
 
     /**
      * Save the drawing in a JSON file
-     *
      * @param event
-     */
+     */   
     @FXML
     private void onSaveAction(ActionEvent event) {
         // Open a File Chooser to select where the drawing should be saved
@@ -251,7 +249,7 @@ public class Controller implements Initializable {
     /**
      * Change the stroke color of the selected shape with the color in the StrokeColorPicker
      * @param event 
-     */
+     */   
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
         // Create and execute a new ChangeColorCommand
@@ -262,7 +260,7 @@ public class Controller implements Initializable {
     /**
      * Change the fill color of the selected shape with the color in the fillColorPicker
      * @param event 
-     */
+     */   
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
         // Create and execute a new ChangeFillColorCommand
@@ -271,7 +269,7 @@ public class Controller implements Initializable {
     }
     
     /**
-     * get selected shape and call copyShape
+     * Get selected shape and call copyShape
      * @param event 
      */
     @FXML

@@ -12,5 +12,4 @@ public interface Visitor {
     public void visitRectangle(MyRectangle myRectangle);
     public void visitEllipse(MyEllipse myEllipse);
     public void visitLine(MyLine myLine);
-
 }

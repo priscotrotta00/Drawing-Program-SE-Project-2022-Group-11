@@ -21,7 +21,6 @@ public class ChangeStrokeColorCommand extends ChangeColorCommand{
      * @param myShape Shape whose stroke color needs to be changed
      * @param newColor The new stroke color of the shape
      */
-    
     public ChangeStrokeColorCommand(Canvas canvas, MyShape myShape, Color newColor) {
         super.setMyShape(myShape);
         super.setNewColor(newColor);
@@ -31,9 +30,8 @@ public class ChangeStrokeColorCommand extends ChangeColorCommand{
     /**
      * Change the stroke color of the shape with the color
      * passed as parameter
-     * @param color new fill color
+     * @param color new stroke color
      */
-    
     @Override
     public void changeColor(Color color) {
         super.getCanvas().changeShapeStrokeColor(this.getMyShape(), color);

@@ -8,8 +8,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
  * @author daddy
  */
 public class CutShapeCommand implements Command{
-    private MyShape cuttedShape;
-    private Canvas canvas;
+    private final MyShape cuttedShape;
+    private final Canvas canvas;
     
     /**
      * Costructor
@@ -38,7 +38,6 @@ public class CutShapeCommand implements Command{
     public void undo() {
         // Add again the shape inside the Canvas
         this.canvas.addShape(this.cuttedShape);
-        
     }
     
 }
