@@ -15,6 +15,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -454,4 +455,61 @@ public class CanvasTest {
         assertFalse(pane.getChildren().contains(line));
     }
     
+    @Test
+    public void testChangeShapeStrokeColor1(){
+        MyEnhancedRectangle shape;
+        Color color;
+        
+        shape = new MyEnhancedRectangle();
+        color = Color.CORAL;
+        this.canvas.changeShapeStrokeColor(shape, color);
+        
+        assertEquals(color, shape.myGetStroke());
+    }
+    
+    @Test
+    public void testChangeShapeStrokeColor2(){
+        MyEnhancedRectangle shape;
+        MyShape preview;
+        Color color;
+        
+        shape = new MyEnhancedRectangle();
+        color = Color.CORAL;
+        
+        this.canvas.addShape(shape);
+        preview = this.canvas.substituteShapeWithPreview(shape);
+        this.canvas.changeShapeStrokeColor(shape, color);
+        
+        assertEquals(color, shape.myGetStroke());
+        assertEquals(color, preview.myGetStroke());
+    }
+    
+    @Test
+    public void testChangeShapeFillColor1(){
+        MyEnhancedRectangle shape;
+        Color color;
+        
+        shape = new MyEnhancedRectangle();
+        color = Color.CORAL;
+        this.canvas.changeShapeFillColor(shape, color);
+        
+        assertEquals(color, shape.myGetFill());
+    }
+    
+    @Test
+    public void testChangeShapeFillColor2(){
+        MyEnhancedRectangle shape;
+        MyShape preview;
+        Color color;
+        
+        shape = new MyEnhancedRectangle();
+        color = Color.CORAL;
+        
+        this.canvas.addShape(shape);
+        preview = this.canvas.substituteShapeWithPreview(shape);
+        this.canvas.changeShapeFillColor(shape, color);
+        
+        assertEquals(color, shape.myGetFill());
+        assertEquals(color, preview.myGetFill());
+    }
 }
