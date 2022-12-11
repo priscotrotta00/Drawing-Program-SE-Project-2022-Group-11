@@ -124,7 +124,4 @@ public class Drawing implements Iterable<MyShape>{
         return this.figures.iterator();
     }
     
-    public boolean contains(MyShape shape){
-        return this.figures.contains(shape);
-    }
 }

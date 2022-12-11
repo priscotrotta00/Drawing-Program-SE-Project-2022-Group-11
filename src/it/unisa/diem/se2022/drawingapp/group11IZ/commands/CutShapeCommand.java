@@ -12,9 +12,9 @@ public class CutShapeCommand implements Command{
     private final Canvas canvas;
     
     /**
-     * Costructor
-     * @param cuttedShape
-     * @param canvas 
+     * Costructor. Initialize the shape to be cuttend and the Canvas
+     * @param cuttedShape shape to be cutted
+     * @param canvas where the shape belongs
      */
     public CutShapeCommand(MyShape cuttedShape, Canvas canvas) {
         this.cuttedShape = cuttedShape;

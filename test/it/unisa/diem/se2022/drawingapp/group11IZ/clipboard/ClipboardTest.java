@@ -7,8 +7,12 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.clipboard;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
+import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import java.lang.reflect.Field;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -17,13 +21,22 @@ import org.junit.Test;
  */
 public class ClipboardTest {
     
+    private Field shapeField;
+    
+    @Before
+    public void setUp() throws NoSuchFieldException{
+       shapeField=Clipboard.class.getDeclaredField("myShape");
+       shapeField.setAccessible(true);
+    }
+    
     @Test
-    public void testCopy() {
+    public void testCopy() throws IllegalArgumentException, IllegalAccessException {
         MyEnhancedLine line = new MyEnhancedLine();
         Clipboard clipboard = new Clipboard();
 
         clipboard.copy(line);
-        MyEnhancedLine lineClone = (MyEnhancedLine) clipboard.getMyShape();
+        MyEnhancedLine lineClone =new MyEnhancedLine();
+        shapeField.set(clipboard, lineClone);
         assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
         assertTrue("Error in copy", lineClone.myGetEndX() == line.myGetEndX());
         assertTrue("Error in copy", lineClone.myGetEndY() == line.myGetEndY());
@@ -36,11 +49,12 @@ public class ClipboardTest {
     }
 
     @Test
-    public void testCopy2() {
+    public void testCopy2() throws IllegalArgumentException, IllegalAccessException {
         Clipboard clipboard = new Clipboard();
         MyEnhancedRectangle rectangle = new MyEnhancedRectangle();
         clipboard.copy(rectangle);
-        MyEnhancedRectangle rectangleClone = (MyEnhancedRectangle) clipboard.getMyShape();
+        MyEnhancedRectangle rectangleClone =new MyEnhancedRectangle();
+        shapeField.set(clipboard, rectangleClone);
         assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
         assertTrue("Error in copy", rectangleClone.myGetX() == rectangle.myGetX());
         assertTrue("Error in copy", rectangleClone.myGetY() == rectangle.myGetY());
@@ -52,11 +66,13 @@ public class ClipboardTest {
     }
 
     @Test
-    public void testCopy3() {
+    public void testCopy3() throws IllegalArgumentException, IllegalAccessException {
         Clipboard clipboard = new Clipboard();
         MyEnhancedEllipse ellipse = new MyEnhancedEllipse();
         clipboard.copy(ellipse);
-        MyEnhancedEllipse ellipseClone = (MyEnhancedEllipse) clipboard.getMyShape();
+        MyEnhancedEllipse ellipseClone =new MyEnhancedEllipse();
+        shapeField.set(clipboard, ellipseClone);
+        
         assertTrue("error in hasCopiedShape", clipboard.hasCopiedShape());
         assertTrue("Error in copy", ellipseClone.myGetRadiusX() == ellipse.myGetRadiusX());
         assertTrue("Error in copy", ellipseClone.myGetRadiusY() == ellipse.myGetRadiusY());
@@ -121,13 +137,14 @@ public class ClipboardTest {
 
     
     @Test
-    public void testClear() {
+    public void testClear() throws IllegalArgumentException, IllegalAccessException {
+        Clipboard clipboard = new Clipboard(); 
+        MyEnhancedLine shape= new MyEnhancedLine() ;
+        shape= (MyEnhancedLine) shapeField.get(clipboard);
         MyEnhancedLine line = new MyEnhancedLine();
-        Clipboard clipboard = new Clipboard();
-
         clipboard.copy(line);
         clipboard.clear();
-        assertTrue("Error in clear", clipboard.getMyShape() == null);
+        assertEquals("Error in clear", shape, null);
         assertFalse("Error in clear2", clipboard.hasCopiedShape());
     }
 

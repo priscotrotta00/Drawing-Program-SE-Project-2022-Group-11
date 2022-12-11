@@ -16,7 +16,14 @@ interface SelectionHelper {
      */
     public Group createBoundingBox();
     
+    /**
+     * Destroy the bounding box and remove the preview from the Canvas.
+     */
     public void destroyBoundingBox();
     
+    /**
+     * Get the preview associated to the shape the helper manages
+     * @return The preview associated to the shape
+     */
     MyShape getPreview();
 }

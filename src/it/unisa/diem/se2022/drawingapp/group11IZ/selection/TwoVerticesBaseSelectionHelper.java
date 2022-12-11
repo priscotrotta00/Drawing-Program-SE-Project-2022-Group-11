@@ -88,7 +88,6 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
      */
     void initializeVerticesHandlers(){
         Shape vertex1Cast = (Shape) vertex1;
-        vertex1Cast.setCursor(Cursor.NE_RESIZE);
         vertex1Cast.setOnMouseDragged(event -> {
             this.command = createResizeShapeCommand();
             this.handleOnMouseDragVertex1(event);
@@ -99,7 +98,6 @@ public abstract class TwoVerticesBaseSelectionHelper implements SelectionHelper 
         });
         
         Shape vertex2Cast = (Shape) vertex2;
-        vertex2Cast.setCursor(Cursor.NE_RESIZE);
         vertex2Cast.setOnMouseDragged(event -> {
             this.command = createResizeShapeCommand();
             this.handleOnMouseDragVertex2(event);

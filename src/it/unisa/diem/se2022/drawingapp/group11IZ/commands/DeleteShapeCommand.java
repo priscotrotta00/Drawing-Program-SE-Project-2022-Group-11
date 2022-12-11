@@ -4,7 +4,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 
 /**
- *
+ * Delete Shape from Draw and DrawPane and undo of this operation
  * @author saram
  */
 public class DeleteShapeCommand implements Command {
