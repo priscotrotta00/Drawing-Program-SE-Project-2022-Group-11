@@ -9,7 +9,7 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.shape.Rectangle;
 
 /**
- *
+ *This class represents the "Rectangle" shape. It is a shape so it can be cloned
  * @author saram
  */
 public interface MyRectangle extends MyShape {

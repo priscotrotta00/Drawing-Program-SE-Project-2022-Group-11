@@ -9,7 +9,7 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.shape.Ellipse;
 
 /**
- *
+ * This class represents the "Ellipse" shape. It is a shape so it can be cloned
  * @author saram
  */
 public interface MyEllipse extends MyShape {
