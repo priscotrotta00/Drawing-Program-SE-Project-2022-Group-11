@@ -115,10 +115,6 @@ public class Canvas implements Initializable {
             selectedTool.handleOnContextMenuRequested(this, event);
         });
     }
-    
-    public void updateDraw() {
-
-    }
 
     public Pane getDrawPane() {
         return drawPane;
@@ -126,10 +122,6 @@ public class Canvas implements Initializable {
     
     public Drawing getDraw() {
         return this.draw;
-    }
-    
-    public void setDraw(Drawing draw) {
-        this.draw = draw;
     }
     
     public void setTool(Tool tool){
@@ -208,23 +200,45 @@ public class Canvas implements Initializable {
         return this.selection;
     }
     
+    /**
+     * Add a bounding box into the pane
+     * @param boundingBox 
+     */
     public void addBoundingBox(Group boundingBox){
         this.drawPane.getChildren().add(boundingBox);
     }
     
+    /**
+     * Remove the given bounding box from the pane
+     * @param boundingBox 
+     */
     public void removeBoundingBox(Group boundingBox){
         this.drawPane.getChildren().remove(boundingBox);
     }
     
+    /**
+     * Add the preview of a new shape into the pane
+     * @param preview 
+     */
     public void addPreviewNewShape(MyShape preview){
         this.drawPane.getChildren().add(preview.getView());
     }
     
+    /**
+     * Remove the preview of the new shape
+     * @param preview 
+     */
     public void removePreviewNewShape(MyShape preview){
         if (!this.drawPane.getChildren().contains(preview.getView())) throw new RuntimeException();
         this.drawPane.getChildren().remove(preview.getView());
     }
     
+    /**
+     * Substitute a shape with its preview on the pane. The original shape is 
+     * not deleted from the drawing but it is not visible on the pane
+     * @param shape
+     * @return 
+     */
     public MyShape substituteShapeWithPreview(MyShape shape){
         int layer;
         MyShape preview;
@@ -239,6 +253,10 @@ public class Canvas implements Initializable {
         return preview;
     }
     
+    /**
+     * Delete the preview and substitute it with the original associated shape
+     * @param shape 
+     */
     public void substitutePreviewWithOriginalShape(MyShape shape){
         int layer = this.draw.getShapeLayer(shape);
         MyShape preview = this.previewShapesMap.get(shape);
@@ -247,6 +265,11 @@ public class Canvas implements Initializable {
         this.drawPane.getChildren().add(layer, shape.getView());
     }
     
+    /**
+     * Substitute the current drawing with the new given one. The pane will be
+     * updated too
+     * @param draw 
+     */
     public void initializeNewDrawing(Drawing draw){
         if(draw == null) throw new NullPointerException();
         this.getSelection().unSelect();
@@ -258,7 +281,7 @@ public class Canvas implements Initializable {
         for(MyShape myShape : draw){
             this.getDrawPane().getChildren().add((Shape) myShape);
         }
-        this.setDraw(draw);
+        this.draw = draw;
     }
     /**
      * Move the shape at different Layer
