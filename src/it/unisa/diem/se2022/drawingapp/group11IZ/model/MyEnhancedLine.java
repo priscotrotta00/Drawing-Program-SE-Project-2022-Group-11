@@ -10,7 +10,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 
 /**
- *
+ * Implementation of all methods defined in the interface MyLine
  * @author saram
  */
 public class MyEnhancedLine extends Line implements MyLine{

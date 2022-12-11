@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.scene.shape.Line;
 
 /**
- *
+ *This class represents the "Line" shape. It is a shape so it can be cloned
  * @author saram
  */
 public interface MyLine extends MyShape{

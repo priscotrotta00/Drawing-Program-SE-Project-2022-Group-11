@@ -14,7 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 
 /**
- *
+ * Implementation of all methods defined in the interface MyEllipse
  * @author saram
  */
 public class MyEnhancedEllipse extends Ellipse implements MyEllipse{

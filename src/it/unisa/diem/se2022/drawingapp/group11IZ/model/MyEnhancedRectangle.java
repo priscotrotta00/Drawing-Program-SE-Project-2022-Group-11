@@ -13,7 +13,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 /**
- *
+ * Implementation of all methods defined in the interface MyRectangle
  * @author saram
  */
 public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
