@@ -10,7 +10,10 @@ import javafx.scene.paint.Color;
 import org.json.simple.JSONObject;
 
 /**
- * 
+ * A class that represents a concrete visitor for the shapes. 
+ * On each visit, the shape passed as a parameter is initialized with the properties
+ * saved within the json object passed to the constructor. The shape is the added
+ * to the drawing passed as parameter to the constructor too.
  * @author prisc
  */
 public class JSONImportVisitor implements Visitor{
@@ -18,12 +21,23 @@ public class JSONImportVisitor implements Visitor{
     private JSONObject jsonObject;
     private Drawing draw;
 
+    /**
+     * Create a new JSONImportVisitor object
+     * @param jsonObject The json object that contains the properties which are 
+     * to be saved within the visited shape 
+     * @param draw Drawing object in which the shape visited is added
+     */
     public JSONImportVisitor(JSONObject jsonObject, Drawing draw) {
         if(jsonObject == null || draw == null) throw new NullPointerException();
         this.jsonObject = jsonObject;
         this.draw = draw;
     }
 
+    /**
+     * Visit the jsonObject passed in the constructor and populates the fields in the rectangle.
+     * Then the shape is also added to the Drawing
+     * @param myRectangle MyRectangle object taht needs to be populated
+     */
     @Override
     public void visitRectangle(MyRectangle myRectangle) {
         if(myRectangle == null) throw new ImportException();
@@ -39,6 +53,11 @@ public class JSONImportVisitor implements Visitor{
         draw.addShape(myRectangle);
     }
 
+    /**
+     * Visit the jsonObject passed in the constructor and populates the fields in the ellipse.
+     * Then the shape is also added to the Drawing
+     * @param myEllipse MyEllipse object taht needs to be populated
+     */
     @Override
     public void visitEllipse(MyEllipse myEllipse) {
         if(myEllipse == null) throw new ImportException();
@@ -54,6 +73,11 @@ public class JSONImportVisitor implements Visitor{
         draw.addShape(myEllipse);
     }
 
+    /**
+     * Visit the jsonObject passed in the constructor and populates the fields in the line.
+     * Then the shape is also added to the Drawing
+     * @param myLine MyLine object taht needs to be populated
+     */
     @Override
     public void visitLine(MyLine myLine) {
         if(myLine == null) throw new ImportException();

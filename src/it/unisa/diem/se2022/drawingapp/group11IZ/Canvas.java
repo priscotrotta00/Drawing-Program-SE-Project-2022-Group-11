@@ -291,7 +291,7 @@ public class Canvas implements Initializable {
     /**
      * Substitute the current drawing with the new given one. The pane will be
      * updated too
-     * @param draw 
+     * @param draw New drawing that you want to add to the pane
      */
     public void initializeNewDrawing(Drawing draw){
         if(draw == null) throw new NullPointerException();

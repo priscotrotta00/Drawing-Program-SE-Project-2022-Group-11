@@ -17,7 +17,7 @@ public class ChangeFillColorCommand extends ChangeColorCommand{
 
     /**
      * Create a new ChangeFillColorCommand
-     * @param canvas Canvas that contains the logic for modifying the shape
+     * @param canvas Canvas that represents the Receiver of the action. It contains the logic for modifying the shape
      * @param myShape Shape whose fill color needs to be changed
      * @param newColor The new fill color of the shape
      */
@@ -30,7 +30,7 @@ public class ChangeFillColorCommand extends ChangeColorCommand{
     /**
      * Change the fill color of the shape with the color
      * passed as parameter
-     * @param color new fill color
+     * @param color New fill color
      */
     @Override
     public void changeColor(Color color) {

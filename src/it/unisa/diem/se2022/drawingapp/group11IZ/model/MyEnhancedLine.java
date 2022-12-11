@@ -120,6 +120,11 @@ public class MyEnhancedLine extends Line implements MyLine{
         return super.fillProperty();
     }
 
+    /**
+     * Acceptance method according to the Visitor pattern. 
+     * Redirects the call to the proper visitor’s method corresponding to the current element class. 
+     * @param v Represents the Concrete Visitor
+     */
     @Override
     public void accept(Visitor v) {
         v.visitLine(this);
@@ -211,6 +216,10 @@ public class MyEnhancedLine extends Line implements MyLine{
         
     }
 
+    /**
+     * Create a new clone of the line, according to the Prototype Pattern
+     * @return A clone of the shape
+     */
     @Override
     public MyShape clone() {
         return new MyEnhancedLine(this);
@@ -231,10 +240,19 @@ public class MyEnhancedLine extends Line implements MyLine{
         return (Line) this;
     }
     
+    /**
+     * Get a snapshot of the current state of the line, which can be used to
+     * restore it later (according to the Memento pattern)
+     * @return A snapshot of the current state
+     */
+    @Override
     public Snapshot getSnapshot(){
         return new Snapshot(this);
     }
     
+    /**
+     * Class that represents a snapshot of the current rectangle's state.
+     */
     public class Snapshot implements MyShape.Snapshot{
         private final MyEnhancedLine line;
         private final double startX;
@@ -245,6 +263,10 @@ public class MyEnhancedLine extends Line implements MyLine{
         private final Paint fill;
         private final double strokeWidth;
 
+        /**
+         * Create a new snapshot of the given rectangle.
+         * @param line 
+         */
         private Snapshot(MyEnhancedLine line){
             this.line = line;
             this.startX = line.myGetStartX();
@@ -256,6 +278,9 @@ public class MyEnhancedLine extends Line implements MyLine{
             this.strokeWidth = line.myGetStrokeWidth();
         }
         
+        /**
+         * Restore the state of the rectangle that is saved inside the snapshot.
+         */
         @Override
         public void restore() {
             this.line.mySetStartX(startX);

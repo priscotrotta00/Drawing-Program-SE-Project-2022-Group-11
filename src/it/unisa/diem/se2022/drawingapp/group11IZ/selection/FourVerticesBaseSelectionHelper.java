@@ -31,12 +31,12 @@ public abstract class FourVerticesBaseSelectionHelper extends TwoVerticesBaseSel
      * Initialize all the defined event handlers that will define the resize
      * functionality
      */
+    @Override
     void initializeVerticesHandlers(){
         super.initializeVerticesHandlers();
         
         // Initialize third vertex's event handlers
         Shape vertex3Cast = (Shape) vertex3;
-        vertex3Cast.setCursor(Cursor.NE_RESIZE);
         vertex3Cast.setOnMouseDragged(event -> {
             this.setCommand(createResizeShapeCommand());
             this.handleOnMouseDragVertex3(event);
@@ -48,7 +48,6 @@ public abstract class FourVerticesBaseSelectionHelper extends TwoVerticesBaseSel
         
         // Initialize fourth vertex's event handlers
         Shape vertex4Cast = (Shape) vertex4;
-        vertex4Cast.setCursor(Cursor.NE_RESIZE);
         vertex4Cast.setOnMouseDragged(event -> {
             this.setCommand(createResizeShapeCommand());
             this.handleOnMouseDragVertex4(event);

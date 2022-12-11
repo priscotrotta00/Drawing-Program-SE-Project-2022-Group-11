@@ -26,20 +26,22 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- * Class that represents the File Manager of the application
+ * Class that represents the File Manager of the application. Load and Save the
+ * Drawing from/to a json file in which the drawing is represented by a json array
+ * containing the shapes as json objects.
  * @author prisc
  */
 public class FileManager {
+    
     /**
      * Create a new FileManager
      */
-    
     public FileManager() {
     }
     
     /**
      * Load the drawing from the file passed as parameter
-     * @param file File from which you need to import the drawing
+     * @param file File from which you need to import the drawing. It needs to be a json file
      * @return Drawing object representing the loaded drawing
      */
     public Drawing loadFile(File file) {
@@ -87,7 +89,7 @@ public class FileManager {
     }
     
     /**
-     * Save the drawing in the file passed as first parameter
+     * Save the drawing in the file passed as first parameter. It needs to be a json file
      * @param file File in which you need to save the drawing
      * @param draw Drawing that you want to save
      */

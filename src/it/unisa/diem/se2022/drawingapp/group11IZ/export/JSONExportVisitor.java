@@ -9,21 +9,31 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * A class that represents a concrete visitor for the shapes. 
+ * On each visit, the properties of the shape passed as a parameter are added to
+ * a json object. The json object is added to the json array passed as 
+ * parameter to the constructor too.
  * @author prisc
  */
 public class JSONExportVisitor implements Visitor{
 
     private JSONArray jsonArray;
 
+    /**
+     * Create a new JSONExportVisitor object
+     * @param jsonArray It represents the json array in which the json objects 
+     * representing the figures contained in the drawing are saved
+     */
     public JSONExportVisitor(JSONArray jsonArray) {
         if(jsonArray == null) throw new NullPointerException();
         this.jsonArray = jsonArray;
     }
     
     /**
-     * Visit a rectangle and put his properties in a JSON Array
-     * @param myRectangle is the myRectangle object you want to visit
+     * Visit the MyRectangle object passed as parameter and populate the fields of a 
+     * json object with its properties.
+     * Then json object is added to the json array passed in the constructor.
+     * @param myRectangle MyRectangle object you want to visit
      */
     @Override
     public void visitRectangle(MyRectangle myRectangle) {
@@ -41,8 +51,10 @@ public class JSONExportVisitor implements Visitor{
     }
     
     /**
-     * Visit an ellipse and put her properties in a JSON Array
-     * @param myEllipse is the myEllipse object you want to visit
+     * Visit the MyEllipse object passed as parameter and populate the fields of a 
+     * json object with its properties.
+     * Then json object is added to the json array passed in the constructor.
+     * @param myEllipse MyEllipse object you want to visit
      */
     @Override
     public void visitEllipse(MyEllipse myEllipse) {
@@ -60,10 +72,11 @@ public class JSONExportVisitor implements Visitor{
     }
 
     /**
-     * Visit a line and put her properties in a JSON Array
-     * @param myLine is the myLine object you want to visit
+     * Visit the MyLine object passed as parameter and populate the fields of a 
+     * json object with its properties.
+     * Then json object is added to the json array passed in the constructor.
+     * @param myLine MyLine object you want to visit
      */
-    
     @Override
     public void visitLine(MyLine myLine) {
         if(myLine == null) throw new ExportException();

@@ -153,10 +153,17 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         super.setStrokeWidth(value);
     }
 
+    @Override
     public void mySetVisible(boolean value) {
         super.setVisible(value);
     }
     
+    /**
+     * Acceptance method according to the Visitor pattern. 
+     * Redirects the call to the proper visitor’s method corresponding to the current element class. 
+     * @param v Represents the Concrete Visitor
+     */
+    @Override
     public void accept(Visitor v) {
         v.visitEllipse(this);
     }   
@@ -181,6 +188,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         return super.layoutYProperty();
     }
     
+    @Override
     public double getTopLeftX() {
         return myGetCenterX() - myGetRadiusX();
     }
@@ -312,6 +320,10 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         this.mySetCenterY(topLeftY);
     }
 
+    /**
+     * Create a new clone of the ellipse, according to the Prototype Pattern
+     * @return A clone of the shape
+     */
     @Override
     public MyShape clone() {
         return new MyEnhancedEllipse(this);        
@@ -332,10 +344,19 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         return (Ellipse) this;
     }
     
+    /**
+     * Get a snapshot of the current state of the ellipse, which can be used to
+     * restore it later (according to the Memento pattern)
+     * @return A snapshot of the current state
+     */
+    @Override
     public Snapshot getSnapshot(){
         return new Snapshot(this);
     }
     
+    /**
+     * Class that represents a snapshot of the current rectangle's state.
+     */
     public class Snapshot implements MyShape.Snapshot{
         private final MyEnhancedEllipse ellipse;
         private final double centerX;
@@ -346,6 +367,10 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         private final Paint fill;
         private final double strokeWidth;
 
+        /**
+         * Create a new snapshot of the given rectangle.
+         * @param ellipse
+         */
         private Snapshot(MyEnhancedEllipse ellipse){
             this.ellipse = ellipse;
             this.centerX = ellipse.myGetCenterX();
@@ -357,6 +382,9 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
             this.strokeWidth = ellipse.myGetStrokeWidth();
         }
         
+        /**
+         * Restore the state of the rectangle that is saved inside the snapshot.
+         */
         @Override
         public void restore() {
             this.ellipse.mySetCenterX(centerX);
