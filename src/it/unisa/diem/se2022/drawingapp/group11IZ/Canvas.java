@@ -115,15 +115,27 @@ public class Canvas implements Initializable {
             selectedTool.handleOnContextMenuRequested(this, event);
         });
     }
-
+    
+    /**
+     * 
+     * @return drawPane
+     */
     public Pane getDrawPane() {
         return drawPane;
     }
     
+    /**
+     * 
+     * @return draw
+     */
     public Drawing getDraw() {
         return this.draw;
     }
     
+    /**
+     * 
+     * @param tool 
+     */
     public void setTool(Tool tool){
         this.selectedTool = tool;
     }
@@ -146,8 +158,6 @@ public class Canvas implements Initializable {
         drawPane.getChildren().remove(this.draw.getShapeLayer(myShape));
     
         this.draw.removeShape(myShape);
-        //drawPane.getChildren().remove(myShape.getView());
-       // drawPane.getChildren().remove(this.drawPane.getChildren().re);
     }
 
     /**
@@ -192,10 +202,18 @@ public class Canvas implements Initializable {
         return this.clipboard;
     }
     
+    /**
+     * 
+     * @return commandInvoker
+     */
     public CommandInvoker getCommandInvoker(){
         return this.commandInvoker;
     }
     
+    /**
+     * 
+     * @return selection
+     */
     public Selection getSelection(){
         return this.selection;
     }
@@ -283,6 +301,7 @@ public class Canvas implements Initializable {
         }
         this.draw = draw;
     }
+    
     /**
      * Move the shape at different Layer
      * @param s 

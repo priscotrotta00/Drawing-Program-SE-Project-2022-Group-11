@@ -56,6 +56,10 @@ public class Selection implements Visitor{
         return selectedItem;
     }
     
+    /**
+     * 
+     * @return the preview
+     */
     public MyShape getSelectedItemPreview() {
         return this.helper.getPreview();
     }
