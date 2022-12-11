@@ -5,6 +5,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyLine;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -63,12 +64,14 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
         // Initialize first vertex on the start point of the line
         this.getVertex1().mySetWidth(WIDTH_VERTEX);
         this.getVertex1().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex1().getView().setCursor(Cursor.CLOSED_HAND);
         this.getVertex1().myXProperty().bind(this.getPreview().myStartXProperty().subtract(WIDTH_VERTEX/2));
         this.getVertex1().myYProperty().bind(this.getPreview().myStartYProperty().subtract(WIDTH_VERTEX/2));
         
         // Initialize first vertex on the end point of the line
         this.getVertex2().mySetWidth(WIDTH_VERTEX);
         this.getVertex2().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex2().getView().setCursor(Cursor.CLOSED_HAND);
         this.getVertex2().myXProperty().bind(this.getPreview().myEndXProperty().subtract(WIDTH_VERTEX/2));
         this.getVertex2().myYProperty().bind(this.getPreview().myEndYProperty().subtract(WIDTH_VERTEX/2));
     }

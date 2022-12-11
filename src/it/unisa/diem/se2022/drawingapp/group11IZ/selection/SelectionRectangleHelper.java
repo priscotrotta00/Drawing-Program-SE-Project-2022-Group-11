@@ -5,6 +5,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyRectangle;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -45,24 +46,28 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
         // Initialize first vertex on the top left point of the rectangle
         this.getVertex1().mySetWidth(WIDTH_VERTEX);
         this.getVertex1().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex1().getView().setCursor(Cursor.NW_RESIZE);
         this.getVertex1().myXProperty().bind(this.getPreview().topLeftXProperty());
         this.getVertex1().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize first vertex on the top right point of the rectangle
         this.getVertex2().mySetWidth(WIDTH_VERTEX);
         this.getVertex2().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex2().getView().setCursor(Cursor.NE_RESIZE);
         this.getVertex2().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(WIDTH_VERTEX));
         this.getVertex2().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize fourth vertex on the bottom left point of the rectangle
         this.getVertex4().mySetWidth(WIDTH_VERTEX);
         this.getVertex4().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex4().getView().setCursor(Cursor.SW_RESIZE);
         this.getVertex4().myXProperty().bind(this.getPreview().topLeftXProperty());
         this.getVertex4().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(HEIGHT_VERTEX));
         
         // Initialize third vertex on the bottom right point of the rectangle
         this.getVertex3().mySetWidth(WIDTH_VERTEX);
         this.getVertex3().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex3().getView().setCursor(Cursor.SE_RESIZE);
         this.getVertex3().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(WIDTH_VERTEX));
         this.getVertex3().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(HEIGHT_VERTEX));
     }

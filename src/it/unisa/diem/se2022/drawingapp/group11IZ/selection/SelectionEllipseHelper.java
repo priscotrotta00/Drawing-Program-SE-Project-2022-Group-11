@@ -5,6 +5,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ResizeShapeCommand;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyEnhancedEllipse;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -59,24 +60,28 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
         // Initialize first vertex at the top of the vertical diameter of the ellipse
         this.getVertex1().mySetWidth(WIDTH_VERTEX);
         this.getVertex1().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex1().getView().setCursor(Cursor.V_RESIZE);
         this.getVertex1().myXProperty().bind(this.getPreview().myCenterXProperty().subtract(WIDTH_VERTEX/2));
         this.getVertex1().myYProperty().bind(this.getPreview().topLeftYProperty());
         
         // Initialize second vertex at the right of the horizontal diameter of the ellipse
         this.getVertex2().mySetWidth(WIDTH_VERTEX);
         this.getVertex2().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex2().getView().setCursor(Cursor.H_RESIZE);
         this.getVertex2().myXProperty().bind(this.getPreview().bottomRightXProperty().subtract(WIDTH_VERTEX));
         this.getVertex2().myYProperty().bind(this.getPreview().myCenterYProperty().subtract(HEIGHT_VERTEX/2));
         
         // Initialize third vertex at the bottom of the vertical diameter of the ellipse
         this.getVertex3().mySetWidth(WIDTH_VERTEX);
         this.getVertex3().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex3().getView().setCursor(Cursor.V_RESIZE);
         this.getVertex3().myXProperty().bind(this.getPreview().myCenterXProperty().subtract(WIDTH_VERTEX/2));
         this.getVertex3().myYProperty().bind(this.getPreview().bottomRightYProperty().subtract(HEIGHT_VERTEX));
         
         // Initialize fourth vertex at the left of the horizontal diameter of the ellipse
         this.getVertex4().mySetWidth(WIDTH_VERTEX);
         this.getVertex4().mySetHeight(HEIGHT_VERTEX);
+        this.getVertex4().getView().setCursor(Cursor.H_RESIZE);
         this.getVertex4().myXProperty().bind(this.getPreview().topLeftXProperty());
         this.getVertex4().myYProperty().bind(this.getPreview().myCenterYProperty().subtract(HEIGHT_VERTEX/2));
     }
