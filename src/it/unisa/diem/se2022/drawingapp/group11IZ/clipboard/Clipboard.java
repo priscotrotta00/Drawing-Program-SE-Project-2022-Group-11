@@ -33,13 +33,6 @@ public class Clipboard {
         this.copied.setValue(Boolean.TRUE);
     }
     
-    /**
-     * return the value of myShape
-     * @return 
-     */
-    public MyShape getMyShape(){
-        return this.myShape;
-    }
     
     /**
      * return the copy of a shape

@@ -13,19 +13,20 @@ public class MoveShapeCommand implements Command{
     private final MyShape.Snapshot snapshot;
     
     /**
-     * Costructor. Initialize the shape and creates
-     * @param shape 
+     * Costructor. Initialize the shape and the obtains a Snapshot 
+     * of the shape
+     * @param shape to move
      */
     public MoveShapeCommand(MyShape shape) {
-        this.shape = shape;;
+        this.shape = shape;
         this.snapshot = shape.getSnapshot();
     }
     
     /**
      * Sets the new coordinates. Values newX and NewY are
      * passed as parameter.
-     * @param newX
-     * @param newY 
+     * @param newX new X coordinate
+     * @param newY new Y coordinate
      */
     public void setNewCoordinates(double newX, double newY){
         this.newX = newX;

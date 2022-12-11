@@ -21,8 +21,9 @@ public class Selection implements Visitor{
     private SelectionHelper helper;
 
     /**
-     * Class constructor.
-     * @param canvas
+     * Class constructor. Creates a new Group, initialize the selected item to
+     * null and inizitialize the canvas
+     * @param canvas where shapes bolongs
      */
     public Selection(Canvas canvas) {
         this.selectionBorder = new Group();
@@ -64,7 +65,7 @@ public class Selection implements Visitor{
     
     /**
      * 
-     * @param selectedItem 
+     * @param selectedItem is the shape selected
      */
     public void setSelectedItem(MyShape selectedItem) {
         this.selectedItem = selectedItem;
@@ -80,7 +81,7 @@ public class Selection implements Visitor{
     
     /**
      * 
-     * @param selected 
+     * @param selected sais if is selected a shape
      */
     private void setSelected(Boolean selected) {
         this.selected.set(selected);
@@ -123,8 +124,10 @@ public class Selection implements Visitor{
      * @param myLine the selected line
      */
     public void select(MyLine myLine){
+        // Unselect the already selected shape
         if(getSelectedValue()) this.unSelect();
         
+        // Check if the clicked shape is the bounding box edge itself
         if(myLine.myGetFill() == Color.TRANSPARENT){
             MyShape shape = this.getSelectedItem();
             
@@ -133,11 +136,12 @@ public class Selection implements Visitor{
             myLine = (MyLine) shape;
         }
         
+        // Select the shape
         setSelectedItem(myLine);
         
+        // Create the bounding box around the shape and add it to the canvas
         helper = new SelectionLineHelper(canvas, myLine);
         setSelectionBorder(helper.createBoundingBox());
-        
         this.canvas.addBoundingBox(getSelectionBorder());
         
         setSelected(true);
@@ -150,8 +154,10 @@ public class Selection implements Visitor{
      * @param myEllipse the selected ellipse
      */
     public void select(MyEllipse myEllipse){
+        // Unselect the already selected shape
         if(getSelectedValue()) this.unSelect();
         
+        // Check if the clicked shape is the bounding box edge itself
         if(myEllipse.myGetFill() == Color.TRANSPARENT){
             MyShape shape = this.getSelectedItem();
             
@@ -160,11 +166,12 @@ public class Selection implements Visitor{
             myEllipse = (MyEllipse) shape;
         }
         
+        // Select the shape
         setSelectedItem(myEllipse);
         
+        // Create the bounding box around the shape and add it to the canvas
         helper = new SelectionEllipseHelper(canvas, myEllipse);
         setSelectionBorder(helper.createBoundingBox());
-        
         this.canvas.addBoundingBox(getSelectionBorder());
         
         setSelected(true);
@@ -197,7 +204,7 @@ public class Selection implements Visitor{
     
     /**
      * 
-     * @param myRectangle 
+     * @param myRectangle clicked rectangle
      */
     @Override
     public void visitRectangle(MyRectangle myRectangle) {
@@ -206,7 +213,7 @@ public class Selection implements Visitor{
     
     /**
      * 
-     * @param myEllipse 
+     * @param myEllipse clicked ellipse
      */
     @Override
     public void visitEllipse(MyEllipse myEllipse) {
@@ -215,7 +222,7 @@ public class Selection implements Visitor{
     
     /**
      * 
-     * @param myLine 
+     * @param myLine clicked line
      */
     @Override
     public void visitLine(MyLine myLine) {

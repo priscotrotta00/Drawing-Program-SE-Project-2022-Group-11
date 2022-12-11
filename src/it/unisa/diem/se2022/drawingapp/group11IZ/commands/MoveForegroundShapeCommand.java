@@ -4,7 +4,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 
 /**
- *
+ *Move in Foreground the Shape in draw and drawPane, and  undo of this operation
  * @author saram
  */
 public class MoveForegroundShapeCommand implements Command {
