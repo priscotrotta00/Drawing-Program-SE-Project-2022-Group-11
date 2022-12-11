@@ -245,6 +245,7 @@ public class MyEnhancedLine extends Line implements MyLine{
      * restore it later (according to the Memento pattern)
      * @return A snapshot of the current state
      */
+    @Override
     public Snapshot getSnapshot(){
         return new Snapshot(this);
     }

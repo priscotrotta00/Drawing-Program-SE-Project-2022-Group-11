@@ -153,6 +153,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         super.setStrokeWidth(value);
     }
 
+    @Override
     public void mySetVisible(boolean value) {
         super.setVisible(value);
     }
@@ -162,6 +163,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
      * Redirects the call to the proper visitor’s method corresponding to the current element class. 
      * @param v Represents the Concrete Visitor
      */
+    @Override
     public void accept(Visitor v) {
         v.visitEllipse(this);
     }   
@@ -186,6 +188,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
         return super.layoutYProperty();
     }
     
+    @Override
     public double getTopLeftX() {
         return myGetCenterX() - myGetRadiusX();
     }
@@ -346,6 +349,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
      * restore it later (according to the Memento pattern)
      * @return A snapshot of the current state
      */
+    @Override
     public Snapshot getSnapshot(){
         return new Snapshot(this);
     }
