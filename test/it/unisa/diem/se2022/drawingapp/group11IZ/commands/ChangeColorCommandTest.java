@@ -22,7 +22,6 @@ import org.junit.Before;
  */
 public class ChangeColorCommandTest {
     private Canvas canvas;
-    private Field drawField;
     private Field drawPaneField;
     private Pane pane;
     private Drawing draw;
@@ -33,27 +32,13 @@ public class ChangeColorCommandTest {
         this.pane = new Pane();
 
         drawPaneField = Canvas.class.getDeclaredField("drawPane");
-        drawField = Canvas.class.getDeclaredField("draw");
-        
         drawPaneField.setAccessible(true);
-        drawField.setAccessible(true);
         
         drawPaneField.set(canvas, pane);
         canvas.initialize(null, null);
         draw = canvas.getDraw();
         
     }
-    
-    /*@Test
-    public void testSetOldColor() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        MyShape myRectangle = new MyEnhancedRectangle();
-        myRectangle.mySetFill(Color.RED);
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
-        ccc.setOldColor(Color.YELLOW);
-        Field oldColorField = ChangeColorCommand.class.getDeclaredField("oldColor");
-        oldColorField.setAccessible(true);
-        assertEquals("Error in setOldColor", oldColorField.get(ccc).toString(), Color.YELLOW.toString());
-    }*/
     
     @Test
     public void testSetNewColor() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
@@ -101,15 +86,6 @@ public class ChangeColorCommandTest {
         MyShape myRectangle = new MyEnhancedRectangle();
         ChangeColorCommand ccc = new ChangeStrokeColorCommand(canvas, myRectangle, null);
     }
-    
-    /*@Test
-    public void testGetOldColor(){
-        MyShape myRectangle = new MyEnhancedRectangle();
-        myRectangle.mySetFill(Color.RED);
-        ChangeColorCommand ccc = new ChangeFillColorCommand(myRectangle, Color.BLUEVIOLET);
-        Color oldColor = ccc.getOldColor();
-        assertEquals("Error in getOldColor", oldColor.toString(),Color.RED.toString());
-    }*/
     
     @Test
     public void testGetNewColor(){
