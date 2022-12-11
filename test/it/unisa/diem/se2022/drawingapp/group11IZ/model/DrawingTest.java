@@ -47,7 +47,6 @@ public class DrawingTest {
     
     @Test (expected=AddedDuplicateException.class)
     public void testAdd2() throws NoSuchFieldException, IllegalAccessException, Exception{
-        System.out.println("add");
         Drawing d=new Drawing();
         //insert line
         MyEnhancedLine line=new MyEnhancedLine();
@@ -60,7 +59,6 @@ public class DrawingTest {
     
     @Test (expected=ShapeNotFoundException.class)
     public void testRemove1() throws NoSuchFieldException, IllegalAccessException, Exception{
-        System.out.println("remove");
         Drawing d=new Drawing();
         //try to delete an line that is not in the list
         MyEnhancedLine line=new MyEnhancedLine();
@@ -70,7 +68,6 @@ public class DrawingTest {
     
     @Test (expected=ShapeNotFoundException.class)
     public void testRemove2() throws NoSuchFieldException, IllegalAccessException, Exception{
-        System.out.println("remove");
         Drawing d=new Drawing();
         //try to delete an rectangle that is not in the list
         MyEnhancedRectangle rectangle=new MyEnhancedRectangle();
@@ -80,7 +77,6 @@ public class DrawingTest {
  
     @Test (expected=ShapeNotFoundException.class)
     public void testRemove3() throws NoSuchFieldException, IllegalAccessException, Exception{
-        System.out.println("remove");
         Drawing d=new Drawing();
         //try to delete an ellipse that is not in the list
         MyEnhancedEllipse ellipse=new MyEnhancedEllipse();
@@ -118,8 +114,6 @@ public class DrawingTest {
     }
     @Test
     public void testMoveToForeground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        System.out.println("move to foreground");
-        
         Field listField = Drawing.class.getDeclaredField("figures");
         listField.setAccessible(true);
         Drawing d=new Drawing();
@@ -164,8 +158,6 @@ public class DrawingTest {
     
     @Test
     public void testMoveToBackground() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        System.out.println("move to background");
-        
         Field listField = Drawing.class.getDeclaredField("figures");
         listField.setAccessible(true);
         Drawing d=new Drawing();

@@ -39,6 +39,7 @@ public class JSONImportVisitor implements Visitor{
         myRectangle.mySetWidth((double) jsonObject.get("width"));
         myRectangle.mySetX((double) jsonObject.get("x"));
         myRectangle.mySetY((double) jsonObject.get("y"));
+        myRectangle.mySetStrokeWidth((double) jsonObject.get("stroke-width"));
         draw.addShape(myRectangle);
     }
 
@@ -53,6 +54,7 @@ public class JSONImportVisitor implements Visitor{
         myEllipse.mySetCenterY((double) jsonObject.get("centerY"));
         myEllipse.mySetRadiusX((double) jsonObject.get("radiusX"));
         myEllipse.mySetRadiusY((double) jsonObject.get("radiusY"));
+        myEllipse.mySetStrokeWidth((double) jsonObject.get("stroke-width"));
         draw.addShape(myEllipse);
     }
 
@@ -67,6 +69,7 @@ public class JSONImportVisitor implements Visitor{
         myLine.mySetEndY((double) jsonObject.get("endY"));
         myLine.mySetStartX((double) jsonObject.get("startX"));
         myLine.mySetStartY((double) jsonObject.get("startY"));
+        myLine.mySetStrokeWidth((double) jsonObject.get("stroke-width"));
         draw.addShape(myLine);
     } 
     

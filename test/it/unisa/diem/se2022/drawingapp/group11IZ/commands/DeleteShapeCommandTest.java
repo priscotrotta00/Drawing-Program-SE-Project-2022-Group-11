@@ -236,7 +236,6 @@ public class DeleteShapeCommandTest {
         assertEquals("rectangle is not delete from figures", iter.next(),line);
         assertFalse("rectangle is not delete from figures", iter.hasNext());
         
-       // System.out.println(pane.getChildren());
         
         //check drawPane
         assertFalse("Error in removeShape", pane.getChildren().contains(rectangle));

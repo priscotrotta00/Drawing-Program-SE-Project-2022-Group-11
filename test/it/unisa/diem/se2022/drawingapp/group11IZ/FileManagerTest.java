@@ -86,9 +86,9 @@ public class FileManagerTest {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DrawingTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String myString = "[{\"endY\":0.0,\"endX\":0.0,\"startY\":0.0,\"startX\":0.0,\"type\":\"line\",\"fill\":null,\"stroke\":\"0x000000ff\"},"
-                + "{\"width\":0.0,\"x\":0.0,\"y\":0.0,\"type\":\"rectangle\",\"fill\":\"0x000000ff\",\"stroke\":null,\"height\":0.0},"
-                + "{\"centerY\":0.0,\"centerX\":0.0,\"radiusY\":0.0,\"radiusX\":0.0,\"type\":\"ellipse\",\"fill\":\"0x000000ff\",\"stroke\":null}]";
+        String myString = "[{\"endY\":0.0,\"endX\":0.0,\"startY\":0.0,\"startX\":0.0,\"stroke-width\":1.0,\"type\":\"line\",\"fill\":null,\"stroke\":\"0x000000ff\"},"
+                + "{\"width\":0.0,\"x\":0.0,\"y\":0.0,\"stroke-width\":1.0,\"type\":\"rectangle\",\"fill\":\"0x000000ff\",\"stroke\":null,\"height\":0.0},"
+                + "{\"centerY\":0.0,\"centerX\":0.0,\"radiusY\":0.0,\"radiusX\":0.0,\"stroke-width\":1.0,\"type\":\"ellipse\",\"fill\":\"0x000000ff\",\"stroke\":null}]";
         assertEquals("Failed export drawing",myString, JSONFileString);
         file.delete();
     }

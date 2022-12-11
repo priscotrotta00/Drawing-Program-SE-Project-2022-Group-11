@@ -41,6 +41,7 @@ public class JSONExportVisitor implements Visitor{
         jsonRectangleObject.put("width", myRectangle.myGetWidth());
         jsonRectangleObject.put("x", myRectangle.myGetX());
         jsonRectangleObject.put("y", myRectangle.myGetY());
+        jsonRectangleObject.put("stroke-width", myRectangle.myGetStrokeWidth());
         jsonArray.add(jsonRectangleObject);
     }
 
@@ -60,6 +61,7 @@ public class JSONExportVisitor implements Visitor{
         jsonEllipseObject.put("centerY", myEllipse.myGetCenterY());
         jsonEllipseObject.put("radiusX", myEllipse.myGetRadiusX());
         jsonEllipseObject.put("radiusY", myEllipse.myGetRadiusY());
+        jsonEllipseObject.put("stroke-width", myEllipse.myGetStrokeWidth());
         jsonArray.add(jsonEllipseObject);
     }
 
@@ -78,7 +80,8 @@ public class JSONExportVisitor implements Visitor{
         jsonLineObject.put("endX", myLine.myGetEndX());
         jsonLineObject.put("endY", myLine.myGetEndY());
         jsonLineObject.put("startX", myLine.myGetStartX());
-        jsonLineObject.put("startY", myLine.myGetStartY());        
+        jsonLineObject.put("startY", myLine.myGetStartY());  
+        jsonLineObject.put("stroke-width", myLine.myGetStrokeWidth());
         jsonArray.add(jsonLineObject);
     }
     
