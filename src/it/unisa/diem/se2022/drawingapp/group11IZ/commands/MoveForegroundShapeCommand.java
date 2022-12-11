@@ -43,7 +43,7 @@ public class MoveForegroundShapeCommand implements Command {
      */
     @Override
     public void undo() {
-        this.canvas.moveToLayer(shape, this.layerShape);
+        this.canvas.moveToLayer(shape, this.layerShape,true);
         
     }
     
