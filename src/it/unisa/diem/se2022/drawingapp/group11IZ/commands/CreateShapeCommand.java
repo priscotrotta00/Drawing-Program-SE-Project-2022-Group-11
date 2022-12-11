@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
@@ -13,8 +9,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
  * @author Felice Scala
  */
 public class CreateShapeCommand implements Command{
-    private Canvas canvas;
-    private MyShape shape;
+    private final Canvas canvas;
+    private final MyShape shape;
 
     /**
      * Create a new CreateShapeCommand, giving the receiver of the action and
@@ -33,6 +29,7 @@ public class CreateShapeCommand implements Command{
      */
     @Override
     public void execute() {
+        // Add shape to the Canvas, so in the Drawing and in the View
         this.canvas.addShape(shape);
     }
 
@@ -42,6 +39,7 @@ public class CreateShapeCommand implements Command{
      */
     @Override
     public void undo() {
+        // Remove shape from Canvas
         this.canvas.removeShape(shape);
     }
     

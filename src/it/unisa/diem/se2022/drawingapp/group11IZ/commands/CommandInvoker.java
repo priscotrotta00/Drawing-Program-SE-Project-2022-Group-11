@@ -9,12 +9,15 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
- *
+ * Class that represents the Invoker that executes the Commands, according to 
+ * the Command Pattern. It keeps a history of the commands that have been
+ * executed inside a stack. It is possible to undo the commands according to a 
+ * LIFO policy
  * @author daddy
  */
 public class CommandInvoker {
-    private Deque<Command> stack;
-    private BooleanProperty emptyProperty;
+    private final Deque<Command> stack;
+    private final BooleanProperty emptyProperty;
     
     /**
      * Constructor
@@ -52,7 +55,7 @@ public class CommandInvoker {
     }
     
     /**
-     * remove the last command added in the stack, apudate the Empty Property
+     * remove the last command added in the stack, update the Empty Property
      * and execute the undo operation of the last executed command
      */
     public void undoLast(){

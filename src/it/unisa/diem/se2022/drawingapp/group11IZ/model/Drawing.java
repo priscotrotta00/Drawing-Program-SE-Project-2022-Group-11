@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.AddedDuplicateException;
@@ -9,20 +5,21 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundEx
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
+ * Class that represents the Drawing model. It contains all the shapes that 
+ * compose the Drawing itself.
  * @author saram
  */
-/*extends (JSONExportVisitor) da inserire*/
 public class Drawing implements Iterable<MyShape>{
 
-    private List<MyShape> figures;
+    private final List<MyShape> figures;
 
+    /**
+     * Create a new Drawing.
+     */
     public Drawing() {
-        this.figures = new ArrayList<MyShape>(); //O(n) for insert, O(1) for search
+        this.figures = new ArrayList<>(); //O(n) for insert, O(1) for search
     }
 
     /**
@@ -57,7 +54,7 @@ public class Drawing implements Iterable<MyShape>{
     }
 
     /**
-     * Add the Shape in figures. Throw RuntimeException if you try to add the
+     * Add the Shape in figures. Throw exception if you try to add the
      * same figure twice
      *
      * @param myShape
@@ -118,6 +115,10 @@ public class Drawing implements Iterable<MyShape>{
         moveToLayer(myShape, 0);
     }
 
+    /**
+     * Return an Iterator to MyShapes inside the drawing
+     * @return an Iterator
+     */
     @Override
     public Iterator<MyShape> iterator() {
         return this.figures.iterator();

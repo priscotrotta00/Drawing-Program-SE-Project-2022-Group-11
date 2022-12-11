@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
@@ -14,8 +10,10 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
  */
 public class PasteShapeCommand implements Command{
 
-    private Canvas canvas;
-    private MyShape shape;
+    private final Canvas canvas;
+    private final MyShape shape;
+    private final static double TOP_LEFT_X = 100.0;
+    private final static double TOP_LEFT_Y = 100.0;
 
     /**
      * Create a new PasteShapeCommand
@@ -27,7 +25,7 @@ public class PasteShapeCommand implements Command{
         if (canvas == null || shape == null) throw new NullPointerException();
         this.canvas = canvas;
         this.shape = shape;
-        this.shape.moveShape(100.0, 100.0);
+        this.shape.moveShape(TOP_LEFT_X, TOP_LEFT_Y);
     }
     
     @Override

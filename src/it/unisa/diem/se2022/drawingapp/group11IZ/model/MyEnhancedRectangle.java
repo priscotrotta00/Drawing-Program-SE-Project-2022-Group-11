@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.model;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.interfaces.Visitor;
@@ -247,9 +243,6 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         return bottomRightY;
     }
     
-    
-    
-    
     @Override
     public void mySetLayoutX(double value) {
         super.setLayoutX(value);
@@ -259,7 +252,6 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
     public void mySetLayoutY(double value) {
         super.setLayoutY(value);
     }
-    
     
     @Override
     public DoubleProperty myLayoutXProperty() {
@@ -311,12 +303,12 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         return super.getLayoutY();
     }
     
-    
     @Override
     public Rectangle getView(){
         return (Rectangle) this;
     }
     
+    @Override
     public Snapshot getSnapshot(){
         return new Snapshot(this);
     }

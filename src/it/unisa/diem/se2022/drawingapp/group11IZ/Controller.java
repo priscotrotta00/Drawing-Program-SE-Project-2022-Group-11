@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.commands.ChangeFillColorCommand;
@@ -106,11 +102,14 @@ public class Controller implements Initializable {
         BooleanBinding selectedAndChosenSelectToolCondition;
         SingleSelectionModel<Tab> selectionModel;
         
+        // Set Edit Tab as default one
         selectionModel = tabPane.getSelectionModel();
         selectionModel.select(editTab);
         
+        // Create a file manager to manage files
         fileManager = new FileManager();
         
+        // Define all buttons bindings
         selectedAndChosenSelectToolCondition = Bindings.or(
                 not(this.selectionToggleButton.selectedProperty()), 
                 not(this.canvasController.getSelection().getSelectedProperty())
@@ -125,7 +124,8 @@ public class Controller implements Initializable {
         this.initializeButtonDisablePropertyBinding(this.foregroundButton, selectedAndChosenSelectToolCondition);
         this.initializeButtonDisablePropertyBinding(this.pasteButton, this.canvasController.getClipboard().copiedProperty().not());
         this.initializeButtonDisablePropertyBinding(this.undoButton, this.canvasController.getCommandInvoker().stackIsEmptyProperty());
-
+        
+        // Bindings with Canvas for selected colors
         this.strokeColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedStrokeColorProperty());
         this.fillColorPicker.valueProperty().bindBidirectional(this.canvasController.selectedFillColorProperty());
     }
@@ -142,6 +142,7 @@ public class Controller implements Initializable {
         ellipseToggleButton.setToggleGroup(toolToggleGroup);
         selectionToggleButton.setToggleGroup(toolToggleGroup);
 
+        // Set listener to activate when a new button is selected
         toolToggleGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle == null) {
                 newToggle = oldToggle;
@@ -152,6 +153,7 @@ public class Controller implements Initializable {
             this.updateSelectedTool(newToggle);
         });
 
+        // Set Rectangle Button as default one
         rectangleToggleButton.selectedProperty().setValue(true);
 
     }
@@ -174,6 +176,8 @@ public class Controller implements Initializable {
      */
     public void updateSelectedTool(Toggle selectedToggle) {
         ToggleButton toggle = (ToggleButton) selectedToggle;
+        
+        // Update seletected tool inside Canvas according to the selected button
         if (toggle.equals(ellipseToggleButton)) {
             this.canvasController.setTool(DrawEllipseTool.getInstance());
         } else if (toggle.equals(rectangleToggleButton)) {
@@ -210,10 +214,13 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onLoadAction(ActionEvent event){
+        // Open a new File Chooser to select a new file
         FileChooser fc = new FileChooser();
         fc.setTitle("Open a drawing with .json extension");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));
         File file = fc.showOpenDialog(null);
+        
+        // Load the saved drawing
         if(file == null) return;
         Drawing loadedDrawing = fileManager.loadFile(file);
         this.canvasController.initializeNewDrawing(loadedDrawing);
@@ -226,10 +233,13 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onSaveAction(ActionEvent event) {
+        // Open a File Chooser to select where the drawing should be saved
         FileChooser fc = new FileChooser();
         fc.setTitle("Save the drawing in a .json file extension");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json"));	
 	File file = fc.showSaveDialog(null);
+        
+        // Save drawing to the file
         if(file == null) return;
         try {
             fileManager.saveFile(file, this.canvasController.getDraw());
@@ -244,8 +254,8 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
+        // Create and execute a new ChangeColorCommand
         Command ccc = new ChangeStrokeColorCommand(this.canvasController, this.canvasController.getSelection().getSelectedItem(), this.getSelectedStrokeColor());
-
         this.canvasController.getCommandInvoker().execute(ccc);
     }
 
@@ -255,6 +265,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
+        // Create and execute a new ChangeFillColorCommand
         Command ccc = new ChangeFillColorCommand(this.canvasController, this.canvasController.getSelection().getSelectedItem(), this.getSelectedFillColor());
         this.canvasController.getCommandInvoker().execute(ccc);
     }
@@ -265,11 +276,11 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onCopyAction(ActionEvent event) {
+        // Create a new copy of the selected shape and give it to the clipboard
         MyShape s = this.canvasController.getSelection().getSelectedItem();
         this.canvasController.getSelection().unSelect();
         MyShape shapeClone=s.clone();
         this.canvasController.copyShape(shapeClone);
-        //prendo la figura selezionata e la passo alla copyShape
     }
 
     /**
@@ -278,6 +289,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onDeleteAction(ActionEvent event) {
+        // Get the selected shape and execute a new Delete Shape Command
         MyShape s = this.canvasController.getSelection().getSelectedItem();
         this.canvasController.getSelection().unSelect();
         Command deleteCommand = new DeleteShapeCommand(this.canvasController, s);
@@ -290,7 +302,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onCutAction(ActionEvent event) {
-        // aggiungere qua la gestion di quando viene premuta la cut
+        // Get the selected shape and execute a new Cut Shape Command
         MyShape selectedShape = this.canvasController.getSelection().getSelectedItem();
         this.canvasController.getSelection().unSelect();
         
@@ -305,6 +317,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onPasteAction(ActionEvent event) {
+        // Get a new copy of the shape inside the clipboard and execute the Paste Command
         if(not(this.canvasController.getClipboard().copiedProperty()).equals(true)) return;
         MyShape s = this.canvasController.getClipboard().getNewCopy();
         Command pasteShapeCommand = new PasteShapeCommand(this.canvasController, s);
@@ -317,6 +330,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onForegroundAction(ActionEvent event) {
+        // Get the selected shape and execute a new Move to Foreground Command
         MyShape s = this.canvasController.getSelection().getSelectedItem();
         this.canvasController.getSelection().unSelect();
         Command moveForegroundCommand=new MoveForegroundShapeCommand(this.canvasController,s);
@@ -329,6 +343,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onBackgroundAction(ActionEvent event) {
+        // Get the selected shape and execute a new Move to Foreground Commnad
         MyShape s = this.canvasController.getSelection().getSelectedItem();
         this.canvasController.getSelection().unSelect();
         Command moveBackgroundCommand=new MoveBackgroundShapeCommand(this.canvasController, s);
@@ -341,8 +356,8 @@ public class Controller implements Initializable {
      */
     @FXML
     private void onUndoAction(ActionEvent event) {
+        // Undo the last done operation
         if(this.canvasController.getSelection().getSelectedValue()) this.canvasController.getSelection().unSelect();
-        
         this.canvasController.getCommandInvoker().undoLast();
     }
 }

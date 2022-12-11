@@ -1,6 +1,3 @@
-/**
- * The Class selection implements the selection and unselection of shapes
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.selection;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
@@ -12,7 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 
 /**
- *
+ * The Class selection implements the selection and unselection of shapes.
  * @author daddy
  */
 public class Selection implements Visitor{
@@ -25,6 +22,7 @@ public class Selection implements Visitor{
 
     /**
      * Class constructor.
+     * @param canvas
      */
     public Selection(Canvas canvas) {
         this.selectionBorder = new Group();
@@ -91,8 +89,10 @@ public class Selection implements Visitor{
      * @param myRectangle the selected rectangle
      */
     public void select(MyRectangle myRectangle){
+        // Unselect the already selected shape
         if(getSelectedValue()) this.unSelect();
         
+        // Check if the clicked shape is the bounding box edge itself
         if(myRectangle.myGetFill() == Color.TRANSPARENT){
             MyShape shape = this.getSelectedItem();
             
@@ -101,11 +101,12 @@ public class Selection implements Visitor{
             myRectangle = (MyRectangle) shape;
         }
         
+        // Select the shape
         setSelectedItem(myRectangle);
         
+        // Create the bounding box around the shape and add it to the canvas
         helper = new SelectionRectangleHelper(canvas, myRectangle);
         setSelectionBorder(helper.createBoundingBox());
-        
         this.canvas.addBoundingBox(getSelectionBorder());
         
         setSelected(true);
@@ -167,13 +168,14 @@ public class Selection implements Visitor{
 
     /**
      * This method delete the shape that highlight the selected shape and
-     * reset all the attributes
+     * reset all the attributes.
      */
     public void unSelect(){
+        // Return if no shape is selected
         if(!getSelectedValue()) return;
         
+        // Remove the bounding box from the Canvas
         this.canvas.removeBoundingBox(getSelectionBorder());
-        
         this.helper.destroyBoundingBox();
         
         setSelectedItem(null);

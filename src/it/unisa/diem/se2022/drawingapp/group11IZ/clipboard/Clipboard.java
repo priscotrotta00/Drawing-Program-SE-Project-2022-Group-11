@@ -10,7 +10,8 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
- *
+ * Class that represents a clipboard in order to implement Cut-Copy-Paste 
+ * operations
  * @author saram
  */
 public class Clipboard {

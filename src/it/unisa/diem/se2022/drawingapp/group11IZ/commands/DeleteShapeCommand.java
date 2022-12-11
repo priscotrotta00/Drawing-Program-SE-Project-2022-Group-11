@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
@@ -12,9 +8,9 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
  * @author saram
  */
 public class DeleteShapeCommand implements Command {
-    private Canvas canvas;
-    private MyShape shape;
-    private int layerShape;
+    private final Canvas canvas;
+    private final MyShape shape;
+    private final int layerShape;
     
     /**
      * constructor of Delete Command

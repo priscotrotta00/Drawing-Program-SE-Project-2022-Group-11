@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.Import;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Import.exceptions.ImportException;
@@ -14,7 +10,7 @@ import javafx.scene.paint.Color;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * 
  * @author prisc
  */
 public class JSONImportVisitor implements Visitor{

@@ -1,7 +1,3 @@
-/**
- * The class SelectTool implements all the behaviour linked to the Selection
- * button in the Edit menu
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.tools;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
@@ -13,7 +9,8 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
- *
+ * The class SelectTool implements all the behaviour linked to the Selection
+ * button in the Edit menu
  * @author daddy
  */
 public class SelectTool implements Tool{

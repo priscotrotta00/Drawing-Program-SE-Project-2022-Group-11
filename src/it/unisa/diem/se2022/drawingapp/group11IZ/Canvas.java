@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.clipboard.Clipboard;
@@ -26,7 +22,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
- * FXML Controller class
+ * Class that represents the Drawing area inside the User Interface. It has some
+ * methods to update the View and the Models together
  * 
  * @author scala
  */
@@ -78,14 +75,17 @@ public class Canvas implements Initializable {
         this.selection = new Selection(this);
         this.commandInvoker = new CommandInvoker();
         
+        // Clip the drawPane in order to not show a figure outside of the sha
         clip = new Rectangle();
         clip.heightProperty().bind(drawPane.heightProperty());
         clip.widthProperty().bind(drawPane.widthProperty());
         drawPane.setClip(clip);
         
+        // Set default colors
         this.setSelectedFillColor(Color.WHITE);
         this.setSelectedStrokeColor(Color.BLACK);
         
+        // Initialize some event handlers for the drawPane
         this.initializeDrawPaneEventHandlers();
     }
 
@@ -93,6 +93,7 @@ public class Canvas implements Initializable {
      * Initialize the Draw Pane Event Handlers
      */
     private void initializeDrawPaneEventHandlers() {
+        // Initialize the Drag Detected action
         drawPane.setOnDragDetected(value -> {
             selectedTool.handleOnDragBegin(this, value);
             drawPane.setOnMouseDragged(event -> {
@@ -107,23 +108,37 @@ public class Canvas implements Initializable {
             });
         });
 
+        // Initialize the Mouse Clicked action
         drawPane.setOnMouseClicked(event -> {
             selectedTool.handleOnPrimaryMouseClick(this, event);
         });
 
+        // Initialize the Context Menu Requested action
         drawPane.setOnContextMenuRequested(event -> {
             selectedTool.handleOnContextMenuRequested(this, event);
         });
     }
 
+    /**
+     * Get the drawPane inside the Canvas
+     * @return a Pane
+     */
     public Pane getDrawPane() {
         return drawPane;
     }
     
+    /**
+     * Get the actual drawing 
+     * @return a Drawing
+     */
     public Drawing getDraw() {
         return this.draw;
     }
     
+    /**
+     * Set a new tool
+     * @param tool 
+     */
     public void setTool(Tool tool){
         this.selectedTool = tool;
     }
@@ -139,7 +154,7 @@ public class Canvas implements Initializable {
     }
     
     /**
-     * Delete MyShape draw and into Pane.
+     * Delete MyShape from draw and Pane.
      * @param myShape
      */
     public void removeShape(MyShape myShape) {
@@ -192,10 +207,19 @@ public class Canvas implements Initializable {
         return this.clipboard;
     }
     
+    /**
+     * Return the Command Invoker that keeps the history of the commands that
+     * have been executed
+     * @return 
+     */
     public CommandInvoker getCommandInvoker(){
         return this.commandInvoker;
     }
     
+    /**
+     * Return the Selection object that represent 
+     * @return 
+     */
     public Selection getSelection(){
         return this.selection;
     }

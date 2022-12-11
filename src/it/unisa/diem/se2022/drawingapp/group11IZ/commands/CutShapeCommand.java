@@ -1,13 +1,10 @@
-/**
- * Implementation of cutting of a shape
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 
 /**
- *
+ * Implementation of cutting of a shape
  * @author daddy
  */
 public class CutShapeCommand implements Command{
@@ -29,10 +26,9 @@ public class CutShapeCommand implements Command{
      */
     @Override
     public void execute() {
+        // Remove the shape from the canvas and put a copy inside the clipboard
         this.canvas.removeShape(this.cuttedShape);
-        
         this.canvas.copyShape(this.cuttedShape);
-        
     }
 
     /**
@@ -40,7 +36,7 @@ public class CutShapeCommand implements Command{
      */
     @Override
     public void undo() {
-        
+        // Add again the shape inside the Canvas
         this.canvas.addShape(this.cuttedShape);
         
     }

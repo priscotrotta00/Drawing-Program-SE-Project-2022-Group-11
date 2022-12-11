@@ -1,29 +1,23 @@
-/**
- * The class MoveShapeCommand handle changing position of shape
- */
 package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 
 /**
- *
+ * The class MoveShapeCommand handle changing position of shape
  * @author daddy
  */
 public class MoveShapeCommand implements Command{
     private double newX;
     private double newY;
-    private MyShape shape;
-    private MyShape.Snapshot snapshot;
+    private final MyShape shape;
+    private final MyShape.Snapshot snapshot;
     
     /**
-     * Costructor. Initialize the shape and the old top left
-     * coordinates of the shape with the shape coordinates.
+     * Costructor. Initialize the shape and creates
      * @param shape 
      */
     public MoveShapeCommand(MyShape shape) {
-        this.shape = shape;
-        double diffX = this.shape.myGetLayoutBounds().getMaxX() - this.shape.myGetLayoutBounds().getMinX();
-        double diffY = this.shape.myGetLayoutBounds().getMaxY() - this.shape.myGetLayoutBounds().getMinY();
+        this.shape = shape;;
         this.snapshot = shape.getSnapshot();
     }
     
@@ -48,8 +42,8 @@ public class MoveShapeCommand implements Command{
     }
     
     /**
-     * This method calls the method moveShape passing as values this oldX and
-     * oldY
+     * Restore the original state of the shape thanks to the 
+     * snapshot the commands creates when it is created.
      */
     @Override
     public void undo() {
