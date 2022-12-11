@@ -15,7 +15,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public class Clipboard {
     private MyShape myShape;
-    private BooleanProperty copied;
+    private final BooleanProperty copied;
     
     public Clipboard(){
         copied=new SimpleBooleanProperty(false);

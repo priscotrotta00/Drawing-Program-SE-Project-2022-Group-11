@@ -21,7 +21,6 @@ public class ChangeFillColorCommand extends ChangeColorCommand{
      * @param myShape Shape whose fill color needs to be changed
      * @param newColor The new fill color of the shape
      */
-    
     public ChangeFillColorCommand(Canvas canvas, MyShape myShape, Color newColor) {
         super.setMyShape(myShape);
         super.setNewColor(newColor);
@@ -33,7 +32,6 @@ public class ChangeFillColorCommand extends ChangeColorCommand{
      * passed as parameter
      * @param color new fill color
      */
-    
     @Override
     public void changeColor(Color color) {
         super.getCanvas().changeShapeFillColor(this.getMyShape(), color);

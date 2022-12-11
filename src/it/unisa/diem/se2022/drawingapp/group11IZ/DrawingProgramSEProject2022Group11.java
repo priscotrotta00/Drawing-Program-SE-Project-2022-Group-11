@@ -18,8 +18,7 @@ import javafx.stage.Stage;
 public class DrawingProgramSEProject2022Group11 extends Application {
     
     @Override
-    public void start(Stage stage) throws Exception{
-                
+    public void start(Stage stage) throws Exception{          
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         Scene scene = new Scene(root);
         stage.getIcons().add(new Image("it/unisa/diem/se2022/drawingapp/group11IZ/images/icon.png"));

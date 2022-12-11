@@ -6,7 +6,6 @@ package it.unisa.diem.se2022.drawingapp.group11IZ.commands;
 
 import it.unisa.diem.se2022.drawingapp.group11IZ.Canvas;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
-import javafx.scene.Node;
 
 /**
  *
@@ -14,9 +13,9 @@ import javafx.scene.Node;
  */
 public class MoveForegroundShapeCommand implements Command {
     
-    private Canvas canvas;
-    private MyShape shape;
-    private int layerShape;
+    private final Canvas canvas;
+    private final MyShape shape;
+    private final int layerShape;
     
     /**
      * constructor of MoveForegroundShapeCommand
@@ -34,8 +33,7 @@ public class MoveForegroundShapeCommand implements Command {
      */
     @Override
     public void execute() {
-        this.canvas.moveShapeToForeground(shape);
-        
+        this.canvas.moveShapeToForeground(shape);  
     }
 
     /**
@@ -43,8 +41,7 @@ public class MoveForegroundShapeCommand implements Command {
      */
     @Override
     public void undo() {
-        this.canvas.moveToLayer(shape, this.layerShape,true);
-        
+        this.canvas.moveToLayer(shape, this.layerShape,true); 
     }
     
 }

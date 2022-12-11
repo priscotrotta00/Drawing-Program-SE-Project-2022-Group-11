@@ -22,7 +22,6 @@ public abstract class ChangeColorCommand implements Command{
      * Return the object myshape
      * @return the object myshape
      */
-    
     MyShape getMyShape() {
         return myShape;
     }
@@ -31,7 +30,6 @@ public abstract class ChangeColorCommand implements Command{
      * Set the object myShape with the passed parameter
      * @param myShape The object myShape that you want to set
      */
-    
     void setMyShape(MyShape myShape) {
         if(myShape == null) throw new NullPointerException();
         this.myShape = myShape;
@@ -42,7 +40,6 @@ public abstract class ChangeColorCommand implements Command{
      * Return the object newColor
      * @return Object newcolor
      */
-    
     Color getNewColor() {
         return this.newColor;
     }
@@ -51,7 +48,6 @@ public abstract class ChangeColorCommand implements Command{
      * Set the object newColor with the passed parameter
      * @param newColor The object newColor that you want to set
      */
-    
     void setNewColor(Color newColor) {
         if(newColor == null) throw new NullPointerException();
         this.newColor = newColor;
@@ -61,7 +57,6 @@ public abstract class ChangeColorCommand implements Command{
      * Return the object canvas
      * @return Object canvas
      */
-    
     Canvas getCanvas(){
         return canvas;
     }
@@ -70,7 +65,6 @@ public abstract class ChangeColorCommand implements Command{
      * Set the object canvas with the passed parameter
      * @param canvas The object canvas that you want to set
      */
-    
     void setCanvas(Canvas canvas){
         this.canvas = canvas;
     }
@@ -80,13 +74,11 @@ public abstract class ChangeColorCommand implements Command{
      * with the color passed as parameter
      * @param color the object newColor that you want to set
      */    
-    
     public abstract void changeColor(Color color);
     
     /**
      * Execute the changeColorCommand anche change the Color the previously passed shape in the drawing
      */
-    
     @Override
     public void execute(){
         this.changeColor(this.newColor);
@@ -96,7 +88,6 @@ public abstract class ChangeColorCommand implements Command{
      * Undo the last operation made on the color of the shape, so the previously passed shape will change
      * its color with the previous one
      */
-    
     @Override
     public void undo(){
         this.snapshot.restore();

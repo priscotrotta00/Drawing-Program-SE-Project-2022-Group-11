@@ -11,8 +11,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
  * @author daddy
  */
 public class CutShapeCommand implements Command{
-    private MyShape cuttedShape;
-    private Canvas canvas;
+    private final MyShape cuttedShape;
+    private final Canvas canvas;
     
     /**
      * Costructor
@@ -30,9 +30,7 @@ public class CutShapeCommand implements Command{
     @Override
     public void execute() {
         this.canvas.removeShape(this.cuttedShape);
-        
         this.canvas.copyShape(this.cuttedShape);
-        
     }
 
     /**
@@ -40,9 +38,7 @@ public class CutShapeCommand implements Command{
      */
     @Override
     public void undo() {
-        
         this.canvas.addShape(this.cuttedShape);
-        
     }
     
 }

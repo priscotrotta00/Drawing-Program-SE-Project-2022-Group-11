@@ -9,8 +9,6 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundEx
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,10 +17,10 @@ import java.util.logging.Logger;
 /*extends (JSONExportVisitor) da inserire*/
 public class Drawing implements Iterable<MyShape>{
 
-    private List<MyShape> figures;
+    private final List<MyShape> figures;
 
     public Drawing() {
-        this.figures = new ArrayList<MyShape>(); //O(n) for insert, O(1) for search
+        this.figures = new ArrayList<>(); //O(n) for insert, O(1) for search
     }
 
     /**

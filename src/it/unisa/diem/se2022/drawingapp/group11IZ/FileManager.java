@@ -46,7 +46,6 @@ public class FileManager {
      * @param file File from which you need to import the drawing
      * @return Drawing object representing the loaded drawing
      */
-    
     public Drawing loadFile(File file) {
         if(file == null) throw new NullPointerException();
         if(!file.getPath().endsWith(".json")) throw new ExtensionFileException();
@@ -96,7 +95,6 @@ public class FileManager {
      * @param file File in which you need to save the drawing
      * @param draw Drawing that you want to save
      */
-    
     public void saveFile(File file, Drawing draw){
         if (file == null || draw == null) throw new NullPointerException();
         if(!file.getName().endsWith(".json")) throw new ExtensionFileException();

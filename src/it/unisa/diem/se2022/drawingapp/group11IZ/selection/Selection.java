@@ -25,6 +25,7 @@ public class Selection implements Visitor{
 
     /**
      * Class constructor.
+     * @param canvas
      */
     public Selection(Canvas canvas) {
         this.selectionBorder = new Group();

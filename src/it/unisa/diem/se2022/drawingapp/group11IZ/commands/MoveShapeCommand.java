@@ -12,8 +12,8 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 public class MoveShapeCommand implements Command{
     private double newX;
     private double newY;
-    private MyShape shape;
-    private MyShape.Snapshot snapshot;
+    private final MyShape shape;
+    private final MyShape.Snapshot snapshot;
     
     /**
      * Costructor. Initialize the shape and the old top left
@@ -55,7 +55,5 @@ public class MoveShapeCommand implements Command{
     public void undo() {
         snapshot.restore();
     }
-    
-    
 
 }

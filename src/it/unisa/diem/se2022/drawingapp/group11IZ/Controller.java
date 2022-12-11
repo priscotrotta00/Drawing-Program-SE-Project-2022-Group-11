@@ -205,9 +205,8 @@ public class Controller implements Initializable {
 
     /**
      * Load the drawing from a JSON file
-     *
      * @param event
-     */
+     */    
     @FXML
     private void onLoadAction(ActionEvent event){
         FileChooser fc = new FileChooser();
@@ -221,9 +220,8 @@ public class Controller implements Initializable {
 
     /**
      * Save the drawing in a JSON file
-     *
      * @param event
-     */
+     */   
     @FXML
     private void onSaveAction(ActionEvent event) {
         FileChooser fc = new FileChooser();
@@ -241,18 +239,17 @@ public class Controller implements Initializable {
     /**
      * Change the stroke color of the selected shape with the color in the StrokeColorPicker
      * @param event 
-     */
+     */   
     @FXML
     private void onChangeStrokeColorAction(ActionEvent event) {
         Command ccc = new ChangeStrokeColorCommand(this.canvasController, this.canvasController.getSelection().getSelectedItem(), this.getSelectedStrokeColor());
-
         this.canvasController.getCommandInvoker().execute(ccc);
     }
 
     /**
      * Change the fill color of the selected shape with the color in the fillColorPicker
      * @param event 
-     */
+     */   
     @FXML
     private void onChangeFillColorAction(ActionEvent event) {
         Command ccc = new ChangeFillColorCommand(this.canvasController, this.canvasController.getSelection().getSelectedItem(), this.getSelectedFillColor());
@@ -260,7 +257,7 @@ public class Controller implements Initializable {
     }
     
     /**
-     * get selected shape and call copyShape
+     * Get selected shape and call copyShape
      * @param event 
      */
     @FXML
@@ -342,7 +339,6 @@ public class Controller implements Initializable {
     @FXML
     private void onUndoAction(ActionEvent event) {
         if(this.canvasController.getSelection().getSelectedValue()) this.canvasController.getSelection().unSelect();
-        
         this.canvasController.getCommandInvoker().undoLast();
     }
 }

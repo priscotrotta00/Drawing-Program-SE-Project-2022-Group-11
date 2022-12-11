@@ -12,9 +12,9 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
  * @author saram
  */
 public class DeleteShapeCommand implements Command {
-    private Canvas canvas;
-    private MyShape shape;
-    private int layerShape;
+    private final Canvas canvas;
+    private final MyShape shape;
+    private final int layerShape;
     
     /**
      * constructor of Delete Command
