@@ -13,6 +13,7 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import it.unisa.diem.se2022.drawingapp.group11IZ.model.exception.ShapeNotFoundException;
 import it.unisa.diem.se2022.drawingapp.group11IZ.selection.Selection;
 import java.lang.reflect.Field;
+import java.util.List;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -206,22 +207,38 @@ public class CanvasTest {
     }
     
     @Test
-    public void testAddPreviewNewShape() throws IllegalArgumentException, IllegalAccessException{
-        MyShape preview = new MyEnhancedRectangle();
+    public void testAddPreviewNewShape() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException{
+        MyShape preview;
+        Field figuresField;
+        List<MyShape> figures;
+        
+        figuresField = Drawing.class.getDeclaredField("figures");
+        figuresField.setAccessible(true);
+        figures = (List<MyShape>) figuresField.get(draw);
+        
+        preview = new MyEnhancedRectangle();
         this.canvas.addPreviewNewShape(preview);
         
         assertTrue(pane.getChildren().contains(preview.getView()));
-        assertFalse(draw.contains(preview));
+        assertFalse(figures.contains(preview));
     }
     
     @Test
-    public void testRemovePreviewNewShape() throws IllegalAccessException{
-        MyShape preview = new MyEnhancedRectangle();
+    public void testRemovePreviewNewShape() throws IllegalAccessException, NoSuchFieldException{
+        MyShape preview;
+        Field figuresField;
+        List<MyShape> figures;
+        
+        figuresField = Drawing.class.getDeclaredField("figures");
+        figuresField.setAccessible(true);
+        figures = (List<MyShape>) figuresField.get(draw);
+        
+        preview = new MyEnhancedRectangle();
         this.canvas.addPreviewNewShape(preview);
         this.canvas.removePreviewNewShape(preview);
         
         assertFalse(pane.getChildren().contains(preview.getView()));
-        assertFalse(draw.contains(preview));
+        assertFalse(figures.contains(preview));
     }
     
     @Test (expected = RuntimeException.class)
@@ -231,18 +248,26 @@ public class CanvasTest {
     }
     
     @Test
-    public void testSubstituteShapeWithPreview1() throws IllegalAccessException{
-        MyShape shape = new MyEnhancedRectangle();
+    public void testSubstituteShapeWithPreview1() throws IllegalAccessException, NoSuchFieldException{
+        MyShape shape;
+        Field figuresField;
+        List<MyShape> figures;
+        
+        figuresField = Drawing.class.getDeclaredField("figures");
+        figuresField.setAccessible(true);
+        figures = (List<MyShape>) figuresField.get(draw);
+        
+        shape = new MyEnhancedRectangle();
         this.canvas.addShape(shape);
         
         MyShape preview = this.canvas.substituteShapeWithPreview(shape);
         
-        assertTrue(draw.contains(shape));
+        assertTrue(figures.contains(shape));
         assertFalse(pane.getChildren().contains(shape.getView()));
         
         //assertEquals(shape, preview);
         
-        assertFalse(draw.contains(preview));
+        assertFalse(figures.contains(preview));
         assertTrue(pane.getChildren().contains(preview.getView()));
     }
     
@@ -253,17 +278,25 @@ public class CanvasTest {
     }
     
     @Test
-    public void testSubstitutePreviewWithOriginalShape1() throws IllegalAccessException {
-        MyShape shape = new MyEnhancedRectangle();
+    public void testSubstitutePreviewWithOriginalShape1() throws IllegalAccessException, NoSuchFieldException {
+        MyShape shape;
+        Field figuresField;
+        List<MyShape> figures;
+        
+        figuresField = Drawing.class.getDeclaredField("figures");
+        figuresField.setAccessible(true);
+        figures = (List<MyShape>) figuresField.get(draw);
+        
+        shape = new MyEnhancedRectangle();
         this.canvas.addShape(shape);
         
         MyShape preview = this.canvas.substituteShapeWithPreview(shape);
         this.canvas.substitutePreviewWithOriginalShape(shape);
         
-        assertTrue(draw.contains(shape));
+        assertTrue(figures.contains(shape));
         assertTrue(pane.getChildren().contains(shape.getView()));
         
-        assertFalse(draw.contains(preview));
+        assertFalse(figures.contains(preview));
         assertFalse(pane.getChildren().contains(preview.getView()));
     }
     
