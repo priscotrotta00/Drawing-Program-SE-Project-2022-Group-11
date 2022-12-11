@@ -40,10 +40,12 @@ Our links:
 ![Class Diagram](UMLImages/Commands.png)
 ![Class Diagram](UMLImages/Controller.png)
 ![Class Diagram](UMLImages/Export.png)
+![Class Diagram](UMLImages/import.png)
+![Class Diagram](UMLImages/clipboard.png)
 ![Class Diagram](UMLImages/Model.png)
 ![Class Diagram](UMLImages/Selection.png)
 ![Class Diagram](UMLImages/Tool.png)
-![Class Diagram](UMLImages/Visitor.png)
+![Class Diagram](UMLImages/interfaces.png)
 
 
 ## Definition of Done
