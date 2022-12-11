@@ -55,6 +55,7 @@ public class SelectionLineHelper extends TwoVerticesBaseSelectionHelper{
         // Define the aspect of the bounding box
         lineBoundingBoxEdge.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + STROKE_VERTEX_OFFSET);
         lineBoundingBoxEdge.mySetFill(Color.TRANSPARENT);
+        lineBoundingBoxEdge.getView().setCursor(Cursor.CLOSED_HAND);
         
         return lineBoundingBoxEdge;
     }

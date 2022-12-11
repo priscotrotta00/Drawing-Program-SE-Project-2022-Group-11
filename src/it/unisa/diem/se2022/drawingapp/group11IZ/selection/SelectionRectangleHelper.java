@@ -87,6 +87,7 @@ public class SelectionRectangleHelper extends FourVerticesBaseSelectionHelper{
         rectangleBoundingBox.mySetFill(Color.TRANSPARENT);
         rectangleBoundingBox.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + STROKE_VERTEX_OFFSET);
         rectangleBoundingBox.myGetStrokeDashArray().addAll(STROKE_DASH_LIST);
+        rectangleBoundingBox.getView().setCursor(Cursor.CLOSED_HAND);
         
         return rectangleBoundingBox;
     }

@@ -51,6 +51,7 @@ public class SelectionEllipseHelper extends FourVerticesBaseSelectionHelper{
         ellipseBoundingBoxEdge.mySetStroke(Color.BLACK);
         ellipseBoundingBoxEdge.mySetStrokeWidth(this.getPreview().myGetStrokeWidth() + STROKE_VERTEX_OFFSET);
         ellipseBoundingBoxEdge.myGetStrokeDashArray().addAll(STROKE_DASH_LIST);
+        ellipseBoundingBoxEdge.getView().setCursor(Cursor.CLOSED_HAND);
         
         return ellipseBoundingBoxEdge;
     }
