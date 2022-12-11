@@ -17,6 +17,7 @@ public class ChangeStrokeColorCommand extends ChangeColorCommand{
 
     /**
      * Create a new ChangeStrokeColorCommand
+     * @param canvas Canvas that contains the logic for modifying the shape
      * @param myShape Shape whose stroke color needs to be changed
      * @param newColor The new stroke color of the shape
      */
