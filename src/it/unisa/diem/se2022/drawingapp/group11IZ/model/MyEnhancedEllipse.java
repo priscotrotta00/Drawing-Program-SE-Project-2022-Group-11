@@ -341,23 +341,24 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
     }
     
     public class Snapshot implements MyShape.Snapshot{
-        private MyEnhancedEllipse ellipse;
-        private double centerX;
-        private double centerY;
-        private double radiusX;
-        private double radiusY;
-        private Paint stroke;
-        private Paint fill;
+        private final MyEnhancedEllipse ellipse;
+        private final double centerX;
+        private final double centerY;
+        private final double radiusX;
+        private final double radiusY;
+        private final Paint stroke;
+        private final Paint fill;
+        private final double strokeWidth;
 
-        private Snapshot(MyEnhancedEllipse rectangle){
-            this.ellipse = rectangle;
-            this.centerX = rectangle.myGetCenterX();
-            this.centerY = rectangle.myGetCenterY();
-            this.radiusX = rectangle.myGetRadiusX();
-            this.radiusY = rectangle.myGetRadiusY();
-            this.fill = rectangle.myGetFill();
-            this.stroke = rectangle.myGetStroke();
-            
+        private Snapshot(MyEnhancedEllipse ellipse){
+            this.ellipse = ellipse;
+            this.centerX = ellipse.myGetCenterX();
+            this.centerY = ellipse.myGetCenterY();
+            this.radiusX = ellipse.myGetRadiusX();
+            this.radiusY = ellipse.myGetRadiusY();
+            this.fill = ellipse.myGetFill();
+            this.stroke = ellipse.myGetStroke();
+            this.strokeWidth = ellipse.myGetStrokeWidth();
         }
         
         @Override
@@ -368,6 +369,7 @@ public class MyEnhancedEllipse extends Ellipse implements MyEllipse{
             this.ellipse.mySetRadiusY(radiusY);
             this.ellipse.mySetFill(fill);
             this.ellipse.mySetStroke(stroke);
+            this.ellipse.mySetStrokeWidth(strokeWidth);
         }
         
     }
