@@ -305,6 +305,7 @@ public class Canvas implements Initializable {
             this.getDrawPane().getChildren().add((Shape) myShape);
         }
         this.draw = draw;
+        this.getCommandInvoker().clearStack();
     }
     
     /**
