@@ -287,6 +287,10 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         this.mySetY(topLeftY-(diffY/2));
     }
 
+    /**
+     * Create a new clone of the rectangle, according to the Prototype Pattern
+     * @return A clone of the shape
+     */
     @Override
     public MyShape clone() {
         return new MyEnhancedRectangle(this);
@@ -307,11 +311,19 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         return (Rectangle) this;
     }
     
+    /**
+     * Get a snapshot of the current state of the rectangle, which can be used to
+     * restore it later (according to the Memento pattern)
+     * @return A snapshot of the current state
+     */
     @Override
     public Snapshot getSnapshot(){
         return new Snapshot(this);
     }
     
+    /**
+     * Class that represents a snapshot of the current rectangle's state.
+     */
     public class Snapshot implements MyShape.Snapshot{
         private final MyEnhancedRectangle rectangle;
         private final double x;
@@ -322,6 +334,10 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
         private final Paint fill;
         private final double strokeWidth;
 
+        /**
+         * Create a new snapshot of the given rectangle.
+         * @param rectangle 
+         */
         private Snapshot(MyEnhancedRectangle rectangle){
             this.rectangle = rectangle;
             this.x = rectangle.myGetX();
@@ -333,6 +349,9 @@ public class MyEnhancedRectangle extends Rectangle implements MyRectangle{
             this.strokeWidth = rectangle.myGetStrokeWidth();
         }
         
+        /**
+         * Restore the state of the rectangle that is saved inside the snapshot.
+         */
         @Override
         public void restore() {
             this.rectangle.mySetX(x);
