@@ -120,6 +120,11 @@ public class MyEnhancedLine extends Line implements MyLine{
         return super.fillProperty();
     }
 
+    /**
+     * Acceptance method according to the Visitor pattern. 
+     * Redirects the call to the proper visitor’s method corresponding to the current element class. 
+     * @param v Represents the Concrete Visitor
+     */
     @Override
     public void accept(Visitor v) {
         v.visitLine(this);

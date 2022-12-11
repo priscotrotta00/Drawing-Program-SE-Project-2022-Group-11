@@ -9,7 +9,9 @@ import it.unisa.diem.se2022.drawingapp.group11IZ.model.MyShape;
 import javafx.scene.paint.Color;
 
 /**
- *
+ * Class that represents the "Change color of a shape" Command that will be executed by
+ * the Command Executor Invoker, according to the Command Pattern. The class is abstract. 
+ * So it is extended by concrete classes for the "Change Stroke Color" and the "Change Fill Color" Command.
  * @author prisc
  */
 public abstract class ChangeColorCommand implements Command{
@@ -20,7 +22,7 @@ public abstract class ChangeColorCommand implements Command{
     
     /**
      * Return the object myshape
-     * @return the object myshape
+     * @return The object myshape that represents the shape whose color is changed
      */
     MyShape getMyShape() {
         return myShape;
@@ -28,7 +30,7 @@ public abstract class ChangeColorCommand implements Command{
 
     /**
      * Set the object myShape with the passed parameter
-     * @param myShape The object myShape that you want to set
+     * @param myShape The object myShape whose color you want to change
      */
     void setMyShape(MyShape myShape) {
         if(myShape == null) throw new NullPointerException();
@@ -38,7 +40,7 @@ public abstract class ChangeColorCommand implements Command{
     
     /**
      * Return the object newColor
-     * @return Object newcolor
+     * @return Object newcolor that represents the new color for the shape
      */
     Color getNewColor() {
         return this.newColor;
@@ -46,7 +48,7 @@ public abstract class ChangeColorCommand implements Command{
 
     /**
      * Set the object newColor with the passed parameter
-     * @param newColor The object newColor that you want to set
+     * @param newColor The object newColor that you want to set for the shape
      */
     void setNewColor(Color newColor) {
         if(newColor == null) throw new NullPointerException();
@@ -55,7 +57,7 @@ public abstract class ChangeColorCommand implements Command{
     
     /**
      * Return the object canvas
-     * @return Object canvas
+     * @return Object canvas that represents the Receiver of the action
      */
     Canvas getCanvas(){
         return canvas;
@@ -63,21 +65,21 @@ public abstract class ChangeColorCommand implements Command{
     
     /**
      * Set the object canvas with the passed parameter
-     * @param canvas The object canvas that you want to set
+     * @param canvas The object canvas that contains the shape whose you want to change the color
      */
     void setCanvas(Canvas canvas){
         this.canvas = canvas;
     }
     
     /**
-     * Abstract method implemented by subclasses that cange the stroke/fill color of the shape
+     * Abstract method implemented by subclasses that changes the stroke/fill color of the shape
      * with the color passed as parameter
-     * @param color the object newColor that you want to set
+     * @param color The new color you want to add to the figure
      */    
     public abstract void changeColor(Color color);
     
     /**
-     * Execute the changeColorCommand anche change the Color the previously passed shape in the drawing
+     * Executes the changeColorCommand method: it changes the color of the shape passed in the constructor
      */
     @Override
     public void execute(){

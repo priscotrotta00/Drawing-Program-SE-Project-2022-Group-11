@@ -17,10 +17,10 @@ public class PasteShapeCommand implements Command{
 
     /**
      * Create a new PasteShapeCommand
-     * @param canvas The canvas on which you need to execute the commands
+     * @param canvas Canvas that represents the Receiver of the action. 
+     * It contains the logic for adding the shape to the Drawing
      * @param shape The shape that must be pasted
      */
-    
     public PasteShapeCommand(Canvas canvas, MyShape shape) {
         if (canvas == null || shape == null) throw new NullPointerException();
         this.canvas = canvas;
@@ -28,13 +28,19 @@ public class PasteShapeCommand implements Command{
         this.shape.moveShape(TOP_LEFT_X, TOP_LEFT_Y);
     }
     
+    /**
+     * Add the shape passed in the constructor on the top let of the drawing
+     */
     @Override
-    public void execute() { //Add a new shape on the top let of the drawing
+    public void execute() {
         this.canvas.addShape(shape);
     }
 
+    /**
+     * Remove the shape passed in the constructor from the drawing
+     */
     @Override
-    public void undo() {    //Remove from the drawing the last pasted shape
+    public void undo() {
         this.canvas.removeShape(shape);
     }
     
